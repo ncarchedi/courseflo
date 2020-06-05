@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
-import Statement from "./Statement";
+import Text from "./Text";
 import SingleSelect from "./SingleSelect";
 import MultiSelect from "./MultiSelect";
 import TextInput from "./TextInput";
@@ -19,8 +19,8 @@ export default function Item({ content }) {
 
   let item;
   switch (content.type) {
-    case "statement":
-      item = <Statement content={content} />;
+    case "text":
+      item = <Text content={content} />;
       break;
     case "singleSelect":
       item = <SingleSelect content={content} />;

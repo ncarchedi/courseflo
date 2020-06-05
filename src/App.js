@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import Quiz from "./Quiz";
+import Course from "./Course";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -14,7 +14,7 @@ export default function App() {
 
   return (
     <Container className={classes.container} maxWidth="sm">
-      <Quiz content={CONTENT} />
+      <Course content={CONTENT} />
     </Container>
   );
 }
@@ -22,8 +22,8 @@ export default function App() {
 const CONTENT = [
   {
     id: 0,
-    type: "statement",
-    header: "Welcome to the example quiz 🙌",
+    type: "text",
+    header: "Welcome to the example course 🙌",
     body: "This is a short demonstration of what's possible. Enjoy!",
   },
   {

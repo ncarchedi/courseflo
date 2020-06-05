@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Quiz({ content }) {
+export default function Course({ content }) {
   const classes = useStyles();
 
   return (
