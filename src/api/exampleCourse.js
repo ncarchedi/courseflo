@@ -7,14 +7,14 @@ export default {
     {
       id: uuidv4(),
       type: "text",
-      title: "Welcome to the Example Course 🙌",
+      title: "Welcome to the example course 🙌",
       body: "This is a short demonstration of what's possible. Enjoy!",
     },
     {
       id: uuidv4(),
       type: "video",
       title: "Watch this brief video from the master of calm",
-      source: "https://www.youtube.com/embed/1s58rW0_LN4",
+      source: "https://www.youtube-nocookie.com/embed/1s58rW0_LN4",
     },
     {
       id: uuidv4(),
