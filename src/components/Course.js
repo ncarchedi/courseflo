@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/styles";
-import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import Item from "./Item";
+import BigButton from "./BigButton";
 
 const useStyles = makeStyles((theme) => ({
   button: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(5),
   },
 }));
 
@@ -30,15 +32,17 @@ export default function Course({ content, onSubmit }) {
           onChangeInput={handleChangeInput}
         ></Item>
       ))}
-      <Button
-        className={classes.button}
-        onClick={() => onSubmit(inputs)}
-        variant="contained"
-        size="large"
-        color="primary"
-      >
-        I'm all done!
-      </Button>
+      <Box textAlign="center">
+        <BigButton
+          className={classes.button}
+          onClick={() => onSubmit(inputs)}
+          variant="contained"
+          color="primary"
+          endIcon={<ArrowForwardIcon />}
+        >
+          I'm all done!
+        </BigButton>
+      </Box>
     </>
   );
 }

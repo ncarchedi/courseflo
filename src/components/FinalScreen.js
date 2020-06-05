@@ -2,8 +2,8 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import ReplayIcon from "@material-ui/icons/Replay";
+import BigButton from "./BigButton";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -17,15 +17,14 @@ export default function FinalScreen({ message, onRestart }) {
   return (
     <Box textAlign="center">
       <Typography variant="h6">{message}</Typography>
-      <Button
+      <BigButton
         className={classes.button}
         onClick={onRestart}
-        size="large"
         variant="contained"
         endIcon={<ReplayIcon />}
       >
         Start over
-      </Button>
+      </BigButton>
     </Box>
   );
 }

@@ -9,8 +9,11 @@ import FinalScreen from "./FinalScreen";
 import COURSE_CONTENT from "../api/exampleCourse";
 
 const useStyles = makeStyles((theme) => ({
+  title: {
+    fontFamily: ["Permanent Marker", "cursive"],
+  },
   container: {
-    margin: theme.spacing(5, "auto"),
+    margin: theme.spacing(5, "auto", 10, "auto"),
   },
 }));
 
@@ -37,7 +40,9 @@ export default function App() {
       <>
         <AppBar position="static">
           <Toolbar>
-            <Typography variant="h6">{course.title}</Typography>
+            <Typography className={classes.title} variant="h5" component="h1">
+              {course.title}
+            </Typography>
           </Toolbar>
         </AppBar>
         <Container className={classes.container} maxWidth="sm">

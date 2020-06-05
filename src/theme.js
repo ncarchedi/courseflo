@@ -7,6 +7,11 @@ const theme = createMuiTheme({
     primary: indigo,
     secondary: deepOrange,
   },
+  typography: {
+    button: {
+      fontFamily: ["Permanent Marker", "cursive"],
+    },
+  },
 });
 
 export default theme;
