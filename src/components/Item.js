@@ -3,12 +3,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
-import Text from "./Text";
-import Video from "./Video";
-import Image from "./Image";
-import SingleSelect from "./SingleSelect";
-import MultiSelect from "./MultiSelect";
-import TextInput from "./TextInput";
+import Text from "../items/Text";
+import Video from "../items/Video";
+import Image from "../items/Image";
+import SingleSelect from "../items/SingleSelect";
+import MultiSelect from "../items/MultiSelect";
+import TextInput from "../items/TextInput";
 
 const useStyles = makeStyles((theme) => ({
   box: {

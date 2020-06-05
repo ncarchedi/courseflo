@@ -6,7 +6,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Course from "./Course";
 import FinalScreen from "./FinalScreen";
-import COURSE_CONTENT from "./exampleCourse";
+import COURSE_CONTENT from "../api/exampleCourse";
 
 const useStyles = makeStyles((theme) => ({
   container: {
