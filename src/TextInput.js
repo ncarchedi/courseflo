@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TextInput({ item }) {
+export default function TextInput({ item, value, onChangeResponse }) {
   const classes = useStyles();
 
   return (
@@ -17,7 +17,12 @@ export default function TextInput({ item }) {
       <Typography className={classes.prompt} variant="h6">
         {item.prompt}
       </Typography>
-      <TextField placeholder="Write your answer here..." fullWidth />
+      <TextField
+        value={value}
+        onChange={(e) => onChangeResponse(item.id, e.target.value)}
+        placeholder="Write your answer here..."
+        fullWidth
+      />
     </>
   );
 }

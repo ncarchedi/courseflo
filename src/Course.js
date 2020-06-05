@@ -27,7 +27,7 @@ export default function Course({ content }) {
           key={item.id}
           item={item}
           value={responses[item.id]}
-          onChange={handleChangeResponse}
+          onChangeResponse={handleChangeResponse}
         ></Item>
       ))}
       <Button

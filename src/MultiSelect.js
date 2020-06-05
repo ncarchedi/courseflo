@@ -12,8 +12,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MultiSelect({ item, value, onChange }) {
+export default function MultiSelect({ item, value, onChangeResponse }) {
   const classes = useStyles();
+
+  const handleCheck = (option) => {
+    // if value is undefined, define it
+    let newValue = value || [];
+    // if option is checked, uncheck it
+    if (newValue.includes(option))
+      newValue = newValue.filter((o) => o !== option);
+    // otherwise, uncheck it
+    else newValue = [...newValue, option];
+    // update state
+    onChangeResponse(item.id, newValue);
+  };
 
   return (
     <>
@@ -25,7 +37,9 @@ export default function MultiSelect({ item, value, onChange }) {
         {item.options.map((option) => (
           <FormControlLabel
             key={option}
-            control={<Checkbox name={option} />}
+            control={
+              <Checkbox name={option} onChange={() => handleCheck(option)} />
+            }
             label={option}
           />
         ))}
