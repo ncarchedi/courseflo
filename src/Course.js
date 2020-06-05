@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import Button from "@material-ui/core/Button";
 import Item from "./Item";
@@ -11,11 +11,24 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Course({ content }) {
   const classes = useStyles();
+  const [responses, setResponses] = useState({});
+
+  const handleChangeResponse = (itemId, value) => {
+    setResponses({
+      ...responses,
+      [itemId]: value,
+    });
+  };
 
   return (
     <>
       {content.map((item) => (
-        <Item content={item}></Item>
+        <Item
+          key={item.id}
+          item={item}
+          value={responses[item.id]}
+          onChange={handleChangeResponse}
+        ></Item>
       ))}
       <Button
         className={classes.button}

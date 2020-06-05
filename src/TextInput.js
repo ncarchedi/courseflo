@@ -9,13 +9,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TextInput({ content }) {
+export default function TextInput({ item }) {
   const classes = useStyles();
 
   return (
     <>
       <Typography className={classes.prompt} variant="h6">
-        {content.prompt}
+        {item.prompt}
       </Typography>
       <TextField placeholder="Write your answer here..." fullWidth />
     </>

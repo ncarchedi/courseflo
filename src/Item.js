@@ -15,35 +15,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Item({ content }) {
+export default function Item(props) {
   const classes = useStyles();
+  const { item } = props;
 
-  let item;
-  switch (content.type) {
+  let currentItem;
+  switch (item.type) {
     case "text":
-      item = <Text content={content} />;
+      currentItem = <Text item={item} />;
       break;
     case "video":
-      item = <Video content={content} />;
+      currentItem = <Video item={item} />;
       break;
     case "singleSelect":
-      item = <SingleSelect content={content} />;
+      currentItem = <SingleSelect {...props} />;
       break;
     case "multiSelect":
-      item = <MultiSelect content={content} />;
+      currentItem = <MultiSelect {...props} />;
       break;
     case "textInput":
-      item = <TextInput content={content} />;
+      currentItem = <TextInput {...props} />;
       break;
     default:
-      item = (
-        <Typography color="secondary">{`"${content.type}" isn't a valid item type!`}</Typography>
+      currentItem = (
+        <Typography color="secondary">{`"${item.type}" isn't a valid item type!`}</Typography>
       );
   }
 
   return (
     <>
-      <Box className={classes.box}>{item}</Box>
+      <Box className={classes.box}>{currentItem}</Box>
       <Divider light />
     </>
   );

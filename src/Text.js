@@ -8,15 +8,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Statement({ content }) {
+export default function Statement({ item }) {
   const classes = useStyles();
 
   return (
     <>
       <Typography className={classes.title} variant="h6">
-        {content.title}
+        {item.title}
       </Typography>
-      <Typography variant="body1">{content.body}</Typography>
+      <Typography variant="body1">{item.body}</Typography>
     </>
   );
 }

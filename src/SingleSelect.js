@@ -12,18 +12,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SingleSelect({ content }) {
+export default function SingleSelect({ item, value, onChange }) {
   const classes = useStyles();
 
   return (
     <>
-      <Typography variant="h6">{content.prompt}</Typography>
+      <Typography variant="h6">{item.prompt}</Typography>
       <FormHelperText className={classes.helperText}>
         (Select only one)
       </FormHelperText>
-      <RadioGroup>
-        {content.options.map((option) => (
-          <FormControlLabel value={option} control={<Radio />} label={option} />
+      <RadioGroup
+        value={value}
+        onChange={(e) => onChange(item.id, e.target.value)}
+      >
+        {item.options.map((option) => (
+          <FormControlLabel
+            key={option}
+            value={String(option)}
+            control={<Radio />}
+            label={option}
+          />
         ))}
       </RadioGroup>
     </>

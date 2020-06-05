@@ -12,18 +12,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SingleSelect({ content }) {
+export default function MultiSelect({ item, value, onChange }) {
   const classes = useStyles();
 
   return (
     <>
-      <Typography variant="h6">{content.prompt}</Typography>
+      <Typography variant="h6">{item.prompt}</Typography>
       <FormHelperText className={classes.helperText}>
         (Check all that apply)
       </FormHelperText>
       <FormGroup>
-        {content.options.map((option) => (
+        {item.options.map((option) => (
           <FormControlLabel
+            key={option}
             control={<Checkbox name={option} />}
             label={option}
           />

@@ -8,21 +8,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Video({ content }) {
+export default function Video({ item }) {
   const classes = useStyles();
 
   return (
     <>
       <Typography className={classes.title} variant="h6">
-        {content.title}
+        {item.title}
       </Typography>
       <iframe
+        title={item.title}
         width="560"
         height="315"
-        src={content.source}
-        frameborder="0"
+        src={item.source}
+        frameBorder="0"
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
+        allowFullScreen
       ></iframe>
     </>
   );
