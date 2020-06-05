@@ -12,7 +12,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SingleSelect({ item, value, onChangeInput }) {
+export default function SingleSelect({
+  item,
+  value,
+  onChangeInput,
+  showSolution,
+}) {
   const classes = useStyles();
 
   return (
@@ -29,7 +34,7 @@ export default function SingleSelect({ item, value, onChangeInput }) {
           <FormControlLabel
             key={option}
             value={String(option)}
-            control={<Radio />}
+            control={<Radio disabled={showSolution} />}
             label={option}
           />
         ))}

@@ -11,9 +11,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Course({ content, onSubmit }) {
+export default function Course({ content }) {
   const classes = useStyles();
   const [inputs, setInputs] = useState({});
+  const [showSolutions, setShowSolutions] = useState(false);
 
   const handleChangeInput = (itemId, value) => {
     setInputs({
@@ -28,14 +29,15 @@ export default function Course({ content, onSubmit }) {
         <Item
           key={item.id}
           item={item}
-          value={inputs[item.id]}
+          value={inputs[item.id] || []}
           onChangeInput={handleChangeInput}
+          showSolution={showSolutions}
         ></Item>
       ))}
       <Box textAlign="center">
         <BigButton
           className={classes.button}
-          onClick={() => onSubmit(inputs)}
+          onClick={() => setShowSolutions(true)}
           variant="contained"
           color="primary"
           endIcon={<ArrowForwardIcon />}

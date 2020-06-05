@@ -12,7 +12,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MultiSelect({ item, value, onChangeInput }) {
+export default function MultiSelect({
+  item,
+  value,
+  onChangeInput,
+  showSolution,
+}) {
   const classes = useStyles();
 
   const handleCheck = (option) => {
@@ -38,7 +43,12 @@ export default function MultiSelect({ item, value, onChangeInput }) {
           <FormControlLabel
             key={option}
             control={
-              <Checkbox name={option} onChange={() => handleCheck(option)} />
+              <Checkbox
+                name={option}
+                checked={value.includes(option)}
+                onChange={() => handleCheck(option)}
+                disabled={showSolution}
+              />
             }
             label={option}
           />

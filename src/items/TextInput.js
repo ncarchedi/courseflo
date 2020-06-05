@@ -9,7 +9,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TextInput({ item, value, onChangeInput }) {
+export default function TextInput({
+  item,
+  value,
+  onChangeInput,
+  showSolution,
+}) {
   const classes = useStyles();
 
   return (
@@ -22,6 +27,7 @@ export default function TextInput({ item, value, onChangeInput }) {
         onChange={(e) => onChangeInput(item.id, e.target.value)}
         placeholder="Write your answer here..."
         fullWidth
+        disabled={showSolution}
       />
     </>
   );

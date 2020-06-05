@@ -21,14 +21,14 @@ export default {
       type: "singleSelect",
       prompt: "What's 2 to the power of 3?",
       options: [4, 6, 8, 16],
-      correct: 8,
+      solution: 8,
     },
     {
       id: uuidv4(),
       type: "multiSelect",
       prompt: "Which of the following animals are reptiles?",
       options: ["Crocodile", "Otter", "Snake", "Horse", "Frog"],
-      correct: ["Crocodile", "Snake", "Frog"],
+      solution: ["Crocodile", "Snake", "Frog"],
     },
     {
       id: uuidv4(),
@@ -41,7 +41,7 @@ export default {
       id: uuidv4(),
       type: "textInput",
       prompt: "What's the native language of Mexico?",
-      correct: "Spanish",
+      solution: "Spanish",
     },
   ],
 };
