@@ -4,6 +4,7 @@ import Box from "@material-ui/core/Box";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import Text from "./Text";
+import Video from "./Video";
 import SingleSelect from "./SingleSelect";
 import MultiSelect from "./MultiSelect";
 import TextInput from "./TextInput";
@@ -21,6 +22,9 @@ export default function Item({ content }) {
   switch (content.type) {
     case "text":
       item = <Text content={content} />;
+      break;
+    case "video":
+      item = <Video content={content} />;
       break;
     case "singleSelect":
       item = <SingleSelect content={content} />;

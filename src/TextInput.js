@@ -14,7 +14,7 @@ export default function TextInput({ content }) {
 
   return (
     <>
-      <Typography className={classes.prompt} variant="h6" gutterBottom>
+      <Typography className={classes.prompt} variant="h6">
         {content.prompt}
       </Typography>
       <TextField placeholder="Write your answer here..." fullWidth />

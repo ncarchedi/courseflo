@@ -1,49 +1,39 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
 import Course from "./Course";
+import COURSE_CONTENT from "./exampleCourse";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    margin: theme.spacing(3, "auto"),
+    margin: theme.spacing(5, "auto"),
   },
 }));
 
 export default function App() {
   const classes = useStyles();
+  const [course, setCourse] = useState(null);
+
+  // imitate fetching the course content from an API
+  useEffect(() => {
+    setCourse(COURSE_CONTENT);
+  }, []);
 
   return (
-    <Container className={classes.container} maxWidth="sm">
-      <Course content={CONTENT} />
-    </Container>
+    course && (
+      <>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant="h6">{course.title}</Typography>
+          </Toolbar>
+        </AppBar>
+        <Container className={classes.container} maxWidth="sm">
+          <Course content={course.content} />
+        </Container>
+      </>
+    )
   );
 }
-
-const CONTENT = [
-  {
-    id: 0,
-    type: "text",
-    header: "Welcome to the example course 🙌",
-    body: "This is a short demonstration of what's possible. Enjoy!",
-  },
-  {
-    id: 1,
-    type: "singleSelect",
-    prompt: "What's 2 to the power of 3?",
-    options: [4, 6, 8, 16],
-    correct: 8,
-  },
-  {
-    id: 2,
-    type: "multiSelect",
-    prompt: "Which of the following animals are reptiles?",
-    options: ["Crocodile", "Otter", "Snake", "Horse", "Frog"],
-    correct: ["Crocodile", "Snake", "Frog"],
-  },
-  {
-    id: 3,
-    type: "textInput",
-    prompt: "What's the native language of Mexico?",
-    correct: "Spanish",
-  },
-];

@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Statement({ content }) {
+export default function Video({ content }) {
   const classes = useStyles();
 
   return (
@@ -16,7 +16,14 @@ export default function Statement({ content }) {
       <Typography className={classes.title} variant="h6">
         {content.title}
       </Typography>
-      <Typography variant="body1">{content.body}</Typography>
+      <iframe
+        width="560"
+        height="315"
+        src={content.source}
+        frameborder="0"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
     </>
   );
 }
