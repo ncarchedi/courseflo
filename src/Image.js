@@ -16,15 +16,7 @@ export default function Video({ item }) {
       <Typography className={classes.title} variant="h6">
         {item.title}
       </Typography>
-      <iframe
-        title={item.title}
-        src={item.source}
-        width="560"
-        height="315"
-        frameBorder="0"
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-      ></iframe>
+      <img src={item.source} alt={item.title} width="100%" />
     </>
   );
 }

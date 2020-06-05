@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MultiSelect({ item, value, onChangeResponse }) {
+export default function MultiSelect({ item, value, onChangeInput }) {
   const classes = useStyles();
 
   const handleCheck = (option) => {
@@ -24,7 +24,7 @@ export default function MultiSelect({ item, value, onChangeResponse }) {
     // otherwise, uncheck it
     else newValue = [...newValue, option];
     // update state
-    onChangeResponse(item.id, newValue);
+    onChangeInput(item.id, newValue);
   };
 
   return (

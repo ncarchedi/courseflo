@@ -5,6 +5,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Course from "./Course";
+import FinalScreen from "./FinalScreen";
 import COURSE_CONTENT from "./exampleCourse";
 
 const useStyles = makeStyles((theme) => ({
@@ -16,11 +17,20 @@ const useStyles = makeStyles((theme) => ({
 export default function App() {
   const classes = useStyles();
   const [course, setCourse] = useState(null);
+  const [submittedAnswers, setSubmittedAnswers] = useState();
 
   // imitate fetching the course content from an API
   useEffect(() => {
     setCourse(COURSE_CONTENT);
   }, []);
+
+  const handleSubmit = (inputs) => {
+    setSubmittedAnswers(inputs);
+  };
+
+  const handleRestart = () => {
+    setSubmittedAnswers(null);
+  };
 
   return (
     course && (
@@ -31,7 +41,14 @@ export default function App() {
           </Toolbar>
         </AppBar>
         <Container className={classes.container} maxWidth="sm">
-          <Course content={course.content} />
+          {submittedAnswers ? (
+            <FinalScreen
+              message={course.finalMessage}
+              onRestart={handleRestart}
+            />
+          ) : (
+            <Course content={course.content} onSubmit={handleSubmit} />
+          )}
         </Container>
       </>
     )

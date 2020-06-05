@@ -9,13 +9,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Course({ content }) {
+export default function Course({ content, onSubmit }) {
   const classes = useStyles();
-  const [responses, setResponses] = useState({});
+  const [inputs, setInputs] = useState({});
 
-  const handleChangeResponse = (itemId, value) => {
-    setResponses({
-      ...responses,
+  const handleChangeInput = (itemId, value) => {
+    setInputs({
+      ...inputs,
       [itemId]: value,
     });
   };
@@ -26,12 +26,13 @@ export default function Course({ content }) {
         <Item
           key={item.id}
           item={item}
-          value={responses[item.id]}
-          onChangeResponse={handleChangeResponse}
+          value={inputs[item.id]}
+          onChangeInput={handleChangeInput}
         ></Item>
       ))}
       <Button
         className={classes.button}
+        onClick={() => onSubmit(inputs)}
         variant="contained"
         size="large"
         color="primary"

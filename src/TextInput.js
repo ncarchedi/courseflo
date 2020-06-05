@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TextInput({ item, value, onChangeResponse }) {
+export default function TextInput({ item, value, onChangeInput }) {
   const classes = useStyles();
 
   return (
@@ -19,7 +19,7 @@ export default function TextInput({ item, value, onChangeResponse }) {
       </Typography>
       <TextField
         value={value}
-        onChange={(e) => onChangeResponse(item.id, e.target.value)}
+        onChange={(e) => onChangeInput(item.id, e.target.value)}
         placeholder="Write your answer here..."
         fullWidth
       />

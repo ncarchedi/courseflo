@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export default {
   title: "Example Course",
+  finalMessage: "Thanks for completing the course! We'll be in touch ✌️",
   content: [
     {
       id: uuidv4(),
@@ -28,6 +29,13 @@ export default {
       prompt: "Which of the following animals are reptiles?",
       options: ["Crocodile", "Otter", "Snake", "Horse", "Frog"],
       correct: ["Crocodile", "Snake", "Frog"],
+    },
+    {
+      id: uuidv4(),
+      type: "image",
+      title: "Maslow's hierarchy of needs",
+      source:
+        "https://images.squarespace-cdn.com/content/5a81dd4eb07869101a54cbfe/1526931983351-HCLE49FZQCRFFTWYG3OL/Maslow.png?content-type=image%2Fpng",
     },
     {
       id: uuidv4(),

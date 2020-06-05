@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SingleSelect({ item, value, onChangeResponse }) {
+export default function SingleSelect({ item, value, onChangeInput }) {
   const classes = useStyles();
 
   return (
@@ -23,7 +23,7 @@ export default function SingleSelect({ item, value, onChangeResponse }) {
       </FormHelperText>
       <RadioGroup
         value={value}
-        onChange={(e) => onChangeResponse(item.id, e.target.value)}
+        onChange={(e) => onChangeInput(item.id, e.target.value)}
       >
         {item.options.map((option) => (
           <FormControlLabel

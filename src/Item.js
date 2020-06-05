@@ -5,6 +5,7 @@ import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import Text from "./Text";
 import Video from "./Video";
+import Image from "./Image";
 import SingleSelect from "./SingleSelect";
 import MultiSelect from "./MultiSelect";
 import TextInput from "./TextInput";
@@ -26,6 +27,9 @@ export default function Item(props) {
       break;
     case "video":
       currentItem = <Video item={item} />;
+      break;
+    case "image":
+      currentItem = <Image item={item} />;
       break;
     case "singleSelect":
       currentItem = <SingleSelect {...props} />;
