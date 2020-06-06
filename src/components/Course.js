@@ -35,15 +35,16 @@ export default function Course({
     setShowSolutions(true);
   };
 
+  // if answers hasn't initialized yet, then return
+  if (!answers) return null;
+
   return (
     <>
       {content.map((item) => (
         <Item
           key={item.id}
           item={item}
-          answer={
-            answers[item.id] || { value: [], solution: [], isCorrect: false }
-          }
+          answer={answers.filter((a) => a.itemId === item.id)[0]}
           onChangeAnswer={onChangeAnswer}
           showSolution={showSolutions}
         ></Item>
