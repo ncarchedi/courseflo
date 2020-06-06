@@ -29,7 +29,7 @@ export default function SingleSelect({
         (Select only one)
       </FormHelperText>
       <RadioGroup
-        value={answer}
+        value={answer.value}
         onChange={(e) => onChangeAnswer(item.id, e.target.value)}
       >
         {item.options.map((option) => (

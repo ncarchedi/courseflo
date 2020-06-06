@@ -41,7 +41,9 @@ export default function Course({
         <Item
           key={item.id}
           item={item}
-          answer={answers[item.id] || []}
+          answer={
+            answers[item.id] || { value: [], solution: [], isCorrect: false }
+          }
           onChangeAnswer={onChangeAnswer}
           showSolution={showSolutions}
         ></Item>

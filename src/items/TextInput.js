@@ -29,16 +29,20 @@ export default function TextInput({
       </Typography>
       <Box component="span" display="flex" alignItems="center">
         {showSolution &&
-          (item.solution === answer ? <EmojiCorrect /> : <EmojiIncorrect />)}
+          (item.solution === answer.value ? (
+            <EmojiCorrect />
+          ) : (
+            <EmojiIncorrect />
+          ))}
         <TextField
-          value={answer}
+          value={answer.value}
           onChange={(e) => onChangeAnswer(item.id, e.target.value)}
           placeholder="Write your answer here..."
           fullWidth
           disabled={showSolution}
         />
       </Box>
-      {showSolution && item.solution !== answer && (
+      {showSolution && item.solution !== answer.value && (
         <Box
           className={classes.solution}
           component="span"
