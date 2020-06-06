@@ -85,7 +85,7 @@ export default function App() {
                 />
               </Route>
               <Route path="/score">
-                <FinalScreen message={course.finalMessage} />
+                <FinalScreen message={course.finalMessage} answers={answers} />
               </Route>
             </Switch>
           </Container>
