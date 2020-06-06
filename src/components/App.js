@@ -19,11 +19,20 @@ const useStyles = makeStyles((theme) => ({
 export default function App() {
   const classes = useStyles();
   const [course, setCourse] = useState(null);
+  const [inputs, setInputs] = useState({});
+  const [showSolutions, setShowSolutions] = useState(false);
 
   // imitate fetching the course content from an API
   useEffect(() => {
     setCourse(COURSE_CONTENT);
   }, []);
+
+  const handleChangeInput = (itemId, value) => {
+    setInputs({
+      ...inputs,
+      [itemId]: value,
+    });
+  };
 
   return (
     course && (
@@ -33,9 +42,15 @@ export default function App() {
           <Container className={classes.container} maxWidth="sm">
             <Switch>
               <Route path="/" exact>
-                <Course content={course.content} />
+                <Course
+                  content={course.content}
+                  inputs={inputs}
+                  onChangeInput={handleChangeInput}
+                  showSolutions={showSolutions}
+                  setShowSolutions={setShowSolutions}
+                />
               </Route>
-              <Route path="/done">
+              <Route path="/score">
                 <FinalScreen message={course.finalMessage} />
               </Route>
             </Switch>

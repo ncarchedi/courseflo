@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import Box from "@material-ui/core/Box";
@@ -12,21 +12,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Course({ content }) {
+export default function Course({
+  content,
+  inputs,
+  onChangeInput,
+  showSolutions,
+  setShowSolutions,
+}) {
   const classes = useStyles();
   const history = useHistory();
-  const [inputs, setInputs] = useState({});
-  const [showSolutions, setShowSolutions] = useState(false);
-
-  const handleChangeInput = (itemId, value) => {
-    setInputs({
-      ...inputs,
-      [itemId]: value,
-    });
-  };
 
   const handleSubmit = () => {
-    history.push("/done");
+    history.push("/score");
     setShowSolutions(true);
   };
 
@@ -37,7 +34,7 @@ export default function Course({ content }) {
           key={item.id}
           item={item}
           value={inputs[item.id] || []}
-          onChangeInput={handleChangeInput}
+          onChangeInput={onChangeInput}
           showSolution={showSolutions}
         ></Item>
       ))}
@@ -49,7 +46,7 @@ export default function Course({ content }) {
           color="primary"
           endIcon={<ArrowForwardIcon />}
         >
-          I'm all done!
+          {showSolutions ? "Back to my score" : "I'm all done!"}
         </BigButton>
       </Box>
     </>
