@@ -1,8 +1,9 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
-import ReplayIcon from "@material-ui/icons/Replay";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import BigButton from "./BigButton";
 
 const useStyles = makeStyles((theme) => ({
@@ -11,19 +12,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FinalScreen({ message, onRestart }) {
+export default function FinalScreen({ message }) {
   const classes = useStyles();
+  const history = useHistory();
 
   return (
     <Box textAlign="center">
       <Typography variant="h6">{message}</Typography>
       <BigButton
         className={classes.button}
-        onClick={onRestart}
+        onClick={() => history.push("/")}
         variant="contained"
-        endIcon={<ReplayIcon />}
+        startIcon={<ArrowBackIcon />}
       >
-        Start over
+        Review my answers
       </BigButton>
     </Box>
   );

@@ -1,10 +1,12 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import Radio from "@material-ui/core/Radio";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import { EmojiCorrect, EmojiIncorrect } from "../components/Emoji";
 
 const useStyles = makeStyles((theme) => ({
   helperText: {
@@ -12,7 +14,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SingleSelect({ item, value, onChangeInput }) {
+export default function SingleSelect({
+  item,
+  value,
+  onChangeInput,
+  showSolution,
+}) {
   const classes = useStyles();
 
   return (
@@ -26,12 +33,19 @@ export default function SingleSelect({ item, value, onChangeInput }) {
         onChange={(e) => onChangeInput(item.id, e.target.value)}
       >
         {item.options.map((option) => (
-          <FormControlLabel
-            key={option}
-            value={String(option)}
-            control={<Radio />}
-            label={option}
-          />
+          <Box key={option} component="span" display="flex" alignItems="center">
+            {showSolution &&
+              (item.solution === option ? (
+                <EmojiCorrect />
+              ) : (
+                <EmojiIncorrect />
+              ))}
+            <FormControlLabel
+              value={String(option)}
+              control={<Radio disabled={showSolution} />}
+              label={option}
+            />
+          </Box>
         ))}
       </RadioGroup>
     </>

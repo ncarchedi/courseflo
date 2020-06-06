@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import Box from "@material-ui/core/Box";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
@@ -11,15 +12,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Course({ content, onSubmit }) {
+export default function Course({
+  content,
+  inputs,
+  onChangeInput,
+  showSolutions,
+  setShowSolutions,
+}) {
   const classes = useStyles();
-  const [inputs, setInputs] = useState({});
+  const history = useHistory();
 
-  const handleChangeInput = (itemId, value) => {
-    setInputs({
-      ...inputs,
-      [itemId]: value,
-    });
+  const handleSubmit = () => {
+    history.push("/score");
+    setShowSolutions(true);
   };
 
   return (
@@ -28,19 +33,20 @@ export default function Course({ content, onSubmit }) {
         <Item
           key={item.id}
           item={item}
-          value={inputs[item.id]}
-          onChangeInput={handleChangeInput}
+          value={inputs[item.id] || []}
+          onChangeInput={onChangeInput}
+          showSolution={showSolutions}
         ></Item>
       ))}
       <Box textAlign="center">
         <BigButton
           className={classes.button}
-          onClick={() => onSubmit(inputs)}
+          onClick={handleSubmit}
           variant="contained"
           color="primary"
           endIcon={<ArrowForwardIcon />}
         >
-          I'm all done!
+          {showSolutions ? "Back to my score" : "I'm all done!"}
         </BigButton>
       </Box>
     </>
