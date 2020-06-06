@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import Box from "@material-ui/core/Box";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
@@ -13,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Course({ content }) {
   const classes = useStyles();
+  const history = useHistory();
   const [inputs, setInputs] = useState({});
   const [showSolutions, setShowSolutions] = useState(false);
 
@@ -21,6 +23,11 @@ export default function Course({ content }) {
       ...inputs,
       [itemId]: value,
     });
+  };
+
+  const handleSubmit = () => {
+    history.push("/done");
+    setShowSolutions(true);
   };
 
   return (
@@ -37,7 +44,7 @@ export default function Course({ content }) {
       <Box textAlign="center">
         <BigButton
           className={classes.button}
-          onClick={() => setShowSolutions(true)}
+          onClick={handleSubmit}
           variant="contained"
           color="primary"
           endIcon={<ArrowForwardIcon />}
