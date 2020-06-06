@@ -1,14 +1,22 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
-import Box from "@material-ui/core/Box";
+import Fab from "@material-ui/core/Fab";
+import Zoom from "@material-ui/core/Zoom";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import Item from "./Item";
-import BigButton from "./BigButton";
 
 const useStyles = makeStyles((theme) => ({
-  button: {
-    marginTop: theme.spacing(5),
+  fab: {
+    margin: 0,
+    position: "fixed",
+    top: "auto",
+    right: theme.spacing(3),
+    bottom: theme.spacing(3),
+    left: "auto",
+  },
+  fabIcon: {
+    marginLeft: theme.spacing(1),
   },
 }));
 
@@ -38,17 +46,18 @@ export default function Course({
           showSolution={showSolutions}
         ></Item>
       ))}
-      <Box textAlign="center">
-        <BigButton
-          className={classes.button}
+      <Zoom in>
+        <Fab
+          className={classes.fab}
           onClick={handleSubmit}
-          variant="contained"
+          variant="extended"
           color="primary"
-          endIcon={<ArrowForwardIcon />}
+          aria-label="submit"
         >
           {showSolutions ? "Back to my score" : "I'm all done!"}
-        </BigButton>
-      </Box>
+          <ArrowForwardIcon className={classes.fabIcon} />
+        </Fab>
+      </Zoom>
     </>
   );
 }
