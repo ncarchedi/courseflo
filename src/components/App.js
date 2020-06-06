@@ -5,6 +5,7 @@ import Container from "@material-ui/core/Container";
 import Header from "./Header";
 import Course from "./Course";
 import FinalScreen from "./FinalScreen";
+import isAnswerCorrect from "../utils/isAnswerCorrect";
 import COURSE_CONTENT from "../api/exampleCourse";
 
 const useStyles = makeStyles((theme) => ({
@@ -26,30 +27,6 @@ export default function App() {
   useEffect(() => {
     setCourse(COURSE_CONTENT);
   }, []);
-
-  const isAnswerCorrect = (answer, solution) => {
-    let ans = answer;
-    let sol = solution;
-
-    // borrowed from https://stackoverflow.com/a/16436975/2338922
-    if (ans == sol) return true;
-
-    // if the above wasn't true and the solution isn't an array
-    // then the answer must be incorrect
-    if (typeof sol !== "object") return false;
-
-    if (ans == null || sol == null) return false;
-    if (ans.length != sol.length) return false;
-
-    ans = ans.sort();
-    sol = sol.sort();
-
-    for (var i = 0; i < ans.length; ++i) {
-      if (ans[i] !== sol[i]) return false;
-    }
-
-    return true;
-  };
 
   const getSolution = (itemId) => {
     const item = course.content.filter((i) => i.id === itemId)[0];
