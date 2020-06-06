@@ -22,8 +22,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Course({
   content,
-  inputs,
-  onChangeInput,
+  answers,
+  onChangeAnswer,
   showSolutions,
   setShowSolutions,
 }) {
@@ -41,8 +41,8 @@ export default function Course({
         <Item
           key={item.id}
           item={item}
-          value={inputs[item.id] || []}
-          onChangeInput={onChangeInput}
+          answer={answers[item.id] || []}
+          onChangeAnswer={onChangeAnswer}
           showSolution={showSolutions}
         ></Item>
       ))}

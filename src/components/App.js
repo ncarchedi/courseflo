@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 export default function App() {
   const classes = useStyles();
   const [course, setCourse] = useState(null);
-  const [inputs, setInputs] = useState({});
+  const [answers, setAnswers] = useState({});
   const [showSolutions, setShowSolutions] = useState(false);
 
   // imitate fetching the course content from an API
@@ -27,9 +27,9 @@ export default function App() {
     setCourse(COURSE_CONTENT);
   }, []);
 
-  const handleChangeInput = (itemId, value) => {
-    setInputs({
-      ...inputs,
+  const handleChangeAnswer = (itemId, value) => {
+    setAnswers({
+      ...answers,
       [itemId]: value,
     });
   };
@@ -44,8 +44,8 @@ export default function App() {
               <Route path="/" exact>
                 <Course
                   content={course.content}
-                  inputs={inputs}
-                  onChangeInput={handleChangeInput}
+                  answers={answers}
+                  onChangeAnswer={handleChangeAnswer}
                   showSolutions={showSolutions}
                   setShowSolutions={setShowSolutions}
                 />

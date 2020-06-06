@@ -16,8 +16,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TextInput({
   item,
-  value,
-  onChangeInput,
+  answer,
+  onChangeAnswer,
   showSolution,
 }) {
   const classes = useStyles();
@@ -29,16 +29,16 @@ export default function TextInput({
       </Typography>
       <Box component="span" display="flex" alignItems="center">
         {showSolution &&
-          (item.solution === value ? <EmojiCorrect /> : <EmojiIncorrect />)}
+          (item.solution === answer ? <EmojiCorrect /> : <EmojiIncorrect />)}
         <TextField
-          value={value}
-          onChange={(e) => onChangeInput(item.id, e.target.value)}
+          value={answer}
+          onChange={(e) => onChangeAnswer(item.id, e.target.value)}
           placeholder="Write your answer here..."
           fullWidth
           disabled={showSolution}
         />
       </Box>
-      {showSolution && item.solution !== value && (
+      {showSolution && item.solution !== answer && (
         <Box
           className={classes.solution}
           component="span"
