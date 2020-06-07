@@ -7,18 +7,35 @@ import Typography from "@material-ui/core/Typography";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 const useStyles = makeStyles((theme) => ({
+  scoreText: {
+    fontWeight: theme.typography.fontWeightMedium,
+  },
+  messageText: {
+    fontWeight: theme.typography.fontWeightRegular,
+  },
   button: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(4),
   },
 }));
 
-export default function FinalScreen({ message }) {
+export default function FinalScreen({ message, answers }) {
   const classes = useStyles();
   const history = useHistory();
 
+  const numCorrect = answers.filter((a) => a.isCorrect).length;
+  const numTotal = answers.length;
+
   return (
     <Box textAlign="center">
-      <Typography variant="h6">{message}</Typography>
+      <Typography
+        className={classes.scoreText}
+        variant="h3"
+        color="secondary"
+        gutterBottom
+      >{`Your Score: ${numCorrect} / ${numTotal}`}</Typography>
+      <Typography className={classes.messageText} variant="h6">
+        {message}
+      </Typography>
       <Button
         className={classes.button}
         onClick={() => history.push("/")}

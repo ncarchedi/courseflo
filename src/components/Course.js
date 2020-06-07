@@ -22,8 +22,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Course({
   content,
-  inputs,
-  onChangeInput,
+  answers,
+  onChangeAnswer,
   showSolutions,
   setShowSolutions,
 }) {
@@ -35,14 +35,17 @@ export default function Course({
     setShowSolutions(true);
   };
 
+  // if answers hasn't initialized yet, then return
+  if (!answers) return null;
+
   return (
     <>
       {content.map((item) => (
         <Item
           key={item.id}
           item={item}
-          value={inputs[item.id] || []}
-          onChangeInput={onChangeInput}
+          answer={answers.filter((a) => a.itemId === item.id)[0]}
+          onChangeAnswer={onChangeAnswer}
           showSolution={showSolutions}
         ></Item>
       ))}

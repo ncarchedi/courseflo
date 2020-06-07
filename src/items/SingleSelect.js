@@ -16,8 +16,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SingleSelect({
   item,
-  value,
-  onChangeInput,
+  answer,
+  onChangeAnswer,
   showSolution,
 }) {
   const classes = useStyles();
@@ -29,8 +29,8 @@ export default function SingleSelect({
         (Select only one)
       </FormHelperText>
       <RadioGroup
-        value={value}
-        onChange={(e) => onChangeInput(item.id, e.target.value)}
+        value={answer.value}
+        onChange={(e) => onChangeAnswer(item.id, e.target.value)}
       >
         {item.options.map((option) => (
           <Box key={option} component="span" display="flex" alignItems="center">
