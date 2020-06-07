@@ -8,7 +8,8 @@ export default {
       id: uuidv4(),
       type: "text",
       title: "Welcome to the example course 🙌",
-      body: "This is a short demonstration of what's possible. Enjoy!",
+      body:
+        "This is a short demonstration of what's possible. For example, here's a math expression: $$\\int_0^\\infty x^2 dx$$. Enjoy!",
     },
     {
       id: uuidv4(),
@@ -19,7 +20,7 @@ export default {
     {
       id: uuidv4(),
       type: "singleSelect",
-      prompt: "What's 2 to the power of 3?",
+      prompt: "What's $$2^3$$?",
       options: [4, 6, 8, 16],
       solution: 8,
     },
