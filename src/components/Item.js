@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
-import Divider from "@material-ui/core/Divider";
+import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Text from "../items/Text";
 import Video from "../items/Video";
@@ -12,7 +11,8 @@ import TextInput from "../items/TextInput";
 
 const useStyles = makeStyles((theme) => ({
   box: {
-    margin: theme.spacing(3, "auto"),
+    margin: theme.spacing(2, "auto"),
+    padding: theme.spacing(3),
   },
 }));
 
@@ -48,8 +48,9 @@ export default function Item(props) {
 
   return (
     <>
-      <Box className={classes.box}>{currentItem}</Box>
-      <Divider light />
+      <Paper className={classes.box} elevation={2}>
+        {currentItem}
+      </Paper>
     </>
   );
 }

@@ -11,9 +11,6 @@ import COURSE_CONTENT from "../api/exampleCourse";
 const useStyles = makeStyles((theme) => ({
   container: {
     margin: theme.spacing(3, "auto", 10, "auto"),
-    [theme.breakpoints.up("sm")]: {
-      margin: theme.spacing(5, "auto", 10, "auto"),
-    },
   },
 }));
 
