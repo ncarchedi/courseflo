@@ -87,7 +87,7 @@ export default {
         "$$\\frac{2}{3}x + 3$$",
         "$$\\frac{2}{3}x - 3$$",
       ],
-      solution: "$$-3$$",
+      solution: "$$\\frac{2}{3}x - 3$$",
     },
   ],
 };
