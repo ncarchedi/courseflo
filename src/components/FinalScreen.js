@@ -22,6 +22,11 @@ export default function FinalScreen({ message, answers }) {
   const classes = useStyles();
   const history = useHistory();
 
+  if (!answers) {
+    history.push("/");
+    return null;
+  }
+
   const numCorrect = answers.filter((a) => a.isCorrect).length;
   const numTotal = answers.length;
 

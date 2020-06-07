@@ -6,6 +6,7 @@ import Header from "./Header";
 import Course from "./Course";
 import FinalScreen from "./FinalScreen";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
+import parseContent from "../utils/parseContent";
 import COURSE_CONTENT from "../api/exampleCourse";
 
 const useStyles = makeStyles((theme) => ({
@@ -21,8 +22,13 @@ export default function App() {
   const [showSolutions, setShowSolutions] = useState(false);
 
   // imitate fetching the course content from an API
+  // parse the content to render math, etc.
   useEffect(() => {
-    setCourse(COURSE_CONTENT);
+    const parsedContent = parseContent(COURSE_CONTENT.content);
+    setCourse({
+      ...COURSE_CONTENT,
+      content: parsedContent,
+    });
   }, []);
 
   // initialize the answers array

@@ -9,10 +9,12 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@matejmazur/react-katex": "^3.0.2",
     "@material-ui/core": "latest",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/styles": "^4.10.0",
     "clsx": "latest",
+    "katex": "^0.11.1",
     "react": "latest",
     "react-dom": "latest",
     "react-router-dom": "^5.2.0",

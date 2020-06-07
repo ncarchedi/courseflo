@@ -1312,6 +1312,13 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
+"@matejmazur/react-katex@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@matejmazur/react-katex/-/react-katex-3.0.2.tgz#d06f302f7fe2ad49991912c58d23d0e46495bfcf"
+  integrity sha512-fNc+9uSuwvCG1nvULZWHPYQXJvwJuApVJD8niNy+v9awKTY5EoS2tVrQuHw4epIQkp8qMp6Tw9h71GYLXMz7uA==
+  dependencies:
+    prop-types "^15.6.2"
+
 "@material-ui/core@latest":
   version "4.10.1"
   resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.10.1.tgz#e3db4ca55d2af6cc23a1159ef5c32ad97c43c39c"
@@ -3027,7 +3034,7 @@ combined-stream@^1.0.6, combined-stream@~1.0.6:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@^2.11.0, commander@^2.20.0:
+commander@^2.11.0, commander@^2.19.0, commander@^2.20.0:
   version "2.20.3"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
@@ -6457,6 +6464,13 @@ jsx-ast-utils@^2.2.1, jsx-ast-utils@^2.2.3:
   dependencies:
     array-includes "^3.1.1"
     object.assign "^4.1.0"
+
+katex@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/katex/-/katex-0.11.1.tgz#df30ca40c565c9df01a466a00d53e079e84ffaa2"
+  integrity sha512-5oANDICCTX0NqYIyAiFCCwjQ7ERu3DQG2JFHLbYOf+fXaMoH8eg/zOq5WSYJsKMi/QebW+Eh3gSM+oss1H/bww==
+  dependencies:
+    commander "^2.19.0"
 
 killable@^1.0.1:
   version "1.0.1"
