@@ -1,8 +1,7 @@
-- add scoring mechanism + show score on final screen
-- experiment with item design / showing one at a time
-- get md / katex working for real (math could be killer feature)
+- experiment with showing one item at a time
 - create a more meaningful example course
 - consider chapters / courses taxonomy
 - research how to publish / share courses
 - add transfer list item type: https://material-ui.com/components/transfer-list/
+- support markdown
 - come up with a good name :)
