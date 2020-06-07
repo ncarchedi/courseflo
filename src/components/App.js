@@ -26,7 +26,7 @@ export default function App() {
   useEffect(() => {
     const parsedContent = parseContent(COURSE_CONTENT.content);
     setCourse({
-      COURSE_CONTENT,
+      ...COURSE_CONTENT,
       content: parsedContent,
     });
   }, []);
