@@ -23,11 +23,15 @@ const useStyles = makeStyles((theme) => ({
   optionLabel: {
     flexGrow: 1,
   },
-  correct: {
+  correctOption: {
     backgroundColor: green[100],
   },
-  incorrect: {
+  incorrectOption: {
     backgroundColor: red[100],
+  },
+  correctAnswer: {
+    margin: theme.spacing(1, 0),
+    fontSize: "1rem",
   },
 }));
 
@@ -73,8 +77,8 @@ export default function MultiSelect({
               ${
                 answer.value.includes(option.raw)
                   ? item.solution.includes(option.raw)
-                    ? classes.correct
-                    : classes.incorrect
+                    ? classes.correctOption
+                    : classes.incorrectOption
                   : null
               }`}
                 component="span"
@@ -103,6 +107,32 @@ export default function MultiSelect({
               </Box>
             ))}
           </FormGroup>
+          {!answer.isCorrect && (
+            <>
+              <Typography
+                className={classes.correctAnswer}
+                variant="h6"
+                color="textSecondary"
+              >
+                Correct answer
+              </Typography>
+              <FormGroup>
+                {item.options.map(
+                  (option) =>
+                    item.solution.includes(option.raw) && (
+                      <Box key={option.raw} className={classes.option}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox name={option.raw} checked disabled />
+                          }
+                          label={option.rendered}
+                        />
+                      </Box>
+                    )
+                )}
+              </FormGroup>
+            </>
+          )}
         </>
       ) : (
         <>

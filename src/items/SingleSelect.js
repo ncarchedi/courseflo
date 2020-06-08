@@ -9,6 +9,7 @@ import Radio from "@material-ui/core/Radio";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import { CorrectIcon, IncorrectIcon } from "../components/Icons";
+import renderHtmlFromString from "../utils/renderHtmlFromString";
 
 const useStyles = makeStyles((theme) => ({
   helperText: {
@@ -22,11 +23,15 @@ const useStyles = makeStyles((theme) => ({
   optionLabel: {
     flexGrow: 1,
   },
-  correct: {
+  correctOption: {
     backgroundColor: green[100],
   },
-  incorrect: {
+  incorrectOption: {
     backgroundColor: red[100],
+  },
+  correctAnswer: {
+    margin: theme.spacing(1, 0),
+    fontSize: "1rem",
   },
 }));
 
@@ -61,8 +66,8 @@ export default function SingleSelect({
                 className={`${classes.option} ${
                   answer.value === option.raw
                     ? answer.isCorrect
-                      ? classes.correct
-                      : classes.incorrect
+                      ? classes.correctOption
+                      : classes.incorrectOption
                     : null
                 }`}
                 component="span"
@@ -85,6 +90,23 @@ export default function SingleSelect({
               </Box>
             ))}
           </RadioGroup>
+          {!answer.isCorrect && (
+            <>
+              <Typography
+                className={classes.correctAnswer}
+                variant="h6"
+                color="textSecondary"
+              >
+                Correct answer
+              </Typography>
+              <Box className={classes.option}>
+                <FormControlLabel
+                  label={renderHtmlFromString(answer.solution)}
+                  control={<Radio checked disabled />}
+                />
+              </Box>
+            </>
+          )}
         </>
       ) : (
         <>

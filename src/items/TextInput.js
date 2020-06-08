@@ -15,14 +15,15 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     borderRadius: theme.shape.borderRadius,
   },
-  solution: {
-    marginTop: theme.spacing(2),
-  },
-  correct: {
+  correctInput: {
     backgroundColor: green[100],
   },
-  incorrect: {
+  incorrectInput: {
     backgroundColor: red[100],
+  },
+  correctAnswer: {
+    margin: theme.spacing(1, 0),
+    fontSize: "1rem",
   },
 }));
 
@@ -47,7 +48,7 @@ export default function TextInput({
           </Typography>
           <Box
             className={`${classes.input} ${
-              answer.isCorrect ? classes.correct : classes.incorrect
+              answer.isCorrect ? classes.correctInput : classes.incorrectInput
             }`}
             component="span"
             display="flex"
@@ -66,13 +67,17 @@ export default function TextInput({
               <IncorrectIcon />
             )}
           </Box>
-          {item.solution !== answer.value && (
-            <TextField
-              className={classes.solution}
-              value={item.solution}
-              fullWidth
-              disabled
-            />
+          {!answer.isCorrect && (
+            <>
+              <Typography
+                className={classes.correctAnswer}
+                variant="h6"
+                color="textSecondary"
+              >
+                Correct answer
+              </Typography>
+              <TextField value={item.solution} fullWidth disabled />
+            </>
           )}
         </>
       ) : (

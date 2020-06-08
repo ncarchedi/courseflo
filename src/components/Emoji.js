@@ -14,15 +14,3 @@ export default function Emoji({ symbol, label, ...props }) {
     </span>
   );
 }
-
-export function EmojiCorrect() {
-  const classes = useStyles();
-
-  return <Emoji className={classes.emoji} symbol="✅" label="check mark" />;
-}
-
-export function EmojiIncorrect() {
-  const classes = useStyles();
-
-  return <Emoji className={classes.emoji} symbol="❌" label="cross mark" />;
-}
