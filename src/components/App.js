@@ -55,7 +55,6 @@ export default function App() {
   // save answers to firebase when user submits
   useEffect(() => {
     if (showSolutions) {
-      console.log("sending submission to firestore!");
       saveSubmissionToFirestore(course.id, answers);
     }
   }, [course, answers, showSolutions]);

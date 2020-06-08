@@ -1,6 +1,7 @@
 import * as firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
+import computeScoreFromAnswers from "../utils/computeScoreFromAnswers";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -19,6 +20,7 @@ export const saveSubmissionToFirestore = (courseId, submission) => {
   return db.collection("submissions").add({
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     courseId,
+    score: computeScoreFromAnswers(submission),
     submission,
   });
 };
