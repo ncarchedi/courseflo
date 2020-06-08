@@ -54,7 +54,7 @@ export default function App() {
 
   // save answers to firebase when user submits
   useEffect(() => {
-    if (showSolutions) {
+    if (showSolutions && answers && course) {
       saveSubmissionToFirestore(course.id, answers);
     }
   }, [course, answers, showSolutions]);
