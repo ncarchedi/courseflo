@@ -1,7 +1,8 @@
 export default {
   id: "introductionToIntercepts",
   title: "Introduction to Intercepts",
-  finalMessage: "Thanks for completing the course! We'll be in touch ✌️",
+  finalMessage:
+    "Thanks for completing this lesson on intercepts! We'll be in touch once everyone else has submitted their work ✌️",
   content: [
     {
       id: "welcome",

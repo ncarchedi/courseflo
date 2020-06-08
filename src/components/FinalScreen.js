@@ -9,6 +9,7 @@ import computeScoreFromAnswers from "../utils/computeScoreFromAnswers";
 
 const useStyles = makeStyles((theme) => ({
   scoreText: {
+    marginBottom: theme.spacing(3),
     fontWeight: theme.typography.fontWeightMedium,
   },
   messageText: {
@@ -29,6 +30,7 @@ export default function FinalScreen({ message, answers }) {
   }
 
   const { numCorrect, numTotal } = computeScoreFromAnswers(answers);
+  const percentCorrect = ((numCorrect / numTotal) * 100).toFixed(0);
 
   return (
     <Box textAlign="center">
@@ -36,8 +38,7 @@ export default function FinalScreen({ message, answers }) {
         className={classes.scoreText}
         variant="h3"
         color="secondary"
-        gutterBottom
-      >{`Your Score: ${numCorrect} / ${numTotal}`}</Typography>
+      >{`Your Score: ${numCorrect}/${numTotal} (${percentCorrect}%)`}</Typography>
       <Typography className={classes.messageText} variant="h6">
         {message}
       </Typography>
