@@ -57,14 +57,21 @@ export default {
       id: "xIntercept",
       type: "singleSelect",
       prompt: "What's the $$x$$-intercept of the line above?",
-      options: ["$$-6$$", "$$-3$$", "$$0$$", "$$3$$", "$$6$$"],
-      solution: "$$-3$$",
+      options: [
+        "$$(-6, 0)$$",
+        "$$(-3, 0)$$",
+        "$$(0, 0)$$",
+        "$$(3, 0)$$",
+        "$$(6, 0)$$",
+      ],
+      solution: "$$(-3, 0)$$",
     },
     {
       id: "yIntercept",
       type: "textInput",
-      prompt: "What's the $$y$$-intercept of the line above?",
-      solution: "-6",
+      prompt:
+        "What's the $$y$$-intercept of the line above? Write your answer in the format $$(x, y)$$.",
+      solution: "(0, -6)",
     },
     {
       id: "linePlot2",
@@ -78,18 +85,19 @@ export default {
       type: "singleSelect",
       prompt: "Which of the following formulas describes this line?",
       options: [
-        "$$-\\frac{2}{3}x + 3$$",
-        "$$-\\frac{2}{3}x - 3$$",
-        "$$\\frac{2}{3}x + 3$$",
-        "$$\\frac{2}{3}x - 3$$",
+        "$$y = -\\frac{2}{3}x + 3$$",
+        "$$y = -\\frac{2}{3}x - 3$$",
+        "$$y = \\frac{2}{3}x + 3$$",
+        "$$y = \\frac{2}{3}x - 3$$",
       ],
-      solution: "$$\\frac{2}{3}x - 3$$",
+      solution: "$$y = \\frac{2}{3}x - 3$$",
     },
     {
       id: "xIntercept2",
       type: "textInput",
-      prompt: "What's the $$x$$-intercept of $$y = \\frac{1}{2}x + 4$$ ?",
-      solution: "-8",
+      prompt:
+        "What's the $$x$$-intercept of $$y = \\frac{1}{2}x + 4$$? Write your answer in the format $$(x, y)$$.",
+      solution: "(-8, 0)",
     },
   ],
 };
