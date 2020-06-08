@@ -58,16 +58,13 @@ export default function SingleSelect({
             {item.options.map((option) => (
               <Box
                 key={option.raw}
-                className={`
-              ${classes.option}
-              ${
-                answer.value === option.raw // if the option is selected
-                  ? answer.isCorrect // and it's correct
-                    ? classes.correct // make it green
-                    : classes.incorrect // otherwise, make it red
-                  : null // if not selected, make it neither
-              }
-            `}
+                className={`${classes.option} ${
+                  answer.value === option.raw
+                    ? answer.isCorrect
+                      ? classes.correct
+                      : classes.incorrect
+                    : null
+                }`}
                 component="span"
                 display="flex"
                 alignItems="center"

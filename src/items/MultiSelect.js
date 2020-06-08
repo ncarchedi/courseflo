@@ -71,13 +71,12 @@ export default function MultiSelect({
                 className={`
               ${classes.option}
               ${
-                answer.value.includes(option.raw) // if the option is selected
-                  ? item.solution.includes(option.raw) // and it's correct
-                    ? classes.correct // make it green
-                    : classes.incorrect // otherwise, make it red
-                  : null // if not selected, make it neither
-              }
-            `}
+                answer.value.includes(option.raw)
+                  ? item.solution.includes(option.raw)
+                    ? classes.correct
+                    : classes.incorrect
+                  : null
+              }`}
                 component="span"
                 display="flex"
                 alignItems="center"
@@ -89,7 +88,7 @@ export default function MultiSelect({
                       name={option.raw}
                       checked={answer.value.includes(option.raw)}
                       onChange={() => handleCheck(option.raw)}
-                      disabled={showSolution}
+                      disabled
                     />
                   }
                   label={option.rendered}
@@ -125,7 +124,6 @@ export default function MultiSelect({
                       name={option.raw}
                       checked={answer.value.includes(option.raw)}
                       onChange={() => handleCheck(option.raw)}
-                      disabled={showSolution}
                     />
                   }
                   label={option.rendered}
