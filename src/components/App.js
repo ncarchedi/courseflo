@@ -7,7 +7,8 @@ import Course from "./Course";
 import FinalScreen from "./FinalScreen";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
 import parseContent from "../utils/parseContent";
-import COURSE_CONTENT from "../api/mathCourse";
+import { saveSubmissionToFirestore } from "../services/firestore";
+import COURSE_CONTENT from "../courses/introductionToIntercepts";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -50,6 +51,13 @@ export default function App() {
       setAnswers(a);
     }
   }, [course]);
+
+  // save answers to firebase when user submits
+  useEffect(() => {
+    if (showSolutions) {
+      saveSubmissionToFirestore(course.id, answers);
+    }
+  }, [course, answers, showSolutions]);
 
   const getSolution = (itemId) => {
     const item = course.content.filter((i) => i.id === itemId)[0];

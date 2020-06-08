@@ -1,5 +1,6 @@
 export default {
-  title: "Example Course",
+  id: "dummyCourse",
+  title: "Dummy Course",
   finalMessage: "Thanks for completing the course! We'll be in touch ✌️",
   content: [
     {

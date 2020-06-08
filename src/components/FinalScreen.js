@@ -5,6 +5,7 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import computeScoreFromAnswers from "../utils/computeScoreFromAnswers";
 
 const useStyles = makeStyles((theme) => ({
   scoreText: {
@@ -27,8 +28,7 @@ export default function FinalScreen({ message, answers }) {
     return null;
   }
 
-  const numCorrect = answers.filter((a) => a.isCorrect).length;
-  const numTotal = answers.length;
+  const { numCorrect, numTotal } = computeScoreFromAnswers(answers);
 
   return (
     <Box textAlign="center">
