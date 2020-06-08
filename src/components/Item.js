@@ -12,7 +12,10 @@ import TextInput from "../items/TextInput";
 const useStyles = makeStyles((theme) => ({
   box: {
     margin: theme.spacing(2, "auto"),
-    padding: theme.spacing(3),
+    padding: theme.spacing(2),
+    [theme.breakpoints.up("sm")]: {
+      padding: theme.spacing(3),
+    },
   },
 }));
 

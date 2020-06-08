@@ -12,7 +12,8 @@ import COURSE_CONTENT from "../courses/introductionToIntercepts";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    margin: theme.spacing(3, "auto", 10, "auto"),
+    maxWidth: theme.breakpoints.values.sm + 100,
+    margin: theme.spacing(3, "auto", 12, "auto"),
   },
 }));
 
@@ -90,7 +91,7 @@ export default function App() {
       <>
         <Router>
           <Header courseTitle={course.title} />
-          <Container className={classes.container} maxWidth="sm">
+          <Container className={classes.container}>
             <Switch>
               <Route path="/" exact>
                 <Course
