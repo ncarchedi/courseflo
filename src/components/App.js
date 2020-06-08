@@ -7,6 +7,7 @@ import Course from "./Course";
 import FinalScreen from "./FinalScreen";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
 import parseContent from "../utils/parseContent";
+import { saveSubmissionToFirestore } from "../services/firestore";
 import COURSE_CONTENT from "../api/mathCourse";
 
 const useStyles = makeStyles((theme) => ({
@@ -50,6 +51,14 @@ export default function App() {
       setAnswers(a);
     }
   }, [course]);
+
+  // save answers to firebase when user submits
+  useEffect(() => {
+    if (showSolutions) {
+      console.log("sending submission to firestore!");
+      saveSubmissionToFirestore(answers);
+    }
+  }, [answers, showSolutions]);
 
   const getSolution = (itemId) => {
     const item = course.content.filter((i) => i.id === itemId)[0];
