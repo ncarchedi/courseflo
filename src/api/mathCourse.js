@@ -1,4 +1,5 @@
 export default {
+  id: "mathCourse",
   title: "Introduction to Intercepts",
   finalMessage: "Thanks for completing the course! We'll be in touch ✌️",
   content: [

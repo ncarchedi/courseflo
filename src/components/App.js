@@ -56,9 +56,9 @@ export default function App() {
   useEffect(() => {
     if (showSolutions) {
       console.log("sending submission to firestore!");
-      saveSubmissionToFirestore(answers);
+      saveSubmissionToFirestore(course.id, answers);
     }
-  }, [answers, showSolutions]);
+  }, [course, answers, showSolutions]);
 
   const getSolution = (itemId) => {
     const item = course.content.filter((i) => i.id === itemId)[0];
