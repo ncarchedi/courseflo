@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import ItemTitle from "../components/ItemTitle";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -13,9 +14,7 @@ export default function Statement({ item }) {
 
   return (
     <>
-      <Typography className={classes.title} variant="h6">
-        {item.title}
-      </Typography>
+      <ItemTitle className={classes.title}>{item.title}</ItemTitle>
       <Typography variant="body1">{item.body}</Typography>
     </>
   );

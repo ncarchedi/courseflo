@@ -9,6 +9,7 @@ import Radio from "@material-ui/core/Radio";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import { CorrectIcon, IncorrectIcon } from "../components/Icons";
+import ItemTitle from "../components/ItemTitle";
 import renderHtmlFromString from "../utils/renderHtmlFromString";
 
 const useStyles = makeStyles((theme) => ({
@@ -47,12 +48,11 @@ export default function SingleSelect({
     <>
       {showSolution ? (
         <>
-          <Typography
-            variant="h6"
+          <ItemTitle
             style={{ color: answer.isCorrect ? green[600] : red[600] }}
           >
             {item.prompt}
-          </Typography>
+          </ItemTitle>
           <FormHelperText className={classes.helperText}>
             (Select only one)
           </FormHelperText>
@@ -110,7 +110,7 @@ export default function SingleSelect({
         </>
       ) : (
         <>
-          <Typography variant="h6">{item.prompt}</Typography>
+          <ItemTitle>{item.prompt}</ItemTitle>
           <FormHelperText className={classes.helperText}>
             (Select only one)
           </FormHelperText>

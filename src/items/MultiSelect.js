@@ -9,6 +9,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Checkbox from "@material-ui/core/Checkbox";
 import { CorrectIcon, IncorrectIcon } from "../components/Icons";
+import ItemTitle from "../components/ItemTitle";
 
 const useStyles = makeStyles((theme) => ({
   helperText: {
@@ -59,12 +60,11 @@ export default function MultiSelect({
     <>
       {showSolution ? (
         <>
-          <Typography
-            variant="h6"
+          <ItemTitle
             style={{ color: answer.isCorrect ? green[600] : red[600] }}
           >
             {item.prompt}
-          </Typography>
+          </ItemTitle>
           <FormHelperText className={classes.helperText}>
             (Check all that apply)
           </FormHelperText>
@@ -136,7 +136,7 @@ export default function MultiSelect({
         </>
       ) : (
         <>
-          <Typography variant="h6">{item.prompt}</Typography>
+          <ItemTitle>{item.prompt}</ItemTitle>
           <FormHelperText className={classes.helperText}>
             (Check all that apply)
           </FormHelperText>
