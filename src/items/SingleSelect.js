@@ -42,7 +42,12 @@ export default function SingleSelect({
     <>
       {showSolution ? (
         <>
-          <Typography variant="h6">{item.prompt}</Typography>
+          <Typography
+            variant="h6"
+            style={{ color: answer.isCorrect ? green[600] : red[600] }}
+          >
+            {item.prompt}
+          </Typography>
           <FormHelperText className={classes.helperText}>
             (Select only one)
           </FormHelperText>
