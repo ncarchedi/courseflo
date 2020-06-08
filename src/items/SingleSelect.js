@@ -33,17 +33,22 @@ export default function SingleSelect({
         onChange={(e) => onChangeAnswer(item.id, e.target.value)}
       >
         {item.options.map((option) => (
-          <Box key={option} component="span" display="flex" alignItems="center">
+          <Box
+            key={option.raw}
+            component="span"
+            display="flex"
+            alignItems="center"
+          >
             {showSolution &&
-              (item.solution === option ? (
+              (item.solution === option.raw ? (
                 <EmojiCorrect />
               ) : (
                 <EmojiIncorrect />
               ))}
             <FormControlLabel
-              value={String(option)}
+              value={option.raw}
+              label={option.rendered}
               control={<Radio disabled={showSolution} />}
-              label={option}
             />
           </Box>
         ))}

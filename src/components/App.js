@@ -7,7 +7,7 @@ import Course from "./Course";
 import FinalScreen from "./FinalScreen";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
 import parseContent from "../utils/parseContent";
-import COURSE_CONTENT from "../api/exampleCourse";
+import COURSE_CONTENT from "../api/mathCourse";
 
 const useStyles = makeStyles((theme) => ({
   container: {

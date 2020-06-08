@@ -42,9 +42,14 @@ export default function MultiSelect({
       </FormHelperText>
       <FormGroup>
         {item.options.map((option) => (
-          <Box key={option} component="span" display="flex" alignItems="center">
+          <Box
+            key={option.raw}
+            component="span"
+            display="flex"
+            alignItems="center"
+          >
             {showSolution &&
-              (item.solution.includes(option) ? (
+              (item.solution.includes(option.raw) ? (
                 <EmojiCorrect />
               ) : (
                 <EmojiIncorrect />
@@ -52,13 +57,13 @@ export default function MultiSelect({
             <FormControlLabel
               control={
                 <Checkbox
-                  name={option}
-                  checked={answer.value.includes(option)}
-                  onChange={() => handleCheck(option)}
+                  name={option.raw}
+                  checked={answer.value.includes(option.raw)}
+                  onChange={() => handleCheck(option.raw)}
                   disabled={showSolution}
                 />
               }
-              label={option}
+              label={option.rendered}
             />
           </Box>
         ))}

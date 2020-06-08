@@ -5,7 +5,10 @@ const parseItem = (item) => {
   if (item.body) item.body = renderHtmlFromString(item.body);
   if (item.prompt) item.prompt = renderHtmlFromString(item.prompt);
   if (item.options)
-    item.options = item.options.map((o) => renderHtmlFromString(o));
+    item.options = item.options.map((o) => ({
+      raw: o,
+      rendered: renderHtmlFromString(o),
+    }));
 
   return item;
 };

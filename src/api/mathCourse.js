@@ -7,7 +7,7 @@ export default {
       type: "text",
       title: "Welcome to our lesson on intercepts! 🙌",
       body:
-        "Over the next few minutes, you'll learn what intercepts are and how to compute them from both graphs and formulas. Enjoy!",
+        "Over the next few minutes, you'll learn what intercepts are and how to compute them from both graphs and formulas. This can be tricky at first and it's easy to confuse the $$x$$- and $$y$$-intercepts, so draw yourself a picture with pencil and paper if it helps. Good luck!",
     },
     {
       id: "introVideo",
@@ -16,7 +16,7 @@ export default {
       source: "https://www.youtube-nocookie.com/embed/LNSB0N6esPU",
     },
     {
-      id: "howCompute",
+      id: "yInterceptDescription",
       type: "multiSelect",
       prompt: "Which of the following describe(s) a $$y$$-intercept?",
       options: [
@@ -32,7 +32,7 @@ export default {
       ],
     },
     {
-      id: "howCompute",
+      id: "howComputeXIntercept",
       type: "singleSelect",
       prompt:
         "Given the formula for a line, how do you compute the $$x$$-intercept?",
@@ -54,7 +54,7 @@ export default {
     {
       id: "xIntercept",
       type: "singleSelect",
-      prompt: "What's the $$x$$-intercept of this line?",
+      prompt: "What's the $$x$$-intercept of the line above?",
       options: ["$$-6$$", "$$-3$$", "$$0$$", "$$3$$", "$$6$$"],
       solution: "$$-3$$",
     },
@@ -65,15 +65,9 @@ export default {
       solution: "-6",
     },
     {
-      id: "x-intercept2",
-      type: "textInput",
-      prompt: "What's the $$x$$-intercept of $$y = \\frac{1}{2}x + 4$$ ?",
-      solution: "-8",
-    },
-    {
       id: "linePlot2",
       type: "image",
-      title: "Here's one more line...",
+      title: "Here's another line...",
       source:
         "https://storage.googleapis.com/course-builder-test-bucket/linePlot2.png",
     },
@@ -88,6 +82,12 @@ export default {
         "$$\\frac{2}{3}x - 3$$",
       ],
       solution: "$$\\frac{2}{3}x - 3$$",
+    },
+    {
+      id: "xIntercept2",
+      type: "textInput",
+      prompt: "What's the $$x$$-intercept of $$y = \\frac{1}{2}x + 4$$ ?",
+      solution: "-8",
     },
   ],
 };
