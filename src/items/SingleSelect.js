@@ -50,9 +50,8 @@ export default function SingleSelect({
         <>
           <ItemTitle
             style={{ color: answer.isCorrect ? green[600] : red[600] }}
-          >
-            {item.prompt}
-          </ItemTitle>
+            item={item}
+          />
           <FormHelperText className={classes.helperText}>
             (Select only one)
           </FormHelperText>
@@ -110,7 +109,7 @@ export default function SingleSelect({
         </>
       ) : (
         <>
-          <ItemTitle>{item.prompt}</ItemTitle>
+          <ItemTitle item={item} />
           <FormHelperText className={classes.helperText}>
             (Select only one)
           </FormHelperText>

@@ -62,9 +62,8 @@ export default function MultiSelect({
         <>
           <ItemTitle
             style={{ color: answer.isCorrect ? green[600] : red[600] }}
-          >
-            {item.prompt}
-          </ItemTitle>
+            item={item}
+          />
           <FormHelperText className={classes.helperText}>
             (Check all that apply)
           </FormHelperText>
@@ -136,7 +135,7 @@ export default function MultiSelect({
         </>
       ) : (
         <>
-          <ItemTitle>{item.prompt}</ItemTitle>
+          <ItemTitle item={item} />
           <FormHelperText className={classes.helperText}>
             (Check all that apply)
           </FormHelperText>

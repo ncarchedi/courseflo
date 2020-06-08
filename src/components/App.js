@@ -23,9 +23,15 @@ export default function App() {
   const [showSolutions, setShowSolutions] = useState(false);
 
   // imitate fetching the course content from an API
-  // parse the content to render math, etc.
   useEffect(() => {
-    const parsedContent = parseContent(COURSE_CONTENT.content);
+    // parse the content to render math, etc.
+    const parsedContent = parseContent(COURSE_CONTENT.content).map(
+      // add item numbers
+      (item, index) => ({
+        ...item,
+        number: index + 1,
+      })
+    );
     setCourse({
       ...COURSE_CONTENT,
       content: parsedContent,

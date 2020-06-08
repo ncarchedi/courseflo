@@ -27,7 +27,7 @@ export default function Video({ item }) {
 
   return (
     <>
-      <ItemTitle className={classes.title}>{item.title}</ItemTitle>
+      <ItemTitle className={classes.title} item={item} />
       <Box className={classes.box}>
         <iframe
           title={item.title}

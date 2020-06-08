@@ -14,7 +14,7 @@ export default function Statement({ item }) {
 
   return (
     <>
-      <ItemTitle className={classes.title}>{item.title}</ItemTitle>
+      <ItemTitle className={classes.title} item={item} />
       <Typography variant="body1">{item.body}</Typography>
     </>
   );

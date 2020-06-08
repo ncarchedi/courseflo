@@ -13,7 +13,7 @@ export default function Video({ item }) {
 
   return (
     <>
-      <ItemTitle className={classes.title}>{item.title}</ItemTitle>
+      <ItemTitle className={classes.title} item={item} />
       <img src={item.source} alt={item.title} width="100%" />
     </>
   );

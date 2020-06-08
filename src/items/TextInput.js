@@ -43,9 +43,8 @@ export default function TextInput({
           <ItemTitle
             className={classes.prompt}
             style={{ color: answer.isCorrect ? green[600] : red[600] }}
-          >
-            {item.prompt}
-          </ItemTitle>
+            item={item}
+          />
           <Box
             className={`${classes.input} ${
               answer.isCorrect ? classes.correctInput : classes.incorrectInput
@@ -82,7 +81,7 @@ export default function TextInput({
         </>
       ) : (
         <>
-          <ItemTitle className={classes.prompt}>{item.prompt}</ItemTitle>
+          <ItemTitle className={classes.prompt} item={item} />
           <Box component="span" display="flex" alignItems="center">
             <TextField
               value={answer.value}
