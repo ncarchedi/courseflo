@@ -8,7 +8,7 @@ import FinalScreen from "./FinalScreen";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
 import parseContent from "../utils/parseContent";
 import { saveSubmissionToFirestore } from "../services/firestore";
-import COURSE_CONTENT from "../api/mathCourse";
+import COURSE_CONTENT from "../courses/introductionToIntercepts";
 
 const useStyles = makeStyles((theme) => ({
   container: {
