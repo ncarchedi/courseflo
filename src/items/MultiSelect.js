@@ -14,6 +14,7 @@ import ItemTitle from "../components/ItemTitle";
 const useStyles = makeStyles((theme) => ({
   helperText: {
     marginBottom: theme.spacing(2),
+    fontSize: "0.9rem",
   },
   option: {
     width: "100%",

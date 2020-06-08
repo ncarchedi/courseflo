@@ -15,6 +15,7 @@ import renderHtmlFromString from "../utils/renderHtmlFromString";
 const useStyles = makeStyles((theme) => ({
   helperText: {
     marginBottom: theme.spacing(2),
+    fontSize: "0.9rem",
   },
   option: {
     width: "100%",
