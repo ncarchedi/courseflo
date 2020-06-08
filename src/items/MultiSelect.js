@@ -1,16 +1,37 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import red from "@material-ui/core/colors/red";
+import green from "@material-ui/core/colors/green";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Checkbox from "@material-ui/core/Checkbox";
-import { EmojiCorrect, EmojiIncorrect } from "../components/Emoji";
+import { CorrectIcon, IncorrectIcon } from "../components/Icons";
 
 const useStyles = makeStyles((theme) => ({
   helperText: {
     marginBottom: theme.spacing(2),
+  },
+  option: {
+    width: "100%",
+    margin: theme.spacing(0.25, 0),
+    padding: theme.spacing(0, 1),
+    borderRadius: theme.shape.borderRadius,
+  },
+  optionLabel: {
+    flexGrow: 1,
+  },
+  correctOption: {
+    backgroundColor: green[100],
+  },
+  incorrectOption: {
+    backgroundColor: red[100],
+  },
+  correctAnswer: {
+    margin: theme.spacing(1, 0),
+    fontSize: "1rem",
   },
 }));
 
@@ -36,38 +57,112 @@ export default function MultiSelect({
 
   return (
     <>
-      <Typography variant="h6">{item.prompt}</Typography>
-      <FormHelperText className={classes.helperText}>
-        (Check all that apply)
-      </FormHelperText>
-      <FormGroup>
-        {item.options.map((option) => (
-          <Box
-            key={option.raw}
-            component="span"
-            display="flex"
-            alignItems="center"
+      {showSolution ? (
+        <>
+          <Typography
+            variant="h6"
+            style={{ color: answer.isCorrect ? green[600] : red[600] }}
           >
-            {showSolution &&
-              (item.solution.includes(option.raw) ? (
-                <EmojiCorrect />
-              ) : (
-                <EmojiIncorrect />
-              ))}
-            <FormControlLabel
-              control={
-                <Checkbox
-                  name={option.raw}
-                  checked={answer.value.includes(option.raw)}
-                  onChange={() => handleCheck(option.raw)}
-                  disabled={showSolution}
+            {item.prompt}
+          </Typography>
+          <FormHelperText className={classes.helperText}>
+            (Check all that apply)
+          </FormHelperText>
+          <FormGroup>
+            {item.options.map((option) => (
+              <Box
+                key={option.raw}
+                className={`
+              ${classes.option}
+              ${
+                answer.value.includes(option.raw)
+                  ? item.solution.includes(option.raw)
+                    ? classes.correctOption
+                    : classes.incorrectOption
+                  : null
+              }`}
+                component="span"
+                display="flex"
+                alignItems="center"
+              >
+                <FormControlLabel
+                  className={classes.optionLabel}
+                  control={
+                    <Checkbox
+                      name={option.raw}
+                      checked={answer.value.includes(option.raw)}
+                      onChange={() => handleCheck(option.raw)}
+                      disabled
+                    />
+                  }
+                  label={option.rendered}
                 />
-              }
-              label={option.rendered}
-            />
-          </Box>
-        ))}
-      </FormGroup>
+                {answer.value.includes(option.raw) ? ( // if the option is selected
+                  item.solution.includes(option.raw) ? ( // and it's correct
+                    <CorrectIcon />
+                  ) : (
+                    <IncorrectIcon />
+                  )
+                ) : null}
+              </Box>
+            ))}
+          </FormGroup>
+          {!answer.isCorrect && (
+            <>
+              <Typography
+                className={classes.correctAnswer}
+                variant="h6"
+                color="textSecondary"
+              >
+                Correct answer
+              </Typography>
+              <FormGroup>
+                {item.options.map(
+                  (option) =>
+                    item.solution.includes(option.raw) && (
+                      <Box key={option.raw} className={classes.option}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox name={option.raw} checked disabled />
+                          }
+                          label={option.rendered}
+                        />
+                      </Box>
+                    )
+                )}
+              </FormGroup>
+            </>
+          )}
+        </>
+      ) : (
+        <>
+          <Typography variant="h6">{item.prompt}</Typography>
+          <FormHelperText className={classes.helperText}>
+            (Check all that apply)
+          </FormHelperText>
+          <FormGroup>
+            {item.options.map((option) => (
+              <Box
+                key={option.raw}
+                component="span"
+                display="flex"
+                alignItems="center"
+              >
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name={option.raw}
+                      checked={answer.value.includes(option.raw)}
+                      onChange={() => handleCheck(option.raw)}
+                    />
+                  }
+                  label={option.rendered}
+                />
+              </Box>
+            ))}
+          </FormGroup>
+        </>
+      )}
     </>
   );
 }

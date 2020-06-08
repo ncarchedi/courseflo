@@ -1,4 +1,3 @@
-- clean up how results are shown -> look at google forms screenshots
 - allow sign-in with google and/or anonymous auth? https://firebase.google.com/docs/auth/web/anonymous-auth
 - experiment with showing one item at a time
 - consider chapters / courses taxonomy
