@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
+import Hidden from "@material-ui/core/Hidden";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import FeedbackIcon from "@material-ui/icons/Feedback";
@@ -9,8 +10,10 @@ import FeedbackIcon from "@material-ui/icons/Feedback";
 const useStyles = makeStyles((theme) => ({
   title: {
     fontFamily: ["Patrick Hand SC", "cursive"],
-    fontSize: "1.9rem",
     flexGrow: 1,
+    [theme.breakpoints.up("sm")]: {
+      fontSize: "1.9rem",
+    },
   },
   remaining: {
     fontStyle: "italic",
@@ -32,9 +35,11 @@ export default function Header({
           <Typography className={classes.title} variant="h5" component="h1">
             {courseTitle}
           </Typography>
-          <Typography className={classes.remaining} variant="body1">
-            {(numRemaining ? numRemaining : "No") + " questions remaining"}
-          </Typography>
+          <Hidden smDown>
+            <Typography className={classes.remaining} variant="body1">
+              {(numRemaining ? numRemaining : "No") + " questions remaining"}
+            </Typography>
+          </Hidden>
           <IconButton
             onClick={() => setShowFeedbackModal(true)}
             color="inherit"

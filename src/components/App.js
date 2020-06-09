@@ -14,7 +14,7 @@ import COURSE_CONTENT from "../courses/introductionToIntercepts";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    margin: theme.spacing(3, "auto", 12, "auto"),
+    margin: theme.spacing(0, "auto", 12, "auto"),
   },
 }));
 
@@ -99,7 +99,7 @@ export default function App() {
             numRemaining={countItemsRemaining(answers)}
             setShowFeedbackModal={setShowFeedbackModal}
           />
-          <Container className={classes.container} maxWidth="sm" disableGutters>
+          <Container className={classes.container} maxWidth="sm">
             <Switch>
               <Route path="/" exact>
                 <Course

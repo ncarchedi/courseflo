@@ -1,16 +1,25 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
+import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import computeScoreFromAnswers from "../utils/computeScoreFromAnswers";
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    marginTop: theme.spacing(3),
+    padding: theme.spacing(2),
+    [theme.breakpoints.up("sm")]: {
+      padding: theme.spacing(3),
+    },
+  },
   scoreText: {
     marginBottom: theme.spacing(3),
     fontWeight: theme.typography.fontWeightMedium,
+    [theme.breakpoints.up("sm")]: {
+      fontSize: theme.typography.h3.fontSize,
+    },
   },
   messageText: {
     fontWeight: theme.typography.fontWeightRegular,
@@ -33,11 +42,11 @@ export default function FinalScreen({ message, answers }) {
   const percentCorrect = ((numCorrect / numTotal) * 100).toFixed(0);
 
   return (
-    <Box textAlign="center">
+    <Paper className={classes.container} elevation={2}>
       <Typography
         className={classes.scoreText}
-        variant="h3"
-        color="secondary"
+        variant="h4"
+        color="primary"
       >{`Your Score: ${numCorrect}/${numTotal} (${percentCorrect}%)`}</Typography>
       <Typography className={classes.messageText} variant="h6">
         {message}
@@ -46,10 +55,10 @@ export default function FinalScreen({ message, answers }) {
         className={classes.button}
         onClick={() => history.push("/")}
         variant="contained"
-        startIcon={<ArrowBackIcon />}
+        color="primary"
       >
         Review my answers
       </Button>
-    </Box>
+    </Paper>
   );
 }
