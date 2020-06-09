@@ -25,6 +25,16 @@ export const saveSubmissionToFirestore = (courseId, submission) => {
   });
 };
 
+export const saveFeedbackToFirestore = (courseId, email, feedback, answers) => {
+  return db.collection("feedback").add({
+    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    courseId,
+    email,
+    feedback,
+    answers,
+  });
+};
+
 // export const getGroceryList = groceryListId => {
 //     return db.collection('groceryLists')
 //         .doc(groceryListId)

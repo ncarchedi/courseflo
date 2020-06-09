@@ -5,6 +5,7 @@ import Container from "@material-ui/core/Container";
 import Header from "./Header";
 import Course from "./Course";
 import FinalScreen from "./FinalScreen";
+import FeedbackModal from "../components/FeedbackModal";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
 import parseContent from "../utils/parseContent";
 import countItemsRemaining from "../utils/countItemsRemaining";
@@ -22,6 +23,7 @@ export default function App() {
   const [course, setCourse] = useState(null);
   const [answers, setAnswers] = useState(null);
   const [showSolutions, setShowSolutions] = useState(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
   // imitate fetching the course content from an API
   useEffect(() => {
@@ -95,6 +97,7 @@ export default function App() {
           <Header
             courseTitle={course.title}
             numRemaining={countItemsRemaining(answers)}
+            setShowFeedbackModal={setShowFeedbackModal}
           />
           <Container className={classes.container} maxWidth="sm" disableGutters>
             <Switch>
@@ -112,6 +115,12 @@ export default function App() {
               </Route>
             </Switch>
           </Container>
+          <FeedbackModal
+            open={showFeedbackModal}
+            setOpen={setShowFeedbackModal}
+            courseId={course.id}
+            answers={answers}
+          />
         </Router>
       </>
     )
