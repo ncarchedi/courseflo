@@ -47,7 +47,7 @@ export default function TextInput({
             <TextField
               value={answer.value}
               onChange={(e) => onChangeAnswer(item.id, e.target.value)}
-              placeholder="Write your answer here..."
+              placeholder="Type your answer here..."
               fullWidth
               disabled
             />
@@ -76,7 +76,7 @@ export default function TextInput({
             <TextField
               value={answer.value}
               onChange={(e) => onChangeAnswer(item.id, e.target.value)}
-              placeholder="Write your answer here..."
+              placeholder="Type your answer here..."
               fullWidth
             />
           </Box>
