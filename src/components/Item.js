@@ -40,7 +40,7 @@ export default function Item(props) {
   return (
     <>
       <Paper className={classes.box} elevation={2}>
-        {showSolution ? (
+        {answer && showSolution ? (
           <ItemHeader
             item={item}
             titleColor={answer.isCorrect ? green[600] : red[600]}
