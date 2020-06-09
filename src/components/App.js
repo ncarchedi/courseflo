@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Header from "./Header";
 import Course from "./Course";
@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function App() {
   const classes = useStyles();
+  const theme = useTheme();
   const [course, setCourse] = useState(null);
   const [answers, setAnswers] = useState(null);
   const [showSolutions, setShowSolutions] = useState(false);
@@ -99,7 +100,11 @@ export default function App() {
             numRemaining={countItemsRemaining(answers)}
             setShowFeedbackModal={setShowFeedbackModal}
           />
-          <Container className={classes.container} maxWidth="sm">
+          <Container
+            className={classes.container}
+            maxWidth="sm"
+            disableGutters={theme.breakpoints.down("sm")}
+          >
             <Switch>
               <Route path="/" exact>
                 <Course
