@@ -14,12 +14,16 @@ export default function Header({ courseTitle }) {
   const classes = useStyles();
 
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <Typography className={classes.title} variant="h5" component="h1">
-          {courseTitle}
-        </Typography>
-      </Toolbar>
-    </AppBar>
+    <>
+      <AppBar position="fixed">
+        <Toolbar>
+          <Typography className={classes.title} variant="h5" component="h1">
+            {courseTitle}
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      {/* second toolbar due to: https://material-ui.com/components/app-bar/#fixed-placement */}
+      <Toolbar />
+    </>
   );
 }
