@@ -93,7 +93,7 @@ export default {
       type: "SingleSelect",
       prompt: "Which of the following formulas describes this line?",
       hint:
-        "Try plugging $$0$$ in for $$x$$ in each of the formulas below to narrow down your choices.",
+        "Try plugging in $$0$$ for $$x$$ in each of the formulas to narrow down your choices.",
       options: [
         "$$y = -\\frac{2}{3}x + 3$$",
         "$$y = -\\frac{2}{3}x - 3$$",

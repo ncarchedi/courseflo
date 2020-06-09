@@ -4,6 +4,7 @@ import red from "@material-ui/core/colors/red";
 import green from "@material-ui/core/colors/green";
 import Paper from "@material-ui/core/Paper";
 import ItemHeader from "../components/ItemHeader";
+import ItemHint from "../components/ItemHint";
 import Text from "../items/Text";
 import Video from "../items/Video";
 import Image from "../items/Image";
@@ -12,7 +13,7 @@ import MultiSelect from "../items/MultiSelect";
 import TextInput from "../items/TextInput";
 
 const useStyles = makeStyles((theme) => ({
-  box: {
+  block: {
     margin: theme.spacing(2, "auto"),
     padding: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
@@ -39,7 +40,7 @@ export default function Item(props) {
 
   return (
     <>
-      <Paper className={classes.box} elevation={2}>
+      <Paper className={classes.block} elevation={2}>
         {answer && showSolution ? (
           <ItemHeader
             item={item}
@@ -49,6 +50,7 @@ export default function Item(props) {
           <ItemHeader item={item} />
         )}
         <ItemComponent {...props} />
+        {answer && !showSolution && <ItemHint hint={item.hint} />}
       </Paper>
     </>
   );
