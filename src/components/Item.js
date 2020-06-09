@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import red from "@material-ui/core/colors/red";
 import green from "@material-ui/core/colors/green";
 import Paper from "@material-ui/core/Paper";
@@ -11,14 +11,11 @@ import Image from "../items/Image";
 import SingleSelect from "../items/SingleSelect";
 import MultiSelect from "../items/MultiSelect";
 import TextInput from "../items/TextInput";
-import NotesIcon from "@material-ui/icons/Notes";
-import OndemandVideoIcon from "@material-ui/icons/OndemandVideo";
-import ImageIcon from "@material-ui/icons/Image";
-import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
-import DoneAllIcon from "@material-ui/icons/DoneAll";
-import KeyboardIcon from "@material-ui/icons/Keyboard";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import CancelIcon from "@material-ui/icons/Cancel";
+import {
+  CorrectItemIcon,
+  IncorrectItemIcon,
+  getItemIcon,
+} from "../components/Icons";
 
 const useStyles = makeStyles((theme) => ({
   block: {
@@ -32,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Item(props) {
   const classes = useStyles();
+  const theme = useTheme();
   const { item, answer, showSolution } = props;
 
   const getPointsText = (points) => {
@@ -44,65 +42,58 @@ export default function Item(props) {
   // figure out display details based on item type
   let pointsText;
   let helperText;
-  let icon;
   let Component;
 
   switch (item.type) {
     case "Text":
       pointsText = null;
       helperText = null;
-      icon = <NotesIcon color="disabled" />;
       Component = Text;
       break;
     case "Video":
       pointsText = null;
       helperText = null;
-      icon = <OndemandVideoIcon color="disabled" />;
       Component = Video;
       break;
     case "Image":
       pointsText = null;
       helperText = null;
-      icon = <ImageIcon color="disabled" />;
       Component = Image;
       break;
     case "SingleSelect":
       pointsText = getPointsText(points);
       helperText = "Select only one";
-      icon = <FormatListBulletedIcon color="disabled" />;
       Component = SingleSelect;
       break;
     case "MultiSelect":
       pointsText = getPointsText(points);
       helperText = "Check all that apply";
-      icon = <DoneAllIcon color="disabled" />;
       Component = MultiSelect;
       break;
     case "TextInput":
       pointsText = getPointsText(points);
       helperText = null;
-      icon = <KeyboardIcon color="disabled" />;
       Component = TextInput;
       break;
     default:
       pointsText = null;
       helperText = null;
-      icon = null;
       Component = null;
   }
 
-  // logic for title color and icon when solutions are shown
   let titleColor;
+  let icon = getItemIcon(item.type);
 
+  // logic for when solutions are shown
   if (showSolution) {
     if (answer && answer.isCorrect) {
-      titleColor = green[600];
-      icon = <CheckCircleIcon style={{ color: green[600] }} />;
+      titleColor = green[800];
+      icon = <CorrectItemIcon />;
     } else if (answer && !answer.isCorrect) {
-      titleColor = red[600];
-      icon = <CancelIcon style={{ color: red[600] }} />;
+      titleColor = red[800];
+      icon = <IncorrectItemIcon />;
     } else {
-      titleColor = null;
+      titleColor = theme.palette.text.secondary;
       icon = null;
     }
   }
