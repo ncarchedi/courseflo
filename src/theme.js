@@ -7,12 +7,6 @@ const theme = createMuiTheme({
     primary: indigo,
     secondary: deepOrange,
   },
-  typography: {
-    button: {
-      fontFamily: ["Patrick Hand SC", "cursive"],
-      fontSize: "1.4rem",
-    },
-  },
 });
 
 export default theme;

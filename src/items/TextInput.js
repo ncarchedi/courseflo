@@ -6,7 +6,6 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import { CorrectIcon, IncorrectIcon } from "../components/Icons";
-import ItemHeader from "../components/ItemHeader";
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -37,10 +36,6 @@ export default function TextInput({
     <>
       {showSolution ? (
         <>
-          <ItemHeader
-            item={item}
-            titleColor={answer.isCorrect ? green[600] : red[600]}
-          />
           <Box
             className={`${classes.input} ${
               answer.isCorrect ? classes.correctInput : classes.incorrectInput
@@ -77,7 +72,6 @@ export default function TextInput({
         </>
       ) : (
         <>
-          <ItemHeader item={item} />
           <Box component="span" display="flex" alignItems="center">
             <TextField
               value={answer.value}

@@ -1,7 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import red from "@material-ui/core/colors/red";
+import green from "@material-ui/core/colors/green";
 import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
+import ItemHeader from "../components/ItemHeader";
+import ItemHint from "../components/ItemHint";
 import Text from "../items/Text";
 import Video from "../items/Video";
 import Image from "../items/Image";
@@ -10,7 +13,7 @@ import MultiSelect from "../items/MultiSelect";
 import TextInput from "../items/TextInput";
 
 const useStyles = makeStyles((theme) => ({
-  box: {
+  block: {
     margin: theme.spacing(2, "auto"),
     padding: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
@@ -19,40 +22,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// array of components so we can call one dynamically below
+const itemComponents = {
+  Text,
+  Video,
+  Image,
+  SingleSelect,
+  MultiSelect,
+  TextInput,
+};
+
 export default function Item(props) {
   const classes = useStyles();
-  const { item } = props;
+  const { item, answer, showSolution } = props;
 
-  let currentItem;
-  switch (item.type) {
-    case "text":
-      currentItem = <Text item={item} />;
-      break;
-    case "video":
-      currentItem = <Video item={item} />;
-      break;
-    case "image":
-      currentItem = <Image item={item} />;
-      break;
-    case "singleSelect":
-      currentItem = <SingleSelect {...props} />;
-      break;
-    case "multiSelect":
-      currentItem = <MultiSelect {...props} />;
-      break;
-    case "textInput":
-      currentItem = <TextInput {...props} />;
-      break;
-    default:
-      currentItem = (
-        <Typography color="secondary">{`"${item.type}" isn't a valid item type!`}</Typography>
-      );
-  }
+  const ItemComponent = itemComponents[item.type];
 
   return (
     <>
-      <Paper className={classes.box} elevation={2}>
-        {currentItem}
+      <Paper className={classes.block} elevation={2}>
+        {answer && showSolution ? (
+          <ItemHeader
+            item={item}
+            titleColor={answer.isCorrect ? green[600] : red[600]}
+          />
+        ) : (
+          <ItemHeader item={item} />
+        )}
+        <ItemComponent {...props} />
+        {answer && !showSolution && <ItemHint hint={item.hint} />}
       </Paper>
     </>
   );

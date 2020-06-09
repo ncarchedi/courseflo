@@ -46,10 +46,10 @@ export default function App() {
       let a = [];
       course.content.forEach((item) => {
         // for each item type that requires a response
-        if (!["text", "video", "image"].includes(item.type)) {
+        if (!["Text", "Video", "Image"].includes(item.type)) {
           a.push({
             itemId: item.id,
-            value: item.type === "multiSelect" ? [] : "",
+            value: item.type === "MultiSelect" ? [] : "",
             solution: item.solution,
             isCorrect: false,
           });
