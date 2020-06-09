@@ -8,26 +8,26 @@ const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: theme.spacing(2),
   },
-  hint: {
+  hintText: {
     fontStyle: "italic",
   },
 }));
 
-export default function ItemHint({ hint }) {
+export default function ItemFooter({ hint }) {
   const classes = useStyles();
-  const [show, setShow] = useState(false);
+  const [showHint, setShowHint] = useState(false);
 
   return (
     <Box className={classes.container}>
-      {show ? (
-        <Typography className={classes.hint} color="textSecondary">
+      {showHint ? (
+        <Typography className={classes.hintText} color="textSecondary">
           Hint: {hint}
         </Typography>
       ) : (
         <Button
           variant="outlined"
           color="primary"
-          onClick={() => setShow(true)}
+          onClick={() => setShowHint(true)}
         >
           Show hint
         </Button>

@@ -1,7 +1,6 @@
-- allow sign-in with google and/or anonymous auth? https://firebase.google.com/docs/auth/web/anonymous-auth
-- experiment with showing one item at a time
-- consider chapters / courses taxonomy
 - research how to publish / share courses
+- allow sign-in with google and/or anonymous auth? https://firebase.google.com/docs/auth/web/anonymous-auth
+- consider chapters / courses taxonomy
 - add transfer list item type: https://material-ui.com/components/transfer-list/
 - support markdown
 - come up with a good name :)

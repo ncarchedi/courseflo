@@ -28,34 +28,45 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ItemHeader({ item, titleColor }) {
+export default function ItemHeader({ item, titleColor, points }) {
   const classes = useStyles();
 
+  let pointsText;
   let helperText;
   let icon;
 
+  const getPointsText = (pts) => {
+    return pts <= 1 ? points + " point" : points + "points";
+  };
+
   switch (item.type) {
     case "Text":
+      pointsText = null;
       helperText = null;
       icon = <NotesIcon color="disabled" />;
       break;
     case "Video":
+      pointsText = null;
       helperText = null;
       icon = <OndemandVideoIcon color="disabled" />;
       break;
     case "Image":
+      pointsText = null;
       helperText = null;
       icon = <ImageIcon color="disabled" />;
       break;
     case "SingleSelect":
+      pointsText = getPointsText(points);
       helperText = "Select only one";
       icon = <FormatListBulletedIcon color="disabled" />;
       break;
     case "MultiSelect":
+      pointsText = getPointsText(points);
       helperText = "Check all that apply";
       icon = <DoneAllIcon color="disabled" />;
       break;
     case "TextInput":
+      pointsText = getPointsText(points);
       helperText = null;
       icon = <KeyboardIcon color="disabled" />;
       break;
@@ -80,11 +91,9 @@ export default function ItemHeader({ item, titleColor }) {
           {icon}
         </Grid>
       </Grid>
-      {helperText && (
-        <FormHelperText className={classes.helperText}>
-          ({helperText})
-        </FormHelperText>
-      )}
+      <FormHelperText className={classes.helperText}>
+        {helperText ? pointsText + " — " + helperText : pointsText}
+      </FormHelperText>
     </Box>
   );
 }

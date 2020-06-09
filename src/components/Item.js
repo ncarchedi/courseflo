@@ -4,7 +4,7 @@ import red from "@material-ui/core/colors/red";
 import green from "@material-ui/core/colors/green";
 import Paper from "@material-ui/core/Paper";
 import ItemHeader from "../components/ItemHeader";
-import ItemHint from "../components/ItemHint";
+import ItemFooter from "../components/ItemFooter";
 import Text from "../items/Text";
 import Video from "../items/Video";
 import Image from "../items/Image";
@@ -36,6 +36,9 @@ export default function Item(props) {
   const classes = useStyles();
   const { item, answer, showSolution } = props;
 
+  // if author doesn't specify points, then use 1
+  const points = item.points || 1;
+  // get the relevant item component
   const ItemComponent = itemComponents[item.type];
 
   return (
@@ -45,12 +48,13 @@ export default function Item(props) {
           <ItemHeader
             item={item}
             titleColor={answer.isCorrect ? green[600] : red[600]}
+            points={points}
           />
         ) : (
-          <ItemHeader item={item} />
+          <ItemHeader item={item} points={points} />
         )}
         <ItemComponent {...props} />
-        {answer && !showSolution && <ItemHint hint={item.hint} />}
+        {answer && !showSolution && <ItemFooter hint={item.hint} />}
       </Paper>
     </>
   );
