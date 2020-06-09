@@ -9,7 +9,8 @@ const theme = createMuiTheme({
   },
   typography: {
     button: {
-      fontFamily: ["Permanent Marker", "cursive"],
+      fontFamily: ["Patrick Hand SC", "cursive"],
+      fontSize: "1.4rem",
     },
   },
 });

@@ -6,7 +6,8 @@ import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   title: {
-    fontFamily: ["Permanent Marker", "cursive"],
+    fontFamily: ["Patrick Hand SC", "cursive"],
+    fontSize: "1.9rem",
     flexGrow: 1,
   },
   remaining: {
