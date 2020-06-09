@@ -7,10 +7,14 @@ import Typography from "@material-ui/core/Typography";
 const useStyles = makeStyles((theme) => ({
   title: {
     fontFamily: ["Permanent Marker", "cursive"],
+    flexGrow: 1,
+  },
+  remaining: {
+    fontStyle: "italic",
   },
 }));
 
-export default function Header({ courseTitle }) {
+export default function Header({ courseTitle, numRemaining }) {
   const classes = useStyles();
 
   return (
@@ -19,6 +23,9 @@ export default function Header({ courseTitle }) {
         <Toolbar>
           <Typography className={classes.title} variant="h5" component="h1">
             {courseTitle}
+          </Typography>
+          <Typography className={classes.remaining} variant="body1">
+            {(numRemaining ? numRemaining : "No") + " questions remaining"}
           </Typography>
         </Toolbar>
       </AppBar>

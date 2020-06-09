@@ -7,6 +7,7 @@ import Course from "./Course";
 import FinalScreen from "./FinalScreen";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
 import parseContent from "../utils/parseContent";
+import countItemsRemaining from "../utils/countItemsRemaining";
 import { saveSubmissionToFirestore } from "../services/firestore";
 import COURSE_CONTENT from "../courses/introductionToIntercepts";
 
@@ -89,7 +90,10 @@ export default function App() {
     course && (
       <>
         <Router>
-          <Header courseTitle={course.title} />
+          <Header
+            courseTitle={course.title}
+            numRemaining={countItemsRemaining(answers)}
+          />
           <Container className={classes.container} maxWidth="sm" disableGutters>
             <Switch>
               <Route path="/" exact>
