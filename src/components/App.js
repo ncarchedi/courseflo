@@ -37,6 +37,8 @@ export default function App() {
       ...COURSE_CONTENT,
       content: parsedContent,
     });
+    // update the browser tab title dynamically
+    document.title = COURSE_CONTENT.title;
   }, []);
 
   // initialize the answers array
