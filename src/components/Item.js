@@ -17,6 +17,8 @@ import ImageIcon from "@material-ui/icons/Image";
 import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
 import KeyboardIcon from "@material-ui/icons/Keyboard";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import CancelIcon from "@material-ui/icons/Cancel";
 
 const useStyles = makeStyles((theme) => ({
   block: {
@@ -39,6 +41,7 @@ export default function Item(props) {
   // if author doesn't specify points, then use 1
   const points = item.points || 1;
 
+  // figure out display details based on item type
   let pointsText;
   let helperText;
   let icon;
@@ -88,18 +91,28 @@ export default function Item(props) {
       Component = null;
   }
 
+  // logic for title color and icon when solutions are shown
+  let titleColor;
+
+  if (showSolution) {
+    if (answer && answer.isCorrect) {
+      titleColor = green[600];
+      icon = <CheckCircleIcon style={{ color: green[600] }} />;
+    } else if (answer && !answer.isCorrect) {
+      titleColor = red[600];
+      icon = <CancelIcon style={{ color: red[600] }} />;
+    } else {
+      titleColor = null;
+      icon = null;
+    }
+  }
+
   return (
     <>
       <Paper className={classes.block} elevation={2}>
         <ItemHeader
           item={item}
-          titleColor={
-            answer && showSolution
-              ? answer.isCorrect
-                ? green[600]
-                : red[600]
-              : null
-          }
+          titleColor={titleColor}
           pointsText={pointsText}
           helperText={helperText}
           icon={icon}
