@@ -7,9 +7,9 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import NotesIcon from "@material-ui/icons/Notes";
 import OndemandVideoIcon from "@material-ui/icons/OndemandVideo";
 import ImageIcon from "@material-ui/icons/Image";
-import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
+import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
-import CreateIcon from "@material-ui/icons/Create";
+import KeyboardIcon from "@material-ui/icons/Keyboard";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -49,7 +49,7 @@ export default function ItemHeader({ item, titleColor }) {
       break;
     case "SingleSelect":
       helperText = "Select only one";
-      icon = <RadioButtonCheckedIcon color="disabled" />;
+      icon = <FormatListBulletedIcon color="disabled" />;
       break;
     case "MultiSelect":
       helperText = "Check all that apply";
@@ -57,7 +57,7 @@ export default function ItemHeader({ item, titleColor }) {
       break;
     case "TextInput":
       helperText = null;
-      icon = <CreateIcon color="disabled" />;
+      icon = <KeyboardIcon color="disabled" />;
       break;
     default:
       helperText = null;
