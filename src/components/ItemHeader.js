@@ -4,12 +4,6 @@ import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import FormHelperText from "@material-ui/core/FormHelperText";
-import NotesIcon from "@material-ui/icons/Notes";
-import OndemandVideoIcon from "@material-ui/icons/OndemandVideo";
-import ImageIcon from "@material-ui/icons/Image";
-import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
-import DoneAllIcon from "@material-ui/icons/DoneAll";
-import KeyboardIcon from "@material-ui/icons/Keyboard";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -28,52 +22,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ItemHeader({ item, titleColor, points }) {
+export default function ItemHeader({
+  item,
+  titleColor,
+  pointsText,
+  helperText,
+  icon,
+}) {
   const classes = useStyles();
-
-  let pointsText;
-  let helperText;
-  let icon;
-
-  const getPointsText = (pts) => {
-    return pts <= 1 ? points + " point" : points + "points";
-  };
-
-  switch (item.type) {
-    case "Text":
-      pointsText = null;
-      helperText = null;
-      icon = <NotesIcon color="disabled" />;
-      break;
-    case "Video":
-      pointsText = null;
-      helperText = null;
-      icon = <OndemandVideoIcon color="disabled" />;
-      break;
-    case "Image":
-      pointsText = null;
-      helperText = null;
-      icon = <ImageIcon color="disabled" />;
-      break;
-    case "SingleSelect":
-      pointsText = getPointsText(points);
-      helperText = "Select only one";
-      icon = <FormatListBulletedIcon color="disabled" />;
-      break;
-    case "MultiSelect":
-      pointsText = getPointsText(points);
-      helperText = "Check all that apply";
-      icon = <DoneAllIcon color="disabled" />;
-      break;
-    case "TextInput":
-      pointsText = getPointsText(points);
-      helperText = null;
-      icon = <KeyboardIcon color="disabled" />;
-      break;
-    default:
-      helperText = null;
-      icon = null;
-  }
 
   return (
     <Box className={classes.container}>
