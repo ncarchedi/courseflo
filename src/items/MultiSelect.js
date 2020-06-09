@@ -6,16 +6,11 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import Checkbox from "@material-ui/core/Checkbox";
 import { CorrectIcon, IncorrectIcon } from "../components/Icons";
 import ItemTitle from "../components/ItemTitle";
 
 const useStyles = makeStyles((theme) => ({
-  helperText: {
-    marginBottom: theme.spacing(2),
-    fontSize: "0.9rem",
-  },
   option: {
     width: "100%",
     margin: theme.spacing(0.25, 0),
@@ -62,12 +57,9 @@ export default function MultiSelect({
       {showSolution ? (
         <>
           <ItemTitle
-            style={{ color: answer.isCorrect ? green[600] : red[600] }}
             item={item}
+            titleColor={answer.isCorrect ? green[600] : red[600]}
           />
-          <FormHelperText className={classes.helperText}>
-            (Check all that apply)
-          </FormHelperText>
           <FormGroup>
             {item.options.map((option) => (
               <Box
@@ -137,9 +129,6 @@ export default function MultiSelect({
       ) : (
         <>
           <ItemTitle item={item} />
-          <FormHelperText className={classes.helperText}>
-            (Check all that apply)
-          </FormHelperText>
           <FormGroup>
             {item.options.map((option) => (
               <Box

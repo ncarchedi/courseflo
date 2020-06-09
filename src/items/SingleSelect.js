@@ -7,16 +7,11 @@ import Typography from "@material-ui/core/Typography";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import Radio from "@material-ui/core/Radio";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import { CorrectIcon, IncorrectIcon } from "../components/Icons";
 import ItemTitle from "../components/ItemTitle";
 import renderHtmlFromString from "../utils/renderHtmlFromString";
 
 const useStyles = makeStyles((theme) => ({
-  helperText: {
-    marginBottom: theme.spacing(2),
-    fontSize: "0.9rem",
-  },
   option: {
     width: "100%",
     padding: theme.spacing(0, 1),
@@ -50,12 +45,9 @@ export default function SingleSelect({
       {showSolution ? (
         <>
           <ItemTitle
-            style={{ color: answer.isCorrect ? green[600] : red[600] }}
             item={item}
+            titleColor={answer.isCorrect ? green[600] : red[600]}
           />
-          <FormHelperText className={classes.helperText}>
-            (Select only one)
-          </FormHelperText>
           <RadioGroup
             value={answer.value}
             onChange={(e) => onChangeAnswer(item.id, e.target.value)}
@@ -111,9 +103,6 @@ export default function SingleSelect({
       ) : (
         <>
           <ItemTitle item={item} />
-          <FormHelperText className={classes.helperText}>
-            (Select only one)
-          </FormHelperText>
           <RadioGroup
             value={answer.value}
             onChange={(e) => onChangeAnswer(item.id, e.target.value)}

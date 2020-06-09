@@ -17,9 +17,6 @@ const useStyles = makeStyles((theme) => ({
       border: 0,
     },
   },
-  title: {
-    marginBottom: theme.spacing(2),
-  },
 }));
 
 export default function Video({ item }) {
@@ -27,7 +24,7 @@ export default function Video({ item }) {
 
   return (
     <>
-      <ItemTitle className={classes.title} item={item} />
+      <ItemTitle item={item} />
       <Box className={classes.box}>
         <iframe
           title={item.title}

@@ -9,9 +9,6 @@ import { CorrectIcon, IncorrectIcon } from "../components/Icons";
 import ItemTitle from "../components/ItemTitle";
 
 const useStyles = makeStyles((theme) => ({
-  prompt: {
-    marginBottom: theme.spacing(2),
-  },
   input: {
     padding: theme.spacing(1),
     borderRadius: theme.shape.borderRadius,
@@ -41,9 +38,8 @@ export default function TextInput({
       {showSolution ? (
         <>
           <ItemTitle
-            className={classes.prompt}
-            style={{ color: answer.isCorrect ? green[600] : red[600] }}
             item={item}
+            titleColor={answer.isCorrect ? green[600] : red[600]}
           />
           <Box
             className={`${classes.input} ${
@@ -81,7 +77,7 @@ export default function TextInput({
         </>
       ) : (
         <>
-          <ItemTitle className={classes.prompt} item={item} />
+          <ItemTitle item={item} />
           <Box component="span" display="flex" alignItems="center">
             <TextField
               value={answer.value}
