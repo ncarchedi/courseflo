@@ -8,7 +8,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { CorrectIcon, IncorrectIcon } from "../components/Icons";
-import ItemTitle from "../components/ItemTitle";
+import ItemHeader from "../components/ItemHeader";
 
 const useStyles = makeStyles((theme) => ({
   option: {
@@ -56,7 +56,7 @@ export default function MultiSelect({
     <>
       {showSolution ? (
         <>
-          <ItemTitle
+          <ItemHeader
             item={item}
             titleColor={answer.isCorrect ? green[600] : red[600]}
           />
@@ -128,7 +128,7 @@ export default function MultiSelect({
         </>
       ) : (
         <>
-          <ItemTitle item={item} />
+          <ItemHeader item={item} />
           <FormGroup>
             {item.options.map((option) => (
               <Box

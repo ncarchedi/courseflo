@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ItemTitle({ item, titleColor }) {
+export default function ItemHeader({ item, titleColor }) {
   const classes = useStyles();
 
   let helperText;

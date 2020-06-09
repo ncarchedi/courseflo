@@ -1,10 +1,10 @@
 import React from "react";
-import ItemTitle from "../components/ItemTitle";
+import ItemHeader from "../components/ItemHeader";
 
 export default function Video({ item }) {
   return (
     <>
-      <ItemTitle item={item} />
+      <ItemHeader item={item} />
       <img src={item.source} alt={item.title} width="100%" />
     </>
   );

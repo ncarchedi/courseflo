@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
-import ItemTitle from "../components/ItemTitle";
+import ItemHeader from "../components/ItemHeader";
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -24,7 +24,7 @@ export default function Video({ item }) {
 
   return (
     <>
-      <ItemTitle item={item} />
+      <ItemHeader item={item} />
       <Box className={classes.box}>
         <iframe
           title={item.title}

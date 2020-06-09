@@ -8,7 +8,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import Radio from "@material-ui/core/Radio";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { CorrectIcon, IncorrectIcon } from "../components/Icons";
-import ItemTitle from "../components/ItemTitle";
+import ItemHeader from "../components/ItemHeader";
 import renderHtmlFromString from "../utils/renderHtmlFromString";
 
 const useStyles = makeStyles((theme) => ({
@@ -44,7 +44,7 @@ export default function SingleSelect({
     <>
       {showSolution ? (
         <>
-          <ItemTitle
+          <ItemHeader
             item={item}
             titleColor={answer.isCorrect ? green[600] : red[600]}
           />
@@ -102,7 +102,7 @@ export default function SingleSelect({
         </>
       ) : (
         <>
-          <ItemTitle item={item} />
+          <ItemHeader item={item} />
           <RadioGroup
             value={answer.value}
             onChange={(e) => onChangeAnswer(item.id, e.target.value)}
