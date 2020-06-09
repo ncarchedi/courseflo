@@ -35,27 +35,27 @@ export default function ItemHeader({ item, titleColor }) {
   let icon;
 
   switch (item.type) {
-    case "text":
+    case "Text":
       helperText = null;
       icon = <NotesIcon color="disabled" />;
       break;
-    case "video":
+    case "Video":
       helperText = null;
       icon = <OndemandVideoIcon color="disabled" />;
       break;
-    case "image":
+    case "Image":
       helperText = null;
       icon = <ImageIcon color="disabled" />;
       break;
-    case "singleSelect":
+    case "SingleSelect":
       helperText = "Select only one";
       icon = <RadioButtonCheckedIcon color="disabled" />;
       break;
-    case "multiSelect":
+    case "MultiSelect":
       helperText = "Check all that apply";
       icon = <DoneAllIcon color="disabled" />;
       break;
-    case "textInput":
+    case "TextInput":
       helperText = null;
       icon = <CreateIcon color="disabled" />;
       break;
