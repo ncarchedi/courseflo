@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Header({
   courseTitle,
   numRemaining,
+  showSolutions,
   setShowFeedbackModal,
 }) {
   const classes = useStyles();
@@ -36,9 +37,11 @@ export default function Header({
             {courseTitle}
           </Typography>
           <Hidden smDown>
-            <Typography className={classes.remaining} variant="body1">
-              {(numRemaining ? numRemaining : "No") + " questions remaining"}
-            </Typography>
+            {!showSolutions && (
+              <Typography className={classes.remaining} variant="body1">
+                {(numRemaining ? numRemaining : "No") + " questions remaining"}
+              </Typography>
+            )}
           </Hidden>
           <IconButton
             onClick={() => setShowFeedbackModal(true)}

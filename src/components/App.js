@@ -98,6 +98,7 @@ export default function App() {
           <Header
             courseTitle={course.title}
             numRemaining={countItemsRemaining(answers)}
+            showSolutions={showSolutions}
             setShowFeedbackModal={setShowFeedbackModal}
           />
           <Container className={classes.container}>
