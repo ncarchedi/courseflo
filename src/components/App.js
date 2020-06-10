@@ -10,7 +10,7 @@ import isAnswerCorrect from "../utils/isAnswerCorrect";
 import parseContent from "../utils/parseContent";
 import countItemsRemaining from "../utils/countItemsRemaining";
 import { saveSubmissionToFirestore } from "../services/firestore";
-import COURSE_CONTENT from "../courses/introductionToIntercepts";
+import COURSE from "../courses/introductionToIntercepts";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -29,7 +29,7 @@ export default function App() {
   // imitate fetching the course content from an API
   useEffect(() => {
     // parse the content to render math, etc.
-    const parsedContent = parseContent(COURSE_CONTENT.content).map(
+    const parsedContent = parseContent(COURSE.content).map(
       // add item numbers
       (item, index) => ({
         ...item,
@@ -37,11 +37,11 @@ export default function App() {
       })
     );
     setCourse({
-      ...COURSE_CONTENT,
+      ...COURSE,
       content: parsedContent,
     });
     // update the browser tab title dynamically
-    document.title = COURSE_CONTENT.title;
+    document.title = COURSE.title;
   }, []);
 
   // initialize the answers array
