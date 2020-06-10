@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FinalScreen({ message, answers }) {
+export default function Score({ message, answers }) {
   const classes = useStyles();
   const history = useHistory();
   const { courseId } = useParams();

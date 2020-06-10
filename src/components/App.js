@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Header from "./Header";
 import Course from "./Course";
-import FinalScreen from "./FinalScreen";
+import Score from "./Score";
 import FeedbackModal from "../components/FeedbackModal";
 import NotFound from "../components/NotFound";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
@@ -132,7 +132,7 @@ export default function App() {
               />
             </Route>
             <Route path={`${path}/score`}>
-              <FinalScreen message={course.finalMessage} answers={answers} />
+              <Score message={course.finalMessage} answers={answers} />
             </Route>
             <Route path={`${path}/*`}>
               <NotFound type="page" />
