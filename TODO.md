@@ -1,7 +1,0 @@
-- research how to publish / share courses
-- come up with a good name :)
-- support markdown
-- allow sign-in with google and/or anonymous auth? https://firebase.google.com/docs/auth/web/anonymous-auth
-- consider chapters / courses taxonomy
-- add transfer list item type: https://material-ui.com/components/transfer-list/
-- tighten up firestore rules before launch
