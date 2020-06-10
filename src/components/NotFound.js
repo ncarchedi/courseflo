@@ -20,9 +20,11 @@ export default function NotFound({ type }) {
       <Typography variant="h4" gutterBottom>
         Sorry, that {type} doesn't exist!
       </Typography>
-      <Typography variant="body2" color="textSecondary">
-        Please reach out to the course author if you think something is wrong.
-      </Typography>
+      {type === "course" && (
+        <Typography variant="body2" color="textSecondary">
+          Please reach out to the course author if you think something is wrong.
+        </Typography>
+      )}
     </Box>
   );
 }

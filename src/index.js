@@ -13,8 +13,8 @@ ReactDOM.render(
     <Router>
       <Switch>
         <Route path="/course/:courseId" component={App} />
-        <Route path="/404" children={<NotFound type="course" />} />
-        <Route path="*" children={<NotFound type="course" />} />
+        <Route path="/404" children={<NotFound type="page" />} />
+        <Route path="*" children={<NotFound type="page" />} />
       </Switch>
     </Router>
   </ThemeProvider>,
