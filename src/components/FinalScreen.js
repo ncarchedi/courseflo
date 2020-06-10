@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams, Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
@@ -34,10 +34,9 @@ export default function FinalScreen({ message, answers }) {
   const history = useHistory();
   const { courseId } = useParams();
 
-  if (!answers) {
-    history.push(`/${courseId}`);
-    return null;
-  }
+  // define path back to course
+  const coursePath = `/course/${courseId}`;
+  if (!answers) return <Redirect to={coursePath} />;
 
   const { numCorrect, numTotal } = computeScoreFromAnswers(answers);
   const percentCorrect = ((numCorrect / numTotal) * 100).toFixed(0);
@@ -54,7 +53,7 @@ export default function FinalScreen({ message, answers }) {
       </Typography>
       <Button
         className={classes.button}
-        onClick={() => history.push(`/${courseId}`)}
+        onClick={() => history.push(coursePath)}
         variant="contained"
         color="primary"
       >

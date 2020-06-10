@@ -6,6 +6,7 @@ import Header from "./Header";
 import Course from "./Course";
 import FinalScreen from "./FinalScreen";
 import FeedbackModal from "../components/FeedbackModal";
+import NotFound from "../components/NotFound";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
 import parseContent from "../utils/parseContent";
 import countItemsRemaining from "../utils/countItemsRemaining";
@@ -29,6 +30,7 @@ export default function App() {
   const [answers, setAnswers] = useState(null);
   const [showSolutions, setShowSolutions] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [show404, setShow404] = useState(false);
 
   useEffect(() => {
     // courseId for testing: vTmus95f8o9eEdMaqbWc
@@ -47,6 +49,8 @@ export default function App() {
         });
         // update the browser tab title dynamically
         document.title = courseData.title;
+      } else {
+        setShow404(true);
       }
     });
   }, [courseId]);
@@ -98,6 +102,9 @@ export default function App() {
     ]);
   };
 
+  // if the course isn't found, show 404
+  if (show404) return <NotFound type="course" />;
+
   return (
     course && (
       <>
@@ -126,6 +133,9 @@ export default function App() {
             </Route>
             <Route path={`${path}/score`}>
               <FinalScreen message={course.finalMessage} answers={answers} />
+            </Route>
+            <Route path={`${path}/*`}>
+              <NotFound type="page" />
             </Route>
           </Switch>
         </Container>
