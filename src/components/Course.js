@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import Fab from "@material-ui/core/Fab";
 import Zoom from "@material-ui/core/Zoom";
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Course({
-  content,
+  items,
   answers,
   onChangeAnswer,
   showSolutions,
@@ -29,9 +29,10 @@ export default function Course({
 }) {
   const classes = useStyles();
   const history = useHistory();
+  let { url } = useRouteMatch();
 
   const handleSubmit = () => {
-    history.push("/score");
+    history.push(`${url}/score`);
     setShowSolutions(true);
   };
 
@@ -40,7 +41,7 @@ export default function Course({
 
   return (
     <>
-      {content.map((item) => (
+      {items.map((item) => (
         <Item
           key={item.id}
           item={item}

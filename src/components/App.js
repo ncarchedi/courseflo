@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Switch, Route, useRouteMatch, useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Header from "./Header";
@@ -9,8 +9,10 @@ import FeedbackModal from "../components/FeedbackModal";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
 import parseContent from "../utils/parseContent";
 import countItemsRemaining from "../utils/countItemsRemaining";
-import { saveSubmissionToFirestore } from "../services/firestore";
-import COURSE from "../courses/introductionToIntercepts";
+import {
+  saveSubmissionToFirestore,
+  getCourseFromFirestore,
+} from "../services/firestore";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -21,35 +23,40 @@ const useStyles = makeStyles((theme) => ({
 
 export default function App() {
   const classes = useStyles();
+  let { path } = useRouteMatch();
+  let { courseId } = useParams();
   const [course, setCourse] = useState(null);
   const [answers, setAnswers] = useState(null);
   const [showSolutions, setShowSolutions] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
-  // imitate fetching the course content from an API
   useEffect(() => {
-    // parse the content to render math, etc.
-    const parsedContent = parseContent(COURSE.content).map(
-      // add item numbers
-      (item, index) => ({
-        ...item,
-        number: index + 1,
-      })
-    );
-    setCourse({
-      ...COURSE,
-      content: parsedContent,
+    // courseId for testing: vTmus95f8o9eEdMaqbWc
+    getCourseFromFirestore(courseId).then((course) => {
+      if (course.exists) {
+        // extract the course data
+        const courseData = course.data();
+        // parse the items for math, etc. and add item numbers
+        // then set state
+        setCourse({
+          ...courseData,
+          items: parseContent(courseData.items).map((item, index) => ({
+            ...item,
+            number: index + 1,
+          })),
+        });
+        // update the browser tab title dynamically
+        document.title = courseData.title;
+      }
     });
-    // update the browser tab title dynamically
-    document.title = COURSE.title;
-  }, []);
+  }, [courseId]);
 
   // initialize the answers array
   useEffect(() => {
-    // once the course has been loaded
+    // once the course has been loaded into state
     if (course) {
       let a = [];
-      course.content.forEach((item) => {
+      course.items.forEach((item) => {
         // for each item type that requires a response
         if (!["Text", "Video", "Image"].includes(item.type)) {
           a.push({
@@ -72,7 +79,7 @@ export default function App() {
   }, [course, answers, showSolutions]);
 
   const getSolution = (itemId) => {
-    const item = course.content.filter((i) => i.id === itemId)[0];
+    const item = course.items.filter((i) => i.id === itemId)[0];
     return item.solution;
   };
 
@@ -94,36 +101,34 @@ export default function App() {
   return (
     course && (
       <>
-        <Router>
-          <Header
-            courseTitle={course.title}
-            numRemaining={countItemsRemaining(answers)}
-            showSolutions={showSolutions}
-            setShowFeedbackModal={setShowFeedbackModal}
-          />
-          <Container className={classes.container}>
-            <Switch>
-              <Route path="/" exact>
-                <Course
-                  content={course.content}
-                  answers={answers}
-                  onChangeAnswer={handleChangeAnswer}
-                  showSolutions={showSolutions}
-                  setShowSolutions={setShowSolutions}
-                />
-              </Route>
-              <Route path="/score">
-                <FinalScreen message={course.finalMessage} answers={answers} />
-              </Route>
-            </Switch>
-          </Container>
-          <FeedbackModal
-            open={showFeedbackModal}
-            setOpen={setShowFeedbackModal}
-            courseId={course.id}
-            answers={answers}
-          />
-        </Router>
+        <Header
+          courseTitle={course.title}
+          numRemaining={countItemsRemaining(answers)}
+          showSolutions={showSolutions}
+          setShowFeedbackModal={setShowFeedbackModal}
+        />
+        <FeedbackModal
+          open={showFeedbackModal}
+          setOpen={setShowFeedbackModal}
+          courseId={course.id}
+          answers={answers}
+        />
+        <Container className={classes.container}>
+          <Switch>
+            <Route exact path={path}>
+              <Course
+                items={course.items}
+                answers={answers}
+                onChangeAnswer={handleChangeAnswer}
+                showSolutions={showSolutions}
+                setShowSolutions={setShowSolutions}
+              />
+            </Route>
+            <Route path={`${path}/score`}>
+              <FinalScreen message={course.finalMessage} answers={answers} />
+            </Route>
+          </Switch>
+        </Container>
       </>
     )
   );

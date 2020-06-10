@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
@@ -32,9 +32,10 @@ const useStyles = makeStyles((theme) => ({
 export default function FinalScreen({ message, answers }) {
   const classes = useStyles();
   const history = useHistory();
+  const { courseId } = useParams();
 
   if (!answers) {
-    history.push("/");
+    history.push(`/${courseId}`);
     return null;
   }
 
@@ -53,7 +54,7 @@ export default function FinalScreen({ message, answers }) {
       </Typography>
       <Button
         className={classes.button}
-        onClick={() => history.push("/")}
+        onClick={() => history.push(`/${courseId}`)}
         variant="contained"
         color="primary"
       >
