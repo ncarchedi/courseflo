@@ -31,16 +31,16 @@ export default function App() {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
   useEffect(() => {
-    // courseId for testing: bBPmdTTiJncI9U5NHUgx
+    // courseId for testing: vTmus95f8o9eEdMaqbWc
     getCourseFromFirestore(courseId).then((course) => {
       if (course.exists) {
         // extract the course data
         const courseData = course.data();
-        // parse the content for math, etc. and add item numbers
+        // parse the items for math, etc. and add item numbers
         // then set state
         setCourse({
           ...courseData,
-          content: parseContent(courseData.content).map((item, index) => ({
+          items: parseContent(courseData.items).map((item, index) => ({
             ...item,
             number: index + 1,
           })),
@@ -53,10 +53,10 @@ export default function App() {
 
   // initialize the answers array
   useEffect(() => {
-    // only after the course has been loaded into state
+    // once the course has been loaded into state
     if (course) {
       let a = [];
-      course.content.forEach((item) => {
+      course.items.forEach((item) => {
         // for each item type that requires a response
         if (!["Text", "Video", "Image"].includes(item.type)) {
           a.push({
@@ -79,7 +79,7 @@ export default function App() {
   }, [course, answers, showSolutions]);
 
   const getSolution = (itemId) => {
-    const item = course.content.filter((i) => i.id === itemId)[0];
+    const item = course.items.filter((i) => i.id === itemId)[0];
     return item.solution;
   };
 
@@ -117,7 +117,7 @@ export default function App() {
           <Switch>
             <Route exact path={path}>
               <Course
-                content={course.content}
+                items={course.items}
                 answers={answers}
                 onChangeAnswer={handleChangeAnswer}
                 showSolutions={showSolutions}

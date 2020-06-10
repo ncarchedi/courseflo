@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Course({
-  content,
+  items,
   answers,
   onChangeAnswer,
   showSolutions,
@@ -41,7 +41,7 @@ export default function Course({
 
   return (
     <>
-      {content.map((item) => (
+      {items.map((item) => (
         <Item
           key={item.id}
           item={item}

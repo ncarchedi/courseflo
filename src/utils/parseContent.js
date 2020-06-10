@@ -14,6 +14,6 @@ const parseItem = (item) => {
   return item;
 };
 
-export default function parseContent(content) {
-  return content.map((item) => parseItem(item));
+export default function parseContent(items) {
+  return items.map((item) => parseItem(item));
 }

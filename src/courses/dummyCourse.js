@@ -2,7 +2,7 @@ export default {
   id: "dummyCourse",
   title: "Dummy Course",
   finalMessage: "Thanks for completing the course! We'll be in touch ✌️",
-  content: [
+  items: [
     {
       id: "welcome",
       type: "text",
