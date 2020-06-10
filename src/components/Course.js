@@ -1,139 +1,67 @@
-import React, { useState, useEffect } from "react";
-import { Switch, Route, useRouteMatch, useParams } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Header from "./Header";
-import Items from "./Items";
-import FinalScreen from "./FinalScreen";
-import FeedbackModal from "../components/FeedbackModal";
-import isAnswerCorrect from "../utils/isAnswerCorrect";
-import parseContent from "../utils/parseContent";
-import countItemsRemaining from "../utils/countItemsRemaining";
-import {
-  saveSubmissionToFirestore,
-  getCourseFromFirestore,
-} from "../services/firestore";
+import React from "react";
+import { useHistory, useRouteMatch } from "react-router-dom";
+import { makeStyles } from "@material-ui/styles";
+import Fab from "@material-ui/core/Fab";
+import Zoom from "@material-ui/core/Zoom";
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+import Item from "./Item";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    margin: theme.spacing(0, "auto", 12, "auto"),
-    maxWidth: theme.breakpoints.values.sm + 75,
+  fab: {
+    margin: 0,
+    position: "fixed",
+    top: "auto",
+    right: theme.spacing(3),
+    bottom: theme.spacing(3),
+    left: "auto",
+  },
+  fabIcon: {
+    marginLeft: theme.spacing(1),
   },
 }));
 
-export default function Course() {
+export default function Course({
+  content,
+  answers,
+  onChangeAnswer,
+  showSolutions,
+  setShowSolutions,
+}) {
   const classes = useStyles();
-  let { path } = useRouteMatch();
-  let { courseId } = useParams();
-  const [course, setCourse] = useState(null);
-  const [answers, setAnswers] = useState(null);
-  const [showSolutions, setShowSolutions] = useState(false);
-  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const history = useHistory();
+  let { url } = useRouteMatch();
 
-  // imitate fetching the course content from an API
-  useEffect(() => {
-    if (courseId !== "bBPmdTTiJncI9U5NHUgx")
-      alert(`No course found with ID ${courseId}!`);
-
-    getCourseFromFirestore(courseId).then((course) => {
-      if (course.exists) {
-        // parse the content to render math, etc.
-        const parsedContent = parseContent(course.data().content).map(
-          // add item numbers
-          (item, index) => ({
-            ...item,
-            number: index + 1,
-          })
-        );
-        setCourse({
-          ...course.data(),
-          content: parsedContent,
-        });
-        // update the browser tab title dynamically
-        document.title = course.title;
-      }
-    });
-  }, [courseId]);
-
-  // initialize the answers array
-  useEffect(() => {
-    // once the course has been loaded
-    if (course) {
-      let a = [];
-      course.content.forEach((item) => {
-        // for each item type that requires a response
-        if (!["Text", "Video", "Image"].includes(item.type)) {
-          a.push({
-            itemId: item.id,
-            value: item.type === "MultiSelect" ? [] : "",
-            solution: item.solution,
-            isCorrect: false,
-          });
-        }
-      });
-      setAnswers(a);
-    }
-  }, [course]);
-
-  // save answers to firebase when user submits
-  useEffect(() => {
-    if (showSolutions && answers && course) {
-      saveSubmissionToFirestore(course.id, answers);
-    }
-  }, [course, answers, showSolutions]);
-
-  const getSolution = (itemId) => {
-    const item = course.content.filter((i) => i.id === itemId)[0];
-    return item.solution;
+  const handleSubmit = () => {
+    history.push(`${url}/score`);
+    setShowSolutions(true);
   };
 
-  const handleChangeAnswer = (itemId, value) => {
-    const otherAnswers = answers.filter((a) => a.itemId !== itemId);
-    const solution = getSolution(itemId);
-
-    setAnswers([
-      ...otherAnswers,
-      {
-        itemId,
-        value,
-        solution,
-        isCorrect: isAnswerCorrect(value, solution),
-      },
-    ]);
-  };
+  // if answers hasn't initialized yet, then return
+  if (!answers) return null;
 
   return (
-    course && (
-      <>
-        <Header
-          courseTitle={course.title}
-          numRemaining={countItemsRemaining(answers)}
-          showSolutions={showSolutions}
-          setShowFeedbackModal={setShowFeedbackModal}
-        />
-        <FeedbackModal
-          open={showFeedbackModal}
-          setOpen={setShowFeedbackModal}
-          courseId={course.id}
-          answers={answers}
-        />
-        <Container className={classes.container}>
-          <Switch>
-            <Route exact path={path}>
-              <Items
-                content={course.content}
-                answers={answers}
-                onChangeAnswer={handleChangeAnswer}
-                showSolutions={showSolutions}
-                setShowSolutions={setShowSolutions}
-              />
-            </Route>
-            <Route path={`${path}/score`}>
-              <FinalScreen message={course.finalMessage} answers={answers} />
-            </Route>
-          </Switch>
-        </Container>
-      </>
-    )
+    <>
+      {content.map((item) => (
+        <Item
+          key={item.id}
+          item={item}
+          answer={answers.filter((a) => a.itemId === item.id)[0]}
+          onChangeAnswer={onChangeAnswer}
+          showSolution={showSolutions}
+        ></Item>
+      ))}
+      <Zoom in>
+        <Fab
+          className={classes.fab}
+          onClick={handleSubmit}
+          variant="extended"
+          color="primary"
+          aria-label="submit"
+        >
+          {showSolutions ? "Back to my score" : "I'm all done!"}
+          <ArrowForwardIcon className={classes.fabIcon} />
+        </Fab>
+      </Zoom>
+    </>
   );
 }
