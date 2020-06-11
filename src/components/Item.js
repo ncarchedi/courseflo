@@ -3,6 +3,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import red from "@material-ui/core/colors/red";
 import green from "@material-ui/core/colors/green";
 import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
 import ItemHeader from "../components/ItemHeader";
 import ItemFooter from "../components/ItemFooter";
 import Text from "../items/Text";
@@ -78,7 +79,9 @@ export default function Item(props) {
     default:
       pointsText = null;
       helperText = null;
-      Component = null;
+      Component = () => (
+        <Typography>{`Error: "${item.type}" is not a valid item type.`}</Typography>
+      );
   }
 
   let titleColor;
