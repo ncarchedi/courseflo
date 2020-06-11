@@ -39,12 +39,12 @@ export const getCourseFromFirestore = (courseId) => {
   return db.collection("courses").doc(courseId).get();
 };
 
-// export const saveCourseToFirestore = (course) => {
-//   return db.collection("courses").add({
-//     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-//     ...course,
-//   });
-// };
+export const saveCourseToFirestore = (course) => {
+  return db.collection("courses").add({
+    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    ...course,
+  });
+};
 
 // export const getGroceryListItems = groceryListId => {
 //     return db.collection('groceryLists')
