@@ -54,7 +54,7 @@ export default function Editor() {
   const classes = useStyles();
   const inputRef = useRef();
   const [newCourse, setNewCourse] = useState();
-  const [courseId, setCourseId] = useState("t");
+  const [courseId, setCourseId] = useState();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   useEffect(() => {
