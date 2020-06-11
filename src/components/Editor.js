@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import RootRef from "@material-ui/core/RootRef";
 import Container from "@material-ui/core/Container";
@@ -44,13 +44,17 @@ const useStyles = makeStyles((theme) => ({
 // and here: https://developer.mozilla.org/en-US/docs/Web/API/FileReader
 export default function Editor() {
   const classes = useStyles();
+  const inputRef = useRef();
   const [newCourse, setNewCourse] = useState();
+  const [courseId, setCourseId] = useState();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   useEffect(() => {
     if (newCourse) {
       console.log("saving course to firestore!");
-      // saveCourseToFirestore(newCourse);
+      saveCourseToFirestore(newCourse)
+        .then((docRef) => setCourseId(docRef.id))
+        .catch((error) => console.error("Error saving course: ", error));
     }
   }, [newCourse]);
 
@@ -71,6 +75,13 @@ export default function Editor() {
         </MuiAlert>
       </Snackbar>
     );
+  };
+
+  // https://stackoverflow.com/a/42844911/2338922
+  const handleCopy = (e) => {
+    inputRef.current.select();
+    document.execCommand("copy");
+    e.target.focus();
   };
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -99,21 +110,21 @@ export default function Editor() {
       <Typography variant="h2" align="center" gutterBottom>
         Create a Course <Emoji symbol="📝" label="memo" />
       </Typography>
-      {newCourse ? (
+      {courseId ? (
         <>
+          <Typography variant="h6" gutterBottom>
+            Your course is now live! You can share it with this link:
+          </Typography>
           <TextField
             variant="outlined"
-            defaultValue="http://some-product.io/course/vTmus95f8o9eEdMaqbWc"
+            inputRef={inputRef}
+            onFocus={(e) => e.target.select()}
+            value={`https://course-builder.netlify.app/course/${courseId}`}
             InputProps={{
               readOnly: true,
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton
-                    edge="end"
-                    onClick={() =>
-                      console.log("course link copied to clipboard!")
-                    }
-                  >
+                  <IconButton edge="end" onClick={handleCopy}>
                     <FileCopyIcon />
                   </IconButton>
                 </InputAdornment>
