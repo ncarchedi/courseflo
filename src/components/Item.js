@@ -1,17 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import red from "@material-ui/core/colors/red";
 import green from "@material-ui/core/colors/green";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import ItemHeader from "../components/ItemHeader";
+import EditableItemHeader from "../components/EditableItemHeader";
 import ItemFooter from "../components/ItemFooter";
+
 import Text from "../items/Text";
 import Video from "../items/Video";
 import Image from "../items/Image";
 import SingleSelect from "../items/SingleSelect";
 import MultiSelect from "../items/MultiSelect";
 import TextInput from "../items/TextInput";
+
+import EditableText from "../editableItems/EditableText";
+import EditableVideo from "../editableItems/EditableVideo";
+import EditableImage from "../editableItems/EditableImage";
+import EditableSingleSelect from "../editableItems/EditableSingleSelect";
+import EditableMultiSelect from "../editableItems/EditableMultiSelect";
+import EditableTextInput from "../editableItems/EditableTextInput";
+
 import {
   CorrectItemIcon,
   IncorrectItemIcon,
@@ -31,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Item(props) {
   const classes = useStyles();
   const theme = useTheme();
-  const { item, answer, showSolution } = props;
+  const [editing, setEditing] = useState();
+  const { item, answer, showSolution, editable } = props;
 
   const getPointsText = (points) => {
     return points <= 1 ? points + " point" : points + "points";
@@ -49,32 +60,32 @@ export default function Item(props) {
     case "Text":
       pointsText = null;
       helperText = null;
-      Component = Text;
+      Component = editing ? EditableText : Text;
       break;
     case "Video":
       pointsText = null;
       helperText = null;
-      Component = Video;
+      Component = editing ? EditableVideo : Video;
       break;
     case "Image":
       pointsText = null;
       helperText = null;
-      Component = Image;
+      Component = editing ? EditableImage : Image;
       break;
     case "SingleSelect":
       pointsText = getPointsText(points);
       helperText = "Select only one";
-      Component = SingleSelect;
+      Component = editing ? EditableSingleSelect : SingleSelect;
       break;
     case "MultiSelect":
       pointsText = getPointsText(points);
       helperText = "Check all that apply";
-      Component = MultiSelect;
+      Component = editing ? EditableMultiSelect : MultiSelect;
       break;
     case "TextInput":
       pointsText = getPointsText(points);
       helperText = null;
-      Component = TextInput;
+      Component = editing ? EditableTextInput : TextInput;
       break;
     default:
       pointsText = null;
@@ -101,9 +112,15 @@ export default function Item(props) {
     }
   }
 
-  return (
-    <>
-      <Paper className={classes.block} elevation={2}>
+  return editable ? (
+    <Paper
+      className={classes.block}
+      elevation={2}
+      onClick={() => setEditing(true)}
+    >
+      {editing ? (
+        <EditableItemHeader item={item} icon={icon} />
+      ) : (
         <ItemHeader
           item={item}
           titleColor={titleColor}
@@ -111,9 +128,21 @@ export default function Item(props) {
           helperText={helperText}
           icon={icon}
         />
-        <Component {...props} />
-        {answer && !showSolution && <ItemFooter item={item} />}
-      </Paper>
-    </>
+      )}
+      <Component {...props} />
+      {!editing && <ItemFooter item={item} />}
+    </Paper>
+  ) : (
+    <Paper className={classes.block} elevation={2}>
+      <ItemHeader
+        item={item}
+        titleColor={titleColor}
+        pointsText={pointsText}
+        helperText={helperText}
+        icon={icon}
+      />
+      <Component {...props} />
+      {answer && !showSolution && <ItemFooter item={item} />}
+    </Paper>
   );
 }

@@ -131,6 +131,16 @@ export default function App() {
                 setShowSolutions={setShowSolutions}
               />
             </Route>
+            <Route exact path={`${path}/edit`}>
+              <Course
+                items={course.items}
+                answers={answers}
+                onChangeAnswer={handleChangeAnswer}
+                showSolutions={showSolutions}
+                setShowSolutions={setShowSolutions}
+                editable
+              />
+            </Route>
             <Route path={`${path}/score`}>
               <Score message={course.finalMessage} answers={answers} />
             </Route>
