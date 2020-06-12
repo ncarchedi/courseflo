@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider } from "@material-ui/core/styles";
 import App from "./components/App";
-import Editor from "./components/Editor";
+import Uploader from "./components/Uploader";
 import NotFound from "./components/NotFound";
 import theme from "./theme";
 
@@ -14,7 +14,7 @@ ReactDOM.render(
     <Router>
       <Switch>
         <Route path="/course/:courseId" component={App} />
-        <Route path="/create" component={Editor} />
+        <Route path="/upload" component={Uploader} />
         <Route path="/404" children={<NotFound type="page" />} />
         <Route path="*" children={<NotFound type="page" />} />
       </Switch>

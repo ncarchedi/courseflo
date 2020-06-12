@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 // details here: https://react-dropzone.js.org/
 // and here: https://developer.mozilla.org/en-US/docs/Web/API/FileReader
-export default function Editor() {
+export default function Uploader() {
   const classes = useStyles();
   const inputRef = useRef();
   const [newCourse, setNewCourse] = useState();
