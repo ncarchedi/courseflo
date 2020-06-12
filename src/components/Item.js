@@ -112,7 +112,7 @@ export default function Item(props) {
           icon={icon}
         />
         <Component {...props} />
-        {answer && !showSolution && <ItemFooter hint={item.hint} />}
+        {answer && !showSolution && <ItemFooter item={item} />}
       </Paper>
     </>
   );

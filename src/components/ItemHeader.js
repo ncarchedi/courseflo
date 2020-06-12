@@ -31,6 +31,9 @@ export default function ItemHeader({
 }) {
   const classes = useStyles();
 
+  // figure out whether to render title or prompt
+  const text = item.title ? item.title.rendered : item.prompt.rendered;
+
   return (
     <Box className={classes.container}>
       <Grid container>
@@ -40,7 +43,7 @@ export default function ItemHeader({
             style={{ color: titleColor }}
             variant="h6"
           >
-            {item.number}. {item.title || item.prompt}
+            {item.number}. {text}
           </Typography>
         </Grid>
         <Grid className={classes.iconContainer} item xs={1}>

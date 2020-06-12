@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ItemFooter({ hint }) {
+export default function ItemFooter({ item }) {
   const classes = useStyles();
   const [showHint, setShowHint] = useState(false);
 
@@ -21,7 +21,7 @@ export default function ItemFooter({ hint }) {
     <Box className={classes.container}>
       {showHint ? (
         <Typography className={classes.hintText} color="textSecondary">
-          Hint: {hint}
+          Hint: {item.hint.rendered}
         </Typography>
       ) : (
         <Button
