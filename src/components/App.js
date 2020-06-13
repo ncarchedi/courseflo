@@ -73,10 +73,10 @@ export default function App() {
 
   // save answers to firebase when user submits
   useEffect(() => {
-    if (showSolutions && answers && course) {
+    if (showSolutions && courseId) {
       saveSubmissionToFirestore(courseId, answers);
     }
-  }, [course, answers, showSolutions]);
+  }, [courseId, showSolutions]);
 
   const getSolution = (itemId) => {
     const item = course.items.filter((i) => i.id === itemId)[0];
