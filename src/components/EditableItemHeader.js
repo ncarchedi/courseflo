@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ItemHeader({ item, icon, onChangeItemValue }) {
+export default function EditableItemHeader({ item, icon, onChangeItemValue }) {
   const classes = useStyles();
 
   const handleChange = (e) => {
