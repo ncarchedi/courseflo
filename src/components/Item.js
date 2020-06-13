@@ -42,7 +42,15 @@ export default function Item(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [editing, setEditing] = useState(false);
-  const { item, answer, showSolution, editable, onChangeItem } = props;
+  const {
+    item,
+    itemNumber,
+    answer,
+    showSolution,
+    editable,
+    onChangeItem,
+  } = props;
+
   const getPointsText = (points) => {
     return points <= 1 ? points + " point" : points + "points";
   };
@@ -126,6 +134,7 @@ export default function Item(props) {
       ) : (
         <ItemHeader
           item={item}
+          itemNumber={itemNumber}
           titleColor={titleColor}
           pointsText={pointsText}
           helperText={helperText}

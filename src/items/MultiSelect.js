@@ -8,6 +8,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { CorrectIcon, IncorrectIcon } from "../components/Icons";
+import renderHtmlFromString from "../utils/renderHtmlFromString";
 
 const useStyles = makeStyles((theme) => ({
   option: {
@@ -58,12 +59,12 @@ export default function MultiSelect({
           <FormGroup>
             {item.options.map((option) => (
               <Box
-                key={option.raw}
+                key={option}
                 className={`
               ${classes.option}
               ${
-                answer.value.includes(option.raw)
-                  ? item.solution.includes(option.raw)
+                answer.value.includes(option)
+                  ? item.solution.includes(option)
                     ? classes.correctOption
                     : classes.incorrectOption
                   : null
@@ -76,16 +77,16 @@ export default function MultiSelect({
                   className={classes.optionLabel}
                   control={
                     <Checkbox
-                      name={option.raw}
-                      checked={answer.value.includes(option.raw)}
-                      onChange={() => handleCheck(option.raw)}
+                      name={option}
+                      checked={answer.value.includes(option)}
+                      onChange={() => handleCheck(option)}
                       disabled
                     />
                   }
-                  label={option.rendered}
+                  label={renderHtmlFromString(option)}
                 />
-                {answer.value.includes(option.raw) ? ( // if the option is selected
-                  item.solution.includes(option.raw) ? ( // and it's correct
+                {answer.value.includes(option) ? ( // if the option is selected
+                  item.solution.includes(option) ? ( // and it's correct
                     <CorrectIcon />
                   ) : (
                     <IncorrectIcon />
@@ -106,13 +107,11 @@ export default function MultiSelect({
               <FormGroup>
                 {item.options.map(
                   (option) =>
-                    item.solution.includes(option.raw) && (
-                      <Box key={option.raw} className={classes.option}>
+                    item.solution.includes(option) && (
+                      <Box key={option} className={classes.option}>
                         <FormControlLabel
-                          control={
-                            <Checkbox name={option.raw} checked disabled />
-                          }
-                          label={option.rendered}
+                          control={<Checkbox name={option} checked disabled />}
+                          label={renderHtmlFromString(option)}
                         />
                       </Box>
                     )
@@ -126,7 +125,7 @@ export default function MultiSelect({
           <FormGroup>
             {item.options.map((option) => (
               <Box
-                key={option.raw}
+                key={option}
                 component="span"
                 display="flex"
                 alignItems="center"
@@ -134,12 +133,12 @@ export default function MultiSelect({
                 <FormControlLabel
                   control={
                     <Checkbox
-                      name={option.raw}
-                      checked={answer.value.includes(option.raw)}
-                      onChange={() => handleCheck(option.raw)}
+                      name={option}
+                      checked={answer.value.includes(option)}
+                      onChange={() => handleCheck(option)}
                     />
                   }
-                  label={option.rendered}
+                  label={renderHtmlFromString(option)}
                 />
               </Box>
             ))}

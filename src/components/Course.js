@@ -43,10 +43,11 @@ export default function Course({
 
   return (
     <>
-      {items.map((item) => (
+      {items.map((item, index) => (
         <Item
           key={item.id}
           item={item}
+          itemNumber={index + 1}
           answer={answers.filter((a) => a.itemId === item.id)[0]}
           onChangeAnswer={onChangeAnswer}
           showSolution={showSolutions}

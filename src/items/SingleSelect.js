@@ -49,9 +49,9 @@ export default function SingleSelect({
           >
             {item.options.map((option) => (
               <Box
-                key={option.raw}
+                key={option}
                 className={`${classes.option} ${
-                  answer.value === option.raw
+                  answer.value === option
                     ? answer.isCorrect
                       ? classes.correctOption
                       : classes.incorrectOption
@@ -63,11 +63,11 @@ export default function SingleSelect({
               >
                 <FormControlLabel
                   className={classes.optionLabel}
-                  value={option.raw}
-                  label={option.rendered}
+                  value={option}
+                  label={renderHtmlFromString(option)}
                   control={<Radio disabled />}
                 />
-                {answer.value === option.raw ? ( // if the option is selected
+                {answer.value === option ? ( // if the option is selected
                   answer.isCorrect ? ( // and it's correct
                     <CorrectIcon />
                   ) : (
@@ -103,14 +103,14 @@ export default function SingleSelect({
           >
             {item.options.map((option) => (
               <Box
-                key={option.raw}
+                key={option}
                 component="span"
                 display="flex"
                 alignItems="center"
               >
                 <FormControlLabel
-                  value={option.raw}
-                  label={option.rendered}
+                  value={option}
+                  label={renderHtmlFromString(option)}
                   control={<Radio />}
                 />
               </Box>
