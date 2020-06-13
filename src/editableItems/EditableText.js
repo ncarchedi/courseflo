@@ -7,7 +7,7 @@ export default function EditableText({ item }) {
       <TextField
         name="body"
         label="Body"
-        value={item.body.raw}
+        value={item.body}
         margin="normal"
         multiline
         fullWidth

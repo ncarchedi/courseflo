@@ -31,7 +31,7 @@ export default function ItemHeader({ item, icon, onChangeItem }) {
           variant="filled"
           name={item.title ? "title" : "prompt"}
           label={item.title ? "Title" : "Prompt"}
-          value={item.title ? item.title.raw : item.prompt.raw}
+          value={item.title ? item.title : item.prompt}
           onChange={handleChange}
           multiline
           fullWidth

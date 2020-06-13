@@ -24,7 +24,7 @@ export default function Video({ item }) {
   return (
     <Box className={classes.box}>
       <iframe
-        title={item.title.raw}
+        title={item.title}
         src={item.source}
         frameBorder="0"
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"

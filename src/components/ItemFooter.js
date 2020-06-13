@@ -35,7 +35,7 @@ export default function ItemFooter({ item, editing, setEditing }) {
     <Box className={classes.container}>
       {showHint ? (
         <Typography className={classes.hintText} color="textSecondary">
-          Hint: {renderHtmlFromString(hint)}
+          Hint: {renderHtmlFromString(item.hint)}
         </Typography>
       ) : (
         <Button

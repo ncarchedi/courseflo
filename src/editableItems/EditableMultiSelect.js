@@ -16,12 +16,12 @@ export default function EditableMultiSelect({ item }) {
   return (
     <form className={classes.form}>
       {item.options.map((o) => (
-        <Grid key={o.raw} container alignItems="flex-end">
+        <Grid key={o} container alignItems="flex-end">
           <Grid item xs={1}>
             <CheckBoxOutlineBlankIcon color="disabled" />
           </Grid>
           <Grid item xs={11}>
-            <TextField name="options" value={o.raw} margin="dense" fullWidth />
+            <TextField name="options" value={o} margin="dense" fullWidth />
           </Grid>
         </Grid>
       ))}
@@ -36,7 +36,7 @@ export default function EditableMultiSelect({ item }) {
       <TextField
         name="hint"
         label="Hint"
-        value={item.hint.raw}
+        value={item.hint}
         margin="normal"
         multiline
         fullWidth

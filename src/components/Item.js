@@ -148,6 +148,7 @@ export default function Item(props) {
     <Paper className={classes.block} elevation={2}>
       <ItemHeader
         item={item}
+        itemNumber={itemNumber}
         titleColor={titleColor}
         pointsText={pointsText}
         helperText={helperText}

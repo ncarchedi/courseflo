@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { Switch, Route, useRouteMatch, useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -46,16 +46,6 @@ export default function App() {
       }
     });
   }, [courseId]);
-
-  // parse the course content and add item numbers
-  const parsedCourse = useMemo(
-    () =>
-      course && {
-        ...course,
-        items: parseItems(course.items),
-      },
-    [course]
-  );
 
   // initialize the answers array
   useEffect(() => {
@@ -115,10 +105,10 @@ export default function App() {
   if (show404) return <NotFound type="course" />;
 
   return (
-    parsedCourse && (
+    course && (
       <>
         <Header
-          courseTitle={parsedCourse.title}
+          courseTitle={course.title}
           numRemaining={countItemsRemaining(answers)}
           showSolutions={showSolutions}
           setShowFeedbackModal={setShowFeedbackModal}
@@ -126,14 +116,14 @@ export default function App() {
         <FeedbackModal
           open={showFeedbackModal}
           setOpen={setShowFeedbackModal}
-          courseId={parsedCourse.id}
+          courseId={course.id}
           answers={answers}
         />
         <Container className={classes.container}>
           <Switch>
             <Route exact path={path}>
               <Course
-                items={parsedCourse.items}
+                items={course.items}
                 answers={answers}
                 onChangeAnswer={handleChangeAnswer}
                 showSolutions={showSolutions}
@@ -142,7 +132,7 @@ export default function App() {
             </Route>
             <Route exact path={`${path}/edit`}>
               <Course
-                items={parsedCourse.items}
+                items={course.items}
                 answers={answers}
                 onChangeAnswer={handleChangeAnswer}
                 showSolutions={showSolutions}
@@ -152,7 +142,7 @@ export default function App() {
               />
             </Route>
             <Route path={`${path}/score`}>
-              <Score message={parsedCourse.finalMessage} answers={answers} />
+              <Score message={course.finalMessage} answers={answers} />
             </Route>
             <Route path={`${path}/*`}>
               <NotFound type="page" />

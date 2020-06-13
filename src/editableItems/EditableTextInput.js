@@ -15,7 +15,7 @@ export default function EditableTextInput({ item }) {
       <TextField
         name="hint"
         label="Hint"
-        value={item.hint.raw}
+        value={item.hint}
         margin="normal"
         multiline
         fullWidth
