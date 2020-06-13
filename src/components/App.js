@@ -33,18 +33,22 @@ export default function App() {
   const [show404, setShow404] = useState(false);
 
   useEffect(() => {
-    getCourseFromFirestore(courseId).then((course) => {
-      if (course.exists) {
-        // extract the course data
-        const courseData = course.data();
-        // load into state
-        setCourse(courseData);
-        // update the browser tab title dynamically
-        document.title = courseData.title;
-      } else {
-        setShow404(true);
-      }
-    });
+    getCourseFromFirestore(courseId)
+      .then((course) => {
+        if (course.exists) {
+          // extract the course data
+          const courseData = course.data();
+          // load into state
+          setCourse(courseData);
+          // update the browser tab title dynamically
+          document.title = courseData.title;
+        } else {
+          setShow404(true);
+        }
+      })
+      .catch((error) =>
+        console.error("Error loading course from Firestore: ", error)
+      );
   }, [courseId]);
 
   // initialize the answers array

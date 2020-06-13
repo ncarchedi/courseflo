@@ -62,7 +62,9 @@ export default function Uploader() {
       console.log("saving course to firestore!");
       saveCourseToFirestore(newCourse)
         .then((docRef) => setCourseId(docRef.id))
-        .catch((error) => console.error("Error saving course: ", error));
+        .catch((error) =>
+          console.error("Error uploading course to Firestore: ", error)
+        );
     }
   }, [newCourse]);
 
