@@ -94,6 +94,13 @@ export default function App() {
     ]);
   };
 
+  const handleSaveItemChange = (itemId, updatedItem) => {
+    const updatedItems = [...course.items];
+    const index = updatedItems.findIndex((item) => item.id === itemId);
+    updatedItems[index] = updatedItem;
+    setCourse({ ...course, items: updatedItems });
+  };
+
   // if the course isn't found, show 404
   if (show404) return <NotFound type="course" />;
 
@@ -121,6 +128,17 @@ export default function App() {
                 onChangeAnswer={handleChangeAnswer}
                 showSolutions={showSolutions}
                 setShowSolutions={setShowSolutions}
+              />
+            </Route>
+            <Route exact path={`${path}/edit`}>
+              <Course
+                items={course.items}
+                answers={answers}
+                onChangeAnswer={handleChangeAnswer}
+                showSolutions={showSolutions}
+                setShowSolutions={setShowSolutions}
+                editable
+                onSaveItemChange={handleSaveItemChange}
               />
             </Route>
             <Route path={`${path}/score`}>

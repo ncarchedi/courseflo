@@ -26,6 +26,8 @@ export default function Course({
   onChangeAnswer,
   showSolutions,
   setShowSolutions,
+  editable,
+  onSaveItemChange,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -49,20 +51,24 @@ export default function Course({
           answer={answers.filter((a) => a.itemId === item.id)[0]}
           onChangeAnswer={onChangeAnswer}
           showSolution={showSolutions}
+          editable={editable}
+          onSaveItemChange={onSaveItemChange}
         ></Item>
       ))}
-      <Zoom in>
-        <Fab
-          className={classes.fab}
-          onClick={handleSubmit}
-          variant="extended"
-          color="primary"
-          aria-label="submit"
-        >
-          {showSolutions ? "Back to my score" : "I'm all done!"}
-          <ArrowForwardIcon className={classes.fabIcon} />
-        </Fab>
-      </Zoom>
+      {!editable && (
+        <Zoom in>
+          <Fab
+            className={classes.fab}
+            onClick={handleSubmit}
+            variant="extended"
+            color="primary"
+            aria-label="submit"
+          >
+            {showSolutions ? "Back to my score" : "I'm all done!"}
+            <ArrowForwardIcon className={classes.fabIcon} />
+          </Fab>
+        </Zoom>
+      )}
     </>
   );
 }
