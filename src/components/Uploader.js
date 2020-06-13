@@ -5,7 +5,6 @@ import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import Link from "@material-ui/core/Link";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
@@ -145,16 +144,17 @@ export default function Uploader() {
             }}
             fullWidth
           />
-          <Link href={courseURL} target="_blank" rel="noopener">
-            <Button
-              className={classes.button}
-              variant="contained"
-              color="primary"
-              size="large"
-            >
-              Take me to my course now!
-            </Button>
-          </Link>
+          <Button
+            className={classes.button}
+            href={courseURL}
+            target="_blank"
+            rel="noopener"
+            variant="contained"
+            color="primary"
+            size="large"
+          >
+            Take me to my course now!
+          </Button>
           <Paper className={classes.preContainer}>
             <pre className={classes.pre}>
               {JSON.stringify(newCourse, null, 2)}

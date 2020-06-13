@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory, useRouteMatch } from "react-router-dom";
+import { Link as RouterLink, useRouteMatch } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import Fab from "@material-ui/core/Fab";
 import Zoom from "@material-ui/core/Zoom";
@@ -30,13 +30,7 @@ export default function Course({
   onSaveItemChange,
 }) {
   const classes = useStyles();
-  const history = useHistory();
   let { url } = useRouteMatch();
-
-  const handleSubmit = () => {
-    history.push(`${url}/score`);
-    setShowSolutions(true);
-  };
 
   // if answers hasn't initialized yet, then return
   if (!answers) return null;
@@ -59,7 +53,9 @@ export default function Course({
         <Zoom in>
           <Fab
             className={classes.fab}
-            onClick={handleSubmit}
+            component={RouterLink}
+            to={`${url}/score`}
+            onClick={() => setShowSolutions(true)}
             variant="extended"
             color="primary"
             aria-label="submit"

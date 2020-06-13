@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory, useParams, Redirect } from "react-router-dom";
+import { Link as RouterLink, useParams, Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Score({ message, answers }) {
   const classes = useStyles();
-  const history = useHistory();
   const { courseId } = useParams();
 
   // define path back to course
@@ -53,7 +52,8 @@ export default function Score({ message, answers }) {
       </Typography>
       <Button
         className={classes.button}
-        onClick={() => history.push(coursePath)}
+        component={RouterLink}
+        to={coursePath}
         variant="contained"
         color="primary"
       >
