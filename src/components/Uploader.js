@@ -58,7 +58,6 @@ export default function Uploader() {
 
   useEffect(() => {
     if (newCourse) {
-      console.log("saving course to firestore!");
       saveCourseToFirestore(newCourse)
         .then((docRef) => setCourseId(docRef.id))
         .catch((error) =>
