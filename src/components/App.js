@@ -12,6 +12,7 @@ import countItemsRemaining from "../utils/countItemsRemaining";
 import {
   saveSubmissionToFirestore,
   getCourseFromFirestore,
+  updateCourseItemsInFirestore,
 } from "../services/firestore";
 
 const useStyles = makeStyles((theme) => ({
@@ -99,6 +100,7 @@ export default function App() {
     const index = updatedItems.findIndex((item) => item.id === itemId);
     updatedItems[index] = updatedItem;
     setCourse({ ...course, items: updatedItems });
+    updateCourseItemsInFirestore(courseId, updatedItems);
   };
 
   // if the course isn't found, show 404
