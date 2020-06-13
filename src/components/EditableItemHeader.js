@@ -17,20 +17,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ItemHeader({ item, icon }) {
+export default function ItemHeader({ item, icon, onChangeItem }) {
   const classes = useStyles();
 
-  // figure out whether to render title or prompt
-  const text = item.title ? item.title.raw : item.prompt.raw;
+  const handleChange = (e) => {
+    onChangeItem(item.id, e.target.name, e.target.value);
+  };
 
   return (
     <Grid container>
       <Grid item xs={11}>
         <TextField
           variant="filled"
-          name="prompt"
-          label="Prompt"
-          value={text}
+          name={item.title ? "title" : "prompt"}
+          label={item.title ? "Title" : "Prompt"}
+          value={item.title ? item.title.raw : item.prompt.raw}
+          onChange={handleChange}
           multiline
           fullWidth
         />

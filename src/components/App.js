@@ -106,6 +106,13 @@ export default function App() {
     ]);
   };
 
+  const handleChangeItem = (itemId, name, newValue) => {
+    const updatedItems = [...course.items];
+    const index = updatedItems.findIndex((item) => item.id === itemId);
+    updatedItems[index][name] = newValue;
+    setCourse({ ...course, items: updatedItems });
+  };
+
   // if the course isn't found, show 404
   if (show404) return <NotFound type="course" />;
 
@@ -143,6 +150,7 @@ export default function App() {
                 showSolutions={showSolutions}
                 setShowSolutions={setShowSolutions}
                 editable
+                onChangeItem={handleChangeItem}
               />
             </Route>
             <Route path={`${path}/score`}>
