@@ -10,18 +10,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EditableMultiSelect({ item }) {
+export default function EditableMultiSelect({ item, onChangeItemValue }) {
   const classes = useStyles();
+
+  const handleChange = (e) => {
+    onChangeItemValue(e.target.name, e.target.value);
+  };
+
+  const handleChangeOptions = (e) => {
+    const updatedOptions = [...item.options];
+    const index = Number(e.target.name);
+    updatedOptions[index] = e.target.value;
+    onChangeItemValue("options", updatedOptions);
+  };
 
   return (
     <form className={classes.form}>
-      {item.options.map((o) => (
-        <Grid key={o} container alignItems="flex-end">
+      {item.options.map((o, index) => (
+        <Grid key={"option" + index} container alignItems="flex-end">
           <Grid item xs={1}>
             <CheckBoxOutlineBlankIcon color="disabled" />
           </Grid>
           <Grid item xs={11}>
-            <TextField name="options" value={o} margin="dense" fullWidth />
+            <TextField
+              name={String(index)}
+              value={o}
+              onChange={handleChangeOptions}
+              margin="dense"
+              fullWidth
+            />
           </Grid>
         </Grid>
       ))}
@@ -29,6 +46,7 @@ export default function EditableMultiSelect({ item }) {
         name="solution"
         label="Solution"
         value={item.solution}
+        onChange={handleChange}
         margin="normal"
         multiline
         fullWidth
@@ -37,6 +55,7 @@ export default function EditableMultiSelect({ item }) {
         name="hint"
         label="Hint"
         value={item.hint}
+        onChange={handleChange}
         margin="normal"
         multiline
         fullWidth

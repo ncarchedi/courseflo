@@ -14,28 +14,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ItemFooter({
-  item,
-  editing,
-  setEditing,
-  onSaveItemValues,
-}) {
+export default function ItemFooter({ item }) {
   const classes = useStyles();
   const [showHint, setShowHint] = useState(false);
 
-  const onClickDone = () => {
-    setEditing(false);
-    onSaveItemValues();
-  };
-
-  if (editing)
-    return (
-      <Box className={classes.container}>
-        <Button variant="outlined" color="primary" onClick={onClickDone}>
-          Done
-        </Button>
-      </Box>
-    );
+  if (!item.hint) return null;
 
   return (
     <Box className={classes.container}>

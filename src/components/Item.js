@@ -5,8 +5,9 @@ import green from "@material-ui/core/colors/green";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import ItemHeader from "../components/ItemHeader";
-import EditableItemHeader from "../components/EditableItemHeader";
 import ItemFooter from "../components/ItemFooter";
+import EditableItemHeader from "../components/EditableItemHeader";
+import EditableItemFooter from "../components/EditableItemFooter";
 
 import Text from "../items/Text";
 import Video from "../items/Video";
@@ -150,8 +151,12 @@ export default function Item(props) {
           icon={icon}
         />
       )}
-      <Component {...props} />
-      <ItemFooter
+      <Component
+        {...props}
+        item={itemValues}
+        onChangeItemValue={handleChangeItemValue}
+      />
+      <EditableItemFooter
         item={itemValues}
         editing={editing}
         setEditing={setEditing}
@@ -169,7 +174,7 @@ export default function Item(props) {
         icon={icon}
       />
       <Component {...props} />
-      {answer && !showSolution && <ItemFooter item={item} />}
+      {!showSolution && <ItemFooter item={item} />}
     </Paper>
   );
 }
