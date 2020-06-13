@@ -4,6 +4,7 @@ import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import renderHtmlFromString from "../utils/renderHtmlFromString";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -24,12 +25,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ItemHeader({
   item,
+  itemNumber,
   titleColor,
   pointsText,
   helperText,
   icon,
 }) {
   const classes = useStyles();
+
+  // render the title or prompt, depending on item type
+  const text = renderHtmlFromString(item.title ? item.title : item.prompt);
 
   return (
     <Box className={classes.container}>
@@ -40,7 +45,7 @@ export default function ItemHeader({
             style={{ color: titleColor }}
             variant="h6"
           >
-            {item.number}. {item.title || item.prompt}
+            {itemNumber}. {text}
           </Typography>
         </Grid>
         <Grid className={classes.iconContainer} item xs={1}>

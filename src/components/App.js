@@ -8,7 +8,6 @@ import Score from "./Score";
 import FeedbackModal from "../components/FeedbackModal";
 import NotFound from "../components/NotFound";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
-import parseContent from "../utils/parseContent";
 import countItemsRemaining from "../utils/countItemsRemaining";
 import {
   saveSubmissionToFirestore,
@@ -38,15 +37,8 @@ export default function App() {
       if (course.exists) {
         // extract the course data
         const courseData = course.data();
-        // parse the items for math, etc. and add item numbers
-        // then set state
-        setCourse({
-          ...courseData,
-          items: parseContent(courseData.items).map((item, index) => ({
-            ...item,
-            number: index + 1,
-          })),
-        });
+        // load into state
+        setCourse(courseData);
         // update the browser tab title dynamically
         document.title = courseData.title;
       } else {
