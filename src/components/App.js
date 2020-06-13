@@ -76,7 +76,7 @@ export default function App() {
     if (showSolutions && courseId) {
       saveSubmissionToFirestore(courseId, answers);
     }
-  }, [courseId, showSolutions]);
+  }, [courseId, answers, showSolutions]);
 
   const getSolution = (itemId) => {
     const item = course.items.filter((i) => i.id === itemId)[0];
@@ -146,7 +146,7 @@ export default function App() {
                 onSaveItemChange={handleSaveItemChange}
               />
             </Route>
-            <Route path={`${path}/score`}>
+            <Route exact path={`${path}/score`}>
               <Score message={course.finalMessage} answers={answers} />
             </Route>
             <Route path={`${path}/*`}>
