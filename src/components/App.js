@@ -33,7 +33,6 @@ export default function App() {
   const [show404, setShow404] = useState(false);
 
   useEffect(() => {
-    // courseId for testing: vTmus95f8o9eEdMaqbWc
     getCourseFromFirestore(courseId).then((course) => {
       if (course.exists) {
         // extract the course data
@@ -71,7 +70,7 @@ export default function App() {
   // save answers to firebase when user submits
   useEffect(() => {
     if (showSolutions && answers && course) {
-      saveSubmissionToFirestore(course.id, answers);
+      saveSubmissionToFirestore(courseId, answers);
     }
   }, [course, answers, showSolutions]);
 
@@ -118,7 +117,7 @@ export default function App() {
         <FeedbackModal
           open={showFeedbackModal}
           setOpen={setShowFeedbackModal}
-          courseId={course.id}
+          courseId={courseId}
           answers={answers}
         />
         <Container className={classes.container}>
