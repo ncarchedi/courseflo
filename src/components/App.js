@@ -94,10 +94,10 @@ export default function App() {
     ]);
   };
 
-  const handleChangeItem = (itemId, name, newValue) => {
+  const handleSaveItemChange = (itemId, updatedItem) => {
     const updatedItems = [...course.items];
     const index = updatedItems.findIndex((item) => item.id === itemId);
-    updatedItems[index][name] = newValue;
+    updatedItems[index] = updatedItem;
     setCourse({ ...course, items: updatedItems });
   };
 
@@ -138,7 +138,7 @@ export default function App() {
                 showSolutions={showSolutions}
                 setShowSolutions={setShowSolutions}
                 editable
-                onChangeItem={handleChangeItem}
+                onSaveItemChange={handleSaveItemChange}
               />
             </Route>
             <Route path={`${path}/score`}>

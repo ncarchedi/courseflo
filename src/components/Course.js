@@ -27,7 +27,7 @@ export default function Course({
   showSolutions,
   setShowSolutions,
   editable,
-  onChangeItem,
+  onSaveItemChange,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -52,7 +52,7 @@ export default function Course({
           onChangeAnswer={onChangeAnswer}
           showSolution={showSolutions}
           editable={editable}
-          onChangeItem={onChangeItem}
+          onSaveItemChange={onSaveItemChange}
         ></Item>
       ))}
       {!editable && (

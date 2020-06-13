@@ -17,11 +17,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ItemHeader({ item, icon, onChangeItem }) {
+export default function ItemHeader({ item, icon, onChangeItemValue }) {
   const classes = useStyles();
 
   const handleChange = (e) => {
-    onChangeItem(item.id, e.target.name, e.target.value);
+    onChangeItemValue(e.target.name, e.target.value);
   };
 
   return (

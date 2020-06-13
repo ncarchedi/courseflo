@@ -48,22 +48,31 @@ export default function Item(props) {
     answer,
     showSolution,
     editable,
-    onChangeItem,
+    onSaveItemChange,
   } = props;
+  const [itemValues, setItemValues] = useState(item);
+
+  const handleChangeItemValue = (name, newValue) => {
+    setItemValues({ ...itemValues, [name]: newValue });
+  };
+
+  const handleSaveItemValues = () => {
+    onSaveItemChange(item.id, itemValues);
+  };
 
   const getPointsText = (points) => {
     return points <= 1 ? points + " point" : points + "points";
   };
 
   // if author doesn't specify points, then use 1
-  const points = item.points || 1;
+  const points = itemValues.points || 1;
 
   // figure out display details based on item type
   let pointsText;
   let helperText;
   let Component;
 
-  switch (item.type) {
+  switch (itemValues.type) {
     case "Text":
       pointsText = null;
       helperText = null;
@@ -98,12 +107,12 @@ export default function Item(props) {
       pointsText = null;
       helperText = null;
       Component = () => (
-        <Typography>{`Error: "${item.type}" is not a valid item type.`}</Typography>
+        <Typography>{`Error: "${itemValues.type}" is not a valid item type.`}</Typography>
       );
   }
 
   let titleColor;
-  let icon = getItemIcon(item.type);
+  let icon = getItemIcon(itemValues.type);
 
   // logic for when solutions are shown
   if (showSolution) {
@@ -127,13 +136,13 @@ export default function Item(props) {
     >
       {editing ? (
         <EditableItemHeader
-          item={item}
+          item={itemValues}
           icon={icon}
-          onChangeItem={onChangeItem}
+          onChangeItemValue={handleChangeItemValue}
         />
       ) : (
         <ItemHeader
-          item={item}
+          item={itemValues}
           itemNumber={itemNumber}
           titleColor={titleColor}
           pointsText={pointsText}
@@ -142,7 +151,12 @@ export default function Item(props) {
         />
       )}
       <Component {...props} />
-      <ItemFooter item={item} editing={editing} setEditing={setEditing} />
+      <ItemFooter
+        item={itemValues}
+        editing={editing}
+        setEditing={setEditing}
+        onSaveItemValues={handleSaveItemValues}
+      />
     </Paper>
   ) : (
     <Paper className={classes.block} elevation={2}>
