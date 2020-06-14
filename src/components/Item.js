@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("sm")]: {
       padding: theme.spacing(3),
     },
+    outline: "none",
   },
   hover: {
     "&:hover": {
@@ -58,14 +59,6 @@ export default function Item(props) {
     onSaveItemChange,
   } = props;
   const [itemValues, setItemValues] = useState(item);
-
-  const handleChangeItemValue = (name, newValue) => {
-    setItemValues({ ...itemValues, [name]: newValue });
-  };
-
-  const handleSaveItemValues = () => {
-    onSaveItemChange(item.id, itemValues);
-  };
 
   const getPointsText = (points) => {
     return points <= 1 ? points + " point" : points + "points";
@@ -135,11 +128,25 @@ export default function Item(props) {
     }
   }
 
+  const handleChangeItemValue = (name, newValue) => {
+    setItemValues({ ...itemValues, [name]: newValue });
+  };
+
+  const handleBlur = (e) => {
+    // https://stackoverflow.com/a/60094794/2338922
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      setEditing(false);
+      onSaveItemChange(item.id, itemValues);
+    }
+  };
+
   return editable ? (
     <Paper
       className={`${classes.container} ${!editing && classes.hover}`}
       elevation={2}
       onClick={() => !editing && setEditing(true)}
+      tabIndex={0}
+      onBlur={handleBlur}
     >
       {editing ? (
         <EditableItemHeader
@@ -162,12 +169,7 @@ export default function Item(props) {
         item={itemValues}
         onChangeItemValue={handleChangeItemValue}
       />
-      <EditableItemFooter
-        item={itemValues}
-        editing={editing}
-        setEditing={setEditing}
-        onSaveItemValues={handleSaveItemValues}
-      />
+      <EditableItemFooter item={itemValues} />
     </Paper>
   ) : (
     <Paper className={classes.container} elevation={2}>
