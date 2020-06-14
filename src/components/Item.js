@@ -30,11 +30,17 @@ import {
 } from "../components/Icons";
 
 const useStyles = makeStyles((theme) => ({
-  block: {
+  container: {
     margin: theme.spacing(2, "auto"),
     padding: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
       padding: theme.spacing(3),
+    },
+  },
+  hover: {
+    "&:hover": {
+      backgroundColor: theme.palette.grey[100],
+      cursor: "pointer",
     },
   },
 }));
@@ -131,7 +137,7 @@ export default function Item(props) {
 
   return editable ? (
     <Paper
-      className={classes.block}
+      className={`${classes.container} ${!editing && classes.hover}`}
       elevation={2}
       onClick={() => !editing && setEditing(true)}
     >
@@ -164,7 +170,7 @@ export default function Item(props) {
       />
     </Paper>
   ) : (
-    <Paper className={classes.block} elevation={2}>
+    <Paper className={classes.container} elevation={2}>
       <ItemHeader
         item={item}
         itemNumber={itemNumber}
