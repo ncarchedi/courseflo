@@ -117,8 +117,9 @@ export default function App() {
 
   const handleDeleteItem = (itemId) => {
     const items = [...course.items];
-    setCourse({ ...course, items: items.filter((item) => item.id !== itemId) });
-    updateCourseItemsInFirestore(courseId, items);
+    const updatedItems = items.filter((item) => item.id !== itemId);
+    setCourse({ ...course, items: updatedItems });
+    updateCourseItemsInFirestore(courseId, updatedItems);
   };
 
   // if the course isn't found, show 404
