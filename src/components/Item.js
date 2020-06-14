@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import red from "@material-ui/core/colors/red";
 import green from "@material-ui/core/colors/green";
@@ -59,6 +59,17 @@ export default function Item(props) {
     onSaveItemChange,
   } = props;
   const [itemValues, setItemValues] = useState(item);
+
+  // scroll to assumptions when they are opened by user
+  // https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
+  useEffect(() => {
+    const currentItem = document.getElementById(item.id);
+    editing &&
+      currentItem.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+  }, [editing, item.id]);
 
   const getPointsText = (points) => {
     return points <= 1 ? points + " point" : points + "points";
@@ -142,6 +153,7 @@ export default function Item(props) {
 
   return editable ? (
     <Paper
+      id={item.id}
       className={`${classes.container} ${!editing && classes.hover}`}
       elevation={2}
       onClick={() => !editing && setEditing(true)}
