@@ -52,6 +52,8 @@ export default function MultiSelect({
     onChangeAnswer(item.id, newValue);
   };
 
+  if (!answer) return null;
+
   return (
     <>
       {showSolution ? (

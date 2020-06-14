@@ -5,6 +5,7 @@ import Fab from "@material-ui/core/Fab";
 import Zoom from "@material-ui/core/Zoom";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import Item from "./Item";
+import AddItemFab from "../components/AddItemFab";
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -28,6 +29,7 @@ export default function Course({
   setShowSolutions,
   editable,
   onSaveItemChange,
+  onAddItem,
 }) {
   const classes = useStyles();
   let { url } = useRouteMatch();
@@ -49,7 +51,11 @@ export default function Course({
           onSaveItemChange={onSaveItemChange}
         ></Item>
       ))}
-      {!editable && (
+      {editable ? (
+        <Zoom in>
+          <AddItemFab onAddItem={onAddItem} />
+        </Zoom>
+      ) : (
         <Zoom in>
           <Fab
             className={classes.fab}
