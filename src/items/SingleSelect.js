@@ -39,6 +39,8 @@ export default function SingleSelect({
 }) {
   const classes = useStyles();
 
+  if (!answer) return null;
+
   return (
     <>
       {showSolution ? (

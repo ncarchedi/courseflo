@@ -9,6 +9,7 @@ import FeedbackModal from "../components/FeedbackModal";
 import NotFound from "../components/NotFound";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
 import countItemsRemaining from "../utils/countItemsRemaining";
+import createItem from "../utils/createItem";
 import {
   saveSubmissionToFirestore,
   getCourseFromFirestore,
@@ -106,6 +107,20 @@ export default function App() {
     updateCourseItemsInFirestore(courseId, updatedItems);
   };
 
+  const handleAddItem = (type) => {
+    const items = [...course.items];
+    const newItem = createItem(type);
+    items.push(newItem);
+    setCourse({ ...course, items: items });
+    updateCourseItemsInFirestore(courseId, items);
+  };
+
+  const handleDeleteItem = (itemId) => {
+    const items = [...course.items];
+    setCourse({ ...course, items: items.filter((item) => item.id !== itemId) });
+    updateCourseItemsInFirestore(courseId, items);
+  };
+
   // if the course isn't found, show 404
   if (show404) return <NotFound type="course" />;
 
@@ -144,6 +159,8 @@ export default function App() {
                 setShowSolutions={setShowSolutions}
                 editable
                 onSaveItemChange={handleSaveItemChange}
+                onAddItem={handleAddItem}
+                onDeleteItem={handleDeleteItem}
               />
             </Route>
             <Route exact path={`${path}/score`}>

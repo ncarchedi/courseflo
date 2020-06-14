@@ -32,6 +32,8 @@ export default function TextInput({
 }) {
   const classes = useStyles();
 
+  if (!answer) return null;
+
   return (
     <>
       {showSolution ? (

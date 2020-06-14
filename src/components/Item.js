@@ -56,6 +56,7 @@ export default function Item(props) {
     showSolution,
     editable,
     onSaveItemChange,
+    onDeleteItem,
   } = props;
   const [itemValues, setItemValues] = useState(item);
 
@@ -167,6 +168,7 @@ export default function Item(props) {
         editing={editing}
         setEditing={setEditing}
         onSaveItemValues={handleSaveItemValues}
+        onDeleteItem={onDeleteItem}
       />
     </Paper>
   ) : (
