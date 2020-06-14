@@ -4,6 +4,8 @@ import renderHtmlFromString from "../utils/renderHtmlFromString";
 
 export default function Statement({ item }) {
   return (
-    <Typography variant="body1">{renderHtmlFromString(item.body)}</Typography>
+    <Typography variant="body1" style={{ whiteSpace: "pre-line" }}>
+      {renderHtmlFromString(item.body)}
+    </Typography>
   );
 }
