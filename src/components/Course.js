@@ -6,6 +6,7 @@ import Zoom from "@material-ui/core/Zoom";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import Item from "./Item";
 import AddItemFab from "../components/AddItemFab";
+import ReorderItemsDialog from "../components/ReorderItemsDialog";
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -54,9 +55,12 @@ export default function Course({
         ></Item>
       ))}
       {editable ? (
-        <Zoom in>
-          <AddItemFab onAddItem={onAddItem} />
-        </Zoom>
+        <>
+          <Zoom in>
+            <AddItemFab onAddItem={onAddItem} />
+          </Zoom>
+          <ReorderItemsDialog items={items} open={true} />
+        </>
       ) : (
         <Zoom in>
           <Fab
