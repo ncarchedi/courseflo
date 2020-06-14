@@ -19,7 +19,7 @@ export default function ReorderItemsDialog({ items, open }) {
       onClose={() => console.log("closing!")}
       aria-labelledby="form-dialog-title"
     >
-      <DialogTitle id="form-dialog-title">Reorder Items</DialogTitle>
+      <DialogTitle id="form-dialog-title">Move Item(s)</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Drag-and-drop the items below to reorder them.
