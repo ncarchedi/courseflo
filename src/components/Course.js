@@ -30,6 +30,7 @@ export default function Course({
   editable,
   onSaveItemChange,
   onAddItem,
+  onDeleteItem,
 }) {
   const classes = useStyles();
   let { url } = useRouteMatch();
@@ -49,6 +50,7 @@ export default function Course({
           showSolution={showSolutions}
           editable={editable}
           onSaveItemChange={onSaveItemChange}
+          onDeleteItem={onDeleteItem}
         ></Item>
       ))}
       {editable ? (

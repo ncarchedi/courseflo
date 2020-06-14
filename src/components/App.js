@@ -115,6 +115,12 @@ export default function App() {
     updateCourseItemsInFirestore(courseId, items);
   };
 
+  const handleDeleteItem = (itemId) => {
+    const items = [...course.items];
+    setCourse({ ...course, items: items.filter((item) => item.id !== itemId) });
+    updateCourseItemsInFirestore(courseId, items);
+  };
+
   // if the course isn't found, show 404
   if (show404) return <NotFound type="course" />;
 
@@ -154,6 +160,7 @@ export default function App() {
                 editable
                 onSaveItemChange={handleSaveItemChange}
                 onAddItem={handleAddItem}
+                onDeleteItem={handleDeleteItem}
               />
             </Route>
             <Route exact path={`${path}/score`}>
