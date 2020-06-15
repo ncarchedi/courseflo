@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link as RouterLink, useRouteMatch } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import Fab from "@material-ui/core/Fab";
@@ -32,9 +32,11 @@ export default function Course({
   onSaveItemChange,
   onAddItem,
   onDeleteItem,
+  onUpdateItems,
 }) {
   const classes = useStyles();
   let { url } = useRouteMatch();
+  const [openReorderDialog, setOpenReorderDialog] = useState(false);
 
   // if answers hasn't initialized yet, then return
   if (!answers) return null;
@@ -52,6 +54,7 @@ export default function Course({
           editable={editable}
           onSaveItemChange={onSaveItemChange}
           onDeleteItem={onDeleteItem}
+          setOpenReorderDialog={setOpenReorderDialog}
         ></Item>
       ))}
       {editable ? (
@@ -59,7 +62,12 @@ export default function Course({
           <Zoom in>
             <AddItemFab onAddItem={onAddItem} />
           </Zoom>
-          <ReorderItemsDialog items={items} open={true} />
+          <ReorderItemsDialog
+            items={items}
+            open={openReorderDialog}
+            setOpen={setOpenReorderDialog}
+            onUpdateItems={onUpdateItems}
+          />
         </>
       ) : (
         <Zoom in>

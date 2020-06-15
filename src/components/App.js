@@ -122,6 +122,12 @@ export default function App() {
     updateCourseItemsInFirestore(courseId, updatedItems);
   };
 
+  // generic function for updating items (e.g. for reordering them)
+  const handleUpdateItems = (updatedItems) => {
+    setCourse({ ...course, items: updatedItems });
+    updateCourseItemsInFirestore(courseId, updatedItems);
+  };
+
   // if the course isn't found, show 404
   if (show404) return <NotFound type="course" />;
 
@@ -162,6 +168,7 @@ export default function App() {
                 onSaveItemChange={handleSaveItemChange}
                 onAddItem={handleAddItem}
                 onDeleteItem={handleDeleteItem}
+                onUpdateItems={handleUpdateItems}
               />
             </Route>
             <Route exact path={`${path}/score`}>

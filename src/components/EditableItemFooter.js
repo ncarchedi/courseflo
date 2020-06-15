@@ -4,6 +4,7 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
+import HeightIcon from "@material-ui/icons/Height";
 import renderHtmlFromString from "../utils/renderHtmlFromString";
 
 const useStyles = makeStyles((theme) => ({
@@ -23,6 +24,7 @@ export default function EditableItemFooter({
   setEditing,
   onSaveItemValues,
   onDeleteItem,
+  setOpenReorderDialog,
 }) {
   const classes = useStyles();
 
@@ -41,6 +43,13 @@ export default function EditableItemFooter({
       <Box className={classes.container}>
         <Button variant="contained" color="primary" onClick={onClickDone}>
           Done
+        </Button>
+        <Button
+          variant="outlined"
+          onClick={() => setOpenReorderDialog(true)}
+          startIcon={<HeightIcon />}
+        >
+          Move
         </Button>
         <Button
           variant="outlined"
