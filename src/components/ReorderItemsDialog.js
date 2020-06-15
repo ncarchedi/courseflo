@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
@@ -32,7 +32,10 @@ export default function ReorderItemsDialog({
   onUpdateItems,
 }) {
   const classes = useStyles();
-  const [itemsArray, setItemsArray] = useState(items);
+  const [itemsArray, setItemsArray] = useState();
+
+  // initialize the ordered list
+  useEffect(() => setItemsArray(items), [items]);
 
   const SortableItem = SortableElement(({ item }) => (
     <ListItem className={classes.listItem}>

@@ -5,8 +5,9 @@ import Fab from "@material-ui/core/Fab";
 import Zoom from "@material-ui/core/Zoom";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import Item from "./Item";
-import AddItemFab from "../components/AddItemFab";
-import ReorderItemsDialog from "../components/ReorderItemsDialog";
+import NoItems from "./NoItems";
+import AddItemFab from "./AddItemFab";
+import ReorderItemsDialog from "./ReorderItemsDialog";
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -43,20 +44,26 @@ export default function Course({
 
   return (
     <>
-      {items.map((item, index) => (
-        <Item
-          key={item.id}
-          item={item}
-          itemNumber={index + 1}
-          answer={answers.filter((a) => a.itemId === item.id)[0]}
-          onChangeAnswer={onChangeAnswer}
-          showSolution={showSolutions}
-          editable={editable}
-          onSaveItemChange={onSaveItemChange}
-          onDeleteItem={onDeleteItem}
-          setOpenReorderDialog={setOpenReorderDialog}
-        ></Item>
-      ))}
+      {items.length ? (
+        <>
+          {items.map((item, index) => (
+            <Item
+              key={item.id}
+              item={item}
+              itemNumber={index + 1}
+              answer={answers.filter((a) => a.itemId === item.id)[0]}
+              onChangeAnswer={onChangeAnswer}
+              showSolution={showSolutions}
+              editable={editable}
+              onSaveItemChange={onSaveItemChange}
+              onDeleteItem={onDeleteItem}
+              setOpenReorderDialog={setOpenReorderDialog}
+            ></Item>
+          ))}
+        </>
+      ) : (
+        <NoItems editing={editable} />
+      )}
       {editable ? (
         <>
           <Zoom in>
@@ -70,20 +77,24 @@ export default function Course({
           />
         </>
       ) : (
-        <Zoom in>
-          <Fab
-            className={classes.fab}
-            component={RouterLink}
-            to={`${url}/score`}
-            onClick={() => setShowSolutions(true)}
-            variant="extended"
-            color="primary"
-            aria-label="submit"
-          >
-            {showSolutions ? "Back to my score" : "I'm all done!"}
-            <ArrowForwardIcon className={classes.fabIcon} />
-          </Fab>
-        </Zoom>
+        <>
+          {items.length > 0 && (
+            <Zoom in>
+              <Fab
+                className={classes.fab}
+                component={RouterLink}
+                to={`${url}/score`}
+                onClick={() => setShowSolutions(true)}
+                variant="extended"
+                color="primary"
+                aria-label="submit"
+              >
+                {showSolutions ? "Back to my score" : "I'm all done!"}
+                <ArrowForwardIcon className={classes.fabIcon} />
+              </Fab>
+            </Zoom>
+          )}
+        </>
       )}
     </>
   );
