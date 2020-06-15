@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import AddIcon from "@material-ui/icons/Add";
-import Emoji from "./Emoji";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -17,7 +16,7 @@ export default function NoItems({ editing }) {
   return editing ? (
     <Box className={classes.container} textAlign="center">
       <Typography variant="h4" gutterBottom>
-        Let's get started! <Emoji symbol="📝" label="memo" />
+        Let's get started!
       </Typography>
       <Typography variant="body2" color="textSecondary">
         <Box

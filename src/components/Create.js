@@ -98,6 +98,7 @@ export default function Create() {
                 color="primary"
                 size="large"
                 endIcon={<ArrowForwardIcon />}
+                disabled={!title || !author}
               >
                 Let's do this!
               </Button>

@@ -1,12 +1,16 @@
 import React from "react";
+import { Link as RouterLink, useRouteMatch } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Box from "@material-ui/core/Box";
 import Hidden from "@material-ui/core/Hidden";
 import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import FeedbackIcon from "@material-ui/icons/Feedback";
+import EditIcon from "@material-ui/icons/Edit";
+import VisibilityIcon from "@material-ui/icons/Visibility";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -37,6 +41,7 @@ export default function Header({
   editing,
 }) {
   const classes = useStyles();
+  let { url } = useRouteMatch();
 
   return (
     <AppBar position="static">
@@ -57,13 +62,24 @@ export default function Header({
               </Typography>
             )}
           </Hidden>
-          <IconButton
-            onClick={() => setShowFeedbackModal(true)}
-            edge="end"
-            color="inherit"
-          >
-            <FeedbackIcon />
-          </IconButton>
+          <Tooltip title={editing ? "Preview Course" : "Edit Course"}>
+            <IconButton
+              component={RouterLink}
+              to={editing ? url : `${url}/edit`}
+              color="inherit"
+            >
+              {editing ? <VisibilityIcon /> : <EditIcon />}
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Provide Feedback">
+            <IconButton
+              onClick={() => setShowFeedbackModal(true)}
+              edge="end"
+              color="inherit"
+            >
+              <FeedbackIcon />
+            </IconButton>
+          </Tooltip>
         </Box>
       </Toolbar>
     </AppBar>
