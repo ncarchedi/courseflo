@@ -70,11 +70,7 @@ export default function ReorderItemsDialog({
   };
 
   return (
-    <Dialog
-      open={open}
-      onClose={() => console.log("closing!")}
-      aria-labelledby="form-dialog-title"
-    >
+    <Dialog open={open} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">Move Item(s)</DialogTitle>
       <DialogContent>
         <DialogContentText>
