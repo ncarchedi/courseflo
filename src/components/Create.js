@@ -68,7 +68,7 @@ export default function Create() {
       ) : (
         <>
           <Typography className={classes.title} variant="h2" align="center">
-            Create a Course <Emoji symbol="📝" label="memo" />
+            Create a Course <Emoji symbol="📚" label="books" />
           </Typography>
           <form>
             <TextField
