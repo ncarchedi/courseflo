@@ -25,7 +25,7 @@ export default function EditableItemHeader({ item, icon, onChangeItemValue }) {
   };
 
   return (
-    <Grid container>
+    <Grid container spacing={1}>
       <Grid item xs={11}>
         <TextField
           variant="filled"

@@ -38,7 +38,7 @@ export default function ItemHeader({
 
   return (
     <Box className={classes.container}>
-      <Grid container>
+      <Grid container spacing={1}>
         <Grid item xs={11}>
           <Typography
             className={classes.title}

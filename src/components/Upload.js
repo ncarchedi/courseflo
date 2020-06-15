@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     marginBottom: theme.spacing(4),
-    fontSize: theme.typography.h3.fontSize,
+    fontSize: "2.4rem",
   },
   dropzone: {
     padding: theme.spacing(3, 0, 2, 0),
