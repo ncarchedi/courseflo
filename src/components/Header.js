@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
   toolbar: {
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(2),
+    alignItems: "flex-start",
   },
   title: {
     fontFamily: ["Patrick Hand SC", "cursive"],
