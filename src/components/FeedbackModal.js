@@ -8,7 +8,13 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { saveFeedbackToFirestore } from "../services/firestore";
 
-export default function FeedbackModal({ open, setOpen, courseId, answers }) {
+export default function FeedbackModal({
+  open,
+  setOpen,
+  courseId,
+  answers,
+  editing,
+}) {
   const [email, setEmail] = useState("");
   const [feedback, setFeedback] = useState("");
 
@@ -27,10 +33,19 @@ export default function FeedbackModal({ open, setOpen, courseId, answers }) {
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Provide Feedback</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          Please let us know if you have any questions or suggestions about this
-          course, or if you're having trouble completing it for any reason.
-        </DialogContentText>
+        {editing ? (
+          <DialogContentText>
+            Please let us know if you have any questions about editing your
+            course, or if you have any suggestions for how we can make it
+            easier.
+          </DialogContentText>
+        ) : (
+          <DialogContentText>
+            Please let us know if you have any questions or suggestions about
+            this course, or if you're having trouble completing it for any
+            reason.
+          </DialogContentText>
+        )}
         <form>
           <TextField
             type="email"
