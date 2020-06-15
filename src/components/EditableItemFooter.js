@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
   hintText: {
     fontStyle: "italic",
   },
+  delete: {
+    marginLeft: theme.spacing(1),
+  },
 }));
 
 export default function EditableItemFooter({
@@ -44,21 +47,24 @@ export default function EditableItemFooter({
         <Button variant="contained" color="primary" onClick={onClickDone}>
           Done
         </Button>
-        <Button
-          variant="outlined"
-          onClick={() => setOpenReorderDialog(true)}
-          startIcon={<HeightIcon />}
-        >
-          Move
-        </Button>
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={onClickDelete}
-          startIcon={<DeleteIcon />}
-        >
-          Delete
-        </Button>
+        <Box>
+          <Button
+            variant="outlined"
+            onClick={() => setOpenReorderDialog(true)}
+            startIcon={<HeightIcon />}
+          >
+            Move
+          </Button>
+          <Button
+            className={classes.delete}
+            variant="outlined"
+            color="secondary"
+            onClick={onClickDelete}
+            startIcon={<DeleteIcon />}
+          >
+            Delete
+          </Button>
+        </Box>
       </Box>
     );
 
