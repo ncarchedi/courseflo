@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import red from "@material-ui/core/colors/red";
 import green from "@material-ui/core/colors/green";
@@ -60,6 +60,13 @@ export default function Item(props) {
     setOpenReorderDialog,
   } = props;
   const [itemValues, setItemValues] = useState(item);
+
+  // make sure that if we're not in editable mode
+  // that the current item isn't being edited
+  useEffect(() => {
+    if (!editable) setEditing(false);
+    return () => setEditing(false);
+  }, [editable]);
 
   const handleChangeItemValue = (name, newValue) => {
     setItemValues({ ...itemValues, [name]: newValue });
