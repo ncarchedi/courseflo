@@ -9,6 +9,8 @@ import Link from "@material-ui/core/Link";
 import TextField from "@material-ui/core/TextField";
 import Emoji from "./Emoji";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+import createCourse from "../utils/createCourse";
+import { saveCourseToFirestore } from "../services/firestore";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -30,27 +32,18 @@ const exampleCourseOptions = [
   { title: "Exploring the Cosmos", author: "Buzz Aldrin" },
   { title: "Fundamentals of Plank Construction", author: "Jack Sparrow" },
   { title: "Statistics 101", author: "Florence Nightingale" },
-  { title: "How to Fill a Stadium", author: "Beyoncé Knowles" },
+  { title: "How to Sing in Front of a Large Crowd", author: "Beyoncé Knowles" },
   { title: "A Beginner's Guide to Broomsticks", author: "Harry Potter" },
   { title: "How to Write a Novel", author: "Jane Austen" },
 ];
 
 // details here: https://react-dropzone.js.org/
 // and here: https://developer.mozilla.org/en-US/docs/Web/API/FileReader
-export default function CreateCourse() {
+export default function Create() {
   const classes = useStyles();
-  // const [newCourse, setNewCourse] = useState();
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
   const [courseId, setCourseId] = useState();
-
-  // useEffect(() => {
-  //   if (newCourse) {
-  //     saveCourseToFirestore(newCourse)
-  //       .then((docRef) => setCourseId(docRef.id))
-  //       .catch((error) =>
-  //         console.error("Error uploading course to Firestore: ", error)
-  //       );
-  //   }
-  // }, [newCourse]);
 
   // select random course data placeholders
   const exampleCourse =
@@ -58,10 +51,20 @@ export default function CreateCourse() {
       Math.floor(Math.random() * exampleCourseOptions.length)
     ];
 
+  const handleCreate = (e) => {
+    e.preventDefault();
+    const newCourse = createCourse(title, author);
+    saveCourseToFirestore(newCourse)
+      .then((docRef) => setCourseId(docRef.id))
+      .catch((error) =>
+        console.error("Error saving course to Firestore: ", error)
+      );
+  };
+
   return (
     <Container className={classes.container} maxWidth="sm">
       {courseId ? (
-        <Redirect to={`/course/${courseId}`} />
+        <Redirect to={`/course/${courseId}/edit`} />
       ) : (
         <>
           <Typography className={classes.title} variant="h2" align="center">
@@ -69,28 +72,28 @@ export default function CreateCourse() {
           </Typography>
           <form>
             <TextField
-              label="Course name"
+              label="Course Name"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               placeholder={exampleCourse.title}
+              helperText="Don't worry—you can change this later"
               margin="dense"
               fullWidth
-              autoFocus
             />
             <TextField
-              label="Your name"
+              label="Your Name"
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
               placeholder={exampleCourse.author}
+              helperText="Only people who take your course will see this"
               margin="dense"
               fullWidth
             />
-            {/* <TextField
-            label="Completion message"
-            placeholder="Thanks for completing the course! 🙌"
-            margin="dense"
-            multiline
-            fullWidth
-          /> */}
             <Box className={classes.buttons} textAlign="center">
               <Button
+                type="submit"
                 className={classes.cta}
+                onClick={handleCreate}
                 variant="contained"
                 color="primary"
                 size="large"
