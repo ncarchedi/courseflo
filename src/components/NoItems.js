@@ -26,7 +26,7 @@ export default function NoItems({ editing }) {
           justifyContent="center"
           alignItems="flex-end"
         >
-          Click the <AddIcon /> button below to add an item
+          Use the <AddIcon /> icon below to add your first item
         </Box>
       </Typography>
     </Box>

@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Switch, Route, useRouteMatch, useParams } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  useRouteMatch,
+  useParams,
+  useLocation,
+} from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Header from "./Header";
@@ -27,6 +33,7 @@ export default function App() {
   const classes = useStyles();
   let { path } = useRouteMatch();
   let { courseId } = useParams();
+  let location = useLocation();
   const [course, setCourse] = useState(null);
   const [answers, setAnswers] = useState(null);
   const [showSolutions, setShowSolutions] = useState(false);
@@ -131,6 +138,9 @@ export default function App() {
   // if the course isn't found, show 404
   if (show404) return <NotFound type="course" />;
 
+  // todo: figure out in a less hacky way whether I'm editing
+  const editing = location.pathname.includes("/edit");
+
   return (
     course && (
       <>
@@ -139,12 +149,14 @@ export default function App() {
           numRemaining={countItemsRemaining(answers)}
           showSolutions={showSolutions}
           setShowFeedbackModal={setShowFeedbackModal}
+          editing={editing}
         />
         <FeedbackModal
           open={showFeedbackModal}
           setOpen={setShowFeedbackModal}
           courseId={courseId}
           answers={answers}
+          editing={editing}
         />
         <Container className={classes.container}>
           <Switch>
