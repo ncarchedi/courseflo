@@ -57,6 +57,7 @@ export default function Item(props) {
     editable,
     onSaveItemChange,
     onDeleteItem,
+    setOpenReorderDialog,
   } = props;
   const [itemValues, setItemValues] = useState(item);
 
@@ -169,6 +170,7 @@ export default function Item(props) {
         setEditing={setEditing}
         onSaveItemValues={handleSaveItemValues}
         onDeleteItem={onDeleteItem}
+        setOpenReorderDialog={setOpenReorderDialog}
       />
     </Paper>
   ) : (
