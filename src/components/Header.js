@@ -108,6 +108,7 @@ export default function Header({
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
         onClose={() => setSnackbarOpen(false)}
       >
         <MuiAlert

@@ -71,6 +71,7 @@ export default function Upload() {
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
         onClose={() => setSnackbarOpen(false)}
       >
         <MuiAlert
