@@ -16,6 +16,7 @@ import NotFound from "../components/NotFound";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
 import countItemsRemaining from "../utils/countItemsRemaining";
 import createItem from "../utils/createItem";
+import initializeAnswers from "../utils/initializeAnswers";
 import {
   saveSubmissionToFirestore,
   getCourseFromFirestore,
@@ -62,21 +63,7 @@ export default function App() {
   // initialize the answers array
   useEffect(() => {
     // once the course has been loaded into state
-    if (course) {
-      let a = [];
-      course.items.forEach((item) => {
-        // for each item type that requires a response
-        if (!["Text", "Video", "Image"].includes(item.type)) {
-          a.push({
-            itemId: item.id,
-            value: item.type === "MultiSelect" ? [] : "",
-            solution: item.solution,
-            isCorrect: false,
-          });
-        }
-      });
-      setAnswers(a);
-    }
+    if (course) initializeAnswers(course, setAnswers);
   }, [course]);
 
   // save answers to firebase when user submits
@@ -85,6 +72,18 @@ export default function App() {
       saveSubmissionToFirestore(courseId, answers);
     }
   }, [courseId, answers, showSolutions]);
+
+  // todo: figure out in a less hacky way whether I'm editing
+  const editing = location.pathname.includes("/edit");
+
+  // if editing, make sure we're not showing solutions
+  // and that we clear away all answers
+  useEffect(() => {
+    if (editing) {
+      setShowSolutions(false);
+      initializeAnswers(course, setAnswers);
+    }
+  }, [editing, course]);
 
   const getSolution = (itemId) => {
     const item = course.items.filter((i) => i.id === itemId)[0];
@@ -137,9 +136,6 @@ export default function App() {
 
   // if the course isn't found, show 404
   if (show404) return <NotFound type="course" />;
-
-  // todo: figure out in a less hacky way whether I'm editing
-  const editing = location.pathname.includes("/edit");
 
   return (
     course && (
