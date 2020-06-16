@@ -62,13 +62,15 @@ export default function Header({
             <Typography className={classes.title} variant="h5" component="h1">
               {courseTitle}
             </Typography>
-            <Typography
-              className={classes.author}
-              variant="body2"
-              component="h2"
-            >
-              By Nick Carchedi
-            </Typography>
+            <Hidden xsDown>
+              <Typography
+                className={classes.author}
+                variant="body2"
+                component="h2"
+              >
+                By Nick Carchedi
+              </Typography>
+            </Hidden>
           </Box>
           <Box display="flex" alignItems="center">
             <Hidden smDown>
