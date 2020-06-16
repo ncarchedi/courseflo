@@ -105,7 +105,7 @@ export default function Create() {
               <Typography variant="body2" color="textSecondary">
                 <Link
                   style={{ color: "inherit" }}
-                  href="https://course-builder.netlify.app/course/mfRbHtnQ5rlR5KHsUyFV"
+                  href="https://courseflo.com/course/mfRbHtnQ5rlR5KHsUyFV"
                   target="_blank"
                 >
                   See an example course

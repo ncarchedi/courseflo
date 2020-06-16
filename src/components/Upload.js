@@ -114,7 +114,7 @@ export default function Upload() {
   const { ref, ...rootProps } = getRootProps();
 
   // construct url to course
-  const courseURL = `https://course-builder.netlify.app/course/${courseId}`;
+  const courseURL = `https://courseflo.com/course/${courseId}`;
 
   return (
     <Container className={classes.container} maxWidth="sm">
