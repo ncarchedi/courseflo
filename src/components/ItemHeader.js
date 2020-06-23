@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ItemHeader({
   item,
-  itemNumber,
   titleColor,
   pointsText,
   helperText,
@@ -45,7 +44,7 @@ export default function ItemHeader({
             style={{ color: titleColor }}
             variant="h6"
           >
-            {itemNumber}. {text}
+            {text}
           </Typography>
         </Grid>
         <Grid className={classes.iconContainer} item xs={1}>

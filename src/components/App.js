@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Switch,
-  Route,
-  useRouteMatch,
-  useParams,
-  useLocation,
-} from "react-router-dom";
+import { Switch, Route, useRouteMatch, useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Header from "./Header";
@@ -19,7 +13,6 @@ import initializeAnswers from "../utils/initializeAnswers";
 import {
   saveSubmissionToFirestore,
   getCourseFromFirestore,
-  updateCourseItemsInFirestore,
 } from "../services/firestore";
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +26,6 @@ export default function App() {
   const classes = useStyles();
   let { path } = useRouteMatch();
   let { courseId } = useParams();
-  let location = useLocation();
   const [course, setCourse] = useState(null);
   const [answers, setAnswers] = useState(null);
   const [showSolutions, setShowSolutions] = useState(false);
