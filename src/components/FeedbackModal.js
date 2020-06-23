@@ -28,8 +28,7 @@ export default function FeedbackModal({ open, setOpen, courseId, answers }) {
       <DialogTitle>Provide Feedback</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Please let us know if you have any questions or suggestions about this
-          course, or if you're having trouble completing it for any reason.
+          Please let us know if you have any questions or suggestions!
         </DialogContentText>
         <form>
           <TextField
