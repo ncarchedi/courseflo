@@ -54,99 +54,91 @@ export default function MultiSelect({
 
   if (!answer) return null;
 
-  return (
-    <>
-      {showSolution ? (
-        <>
-          <FormGroup>
-            {item.options.map((option) => (
-              <Box
-                key={option}
-                className={`
-              ${classes.option}
-              ${
-                answer.value.includes(option)
-                  ? item.solution.includes(option)
-                    ? classes.correctOption
-                    : classes.incorrectOption
-                  : null
-              }`}
-                component="span"
-                display="flex"
-                alignItems="center"
-              >
-                <FormControlLabel
-                  className={classes.optionLabel}
-                  control={
-                    <Checkbox
-                      name={option}
-                      checked={answer.value.includes(option)}
-                      onChange={() => handleCheck(option)}
-                      disabled
-                    />
-                  }
-                  label={renderHtmlFromString(option)}
-                />
-                {answer.value.includes(option) ? ( // if the option is selected
-                  item.solution.includes(option) ? ( // and it's correct
-                    <CorrectIcon />
-                  ) : (
-                    <IncorrectIcon />
+  if (showSolution)
+    return (
+      <>
+        <FormGroup>
+          {item.options.map((option) => (
+            <Box
+              key={option}
+              className={`
+      ${classes.option}
+      ${
+        answer.value.includes(option)
+          ? item.solution.includes(option)
+            ? classes.correctOption
+            : classes.incorrectOption
+          : null
+      }`}
+              component="span"
+              display="flex"
+              alignItems="center"
+            >
+              <FormControlLabel
+                className={classes.optionLabel}
+                control={
+                  <Checkbox
+                    name={option}
+                    checked={answer.value.includes(option)}
+                    onChange={() => handleCheck(option)}
+                    disabled
+                  />
+                }
+                label={renderHtmlFromString(option)}
+              />
+              {answer.value.includes(option) ? ( // if the option is selected
+                item.solution.includes(option) ? ( // and it's correct
+                  <CorrectIcon />
+                ) : (
+                  <IncorrectIcon />
+                )
+              ) : null}
+            </Box>
+          ))}
+        </FormGroup>
+        {!answer.isCorrect && (
+          <>
+            <Typography
+              className={classes.correctAnswer}
+              variant="h6"
+              color="textSecondary"
+            >
+              Correct answer
+            </Typography>
+            <FormGroup>
+              {item.options.map(
+                (option) =>
+                  item.solution.includes(option) && (
+                    <Box key={option} className={classes.option}>
+                      <FormControlLabel
+                        control={<Checkbox name={option} checked disabled />}
+                        label={renderHtmlFromString(option)}
+                      />
+                    </Box>
                   )
-                ) : null}
-              </Box>
-            ))}
-          </FormGroup>
-          {!answer.isCorrect && (
-            <>
-              <Typography
-                className={classes.correctAnswer}
-                variant="h6"
-                color="textSecondary"
-              >
-                Correct answer
-              </Typography>
-              <FormGroup>
-                {item.options.map(
-                  (option) =>
-                    item.solution.includes(option) && (
-                      <Box key={option} className={classes.option}>
-                        <FormControlLabel
-                          control={<Checkbox name={option} checked disabled />}
-                          label={renderHtmlFromString(option)}
-                        />
-                      </Box>
-                    )
-                )}
-              </FormGroup>
-            </>
-          )}
-        </>
-      ) : (
-        <>
-          <FormGroup>
-            {item.options.map((option) => (
-              <Box
-                key={option}
-                component="span"
-                display="flex"
-                alignItems="center"
-              >
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      name={option}
-                      checked={answer.value.includes(option)}
-                      onChange={() => handleCheck(option)}
-                    />
-                  }
-                  label={renderHtmlFromString(option)}
-                />
-              </Box>
-            ))}
-          </FormGroup>
-        </>
-      )}
-    </>
+              )}
+            </FormGroup>
+          </>
+        )}
+      </>
+    );
+
+  return (
+    <FormGroup>
+      {item.options.map((option) => (
+        <Box key={option} component="span" display="flex" alignItems="center">
+          <FormControlLabel
+            control={
+              <Checkbox
+                name={option}
+                checked={answer.value.includes(option)}
+                onChange={() => handleCheck(option)}
+              />
+            }
+            label={renderHtmlFromString(option)}
+          />
+        </Box>
+      ))}
+    </FormGroup>
   );
 }

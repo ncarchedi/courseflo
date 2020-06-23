@@ -34,56 +34,49 @@ export default function TextInput({
 
   if (!answer) return null;
 
+  if (showSolution)
+    return (
+      <>
+        <Box
+          className={`${classes.input} ${
+            answer.isCorrect ? classes.correctInput : classes.incorrectInput
+          }`}
+          component="span"
+          display="flex"
+          alignItems="center"
+        >
+          <TextField
+            value={answer.value}
+            onChange={(e) => onChangeAnswer(item.id, e.target.value)}
+            placeholder="Type your answer here..."
+            fullWidth
+            disabled
+          />
+          {item.solution === answer.value ? <CorrectIcon /> : <IncorrectIcon />}
+        </Box>
+        {!answer.isCorrect && (
+          <>
+            <Typography
+              className={classes.correctAnswer}
+              variant="h6"
+              color="textSecondary"
+            >
+              Correct answer
+            </Typography>
+            <TextField value={item.solution} fullWidth disabled />
+          </>
+        )}
+      </>
+    );
+
   return (
-    <>
-      {showSolution ? (
-        <>
-          <Box
-            className={`${classes.input} ${
-              answer.isCorrect ? classes.correctInput : classes.incorrectInput
-            }`}
-            component="span"
-            display="flex"
-            alignItems="center"
-          >
-            <TextField
-              value={answer.value}
-              onChange={(e) => onChangeAnswer(item.id, e.target.value)}
-              placeholder="Type your answer here..."
-              fullWidth
-              disabled
-            />
-            {item.solution === answer.value ? (
-              <CorrectIcon />
-            ) : (
-              <IncorrectIcon />
-            )}
-          </Box>
-          {!answer.isCorrect && (
-            <>
-              <Typography
-                className={classes.correctAnswer}
-                variant="h6"
-                color="textSecondary"
-              >
-                Correct answer
-              </Typography>
-              <TextField value={item.solution} fullWidth disabled />
-            </>
-          )}
-        </>
-      ) : (
-        <>
-          <Box component="span" display="flex" alignItems="center">
-            <TextField
-              value={answer.value}
-              onChange={(e) => onChangeAnswer(item.id, e.target.value)}
-              placeholder="Type your answer here..."
-              fullWidth
-            />
-          </Box>
-        </>
-      )}
-    </>
+    <Box component="span" display="flex" alignItems="center">
+      <TextField
+        value={answer.value}
+        onChange={(e) => onChangeAnswer(item.id, e.target.value)}
+        placeholder="Type your answer here..."
+        fullWidth
+      />
+    </Box>
   );
 }
