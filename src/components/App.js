@@ -15,7 +15,6 @@ import FeedbackModal from "../components/FeedbackModal";
 import NotFound from "../components/NotFound";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
 import countItemsRemaining from "../utils/countItemsRemaining";
-import createItem from "../utils/createItem";
 import initializeAnswers from "../utils/initializeAnswers";
 import {
   saveSubmissionToFirestore,
@@ -73,18 +72,6 @@ export default function App() {
     }
   }, [courseId, answers, showSolutions]);
 
-  // todo: figure out in a less hacky way whether I'm editing
-  const editing = location.pathname.includes("/edit");
-
-  // if editing, make sure we're not showing solutions
-  // and that we clear away all answers
-  useEffect(() => {
-    if (editing) {
-      setShowSolutions(false);
-      initializeAnswers(course, setAnswers);
-    }
-  }, [editing, course]);
-
   const getSolution = (itemId) => {
     const item = course.items.filter((i) => i.id === itemId)[0];
     return item.solution;
@@ -105,35 +92,6 @@ export default function App() {
     ]);
   };
 
-  const handleSaveItemChange = (itemId, updatedItem) => {
-    const updatedItems = [...course.items];
-    const index = updatedItems.findIndex((item) => item.id === itemId);
-    updatedItems[index] = updatedItem;
-    setCourse({ ...course, items: updatedItems });
-    updateCourseItemsInFirestore(courseId, updatedItems);
-  };
-
-  const handleAddItem = (type) => {
-    const items = [...course.items];
-    const newItem = createItem(type);
-    items.push(newItem);
-    setCourse({ ...course, items: items });
-    updateCourseItemsInFirestore(courseId, items);
-  };
-
-  const handleDeleteItem = (itemId) => {
-    const items = [...course.items];
-    const updatedItems = items.filter((item) => item.id !== itemId);
-    setCourse({ ...course, items: updatedItems });
-    updateCourseItemsInFirestore(courseId, updatedItems);
-  };
-
-  // generic function for updating items (e.g. for reordering them)
-  const handleUpdateItems = (updatedItems) => {
-    setCourse({ ...course, items: updatedItems });
-    updateCourseItemsInFirestore(courseId, updatedItems);
-  };
-
   // if the course isn't found, show 404
   if (show404) return <NotFound type="course" />;
 
@@ -145,14 +103,12 @@ export default function App() {
           numRemaining={countItemsRemaining(answers)}
           showSolutions={showSolutions}
           setShowFeedbackModal={setShowFeedbackModal}
-          editing={editing}
         />
         <FeedbackModal
           open={showFeedbackModal}
           setOpen={setShowFeedbackModal}
           courseId={courseId}
           answers={answers}
-          editing={editing}
         />
         <Container className={classes.container}>
           <Switch>
@@ -163,20 +119,6 @@ export default function App() {
                 onChangeAnswer={handleChangeAnswer}
                 showSolutions={showSolutions}
                 setShowSolutions={setShowSolutions}
-              />
-            </Route>
-            <Route exact path={`${path}/edit`}>
-              <Course
-                items={course.items}
-                answers={answers}
-                onChangeAnswer={handleChangeAnswer}
-                showSolutions={showSolutions}
-                setShowSolutions={setShowSolutions}
-                editable
-                onSaveItemChange={handleSaveItemChange}
-                onAddItem={handleAddItem}
-                onDeleteItem={handleDeleteItem}
-                onUpdateItems={handleUpdateItems}
               />
             </Route>
             <Route exact path={`${path}/score`}>

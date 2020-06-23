@@ -46,10 +46,6 @@ export const saveCourseToFirestore = (course) => {
   });
 };
 
-export const updateCourseItemsInFirestore = (courseId, items) => {
-  return db.collection("courses").doc(courseId).update({ items });
-};
-
 // export const getGroceryListItems = groceryListId => {
 //     return db.collection('groceryLists')
 //         .doc(groceryListId)

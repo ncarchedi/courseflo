@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link as RouterLink, useRouteMatch } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -11,24 +11,15 @@ import IconButton from "@material-ui/core/IconButton";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import FeedbackIcon from "@material-ui/icons/Feedback";
-import EditIcon from "@material-ui/icons/Edit";
-import VisibilityIcon from "@material-ui/icons/Visibility";
 import ShareIcon from "@material-ui/icons/Share";
 
 const useStyles = makeStyles((theme) => ({
-  toolbar: {
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(2),
-    alignItems: "flex-start",
-  },
   title: {
+    flexGrow: 1,
     fontFamily: ["Patrick Hand SC", "cursive"],
     [theme.breakpoints.up("sm")]: {
       fontSize: "1.9rem",
     },
-  },
-  author: {
-    fontStyle: "italic",
   },
   remaining: {
     fontStyle: "italic",
@@ -41,7 +32,6 @@ export default function Header({
   numRemaining,
   showSolutions,
   setShowFeedbackModal,
-  editing,
 }) {
   const classes = useStyles();
   let { url } = useRouteMatch();
@@ -56,40 +46,20 @@ export default function Header({
 
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar className={classes.toolbar}>
-          <Box flexGrow={1}>
-            <Typography className={classes.title} variant="h5" component="h1">
-              {courseTitle}
-            </Typography>
-            <Hidden xsDown>
-              <Typography
-                className={classes.author}
-                variant="body2"
-                component="h2"
-              >
-                By Nick Carchedi
-              </Typography>
-            </Hidden>
-          </Box>
+          <Typography className={classes.title} variant="h5" component="h1">
+            {courseTitle}
+          </Typography>
           <Box display="flex" alignItems="center">
             <Hidden smDown>
-              {!showSolutions && !editing && (
+              {!showSolutions && (
                 <Typography className={classes.remaining} variant="body1">
                   {(numRemaining ? numRemaining : "No") +
                     " questions remaining"}
                 </Typography>
               )}
             </Hidden>
-            <Tooltip title={editing ? "Preview Course" : "Edit Course"}>
-              <IconButton
-                component={RouterLink}
-                to={editing ? url : `${url}/edit`}
-                color="inherit"
-              >
-                {editing ? <VisibilityIcon /> : <EditIcon />}
-              </IconButton>
-            </Tooltip>
             <Tooltip title="Share Course">
               <IconButton color="inherit" onClick={handleCopy}>
                 <ShareIcon />
@@ -107,6 +77,8 @@ export default function Header({
           </Box>
         </Toolbar>
       </AppBar>
+      {/* second toolbar due to: https://material-ui.com/components/app-bar/#fixed-placement */}
+      <Toolbar />
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
