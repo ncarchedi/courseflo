@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link as RouterLink, useRouteMatch } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import Fab from "@material-ui/core/Fab";
@@ -27,34 +27,42 @@ export default function Course({
   onChangeAnswer,
   showSolutions,
   setShowSolutions,
+  viewMode,
 }) {
   const classes = useStyles();
   let { url } = useRouteMatch();
+  const [itemNumber, setItemNumber] = useState(0);
 
   // if answers hasn't initialized yet, then return
   if (!answers) return null;
 
-  return (
-    <>
-      {items.length ? (
-        <>
-          {items.map((item, index) => (
-            <Item
-              key={item.id}
-              item={item}
-              itemNumber={index + 1}
-              answer={answers.filter((a) => a.itemId === item.id)[0]}
-              onChangeAnswer={onChangeAnswer}
-              showSolution={showSolutions}
-            ></Item>
-          ))}
-        </>
-      ) : (
-        <NoItems />
-      )}
+  // if there are no items to show, show empty screen
+  if (!items.length) return <NoItems />;
+
+  if (viewMode === "focused") {
+    const item = items[itemNumber];
+
+    return (
       <>
-        {items.length > 0 && (
-          <Zoom in>
+        <Item
+          key={item.id}
+          item={item}
+          answer={answers.filter((a) => a.itemId === item.id)[0]}
+          onChangeAnswer={onChangeAnswer}
+          showSolution={showSolutions}
+        />
+        <Zoom in>
+          {itemNumber < items.length - 1 ? (
+            <Fab
+              className={classes.fab}
+              onClick={() => setItemNumber(itemNumber + 1)}
+              variant="extended"
+              color="primary"
+              aria-label="continue"
+            >
+              Continue <ArrowForwardIcon className={classes.fabIcon} />
+            </Fab>
+          ) : (
             <Fab
               className={classes.fab}
               component={RouterLink}
@@ -64,12 +72,40 @@ export default function Course({
               color="primary"
               aria-label="submit"
             >
-              {showSolutions ? "Back to my score" : "I'm all done!"}
+              {showSolutions ? "Back to my score" : "See my score!"}
               <ArrowForwardIcon className={classes.fabIcon} />
             </Fab>
-          </Zoom>
-        )}
+          )}
+        </Zoom>
       </>
+    );
+  }
+
+  return (
+    <>
+      {items.map((item) => (
+        <Item
+          key={item.id}
+          item={item}
+          answer={answers.filter((a) => a.itemId === item.id)[0]}
+          onChangeAnswer={onChangeAnswer}
+          showSolution={showSolutions}
+        />
+      ))}
+      <Zoom in>
+        <Fab
+          className={classes.fab}
+          component={RouterLink}
+          to={`${url}/score`}
+          onClick={() => setShowSolutions(true)}
+          variant="extended"
+          color="primary"
+          aria-label="submit"
+        >
+          {showSolutions ? "Back to my score" : "See my score!"}
+          <ArrowForwardIcon className={classes.fabIcon} />
+        </Fab>
+      </Zoom>
     </>
   );
 }

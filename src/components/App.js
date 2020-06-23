@@ -108,6 +108,7 @@ export default function App() {
                 onChangeAnswer={handleChangeAnswer}
                 showSolutions={showSolutions}
                 setShowSolutions={setShowSolutions}
+                viewMode="focused"
               />
             </Route>
             <Route exact path={`${path}/score`}>

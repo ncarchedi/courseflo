@@ -8,7 +8,7 @@ import computeScoreFromAnswers from "../utils/computeScoreFromAnswers";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(2),
     padding: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
       padding: theme.spacing(3),

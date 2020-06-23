@@ -22,7 +22,7 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    margin: theme.spacing(2, "auto"),
+    marginTop: theme.spacing(2),
     padding: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
       padding: theme.spacing(3),
