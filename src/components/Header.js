@@ -4,7 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Box from "@material-ui/core/Box";
-import Hidden from "@material-ui/core/Hidden";
 import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
@@ -27,12 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header({
-  courseTitle,
-  numRemaining,
-  showSolutions,
-  setShowFeedbackModal,
-}) {
+export default function Header({ courseTitle, setShowFeedbackModal }) {
   const classes = useStyles();
   let { url } = useRouteMatch();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -52,14 +46,6 @@ export default function Header({
             {courseTitle}
           </Typography>
           <Box display="flex" alignItems="center">
-            <Hidden smDown>
-              {!showSolutions && (
-                <Typography className={classes.remaining} variant="body1">
-                  {(numRemaining ? numRemaining : "No") +
-                    " questions remaining"}
-                </Typography>
-              )}
-            </Hidden>
             <Tooltip title="Share Course">
               <IconButton color="inherit" onClick={handleCopy}>
                 <ShareIcon />

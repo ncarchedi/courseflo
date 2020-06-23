@@ -8,7 +8,6 @@ import Score from "./Score";
 import FeedbackModal from "../components/FeedbackModal";
 import NotFound from "../components/NotFound";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
-import countItemsRemaining from "../utils/countItemsRemaining";
 import initializeAnswers from "../utils/initializeAnswers";
 import {
   saveSubmissionToFirestore,
@@ -92,8 +91,6 @@ export default function App() {
       <>
         <Header
           courseTitle={course.title}
-          numRemaining={countItemsRemaining(answers)}
-          showSolutions={showSolutions}
           setShowFeedbackModal={setShowFeedbackModal}
         />
         <FeedbackModal
