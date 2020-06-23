@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Item(props) {
   const classes = useStyles();
   const theme = useTheme();
-  const { item, itemNumber, answer, showSolution } = props;
+  const { item, answer, showSolution } = props;
 
   const getPointsText = (points) => {
     return points <= 1 ? points + " point" : points + "points";
@@ -107,7 +107,6 @@ export default function Item(props) {
     <Paper className={classes.container} elevation={2}>
       <ItemHeader
         item={item}
-        itemNumber={itemNumber}
         titleColor={titleColor}
         pointsText={pointsText}
         helperText={helperText}
