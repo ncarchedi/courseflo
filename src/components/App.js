@@ -17,7 +17,7 @@ import {
 const useStyles = makeStyles((theme) => ({
   container: {
     margin: theme.spacing(0, "auto", 12, "auto"),
-    maxWidth: theme.breakpoints.values.sm + 75,
+    maxWidth: theme.breakpoints.values.sm + 100,
   },
 }));
 
@@ -30,6 +30,7 @@ export default function App() {
   const [showSolutions, setShowSolutions] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [show404, setShow404] = useState(false);
+  const [orientation, setOrientation] = useState("horizontal");
 
   useEffect(() => {
     getCourseFromFirestore(courseId)
@@ -62,6 +63,11 @@ export default function App() {
       saveSubmissionToFirestore(courseId, answers);
     }
   }, [courseId, answers, showSolutions]);
+
+  // if answers are shown, switch to vertical view mode
+  useEffect(() => {
+    if (showSolutions) setOrientation("vertical");
+  }, [showSolutions]);
 
   const getSolution = (itemId) => {
     const item = course.items.filter((i) => i.id === itemId)[0];
@@ -108,7 +114,7 @@ export default function App() {
                 onChangeAnswer={handleChangeAnswer}
                 showSolutions={showSolutions}
                 setShowSolutions={setShowSolutions}
-                viewMode="focused"
+                orientation={orientation}
               />
             </Route>
             <Route exact path={`${path}/score`}>

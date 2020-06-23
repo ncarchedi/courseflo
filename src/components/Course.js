@@ -27,7 +27,7 @@ export default function Course({
   onChangeAnswer,
   showSolutions,
   setShowSolutions,
-  viewMode,
+  orientation,
 }) {
   const classes = useStyles();
   let { url } = useRouteMatch();
@@ -39,7 +39,7 @@ export default function Course({
   // if there are no items to show, show empty screen
   if (!items.length) return <NoItems />;
 
-  if (viewMode === "focused") {
+  if (orientation === "horizontal") {
     const item = items[itemNumber];
 
     return (
@@ -72,7 +72,7 @@ export default function Course({
               color="primary"
               aria-label="submit"
             >
-              {showSolutions ? "Back to my score" : "See my score!"}
+              {showSolutions ? "Back to my score" : "I'm all done!"}
               <ArrowForwardIcon className={classes.fabIcon} />
             </Fab>
           )}
@@ -102,7 +102,7 @@ export default function Course({
           color="primary"
           aria-label="submit"
         >
-          {showSolutions ? "Back to my score" : "See my score!"}
+          {showSolutions ? "Back to my score" : "I'm all done!"}
           <ArrowForwardIcon className={classes.fabIcon} />
         </Fab>
       </Zoom>
