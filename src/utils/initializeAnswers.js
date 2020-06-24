@@ -4,7 +4,7 @@ export default function initializeAnswers(course, setAnswers) {
   let a = [];
   course.items.forEach((item) => {
     // for each item type that requires a response
-    if (!["Text", "Video", "Image"].includes(item.type)) {
+    if (!["Text", "Video", "Document", "Image"].includes(item.type)) {
       a.push({
         itemId: item.id,
         value: item.type === "MultiSelect" ? [] : "",

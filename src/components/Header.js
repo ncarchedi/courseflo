@@ -19,10 +19,6 @@ import ProgressBar from "./ProgressBar";
 const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
-    fontFamily: ["Patrick Hand SC", "cursive"],
-    [theme.breakpoints.up("sm")]: {
-      fontSize: "1.9rem",
-    },
   },
   remaining: {
     fontStyle: "italic",
@@ -56,7 +52,12 @@ export default function Header({
     <>
       <AppBar position="fixed" color="default">
         <Toolbar className={classes.toolbar}>
-          <Typography className={classes.title} variant="h5" component="h1">
+          <Typography
+            className={classes.title}
+            variant="h5"
+            component="h1"
+            noWrap
+          >
             {courseTitle}
           </Typography>
           <Box display="flex" alignItems="center">

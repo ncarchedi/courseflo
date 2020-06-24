@@ -83,12 +83,11 @@ export default function Course({
               onClick={() => setItemNumber(itemNumber - 1)}
               variant={notOnMobile ? "extended" : "round"}
               color="primary"
-              aria-label="previous question"
+              aria-label="go back"
             >
               {notOnMobile ? (
                 <>
-                  <ArrowBackIcon className={classes.fabLeftIcon} /> Last
-                  Question
+                  <ArrowBackIcon className={classes.fabLeftIcon} /> Go back
                 </>
               ) : (
                 <ArrowBackIcon />
@@ -103,12 +102,11 @@ export default function Course({
               onClick={() => setItemNumber(itemNumber + 1)}
               variant={notOnMobile ? "extended" : "round"}
               color="primary"
-              aria-label="next question"
+              aria-label="continue"
             >
               {notOnMobile ? (
                 <>
-                  Next Question{" "}
-                  <ArrowForwardIcon className={classes.fabRightIcon} />
+                  Continue <ArrowForwardIcon className={classes.fabRightIcon} />
                 </>
               ) : (
                 <ArrowForwardIcon />

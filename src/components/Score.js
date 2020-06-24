@@ -43,11 +43,11 @@ export default function Score({ message, answers }) {
 
   return (
     <Paper className={classes.container} elevation={2}>
-      <Typography
-        className={classes.scoreText}
-        variant="h4"
-        color="primary"
-      >{`Your Score: ${numCorrect}/${numTotal} (${percentCorrect}%)`}</Typography>
+      <Typography className={classes.scoreText} variant="h4" color="primary">
+        {numTotal > 0
+          ? `Your Score: ${numCorrect}/${numTotal} (${percentCorrect}%)`
+          : "You're all done"}
+      </Typography>
       <Typography className={classes.messageText} variant="h6">
         {message}
       </Typography>
