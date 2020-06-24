@@ -90,7 +90,6 @@ export default function TextInput({
           onChange={(e) => onChangeAnswer(item.id, e.target.value)}
           placeholder="Type your answer here..."
           fullWidth
-          autoFocus
         />
       </Box>
     </>
