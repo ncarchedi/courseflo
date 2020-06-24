@@ -33,7 +33,7 @@ export default function App() {
   const [showSolutions, setShowSolutions] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [show404, setShow404] = useState(false);
-  const [orientation, setOrientation] = useState("vertical");
+  const [orientation, setOrientation] = useState("horizontal");
   const [itemNumber, setItemNumber] = useState(0);
 
   useEffect(() => {
