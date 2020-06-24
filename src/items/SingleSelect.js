@@ -108,7 +108,7 @@ export default function SingleSelect({
           <FormControlLabel
             value={option}
             label={renderHtmlFromString(option)}
-            control={<Radio />}
+            control={<Radio color="primary" />}
           />
         </Box>
       ))}

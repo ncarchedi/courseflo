@@ -133,6 +133,7 @@ export default function MultiSelect({
                 name={option}
                 checked={answer.value.includes(option)}
                 onChange={() => handleCheck(option)}
+                color="primary"
               />
             }
             label={renderHtmlFromString(option)}
