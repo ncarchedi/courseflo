@@ -9,8 +9,8 @@ import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import FeedbackIcon from "@material-ui/icons/Feedback";
-import ShareIcon from "@material-ui/icons/Share";
+import FeedbackOutlinedIcon from "@material-ui/icons/FeedbackOutlined";
+import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
 import ProgressBar from "./ProgressBar";
 
 const useStyles = makeStyles((theme) => ({
@@ -53,7 +53,7 @@ export default function Header({
           <Box display="flex" alignItems="center">
             <Tooltip title="Share Course">
               <IconButton color="inherit" onClick={handleCopy}>
-                <ShareIcon />
+                <ShareOutlinedIcon />
               </IconButton>
             </Tooltip>
             <Tooltip title="Provide Feedback">
@@ -62,7 +62,7 @@ export default function Header({
                 edge="end"
                 color="inherit"
               >
-                <FeedbackIcon />
+                <FeedbackOutlinedIcon />
               </IconButton>
             </Tooltip>
           </Box>

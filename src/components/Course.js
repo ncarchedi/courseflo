@@ -4,11 +4,20 @@ import { makeStyles } from "@material-ui/styles";
 import Fab from "@material-ui/core/Fab";
 import Zoom from "@material-ui/core/Zoom";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import Item from "./Item";
 import NoItems from "./NoItems";
 
 const useStyles = makeStyles((theme) => ({
-  fab: {
+  fabLeft: {
+    margin: 0,
+    position: "fixed",
+    top: "auto",
+    left: theme.spacing(3),
+    bottom: theme.spacing(3),
+    right: "auto",
+  },
+  fabRight: {
     margin: 0,
     position: "fixed",
     top: "auto",
@@ -16,7 +25,10 @@ const useStyles = makeStyles((theme) => ({
     bottom: theme.spacing(3),
     left: "auto",
   },
-  fabIcon: {
+  fabLeftIcon: {
+    marginRight: theme.spacing(1),
+  },
+  fabRightIcon: {
     marginLeft: theme.spacing(1),
   },
 }));
@@ -57,20 +69,34 @@ export default function Course({
           onChangeAnswer={onChangeAnswer}
           showSolution={showSolutions}
         />
+        {itemNumber > 0 && !showSolutions && (
+          <Zoom in>
+            <Fab
+              className={classes.fabLeft}
+              onClick={() => setItemNumber(itemNumber - 1)}
+              variant="extended"
+              color="primary"
+              aria-label="previous question"
+            >
+              <ArrowBackIcon className={classes.fabLeftIcon} /> Last Question
+            </Fab>
+          </Zoom>
+        )}
         <Zoom in>
           {itemNumber < items.length - 1 ? (
             <Fab
-              className={classes.fab}
+              className={classes.fabRight}
               onClick={() => setItemNumber(itemNumber + 1)}
               variant="extended"
               color="primary"
-              aria-label="continue"
+              aria-label="next question"
             >
-              Continue <ArrowForwardIcon className={classes.fabIcon} />
+              Next Question{" "}
+              <ArrowForwardIcon className={classes.fabRightIcon} />
             </Fab>
           ) : (
             <Fab
-              className={classes.fab}
+              className={classes.fabRight}
               component={RouterLink}
               to={`${url}/score`}
               onClick={handleFinishCourse}
@@ -79,7 +105,7 @@ export default function Course({
               aria-label="submit"
             >
               {showSolutions ? "Back to my score" : "I'm all done!"}
-              <ArrowForwardIcon className={classes.fabIcon} />
+              <ArrowForwardIcon className={classes.fabRightIcon} />
             </Fab>
           )}
         </Zoom>
@@ -100,7 +126,7 @@ export default function Course({
       ))}
       <Zoom in>
         <Fab
-          className={classes.fab}
+          className={classes.fabRight}
           component={RouterLink}
           to={`${url}/score`}
           onClick={handleFinishCourse}
@@ -109,7 +135,7 @@ export default function Course({
           aria-label="submit"
         >
           {showSolutions ? "Back to my score" : "I'm all done!"}
-          <ArrowForwardIcon className={classes.fabIcon} />
+          <ArrowForwardIcon className={classes.fabRightIcon} />
         </Fab>
       </Zoom>
     </>
