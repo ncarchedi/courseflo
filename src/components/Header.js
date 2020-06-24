@@ -11,6 +11,9 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import FeedbackOutlinedIcon from "@material-ui/icons/FeedbackOutlined";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
+import ViewAgendaOutlinedIcon from "@material-ui/icons/ViewAgendaOutlined";
+import Crop75OutlinedIcon from "@material-ui/icons/Crop75Outlined";
+
 import ProgressBar from "./ProgressBar";
 
 const useStyles = makeStyles((theme) => ({
@@ -30,6 +33,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Header({
   courseTitle,
   progress,
+  orientation,
+  setOrientation,
   setShowFeedbackModal,
 }) {
   const classes = useStyles();
@@ -43,6 +48,10 @@ export default function Header({
     navigator.clipboard.writeText(`https://courseflo.com${url}`);
   };
 
+  const toggleView = () => {
+    setOrientation(orientation === "horizontal" ? "vertical" : "horizontal");
+  };
+
   return (
     <>
       <AppBar position="fixed" color="default">
@@ -51,6 +60,17 @@ export default function Header({
             {courseTitle}
           </Typography>
           <Box display="flex" alignItems="center">
+            {progress !== 100 && (
+              <Tooltip title="Change View">
+                <IconButton color="inherit" onClick={toggleView}>
+                  {orientation === "horizontal" ? (
+                    <ViewAgendaOutlinedIcon />
+                  ) : (
+                    <Crop75OutlinedIcon />
+                  )}
+                </IconButton>
+              </Tooltip>
+            )}
             <Tooltip title="Share Course">
               <IconButton color="inherit" onClick={handleCopy}>
                 <ShareOutlinedIcon />
@@ -67,7 +87,8 @@ export default function Header({
             </Tooltip>
           </Box>
         </Toolbar>
-        <ProgressBar value={progress} />
+        {/* only show progress bar for horizontal orientation */}
+        {orientation === "horizontal" && <ProgressBar value={progress} />}
       </AppBar>
       {/* second toolbar due to: https://material-ui.com/components/app-bar/#fixed-placement */}
       <Toolbar />

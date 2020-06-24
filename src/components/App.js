@@ -109,6 +109,8 @@ export default function App() {
         <Header
           courseTitle={course.title}
           progress={progress}
+          orientation={orientation}
+          setOrientation={setOrientation}
           setShowFeedbackModal={setShowFeedbackModal}
         />
         <FeedbackModal

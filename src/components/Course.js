@@ -57,11 +57,15 @@ export default function Course({
 
   const handleFinishCourse = () => {
     setItemNumber(items.length);
-    setShowSolutions(true);
+    // use timeout so progress bar has time to advance to 100%
+    setTimeout(() => {
+      setShowSolutions(true);
+    }, 500);
   };
 
   if (orientation === "horizontal") {
     const item = items[itemNumber];
+    if (!item) return null;
 
     return (
       <>
