@@ -54,7 +54,7 @@
     {
       "id": "xIntercept",
       "type": "SingleSelect",
-      "prompt": "What's the $$x$$-intercept of the line above?",
+      "prompt": "What's the $$x$$-intercept of the line just shown?",
       "hint": "At which $$(x, y)$$ coordinates does the line intersect the $$x$$-axis?",
       "options": [
         "$$(-6, 0)$$",
@@ -68,7 +68,7 @@
     {
       "id": "yIntercept",
       "type": "TextInput",
-      "prompt": "What's the $$y$$-intercept of the line above? Write your answer in the format $$(x, y)$$.",
+      "prompt": "What's the $$y$$-intercept of the same line? Write your answer in the format $$(x, y)$$.",
       "hint": "Recall that a line intersects the $$y$$-axis when the value of $$x$$ is $$0$$, so your answer should look something like this: $$(0, y)$$.",
       "solution": "(0, -6)"
     },
@@ -81,7 +81,7 @@
     {
       "id": "pickFormula",
       "type": "SingleSelect",
-      "prompt": "Which of the following formulas describes this line?",
+      "prompt": "Which of the following formulas describes the line just shown?",
       "hint": "Try plugging in $$0$$ for $$x$$ in each of the formulas to narrow down your choices.",
       "options": [
         "$$y = -\\frac{2}{3}x + 3$$",
