@@ -1,6 +1,7 @@
 import React from "react";
 import { Link as RouterLink, useRouteMatch } from "react-router-dom";
-import { makeStyles } from "@material-ui/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { makeStyles, useTheme } from "@material-ui/styles";
 import Fab from "@material-ui/core/Fab";
 import Zoom from "@material-ui/core/Zoom";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
@@ -45,6 +46,8 @@ export default function Course({
 }) {
   const classes = useStyles();
   let { url } = useRouteMatch();
+  const theme = useTheme();
+  const notOnMobile = useMediaQuery(theme.breakpoints.up("sm"));
 
   // if answers hasn't initialized yet, then return
   if (!answers) return null;
@@ -74,11 +77,18 @@ export default function Course({
             <Fab
               className={classes.fabLeft}
               onClick={() => setItemNumber(itemNumber - 1)}
-              variant="extended"
+              variant={notOnMobile ? "extended" : "round"}
               color="primary"
               aria-label="previous question"
             >
-              <ArrowBackIcon className={classes.fabLeftIcon} /> Last Question
+              {notOnMobile ? (
+                <>
+                  <ArrowBackIcon className={classes.fabLeftIcon} /> Last
+                  Question
+                </>
+              ) : (
+                <ArrowBackIcon />
+              )}
             </Fab>
           </Zoom>
         )}
@@ -87,12 +97,18 @@ export default function Course({
             <Fab
               className={classes.fabRight}
               onClick={() => setItemNumber(itemNumber + 1)}
-              variant="extended"
+              variant={notOnMobile ? "extended" : "round"}
               color="primary"
               aria-label="next question"
             >
-              Next Question{" "}
-              <ArrowForwardIcon className={classes.fabRightIcon} />
+              {notOnMobile ? (
+                <>
+                  Next Question{" "}
+                  <ArrowForwardIcon className={classes.fabRightIcon} />
+                </>
+              ) : (
+                <ArrowForwardIcon />
+              )}
             </Fab>
           ) : (
             <Fab
