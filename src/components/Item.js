@@ -9,6 +9,7 @@ import ItemFooter from "../components/ItemFooter";
 
 import Text from "../items/Text";
 import Video from "../items/Video";
+import Document from "../items/Document";
 import Image from "../items/Image";
 import SingleSelect from "../items/SingleSelect";
 import MultiSelect from "../items/MultiSelect";
@@ -22,12 +23,8 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    marginTop: theme.spacing(2),
-    padding: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
-      marginTop: theme.spacing(3),
-      padding: theme.spacing(3),
-    },
+    marginTop: theme.spacing(3),
+    padding: theme.spacing(3),
   },
 }));
 
@@ -58,6 +55,11 @@ export default function Item(props) {
       pointsText = null;
       helperText = null;
       Component = Video;
+      break;
+    case "Document":
+      pointsText = null;
+      helperText = null;
+      Component = Document;
       break;
     case "Image":
       pointsText = null;

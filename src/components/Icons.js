@@ -7,6 +7,7 @@ import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CancelIcon from "@material-ui/icons/Cancel";
 import NotesIcon from "@material-ui/icons/Notes";
 import OndemandVideoIcon from "@material-ui/icons/OndemandVideo";
+import DescriptionIcon from "@material-ui/icons/Description";
 import ImageIcon from "@material-ui/icons/Image";
 import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
@@ -40,6 +41,9 @@ export function getItemIcon(itemType) {
       break;
     case "Video":
       icon = <OndemandVideoIcon color="disabled" />;
+      break;
+    case "Document":
+      icon = <DescriptionIcon color="disabled" />;
       break;
     case "Image":
       icon = <ImageIcon color="disabled" />;
