@@ -19,7 +19,7 @@
       "id": "beliefs",
       "type": "MultiSelect",
       "prompt": "At North, we believe that every single student...",
-      "hint": "Go back and rewatch the video starting at 2:43. And remember that you can select more than one correct answer!",
+      "hint": "Go back and rewatch the video starting at 2:43. Remember that you can select more than one correct answer!",
       "options": [
         "Is important and an essential part of our Viking community",
         "Has the ability to reach their goals",
@@ -68,13 +68,31 @@
       "id": "planQuestion",
       "type": "SingleSelect",
       "prompt": "Which statement about our calendar is most accurate?",
-      "hint": "",
+      "hint": "Go back and review the last section.",
       "options": [
         "All of the dates are 100% certain",
         "Some of the dates might change, but we'll know for sure in August",
         "We expect all of the dates to change"
       ],
       "solution": "Some of the dates might change, but we'll know for sure in August"
+    },
+    {
+      "id": "planQuestion2",
+      "type": "MultiSelect",
+      "prompt": "Which of the following plans are we considering for this school year?",
+      "hint": "Go back and review our plans for the school year.",
+      "options": [
+        "Canceling school completely",
+        "Fully remote learning",
+        "A combination of in-person and remote learning",
+        "Taking 1-month breaks throughout the year",
+        "Traditional in-person learning"
+      ],
+      "solution": [
+        "Fully remote learning",
+        "A combination of in-person and remote learning",
+        "Traditional in-person learning"
+      ]
     }
   ]
 }
