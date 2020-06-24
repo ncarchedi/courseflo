@@ -1,0 +1,80 @@
+{
+  "title": "North High School - Orientation",
+  "author": "NHS Administration",
+  "finalMessage": "Thanks for completing orientation. We look forward to seeing you in August!",
+  "items": [
+    {
+      "id": "welcomeMessage",
+      "type": "Text",
+      "title": "Welcome to orientation! 👋",
+      "body": "We wish you and your family health in this season!\n\nWhile there is still a lot of uncertainty about next school year in regards to what it will look like, know that you are in good hands and that we will support each other through this. At North, we like to say that we Row Together!\n\nWe will continue to share with you updates that we receive in regards to the specifics of school for next year at North.\n\n-Principal Scott Wolf"
+    },
+    {
+      "id": "overviewVideo",
+      "type": "Video",
+      "title": "Watch this 10-minute overview video",
+      "source": "https://drive.google.com/file/d/1tPI4ypOGSLAISvR4GrHSxmKIiSzSHl0C/preview"
+    },
+    {
+      "id": "beliefs",
+      "type": "MultiSelect",
+      "prompt": "At North, we believe that every single student...",
+      "hint": "Go back and rewatch the video starting at 2:43. And remember that you can select more than one correct answer!",
+      "options": [
+        "Is important and an essential part of our Viking community",
+        "Has the ability to reach their goals",
+        "Brings unique and valuable experiences to our community",
+        "Should have the opportunity to go to college"
+      ],
+      "solution": [
+        "Is important and an essential part of our Viking community",
+        "Has the ability to reach their goals",
+        "Brings unique and valuable experiences to our community",
+        "Should have the opportunity to go to college"
+      ]
+    },
+    {
+      "id": "whatWeAreAbout",
+      "type": "Document",
+      "title": "Read this document explaining our mission",
+      "source": "https://docs.google.com/document/d/1XmzNVnR_08mpHzi4jbSad1vxLKBxgQvXXhGksaeDD1Y/preview"
+    },
+    {
+      "id": "resources",
+      "type": "SingleSelect",
+      "prompt": "Which of the following statements is *not* true?",
+      "hint": "Reread the \"Rigorous, Personalized Academics\" section of the last document.",
+      "options": [
+        "We want to see 100% of students involved in an extracurricular club, sport, or activity",
+        "All students are provided with a Chromebook at the start of the school year",
+        "Students are expected to select their courses without any help from the school",
+        "We offer Saturday school every week for students who want to get ahead or get caught up"
+      ],
+      "solution": "Students are expected to select their courses without any help from the school"
+    },
+    {
+      "id": "schoolCalendar",
+      "type": "Document",
+      "title": "Here's our *tentative* calendar for the school year...",
+      "source": "https://drive.google.com/file/d/14NiHA6rcvvuwpNzcKjUpzr73MXVhck6E/preview"
+    },
+    {
+      "id": "calendarCaveat",
+      "type": "Text",
+      "title": "...But it's possible some dates will change",
+      "body": "At North, we try to follow this calendar as closely as possible, but there may be some dates that will be different. We will know more about these dates in August, but the calendar will give you a general idea of when students are in school. At this time, we anticipate starting school as scheduled and we will have 3 different plans to execute depending on how COVID-19 is playing out:\n\nPlan A: Traditional In-Person Learning\n\nPlan B: Hybrid In-Person and Remote Learning\n\nPlan C: Remote Learning\n\nWe are planning to execute right now with Plan A. With that said, we need to be ready to execute on Plan B or C at any time and we may go back and forth between plans during the year."
+    },
+    {
+      "id": "planQuestion",
+      "type": "SingleSelect",
+      "prompt": "Which statement about our calendar is most accurate?",
+      "hint": "",
+      "options": [
+        "All of the dates are 100% certain",
+        "Some of the dates might change, but we'll know for sure in August",
+        "We expect all of the dates to change"
+      ],
+      "solution": "Some of the dates might change, but we'll know for sure in August"
+    }
+  ]
+}
