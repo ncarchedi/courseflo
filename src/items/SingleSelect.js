@@ -11,6 +11,9 @@ import { CorrectIcon, IncorrectIcon } from "../components/Icons";
 import renderHtmlFromString from "../utils/renderHtmlFromString";
 
 const useStyles = makeStyles((theme) => ({
+  imageContainer: {
+    maxWidth: theme.breakpoints.values.sm - 50,
+  },
   option: {
     width: "100%",
     padding: theme.spacing(0, 1),
@@ -44,6 +47,11 @@ export default function SingleSelect({
   if (showSolution)
     return (
       <>
+        {item.image && (
+          <Box className={classes.imageContainer} margin="auto">
+            <img src={item.image} alt={item.title} width="100%" />
+          </Box>
+        )}
         <RadioGroup
           value={answer.value}
           onChange={(e) => onChangeAnswer(item.id, e.target.value)}
@@ -99,19 +107,26 @@ export default function SingleSelect({
     );
 
   return (
-    <RadioGroup
-      value={answer.value}
-      onChange={(e) => onChangeAnswer(item.id, e.target.value)}
-    >
-      {item.options.map((option) => (
-        <Box key={option} component="span" display="flex" alignItems="center">
-          <FormControlLabel
-            value={option}
-            label={renderHtmlFromString(option)}
-            control={<Radio color="primary" />}
-          />
+    <>
+      {item.image && (
+        <Box className={classes.imageContainer} margin="auto">
+          <img src={item.image} alt={item.title} width="100%" />
         </Box>
-      ))}
-    </RadioGroup>
+      )}
+      <RadioGroup
+        value={answer.value}
+        onChange={(e) => onChangeAnswer(item.id, e.target.value)}
+      >
+        {item.options.map((option) => (
+          <Box key={option} component="span" display="flex" alignItems="center">
+            <FormControlLabel
+              value={option}
+              label={renderHtmlFromString(option)}
+              control={<Radio color="primary" />}
+            />
+          </Box>
+        ))}
+      </RadioGroup>
+    </>
   );
 }

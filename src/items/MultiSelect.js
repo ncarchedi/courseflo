@@ -11,6 +11,9 @@ import { CorrectIcon, IncorrectIcon } from "../components/Icons";
 import renderHtmlFromString from "../utils/renderHtmlFromString";
 
 const useStyles = makeStyles((theme) => ({
+  imageContainer: {
+    maxWidth: theme.breakpoints.values.sm - 50,
+  },
   option: {
     width: "100%",
     margin: theme.spacing(0.25, 0),
@@ -57,6 +60,11 @@ export default function MultiSelect({
   if (showSolution)
     return (
       <>
+        {item.image && (
+          <Box className={classes.imageContainer} margin="auto">
+            <img src={item.image} alt={item.title} width="100%" />
+          </Box>
+        )}
         <FormGroup>
           {item.options.map((option) => (
             <Box
@@ -124,22 +132,29 @@ export default function MultiSelect({
     );
 
   return (
-    <FormGroup>
-      {item.options.map((option) => (
-        <Box key={option} component="span" display="flex" alignItems="center">
-          <FormControlLabel
-            control={
-              <Checkbox
-                name={option}
-                checked={answer.value.includes(option)}
-                onChange={() => handleCheck(option)}
-                color="primary"
-              />
-            }
-            label={renderHtmlFromString(option)}
-          />
+    <>
+      {item.image && (
+        <Box className={classes.imageContainer} margin="auto">
+          <img src={item.image} alt={item.title} width="100%" />
         </Box>
-      ))}
-    </FormGroup>
+      )}
+      <FormGroup>
+        {item.options.map((option) => (
+          <Box key={option} component="span" display="flex" alignItems="center">
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name={option}
+                  checked={answer.value.includes(option)}
+                  onChange={() => handleCheck(option)}
+                  color="primary"
+                />
+              }
+              label={renderHtmlFromString(option)}
+            />
+          </Box>
+        ))}
+      </FormGroup>
+    </>
   );
 }
