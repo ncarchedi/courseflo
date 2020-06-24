@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
   iconContainer: {
     textAlign: "right",
-    paddingTop: theme.spacing(0.5),
+    marginTop: theme.spacing(0.5),
   },
   helperText: {
     fontSize: "0.9rem",

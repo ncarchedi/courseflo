@@ -3,7 +3,6 @@ import { Switch, Route, useRouteMatch, useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Header from "./Header";
-import ProgressBar from "./ProgressBar";
 import Course from "./Course";
 import Score from "./Score";
 import FeedbackModal from "../components/FeedbackModal";
@@ -109,9 +108,9 @@ export default function App() {
       <>
         <Header
           courseTitle={course.title}
+          progress={progress}
           setShowFeedbackModal={setShowFeedbackModal}
         />
-        <ProgressBar value={progress} />
         <FeedbackModal
           open={showFeedbackModal}
           setOpen={setShowFeedbackModal}

@@ -11,6 +11,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import FeedbackIcon from "@material-ui/icons/Feedback";
 import ShareIcon from "@material-ui/icons/Share";
+import ProgressBar from "./ProgressBar";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -26,7 +27,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header({ courseTitle, setShowFeedbackModal }) {
+export default function Header({
+  courseTitle,
+  progress,
+  setShowFeedbackModal,
+}) {
   const classes = useStyles();
   let { url } = useRouteMatch();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -40,7 +45,7 @@ export default function Header({ courseTitle, setShowFeedbackModal }) {
 
   return (
     <>
-      <AppBar position="fixed">
+      <AppBar position="fixed" color="default">
         <Toolbar className={classes.toolbar}>
           <Typography className={classes.title} variant="h5" component="h1">
             {courseTitle}
@@ -62,6 +67,7 @@ export default function Header({ courseTitle, setShowFeedbackModal }) {
             </Tooltip>
           </Box>
         </Toolbar>
+        <ProgressBar value={progress} />
       </AppBar>
       {/* second toolbar due to: https://material-ui.com/components/app-bar/#fixed-placement */}
       <Toolbar />
