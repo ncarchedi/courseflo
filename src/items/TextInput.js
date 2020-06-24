@@ -8,6 +8,9 @@ import TextField from "@material-ui/core/TextField";
 import { CorrectIcon, IncorrectIcon } from "../components/Icons";
 
 const useStyles = makeStyles((theme) => ({
+  imageContainer: {
+    maxWidth: theme.breakpoints.values.sm - 50,
+  },
   input: {
     padding: theme.spacing(1),
     borderRadius: theme.shape.borderRadius,
@@ -34,56 +37,62 @@ export default function TextInput({
 
   if (!answer) return null;
 
+  if (showSolution)
+    return (
+      <>
+        {item.image && (
+          <Box className={classes.imageContainer} margin="auto">
+            <img src={item.image} alt={item.title} width="100%" />
+          </Box>
+        )}
+        <Box
+          className={`${classes.input} ${
+            answer.isCorrect ? classes.correctInput : classes.incorrectInput
+          }`}
+          component="span"
+          display="flex"
+          alignItems="center"
+        >
+          <TextField
+            value={answer.value}
+            onChange={(e) => onChangeAnswer(item.id, e.target.value)}
+            placeholder="Type your answer here..."
+            fullWidth
+            disabled
+          />
+          {item.solution === answer.value ? <CorrectIcon /> : <IncorrectIcon />}
+        </Box>
+        {!answer.isCorrect && (
+          <>
+            <Typography
+              className={classes.correctAnswer}
+              variant="h6"
+              color="textSecondary"
+            >
+              Correct answer
+            </Typography>
+            <TextField value={item.solution} fullWidth disabled />
+          </>
+        )}
+      </>
+    );
+
   return (
     <>
-      {showSolution ? (
-        <>
-          <Box
-            className={`${classes.input} ${
-              answer.isCorrect ? classes.correctInput : classes.incorrectInput
-            }`}
-            component="span"
-            display="flex"
-            alignItems="center"
-          >
-            <TextField
-              value={answer.value}
-              onChange={(e) => onChangeAnswer(item.id, e.target.value)}
-              placeholder="Type your answer here..."
-              fullWidth
-              disabled
-            />
-            {item.solution === answer.value ? (
-              <CorrectIcon />
-            ) : (
-              <IncorrectIcon />
-            )}
-          </Box>
-          {!answer.isCorrect && (
-            <>
-              <Typography
-                className={classes.correctAnswer}
-                variant="h6"
-                color="textSecondary"
-              >
-                Correct answer
-              </Typography>
-              <TextField value={item.solution} fullWidth disabled />
-            </>
-          )}
-        </>
-      ) : (
-        <>
-          <Box component="span" display="flex" alignItems="center">
-            <TextField
-              value={answer.value}
-              onChange={(e) => onChangeAnswer(item.id, e.target.value)}
-              placeholder="Type your answer here..."
-              fullWidth
-            />
-          </Box>
-        </>
+      {item.image && (
+        <Box className={classes.imageContainer} margin="auto">
+          <img src={item.image} alt={item.title} width="100%" />
+        </Box>
       )}
+      <Box component="span" display="flex" alignItems="center">
+        <TextField
+          value={answer.value}
+          onChange={(e) => onChangeAnswer(item.id, e.target.value)}
+          placeholder="Type your answer here..."
+          fullWidth
+          autoFocus
+        />
+      </Box>
     </>
   );
 }

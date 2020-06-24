@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Switch,
-  Route,
-  useRouteMatch,
-  useParams,
-  useLocation,
-} from "react-router-dom";
+import { Switch, Route, useRouteMatch, useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Header from "./Header";
@@ -14,19 +8,19 @@ import Score from "./Score";
 import FeedbackModal from "../components/FeedbackModal";
 import NotFound from "../components/NotFound";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
-import countItemsRemaining from "../utils/countItemsRemaining";
-import createItem from "../utils/createItem";
 import initializeAnswers from "../utils/initializeAnswers";
 import {
   saveSubmissionToFirestore,
   getCourseFromFirestore,
-  updateCourseItemsInFirestore,
 } from "../services/firestore";
 
 const useStyles = makeStyles((theme) => ({
   container: {
     margin: theme.spacing(0, "auto", 12, "auto"),
-    maxWidth: theme.breakpoints.values.sm + 75,
+    maxWidth: theme.breakpoints.values.sm + 100,
+    [theme.breakpoints.up("lg")]: {
+      maxWidth: theme.breakpoints.values.md,
+    },
   },
 }));
 
@@ -34,12 +28,13 @@ export default function App() {
   const classes = useStyles();
   let { path } = useRouteMatch();
   let { courseId } = useParams();
-  let location = useLocation();
   const [course, setCourse] = useState(null);
   const [answers, setAnswers] = useState(null);
   const [showSolutions, setShowSolutions] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [show404, setShow404] = useState(false);
+  const [orientation, setOrientation] = useState("horizontal");
+  const [itemNumber, setItemNumber] = useState(0);
 
   useEffect(() => {
     getCourseFromFirestore(courseId)
@@ -73,17 +68,11 @@ export default function App() {
     }
   }, [courseId, answers, showSolutions]);
 
-  // todo: figure out in a less hacky way whether I'm editing
-  const editing = location.pathname.includes("/edit");
-
-  // if editing, make sure we're not showing solutions
-  // and that we clear away all answers
+  // if answers are shown, switch to vertical view mode
+  // and set progress percentage to 100
   useEffect(() => {
-    if (editing) {
-      setShowSolutions(false);
-      initializeAnswers(course, setAnswers);
-    }
-  }, [editing, course]);
+    if (showSolutions) setOrientation("vertical");
+  }, [showSolutions]);
 
   const getSolution = (itemId) => {
     const item = course.items.filter((i) => i.id === itemId)[0];
@@ -105,54 +94,28 @@ export default function App() {
     ]);
   };
 
-  const handleSaveItemChange = (itemId, updatedItem) => {
-    const updatedItems = [...course.items];
-    const index = updatedItems.findIndex((item) => item.id === itemId);
-    updatedItems[index] = updatedItem;
-    setCourse({ ...course, items: updatedItems });
-    updateCourseItemsInFirestore(courseId, updatedItems);
-  };
-
-  const handleAddItem = (type) => {
-    const items = [...course.items];
-    const newItem = createItem(type);
-    items.push(newItem);
-    setCourse({ ...course, items: items });
-    updateCourseItemsInFirestore(courseId, items);
-  };
-
-  const handleDeleteItem = (itemId) => {
-    const items = [...course.items];
-    const updatedItems = items.filter((item) => item.id !== itemId);
-    setCourse({ ...course, items: updatedItems });
-    updateCourseItemsInFirestore(courseId, updatedItems);
-  };
-
-  // generic function for updating items (e.g. for reordering them)
-  const handleUpdateItems = (updatedItems) => {
-    setCourse({ ...course, items: updatedItems });
-    updateCourseItemsInFirestore(courseId, updatedItems);
-  };
-
   // if the course isn't found, show 404
   if (show404) return <NotFound type="course" />;
+
+  // compute progress percentage
+  const progress = Math.min(
+    course ? Math.round((itemNumber / course.items.length) * 100) : 0,
+    100
+  );
 
   return (
     course && (
       <>
         <Header
           courseTitle={course.title}
-          numRemaining={countItemsRemaining(answers)}
-          showSolutions={showSolutions}
+          progress={progress}
           setShowFeedbackModal={setShowFeedbackModal}
-          editing={editing}
         />
         <FeedbackModal
           open={showFeedbackModal}
           setOpen={setShowFeedbackModal}
           courseId={courseId}
           answers={answers}
-          editing={editing}
         />
         <Container className={classes.container}>
           <Switch>
@@ -163,20 +126,9 @@ export default function App() {
                 onChangeAnswer={handleChangeAnswer}
                 showSolutions={showSolutions}
                 setShowSolutions={setShowSolutions}
-              />
-            </Route>
-            <Route exact path={`${path}/edit`}>
-              <Course
-                items={course.items}
-                answers={answers}
-                onChangeAnswer={handleChangeAnswer}
-                showSolutions={showSolutions}
-                setShowSolutions={setShowSolutions}
-                editable
-                onSaveItemChange={handleSaveItemChange}
-                onAddItem={handleAddItem}
-                onDeleteItem={handleDeleteItem}
-                onUpdateItems={handleUpdateItems}
+                orientation={orientation}
+                itemNumber={itemNumber}
+                setItemNumber={setItemNumber}
               />
             </Route>
             <Route exact path={`${path}/score`}>
