@@ -3,6 +3,7 @@ import { Switch, Route, useRouteMatch, useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Header from "./Header";
+import ProgressBar from "./ProgressBar";
 import Course from "./Course";
 import Score from "./Score";
 import FeedbackModal from "../components/FeedbackModal";
@@ -31,6 +32,7 @@ export default function App() {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [show404, setShow404] = useState(false);
   const [orientation, setOrientation] = useState("horizontal");
+  const [itemNumber, setItemNumber] = useState(0);
 
   useEffect(() => {
     getCourseFromFirestore(courseId)
@@ -65,6 +67,7 @@ export default function App() {
   }, [courseId, answers, showSolutions]);
 
   // if answers are shown, switch to vertical view mode
+  // and set progress percentage to 100
   useEffect(() => {
     if (showSolutions) setOrientation("vertical");
   }, [showSolutions]);
@@ -92,6 +95,12 @@ export default function App() {
   // if the course isn't found, show 404
   if (show404) return <NotFound type="course" />;
 
+  // compute progress percentage
+  const progress = Math.min(
+    course ? Math.round((itemNumber / course.items.length) * 100) : 0,
+    100
+  );
+
   return (
     course && (
       <>
@@ -99,6 +108,7 @@ export default function App() {
           courseTitle={course.title}
           setShowFeedbackModal={setShowFeedbackModal}
         />
+        <ProgressBar value={progress} />
         <FeedbackModal
           open={showFeedbackModal}
           setOpen={setShowFeedbackModal}
@@ -115,6 +125,8 @@ export default function App() {
                 showSolutions={showSolutions}
                 setShowSolutions={setShowSolutions}
                 orientation={orientation}
+                itemNumber={itemNumber}
+                setItemNumber={setItemNumber}
               />
             </Route>
             <Route exact path={`${path}/score`}>

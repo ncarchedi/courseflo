@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link as RouterLink, useRouteMatch } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import Fab from "@material-ui/core/Fab";
@@ -28,16 +28,22 @@ export default function Course({
   showSolutions,
   setShowSolutions,
   orientation,
+  itemNumber,
+  setItemNumber,
 }) {
   const classes = useStyles();
   let { url } = useRouteMatch();
-  const [itemNumber, setItemNumber] = useState(0);
 
   // if answers hasn't initialized yet, then return
   if (!answers) return null;
 
   // if there are no items to show, show empty screen
   if (!items.length) return <NoItems />;
+
+  const handleFinishCourse = () => {
+    setItemNumber(items.length);
+    setShowSolutions(true);
+  };
 
   if (orientation === "horizontal") {
     const item = items[itemNumber];
@@ -67,7 +73,7 @@ export default function Course({
               className={classes.fab}
               component={RouterLink}
               to={`${url}/score`}
-              onClick={() => setShowSolutions(true)}
+              onClick={handleFinishCourse}
               variant="extended"
               color="primary"
               aria-label="submit"
@@ -97,7 +103,7 @@ export default function Course({
           className={classes.fab}
           component={RouterLink}
           to={`${url}/score`}
-          onClick={() => setShowSolutions(true)}
+          onClick={handleFinishCourse}
           variant="extended"
           color="primary"
           aria-label="submit"
