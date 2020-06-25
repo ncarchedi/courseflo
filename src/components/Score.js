@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   scoreText: {
-    marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(2),
     fontWeight: theme.typography.fontWeightMedium,
     [theme.breakpoints.up("sm")]: {
       fontSize: theme.typography.h3.fontSize,
@@ -24,13 +24,14 @@ const useStyles = makeStyles((theme) => ({
   },
   messageText: {
     fontWeight: theme.typography.fontWeightRegular,
+    marginBottom: theme.spacing(3),
   },
-  button: {
-    marginTop: theme.spacing(4),
+  reviewButton: {
+    marginRight: theme.spacing(2),
   },
 }));
 
-export default function Score({ message, answers }) {
+export default function Score({ message, finalCta, answers }) {
   const classes = useStyles();
   const { courseId } = useParams();
 
@@ -52,14 +53,25 @@ export default function Score({ message, answers }) {
         {message}
       </Typography>
       <Button
-        className={classes.button}
+        className={classes.reviewButton}
         component={RouterLink}
         to={coursePath}
-        variant="contained"
+        variant="outlined"
         color="primary"
       >
         Review my answers
       </Button>
+      {finalCta && (
+        <Button
+          href={finalCta.url}
+          variant="contained"
+          color="primary"
+          target="_blank"
+          rel="noopener"
+        >
+          {finalCta.label}
+        </Button>
+      )}
     </Paper>
   );
 }

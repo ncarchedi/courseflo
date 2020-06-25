@@ -131,7 +131,11 @@ export default function App() {
               />
             </Route>
             <Route exact path={`${path}/score`}>
-              <Score message={course.finalMessage} answers={answers} />
+              <Score
+                message={course.finalMessage}
+                finalCta={course.finalCta}
+                answers={answers}
+              />
             </Route>
             <Route path={`${path}/*`}>
               <NotFound type="page" />
