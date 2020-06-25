@@ -3,13 +3,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import TextField from "@material-ui/core/TextField";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
 import Button from "@material-ui/core/Button";
 import LandingPageHeader from "../components/LandingPageHeader";
 import LandingPageFooter from "../components/LandingPageFooter";
+import LandingPageSignup from "../components/LandingPageSignup";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -58,17 +57,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   divider: {
-    margin: theme.spacing(5, "25%"),
+    margin: theme.spacing(5, 10),
     [theme.breakpoints.up("md")]: {
       display: "none",
     },
-  },
-  form: {
-    marginTop: theme.spacing(2),
-  },
-  submitButton: {
-    margin: theme.spacing(3, 0, 2),
-    fontSize: "1.1rem",
   },
   button: {
     marginTop: theme.spacing(1),
@@ -81,96 +73,24 @@ export default function LandingPage() {
 
   return (
     <>
+      {/* header */}
       <LandingPageHeader />
+
+      {/* main content */}
       <Container className={classes.container}>
+        {/* first row */}
         <Grid className={classes.firstRow} container spacing={3}>
           <Grid item xs={12} md={10}>
             <Typography className={classes.header} variant="h1">
               The fastest way to create and share online courses.
             </Typography>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <Typography variant="h5">Sign up now to get started.</Typography>
-            <form className={classes.form}>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    autoComplete="fname"
-                    name="firstName"
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="firstName"
-                    label="First Name"
-                    autoFocus
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="lastName"
-                    label="Last Name"
-                    name="lastName"
-                    autoComplete="lname"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                  />
-                </Grid>
-                {/* <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                />
-              </Grid> */}
-                {/* <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid> */}
-              </Grid>
-              <Button
-                className={classes.submitButton}
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-              >
-                Let's do this!
-              </Button>
-              <Grid container justify="center">
-                <Grid item>
-                  <Link
-                    href="https://courseflo.com/course/CnONPrnou4370gHU2DV0"
-                    target="_blank"
-                  >
-                    See an example course
-                  </Link>
-                </Grid>
-              </Grid>
-            </form>
-          </Grid>
+          <LandingPageSignup />
         </Grid>
+
         <Divider className={classes.divider} />
+
+        {/* second row */}
         <Grid className={classes.middleRow} container spacing={6}>
           <Grid className={classes.supportingTextContainer} item xs={12} md={4}>
             <Typography className={classes.supportingText} variant="h4">
@@ -184,7 +104,10 @@ export default function LandingPage() {
             </Paper>
           </Grid>
         </Grid>
+
         <Divider className={classes.divider} />
+
+        {/* third row */}
         <Grid className={classes.middleRow} container spacing={6}>
           <Grid item xs={12} md={8}>
             <Paper className={classes.imageContainer} elevation={3}>
@@ -198,7 +121,10 @@ export default function LandingPage() {
             </Typography>
           </Grid>
         </Grid>
+
         <Divider className={classes.divider} />
+
+        {/* fourth row */}
         <Grid className={classes.middleRow} container spacing={6}>
           <Grid className={classes.supportingTextContainer} item xs={12} md={4}>
             <Typography className={classes.supportingText} variant="h4">
@@ -215,7 +141,10 @@ export default function LandingPage() {
             </Paper>
           </Grid>
         </Grid>
+
         <Divider className={classes.divider} />
+
+        {/* final row */}
         <Grid className={classes.finalRow} container>
           <Grid item xs={12}>
             <Typography variant="h4" gutterBottom>
@@ -231,6 +160,8 @@ export default function LandingPage() {
             </Button>
           </Grid>
         </Grid>
+
+        {/* footer */}
         <LandingPageFooter />
       </Container>
     </>
