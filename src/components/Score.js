@@ -2,6 +2,7 @@ import React from "react";
 import { Link as RouterLink, useParams, Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
+import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import computeScoreFromAnswers from "../utils/computeScoreFromAnswers";
@@ -52,26 +53,28 @@ export default function Score({ message, finalCta, answers }) {
       <Typography className={classes.messageText} variant="h6">
         {message}
       </Typography>
-      <Button
-        className={classes.reviewButton}
-        component={RouterLink}
-        to={coursePath}
-        variant="outlined"
-        color="primary"
-      >
-        Review my answers
-      </Button>
-      {finalCta && (
+      <Box display="flex">
         <Button
-          href={finalCta.url}
-          variant="contained"
+          className={classes.reviewButton}
+          component={RouterLink}
+          to={coursePath}
+          variant="outlined"
           color="primary"
-          target="_blank"
-          rel="noopener"
         >
-          {finalCta.label}
+          Review my answers
         </Button>
-      )}
+        {finalCta && (
+          <Button
+            href={finalCta.url}
+            variant="contained"
+            color="primary"
+            target="_blank"
+            rel="noopener"
+          >
+            {finalCta.label}
+          </Button>
+        )}
+      </Box>
     </Paper>
   );
 }
