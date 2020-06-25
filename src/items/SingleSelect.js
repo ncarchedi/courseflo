@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
   option: {
     width: "100%",
-    padding: theme.spacing(0, 1),
+    padding: theme.spacing(0.25, 1),
     borderRadius: theme.shape.borderRadius,
   },
   optionLabel: {
@@ -118,7 +118,7 @@ export default function SingleSelect({
         onChange={(e) => onChangeAnswer(item.id, e.target.value)}
       >
         {item.options.map((option) => (
-          <Box key={option} component="span" display="flex" alignItems="center">
+          <Box key={option} marginBottom={1}>
             <FormControlLabel
               value={option}
               label={renderHtmlFromString(option)}

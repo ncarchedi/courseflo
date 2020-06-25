@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   option: {
     width: "100%",
     margin: theme.spacing(0.25, 0),
-    padding: theme.spacing(0, 1),
+    padding: theme.spacing(0.25, 1),
     borderRadius: theme.shape.borderRadius,
   },
   optionLabel: {
@@ -140,7 +140,7 @@ export default function MultiSelect({
       )}
       <FormGroup>
         {item.options.map((option) => (
-          <Box key={option} component="span" display="flex" alignItems="center">
+          <Box key={option} marginBottom={1}>
             <FormControlLabel
               control={
                 <Checkbox
