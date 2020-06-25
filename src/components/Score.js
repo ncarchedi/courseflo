@@ -27,8 +27,9 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: theme.typography.fontWeightRegular,
     marginBottom: theme.spacing(3),
   },
-  reviewButton: {
+  button: {
     marginRight: theme.spacing(2),
+    marginBottom: theme.spacing(1),
   },
 }));
 
@@ -53,9 +54,9 @@ export default function Score({ message, finalCta, answers }) {
       <Typography className={classes.messageText} variant="h6">
         {message}
       </Typography>
-      <Box display="flex">
+      <Box>
         <Button
-          className={classes.reviewButton}
+          className={classes.button}
           component={RouterLink}
           to={coursePath}
           variant="outlined"
@@ -65,6 +66,7 @@ export default function Score({ message, finalCta, answers }) {
         </Button>
         {finalCta && (
           <Button
+            className={classes.button}
             href={finalCta.url}
             variant="contained"
             color="primary"
