@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
   middleRow: {
     [theme.breakpoints.up("md")]: {
-      marginTop: theme.spacing(15),
+      marginTop: theme.spacing(10),
     },
   },
   imageContainer: {
@@ -53,11 +53,12 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     marginTop: theme.spacing(5),
     [theme.breakpoints.up("md")]: {
-      marginTop: theme.spacing(15),
+      marginTop: theme.spacing(10),
     },
   },
   divider: {
-    margin: theme.spacing(5, 10),
+    width: "40%",
+    margin: theme.spacing(5, "auto"),
     [theme.breakpoints.up("md")]: {
       display: "none",
     },

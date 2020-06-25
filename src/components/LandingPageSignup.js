@@ -29,6 +29,7 @@ export default function LandingPageSignup() {
     lastName: "",
     email: "",
   });
+  const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e) => {
     setInputs({
@@ -43,76 +44,88 @@ export default function LandingPageSignup() {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: encode({ "form-name": "signup", ...inputs }),
     })
-      .then(() => alert("Success!"))
+      .then(() => setSubmitted(true))
       .catch((error) => alert(error));
 
     e.preventDefault();
   };
 
   return (
-    <Grid item xs={12} md={6}>
-      <Typography variant="h5">Sign up now to get started.</Typography>
-      <form className={classes.form}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              name="firstName"
-              label="First Name"
-              value={inputs.firstName}
-              onChange={handleChange}
-              autoComplete="fname"
-              variant="outlined"
-              required
-              fullWidth
-              autoFocus
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              name="lastName"
-              label="Last Name"
-              value={inputs.lastName}
-              onChange={handleChange}
-              variant="outlined"
-              required
-              fullWidth
-              autoComplete="lname"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              name="email"
-              label="Email Address"
-              value={inputs.email}
-              onChange={handleChange}
-              variant="outlined"
-              required
-              fullWidth
-              autoComplete="email"
-            />
-          </Grid>
+    <>
+      {submitted ? (
+        <Grid item xs={12}>
+          <Typography variant="h5" color="primary">
+            Welcome to Courseflo, {inputs.firstName}! We'll send you an email
+            shortly with instructions on how to get started.
+          </Typography>
         </Grid>
-        <Button
-          className={classes.submitButton}
-          onClick={handleSubmit}
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-        >
-          Let's do this!
-        </Button>
-        <Grid container justify="center">
-          <Grid item>
-            <Link
-              href="https://courseflo.com/course/CnONPrnou4370gHU2DV0"
-              target="_blank"
+      ) : (
+        <Grid item xs={12} md={6}>
+          <Typography variant="h5">
+            Sign up now to create a course for free.
+          </Typography>
+          <form className={classes.form} onSubmit={handleSubmit}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  name="firstName"
+                  label="First Name"
+                  value={inputs.firstName}
+                  onChange={handleChange}
+                  autoComplete="given-name"
+                  variant="outlined"
+                  required
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  name="lastName"
+                  label="Last Name"
+                  value={inputs.lastName}
+                  onChange={handleChange}
+                  autoComplete="family-name"
+                  variant="outlined"
+                  required
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  name="email"
+                  label="Email Address"
+                  value={inputs.email}
+                  onChange={handleChange}
+                  type="email"
+                  autoComplete="email"
+                  variant="outlined"
+                  required
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
+            <Button
+              className={classes.submitButton}
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
             >
-              See an example course
-            </Link>
-          </Grid>
+              Let's do this!
+            </Button>
+            <Grid container justify="center">
+              <Grid item>
+                <Link
+                  href="https://courseflo.com/course/CnONPrnou4370gHU2DV0"
+                  target="_blank"
+                >
+                  See an example course
+                </Link>
+              </Grid>
+            </Grid>
+          </form>
         </Grid>
-      </form>
-    </Grid>
+      )}
+    </>
   );
 }
