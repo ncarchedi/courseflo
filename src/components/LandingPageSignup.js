@@ -14,6 +14,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
     fontSize: "1.1rem",
   },
+  formHeader: {
+    fontSize: theme.typography.h5.fontSize,
+    fontWeight: theme.typography.fontWeightLight,
+  },
 }));
 
 const encode = (data) => {
@@ -61,7 +65,7 @@ export default function LandingPageSignup() {
         </Grid>
       ) : (
         <Grid item xs={12} md={6}>
-          <Typography variant="h5">
+          <Typography className={classes.formHeader}>
             Sign up now to create a course for free.
           </Typography>
           <form className={classes.form} onSubmit={handleSubmit}>

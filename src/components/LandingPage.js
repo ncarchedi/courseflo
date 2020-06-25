@@ -21,13 +21,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   header: {
-    fontFamily: ["Coustard", "serif"],
-    fontSize: "2.5rem",
+    fontFamily: ["Alegreya Sans", "sans-serif"],
+    fontSize: "3rem",
     [theme.breakpoints.up("sm")]: {
-      fontSize: "3.5rem",
+      fontSize: "4.5rem",
     },
     [theme.breakpoints.up("md")]: {
-      fontSize: "4.5rem",
+      fontSize: "5.5rem",
     },
   },
   middleRow: {
@@ -94,7 +94,7 @@ export default function LandingPage() {
         {/* second row */}
         <Grid className={classes.middleRow} container spacing={6}>
           <Grid className={classes.supportingTextContainer} item xs={12} md={4}>
-            <Typography className={classes.supportingText} variant="h4">
+            <Typography className={classes.supportingText}>
               Use a combination of videos, text, and images to teach new
               material.
             </Typography>
@@ -116,7 +116,7 @@ export default function LandingPage() {
             </Paper>
           </Grid>
           <Grid className={classes.supportingTextContainer} item xs={12} md={4}>
-            <Typography className={classes.supportingText} variant="h4">
+            <Typography className={classes.supportingText}>
               Mix-and-match question types to reinforce learning and check
               comprehension.
             </Typography>
@@ -128,7 +128,7 @@ export default function LandingPage() {
         {/* fourth row */}
         <Grid className={classes.middleRow} container spacing={6}>
           <Grid className={classes.supportingTextContainer} item xs={12} md={4}>
-            <Typography className={classes.supportingText} variant="h4">
+            <Typography className={classes.supportingText}>
               Provide feedback so students can learn from their mistakes.
             </Typography>
           </Grid>
@@ -148,7 +148,7 @@ export default function LandingPage() {
         {/* final row */}
         <Grid className={classes.finalRow} container>
           <Grid item xs={12}>
-            <Typography variant="h4" gutterBottom>
+            <Typography className={classes.supportingText} gutterBottom>
               Ready to get started for free?
             </Typography>
             <Button
