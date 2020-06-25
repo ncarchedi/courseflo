@@ -16,11 +16,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// const encode = (data) => {
-//   return Object.keys(data)
-//     .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-//     .join("&");
-// };
+const encode = (data) => {
+  return Object.keys(data)
+    .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+    .join("&");
+};
 
 export default function LandingPageSignup() {
   const classes = useStyles();
@@ -38,8 +38,15 @@ export default function LandingPageSignup() {
   };
 
   const handleSubmit = (e) => {
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: encode({ "form-name": "signup", ...inputs }),
+    })
+      .then(() => alert("Success!"))
+      .catch((error) => alert(error));
+
     e.preventDefault();
-    console.log("hi");
   };
 
   return (
@@ -49,41 +56,38 @@ export default function LandingPageSignup() {
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
+              name="firstName"
+              label="First Name"
               value={inputs.firstName}
               onChange={handleChange}
               autoComplete="fname"
-              name="firstName"
               variant="outlined"
               required
               fullWidth
-              id="firstName"
-              label="First Name"
               autoFocus
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
+              name="lastName"
+              label="Last Name"
               value={inputs.lastName}
               onChange={handleChange}
               variant="outlined"
               required
               fullWidth
-              id="lastName"
-              label="Last Name"
-              name="lastName"
               autoComplete="lname"
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
+              name="email"
+              label="Email Address"
               value={inputs.email}
               onChange={handleChange}
               variant="outlined"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
               autoComplete="email"
             />
           </Grid>
