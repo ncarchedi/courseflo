@@ -2,41 +2,51 @@
   "title": "North High School - Orientation",
   "author": "NHS Administration",
   "finalMessage": "Thanks for completing orientation. We look forward to seeing you in August!",
+  "finalCta": {
+    "label": "Visit the New Student Guide",
+    "url": "https://sites.google.com/dpsk12.net/nhsguide/home"
+  },
   "items": [
     {
-      "id": "welcomeMessage",
+      "id": "welcome",
       "type": "Text",
-      "title": "Welcome to orientation! 👋",
-      "body": "We wish you and your family health in this season!\n\nWhile there is still a lot of uncertainty about next school year in regards to what it will look like, know that you are in good hands and that we will support each other through this. At North, we like to say that we Row Together!\n\nWe will continue to share with you updates that we receive in regards to the specifics of school for next year at North.\n\n-Principal Scott Wolf"
+      "title": "Welcome to orientation 👋",
+      "body": "As we're unable to meet in-person this summer, we've organized a short online overview of essential information regarding the upcoming school year.\n\nThis orientation is structured as a course, and we'll ask you a few questions along the way to highlight the most important items.\n\nWe appreciate you reviewing these materials carefully, and look forward to seeing you all in August!"
+    },
+    {
+      "id": "messageFromScott",
+      "type": "Text",
+      "title": "But first, a message from your principal:",
+      "body": "Welcome to the North High School community!\n\nWhile there is still a lot of uncertainty about how COVID-19 will impact the coming school year, please know that you are in good hands and that we will support each other through this.\n\nAt North, we like to say that we Row Together!\n\n- Principal Scott Wolf"
     },
     {
       "id": "overviewVideo",
       "type": "Video",
-      "title": "Watch this 10-minute overview video",
+      "title": "A quick introduction to North High School",
       "source": "https://drive.google.com/file/d/1tPI4ypOGSLAISvR4GrHSxmKIiSzSHl0C/preview"
     },
     {
       "id": "beliefs",
       "type": "MultiSelect",
-      "prompt": "At North, we believe that every single student...",
-      "hint": "Go back and rewatch the video starting at 2:43. Remember that you can select more than one correct answer!",
+      "prompt": "Which of the following statements are true?",
+      "hint": "Go back and rewatch the \"Celebrations\" portion of the video. Remember that you can select more than one correct answer!",
       "options": [
-        "Is important and an essential part of our Viking community",
-        "Has the ability to reach their goals",
-        "Brings unique and valuable experiences to our community",
-        "Should have the opportunity to go to college"
+        "Our 4-year graduation rate of 85.9% is well above the school district average",
+        "Over 7 years, our graduation rate is over 99%",
+        "There are no gaps in graduation rates with students of color or English Language Learners",
+        "We've achieved all of the above while growing from 770 to 1500 students (over 8 years)"
       ],
       "solution": [
-        "Is important and an essential part of our Viking community",
-        "Has the ability to reach their goals",
-        "Brings unique and valuable experiences to our community",
-        "Should have the opportunity to go to college"
+        "Our 4-year graduation rate of 85.9% is well above the school district average",
+        "Over 7 years, our graduation rate is over 99%",
+        "There are no gaps in graduation rates with students of color or English Language Learners",
+        "We've achieved all of the above while growing from 770 to 1500 students (over 8 years)"
       ]
     },
     {
       "id": "whatWeAreAbout",
       "type": "Document",
-      "title": "Read this document explaining our mission",
+      "title": "Please read this document explaining our mission",
       "source": "https://docs.google.com/document/d/1XmzNVnR_08mpHzi4jbSad1vxLKBxgQvXXhGksaeDD1Y/preview"
     },
     {
@@ -55,14 +65,14 @@
     {
       "id": "schoolCalendar",
       "type": "Document",
-      "title": "Here's our *tentative* calendar for the school year...",
+      "title": "Our *tentative* calendar for the school year",
       "source": "https://drive.google.com/file/d/14NiHA6rcvvuwpNzcKjUpzr73MXVhck6E/preview"
     },
     {
       "id": "calendarCaveat",
       "type": "Text",
       "title": "...But it's possible some dates will change",
-      "body": "At North, we try to follow this calendar as closely as possible, but there may be some dates that will be different. We will know more about these dates in August, but the calendar will give you a general idea of when students are in school. At this time, we anticipate starting school as scheduled and we will have 3 different plans to execute depending on how COVID-19 is playing out:\n\nPlan A: Traditional In-Person Learning\n\nPlan B: Hybrid In-Person and Remote Learning\n\nPlan C: Remote Learning\n\nWe are planning to execute right now with Plan A. With that said, we need to be ready to execute on Plan B or C at any time and we may go back and forth between plans during the year."
+      "body": "At North, we try to follow this calendar as closely as possible, but it's possible some dates may change. We will have more information concerning the schedule in August, but this calendar will give you a general idea of when students are expected to be in school.\n\nAt this time, we anticipate starting in-person classes as scheduled, but we have three different plans in place depending on how COVID-19 plays out:\n\nPlan A: Traditional In-Person Learning\n\nPlan B: Hybrid In-Person and Remote Learning\n\nPlan C: Fully Remote Learning\n\nWe are currently moving forward with Plan A. That said, we need to be ready to execute on Plan B or C at any time and we may go back and forth between plans, as needed, throughout the year."
     },
     {
       "id": "planQuestion",

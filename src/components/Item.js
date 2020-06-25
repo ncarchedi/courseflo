@@ -33,56 +33,40 @@ export default function Item(props) {
   const theme = useTheme();
   const { item, answer, showSolution } = props;
 
-  const getPointsText = (points) => {
-    return points <= 1 ? points + " point" : points + "points";
-  };
-
-  // if author doesn't specify points, then use 1
-  const points = item.points || 1;
-
   // figure out display details based on item type
-  let pointsText;
   let helperText;
   let Component;
 
   switch (item.type) {
     case "Text":
-      pointsText = null;
       helperText = null;
       Component = Text;
       break;
     case "Video":
-      pointsText = null;
       helperText = null;
       Component = Video;
       break;
     case "Document":
-      pointsText = null;
       helperText = null;
       Component = Document;
       break;
     case "Image":
-      pointsText = null;
       helperText = null;
       Component = Image;
       break;
     case "SingleSelect":
-      pointsText = getPointsText(points);
       helperText = "Select only one";
       Component = SingleSelect;
       break;
     case "MultiSelect":
-      pointsText = getPointsText(points);
       helperText = "Check all that apply";
       Component = MultiSelect;
       break;
     case "TextInput":
-      pointsText = getPointsText(points);
       helperText = null;
       Component = TextInput;
       break;
     default:
-      pointsText = null;
       helperText = null;
       Component = () => (
         <Typography>{`Error: "${item.type}" is not a valid item type.`}</Typography>
@@ -111,7 +95,6 @@ export default function Item(props) {
       <ItemHeader
         item={item}
         titleColor={titleColor}
-        pointsText={pointsText}
         helperText={helperText}
         icon={icon}
       />

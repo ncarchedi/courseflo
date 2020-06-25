@@ -23,13 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ItemHeader({
-  item,
-  titleColor,
-  pointsText,
-  helperText,
-  icon,
-}) {
+export default function ItemHeader({ item, titleColor, helperText, icon }) {
   const classes = useStyles();
 
   // render the title or prompt, depending on item type
@@ -51,9 +45,11 @@ export default function ItemHeader({
           {icon}
         </Grid>
       </Grid>
-      <FormHelperText className={classes.helperText}>
-        {helperText ? pointsText + " — " + helperText : pointsText}
-      </FormHelperText>
+      {helperText && (
+        <FormHelperText className={classes.helperText}>
+          ({helperText})
+        </FormHelperText>
+      )}
     </Box>
   );
 }
