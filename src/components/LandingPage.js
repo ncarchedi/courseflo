@@ -9,10 +9,11 @@ import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import Button from "@material-ui/core/Button";
 import LandingPageHeader from "../components/LandingPageHeader";
+import LandingPageFooter from "../components/LandingPageFooter";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    marginBottom: theme.spacing(10),
+    marginBottom: theme.spacing(5),
   },
   firstRow: {
     marginTop: theme.spacing(4),
@@ -230,6 +231,7 @@ export default function LandingPage() {
             </Button>
           </Grid>
         </Grid>
+        <LandingPageFooter />
       </Container>
     </>
   );
