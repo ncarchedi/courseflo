@@ -42,8 +42,6 @@ export default function SingleSelect({
 }) {
   const classes = useStyles();
 
-  if (!answer) return null;
-
   if (showSolution)
     return (
       <>
@@ -114,7 +112,7 @@ export default function SingleSelect({
         </Box>
       )}
       <RadioGroup
-        value={answer.value}
+        value={answer && answer.value}
         onChange={(e) => onChangeAnswer(item.id, e.target.value)}
       >
         {item.options.map((option) => (

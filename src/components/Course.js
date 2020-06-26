@@ -30,7 +30,7 @@ export default function App() {
   const [showSolutions, setShowSolutions] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [show404, setShow404] = useState(false);
-  const [orientation, setOrientation] = useState("horizontal");
+  const [orientation, setOrientation] = useState("vertical");
   const [itemNumber, setItemNumber] = useState(0);
 
   useEffect(() => {
@@ -77,6 +77,10 @@ export default function App() {
   };
 
   const handleChangeAnswer = (itemId, value) => {
+    // if answers is undefined, do nothing
+    if (!answers) return null;
+
+    // otherwise, update it
     const otherAnswers = answers.filter((a) => a.itemId !== itemId);
     const solution = getSolution(itemId);
 

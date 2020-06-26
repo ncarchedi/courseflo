@@ -35,8 +35,6 @@ export default function TextInput({
 }) {
   const classes = useStyles();
 
-  if (!answer) return null;
-
   if (showSolution)
     return (
       <>
@@ -86,7 +84,7 @@ export default function TextInput({
       )}
       <Box component="span" display="flex" alignItems="center">
         <TextField
-          value={answer.value}
+          value={answer ? answer.value : ""}
           onChange={(e) => onChangeAnswer(item.id, e.target.value)}
           placeholder="Type your answer here..."
           fullWidth

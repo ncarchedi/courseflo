@@ -49,9 +49,6 @@ export default function Course({
   const theme = useTheme();
   const notOnMobile = useMediaQuery(theme.breakpoints.up("sm"));
 
-  // if answers hasn't initialized yet, then return
-  if (!answers) return null;
-
   // if there are no items to show, show empty screen
   if (!items.length) return <NoItems />;
 
@@ -66,13 +63,12 @@ export default function Course({
   if (orientation === "horizontal") {
     const item = items[itemNumber];
     if (!item) return null;
-
     return (
       <>
         <Item
           key={item.id}
           item={item}
-          answer={answers.filter((a) => a.itemId === item.id)[0]}
+          answer={answers && answers.filter((a) => a.itemId === item.id)[0]}
           onChangeAnswer={onChangeAnswer}
           showSolution={showSolutions}
         />
@@ -137,7 +133,7 @@ export default function Course({
         <Item
           key={item.id}
           item={item}
-          answer={answers.filter((a) => a.itemId === item.id)[0]}
+          answer={answers && answers.filter((a) => a.itemId === item.id)[0]}
           onChangeAnswer={onChangeAnswer}
           showSolution={showSolutions}
         />

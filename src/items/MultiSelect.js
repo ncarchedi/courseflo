@@ -44,7 +44,10 @@ export default function MultiSelect({
   const classes = useStyles();
 
   const handleCheck = (option) => {
-    // if answer is undefined, define it
+    // if answer is undefined, do nothing
+    if (!answer) return null;
+
+    // get the current answer
     let newValue = answer.value;
     // if option is checked, uncheck it
     if (newValue.includes(option))
@@ -54,8 +57,6 @@ export default function MultiSelect({
     // update state
     onChangeAnswer(item.id, newValue);
   };
-
-  if (!answer) return null;
 
   if (showSolution)
     return (
@@ -145,7 +146,7 @@ export default function MultiSelect({
               control={
                 <Checkbox
                   name={option}
-                  checked={answer.value.includes(option)}
+                  checked={(answer && answer.value.includes(option)) || false}
                   onChange={() => handleCheck(option)}
                   color="primary"
                 />
