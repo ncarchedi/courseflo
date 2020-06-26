@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import Item from "./Item";
@@ -9,16 +10,21 @@ import { getCourseFromFirestore } from "../services/firestore";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    position: "absolute",
+    position: "fixed",
     height: "100%",
   },
-  panel: {
+  leftPanel: {
     padding: theme.spacing(3),
+    height: "100%",
+    overflowY: "scroll",
   },
   rightPanel: {
+    padding: theme.spacing(3),
     borderLeft: "solid",
     borderLeftWidth: "1px",
     borderLeftColor: theme.palette.grey[300],
+    display: "flex",
+    alignItems: "center",
   },
 }));
 
@@ -59,18 +65,17 @@ export default function Editor() {
     <>
       {course && (
         <Grid className={classes.container} container>
-          <Grid className={classes.panel} item md={6}>
-            <pre style={{ whiteSpace: "pre-wrap" }}>
-              {JSON.stringify(course, null, 2)}
-            </pre>
+          <Grid className={classes.leftPanel} item md={6}>
+            {course.items.map((item) => (
+              <Box key={item.id} marginBottom={3}>
+                <Item item={item} editable />
+              </Box>
+            ))}
           </Grid>
           <Hidden smDown>
-            <Grid
-              className={`${classes.panel} ${classes.rightPanel}`}
-              item
-              md={6}
-            >
-              {currentItem && <Item item={currentItem} />}
+            <Grid className={classes.rightPanel} item md={6}>
+              {/* todo: set maxWidth for item preview */}
+              <Box>{currentItem && <Item item={currentItem} />}</Box>
             </Grid>
           </Hidden>
         </Grid>

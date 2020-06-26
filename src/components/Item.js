@@ -3,19 +3,12 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import red from "@material-ui/core/colors/red";
 import green from "@material-ui/core/colors/green";
 import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
 import ItemHeader from "./ItemHeader";
 import ItemFooter from "./ItemFooter";
-
-import Text from "../items/Text";
-import Video from "../items/Video";
-import Document from "../items/Document";
-import Image from "../items/Image";
-import SingleSelect from "../items/SingleSelect";
-import MultiSelect from "../items/MultiSelect";
-import TextInput from "../items/TextInput";
-
-import { CorrectItemIcon, IncorrectItemIcon, getItemIcon } from "./Icons";
+import EditableItemHeader from "./EditableItemHeader";
+import EditableItemFooter from "./EditableItemFooter";
+import getItemMetadata from "../utils/getItemMetadata";
+import { CorrectItemIcon, IncorrectItemIcon } from "./Icons";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -26,50 +19,12 @@ const useStyles = makeStyles((theme) => ({
 export default function Item(props) {
   const classes = useStyles();
   const theme = useTheme();
-  const { item, answer, showSolution } = props;
+  const { item, answer, showSolution, editable } = props;
 
-  // figure out display details based on item type
-  let helperText;
-  let Component;
-
-  switch (item.type) {
-    case "Text":
-      helperText = null;
-      Component = Text;
-      break;
-    case "Video":
-      helperText = null;
-      Component = Video;
-      break;
-    case "Document":
-      helperText = null;
-      Component = Document;
-      break;
-    case "Image":
-      helperText = null;
-      Component = Image;
-      break;
-    case "SingleSelect":
-      helperText = "Select only one";
-      Component = SingleSelect;
-      break;
-    case "MultiSelect":
-      helperText = "Check all that apply";
-      Component = MultiSelect;
-      break;
-    case "TextInput":
-      helperText = null;
-      Component = TextInput;
-      break;
-    default:
-      helperText = null;
-      Component = () => (
-        <Typography>{`Error: "${item.type}" is not a valid item type.`}</Typography>
-      );
-  }
+  // get metadata based on item type
+  let { Component, helperText, icon } = getItemMetadata(item, editable);
 
   let titleColor;
-  let icon = getItemIcon(item.type);
 
   // logic for when solutions are shown
   if (showSolution) {
@@ -86,15 +41,30 @@ export default function Item(props) {
   }
 
   return (
-    <Paper className={classes.container} elevation={2}>
-      <ItemHeader
-        item={item}
-        titleColor={titleColor}
-        helperText={helperText}
-        icon={icon}
-      />
-      <Component {...props} />
-      {!showSolution && <ItemFooter item={item} />}
-    </Paper>
+    <>
+      {editable ? (
+        <Paper className={classes.container} elevation={2}>
+          <EditableItemHeader
+            item={item}
+            titleColor={titleColor}
+            helperText={helperText}
+            icon={icon}
+          />
+          <Component {...props} />
+          {!showSolution && <EditableItemFooter item={item} />}
+        </Paper>
+      ) : (
+        <Paper className={classes.container} elevation={2}>
+          <ItemHeader
+            item={item}
+            titleColor={titleColor}
+            helperText={helperText}
+            icon={icon}
+          />
+          <Component {...props} />
+          {!showSolution && <ItemFooter item={item} />}
+        </Paper>
+      )}
+    </>
   );
 }
