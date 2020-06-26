@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function App() {
+export default function Course() {
   const classes = useStyles();
   let { path } = useRouteMatch();
   let { courseId } = useParams();

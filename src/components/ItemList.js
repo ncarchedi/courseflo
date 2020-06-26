@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Course({
+export default function ItemList({
   items,
   answers,
   onChangeAnswer,
