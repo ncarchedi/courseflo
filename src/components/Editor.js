@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
 import Item from "./Item";
+import NotFound from "./NotFound";
+import { getCourseFromFirestore } from "../services/firestore";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -21,36 +23,51 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Editor() {
   const classes = useStyles();
+  let { courseId } = useParams();
+  const [show404, setShow404] = useState(false);
+  const [course, setCourse] = useState();
+  const [currentItem, setCurrentItem] = useState();
 
-  const currentItem = {
-    id: "howComputeXIntercept",
-    type: "SingleSelect",
-    prompt:
-      "Given the formula for a line, how do you compute the $$x$$-intercept?",
-    hint:
-      "Recall from the video that the $$x$$-intercept is where a line intersects the $$x$$-axis.",
-    options: [
-      "Set $$y$$ equal to $$0$$ and solve for $$x$$",
-      "Set $$x$$ equal to $$0$$ and solve for $$y$$",
-      "Set both $$x$$ and $$y$$ equal to $$0$$",
-      "None of the above",
-    ],
-    solution: "Set $$y$$ equal to $$0$$ and solve for $$x$$",
-  };
+  useEffect(() => {
+    getCourseFromFirestore(courseId)
+      .then((course) => {
+        if (course.exists) {
+          // extract the course data
+          const courseData = course.data();
+          // load into state
+          setCourse(courseData);
+          // update the browser tab title dynamically
+          document.title = courseData.title;
+        } else {
+          setShow404(true);
+        }
+      })
+      .catch((error) =>
+        console.error("Error loading course from Firestore: ", error)
+      );
+  }, [courseId]);
+
+  useEffect(() => {
+    course && setCurrentItem(course.items[0]);
+  }, [course]);
+
+  // if the course isn't found, show 404
+  if (show404) return <NotFound type="course" />;
 
   return (
-    <Grid className={classes.container} container>
-      <Grid className={`${classes.panel} ${classes.leftPanel}`} item xs={6}>
-        <TextField
-          value={JSON.stringify(currentItem, null, 2)}
-          variant="outlined"
-          multiline
-          fullWidth
-        />
-      </Grid>
-      <Grid className={classes.panel} item xs={6}>
-        {currentItem && <Item item={currentItem} />}
-      </Grid>
-    </Grid>
+    <>
+      {course && (
+        <Grid className={classes.container} container>
+          <Grid className={`${classes.panel} ${classes.leftPanel}`} item xs={6}>
+            <pre style={{ whiteSpace: "pre-wrap" }}>
+              {JSON.stringify(course, null, 2)}
+            </pre>
+          </Grid>
+          <Grid className={classes.panel} item xs={6}>
+            {currentItem && <Item item={currentItem} />}
+          </Grid>
+        </Grid>
+      )}
+    </>
   );
 }
