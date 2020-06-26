@@ -45,8 +45,7 @@ export default function MultiSelect({
 
   const handleCheck = (option) => {
     // if answer is undefined, do nothing
-    if (!answer) return null;
-
+    if (!answer || !onChangeAnswer) return null;
     // get the current answer
     let newValue = answer.value;
     // if option is checked, uncheck it
