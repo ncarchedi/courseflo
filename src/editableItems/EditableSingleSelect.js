@@ -5,18 +5,18 @@ import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 
 export default function EditableSingleSelect({
   item,
-  onChangeItemValue,
   onFocus,
+  onChangeItemValue,
 }) {
   const handleChange = (e) => {
-    onChangeItemValue(e.target.name, e.target.value);
+    onChangeItemValue(item.id, e.target.name, e.target.value);
   };
 
   const handleChangeOptions = (e) => {
     const updatedOptions = [...item.options];
     const index = Number(e.target.name);
     updatedOptions[index] = e.target.value;
-    onChangeItemValue("options", updatedOptions);
+    onChangeItemValue(item.id, "options", updatedOptions);
   };
 
   return (

@@ -3,11 +3,11 @@ import TextField from "@material-ui/core/TextField";
 
 export default function EditableTextInput({
   item,
-  onChangeItemValue,
   onFocus,
+  onChangeItemValue,
 }) {
   const handleChange = (e) => {
-    onChangeItemValue(e.target.name, e.target.value);
+    onChangeItemValue(item.id, e.target.name, e.target.value);
   };
 
   return (

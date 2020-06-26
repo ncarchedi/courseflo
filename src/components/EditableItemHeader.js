@@ -17,13 +17,13 @@ const useStyles = makeStyles((theme) => ({
 export default function EditableItemHeader({
   item,
   icon,
-  onChangeItemValue,
   onFocus,
+  onChangeItemValue,
 }) {
   const classes = useStyles();
 
   const handleChange = (e) => {
-    onChangeItemValue(e.target.name, e.target.value);
+    onChangeItemValue(item.id, e.target.name, e.target.value);
   };
 
   return (

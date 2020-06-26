@@ -1,9 +1,9 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 
-export default function EditableImage({ item, onChangeItemValue, onFocus }) {
+export default function EditableImage({ item, onFocus, onChangeItemValue }) {
   const handleChange = (e) => {
-    onChangeItemValue(e.target.name, e.target.value);
+    onChangeItemValue(item.id, e.target.name, e.target.value);
   };
 
   return (

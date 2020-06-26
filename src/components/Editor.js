@@ -55,15 +55,18 @@ export default function Editor() {
       );
   }, [courseId]);
 
-  useEffect(() => {
-    course && setCurrentItemId(course.items[0].id);
-  }, [course]);
-
   // if the course isn't found, show 404
   if (show404) return <NotFound type="course" />;
 
   const handleFocus = (itemId) => {
     setCurrentItemId(itemId);
+  };
+
+  const handleChangeItemValue = (itemId, name, value) => {
+    const items = [...course.items];
+    const index = items.findIndex((item) => item.id === itemId);
+    items[index][name] = value;
+    setCourse({ ...course, items });
   };
 
   const currentItem =
@@ -76,7 +79,11 @@ export default function Editor() {
           <Grid className={classes.leftPanel} item md={6}>
             {course.items.map((item) => (
               <Box key={item.id} marginBottom={3}>
-                <EditableItem item={item} onFocus={handleFocus} />
+                <EditableItem
+                  item={item}
+                  onFocus={handleFocus}
+                  onChangeItemValue={handleChangeItemValue}
+                />
               </Box>
             ))}
           </Grid>
