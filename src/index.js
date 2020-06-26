@@ -1,26 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider } from "@material-ui/core/styles";
-import LandingPage from "./components/LandingPage";
 import App from "./components/App";
-import Upload from "./components/Upload";
-import NotFound from "./components/NotFound";
 import theme from "./theme";
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
+    {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
     <CssBaseline />
-    <Router>
-      <Switch>
-        <Route exact path="/" component={LandingPage} />
-        <Route path="/course/:courseId" component={App} />
-        <Route exact path="/upload" component={Upload} />
-        <Route exact path="/404" children={<NotFound type="page" />} />
-        <Route path="*" children={<NotFound type="page" />} />
-      </Switch>
-    </Router>
+    <App />
   </ThemeProvider>,
   document.querySelector("#root")
 );
