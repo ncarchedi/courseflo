@@ -4,8 +4,8 @@ import red from "@material-ui/core/colors/red";
 import green from "@material-ui/core/colors/green";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import ItemHeader from "../components/ItemHeader";
-import ItemFooter from "../components/ItemFooter";
+import ItemHeader from "./ItemHeader";
+import ItemFooter from "./ItemFooter";
 
 import Text from "../items/Text";
 import Video from "../items/Video";
@@ -15,11 +15,7 @@ import SingleSelect from "../items/SingleSelect";
 import MultiSelect from "../items/MultiSelect";
 import TextInput from "../items/TextInput";
 
-import {
-  CorrectItemIcon,
-  IncorrectItemIcon,
-  getItemIcon,
-} from "../components/Icons";
+import { CorrectItemIcon, IncorrectItemIcon, getItemIcon } from "./Icons";
 
 const useStyles = makeStyles((theme) => ({
   container: {

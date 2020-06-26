@@ -5,8 +5,8 @@ import Container from "@material-ui/core/Container";
 import Header from "./Header";
 import ItemList from "./ItemList";
 import Score from "./Score";
-import FeedbackModal from "../components/FeedbackModal";
-import NotFound from "../components/NotFound";
+import FeedbackModal from "./FeedbackModal";
+import NotFound from "./NotFound";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
 import initializeAnswers from "../utils/initializeAnswers";
 import {

@@ -6,9 +6,9 @@ import Paper from "@material-ui/core/Paper";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import LandingPageHeader from "../components/LandingPageHeader";
-import LandingPageFooter from "../components/LandingPageFooter";
-import LandingPageSignup from "../components/LandingPageSignup";
+import LandingPageHeader from "./LandingPageHeader";
+import LandingPageFooter from "./LandingPageFooter";
+import LandingPageSignup from "./LandingPageSignup";
 
 const useStyles = makeStyles((theme) => ({
   container: {
