@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
   header: {
     fontFamily: ["Alegreya Sans", "sans-serif"],
-    fontSize: "3rem",
+    fontSize: "2.5rem",
     [theme.breakpoints.up("sm")]: {
       fontSize: "4.5rem",
     },
@@ -83,7 +83,7 @@ export default function LandingPage() {
         <Grid className={classes.firstRow} container spacing={3}>
           <Grid item xs={12} md={10}>
             <Typography className={classes.header} variant="h1">
-              The fastest way to create and share online courses.
+              The fastest way to create online courses and quizzes.
             </Typography>
           </Grid>
           <LandingPageSignup />
