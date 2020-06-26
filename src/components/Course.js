@@ -1,161 +1,148 @@
-import React from "react";
-import { Link as RouterLink, useRouteMatch } from "react-router-dom";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { makeStyles, useTheme } from "@material-ui/styles";
-import Fab from "@material-ui/core/Fab";
-import Zoom from "@material-ui/core/Zoom";
-import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import Item from "./Item";
-import NoItems from "./NoItems";
+import React, { useState, useEffect } from "react";
+import { Switch, Route, useRouteMatch, useParams } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import Header from "./Header";
+import ItemList from "./ItemList";
+import Score from "./Score";
+import FeedbackModal from "../components/FeedbackModal";
+import NotFound from "../components/NotFound";
+import isAnswerCorrect from "../utils/isAnswerCorrect";
+import initializeAnswers from "../utils/initializeAnswers";
+import {
+  saveSubmissionToFirestore,
+  getCourseFromFirestore,
+} from "../services/firestore";
 
 const useStyles = makeStyles((theme) => ({
-  fabLeft: {
-    margin: 0,
-    position: "fixed",
-    top: "auto",
-    left: theme.spacing(3),
-    bottom: theme.spacing(3),
-    right: "auto",
-  },
-  fabRight: {
-    margin: 0,
-    position: "fixed",
-    top: "auto",
-    right: theme.spacing(3),
-    bottom: theme.spacing(3),
-    left: "auto",
-  },
-  fabLeftIcon: {
-    marginRight: theme.spacing(1),
-  },
-  fabRightIcon: {
-    marginLeft: theme.spacing(1),
+  container: {
+    margin: theme.spacing(0, "auto", 12, "auto"),
+    maxWidth: theme.breakpoints.values.md,
   },
 }));
 
-export default function Course({
-  items,
-  answers,
-  onChangeAnswer,
-  showSolutions,
-  setShowSolutions,
-  orientation,
-  itemNumber,
-  setItemNumber,
-}) {
+export default function App() {
   const classes = useStyles();
-  let { url } = useRouteMatch();
-  const theme = useTheme();
-  const notOnMobile = useMediaQuery(theme.breakpoints.up("sm"));
+  let { path } = useRouteMatch();
+  let { courseId } = useParams();
+  const [course, setCourse] = useState(null);
+  const [answers, setAnswers] = useState(null);
+  const [showSolutions, setShowSolutions] = useState(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [show404, setShow404] = useState(false);
+  const [orientation, setOrientation] = useState("horizontal");
+  const [itemNumber, setItemNumber] = useState(0);
 
-  // if answers hasn't initialized yet, then return
-  if (!answers) return null;
+  useEffect(() => {
+    getCourseFromFirestore(courseId)
+      .then((course) => {
+        if (course.exists) {
+          // extract the course data
+          const courseData = course.data();
+          // load into state
+          setCourse(courseData);
+          // update the browser tab title dynamically
+          document.title = courseData.title;
+        } else {
+          setShow404(true);
+        }
+      })
+      .catch((error) =>
+        console.error("Error loading course from Firestore: ", error)
+      );
+  }, [courseId]);
 
-  // if there are no items to show, show empty screen
-  if (!items.length) return <NoItems />;
+  // initialize the answers array
+  useEffect(() => {
+    // once the course has been loaded into state
+    if (course) initializeAnswers(course, setAnswers);
+  }, [course]);
 
-  const handleFinishCourse = () => {
-    setItemNumber(items.length);
-    // use timeout so progress bar has time to advance to 100%
-    setTimeout(() => {
-      setShowSolutions(true);
-    }, 500);
+  // save answers to firebase when user submits
+  useEffect(() => {
+    if (showSolutions && courseId) {
+      saveSubmissionToFirestore(courseId, answers);
+    }
+  }, [courseId, answers, showSolutions]);
+
+  // if answers are shown, switch to vertical view mode
+  // and set progress percentage to 100
+  useEffect(() => {
+    if (showSolutions) setOrientation("vertical");
+  }, [showSolutions]);
+
+  const getSolution = (itemId) => {
+    const item = course.items.filter((i) => i.id === itemId)[0];
+    return item.solution;
   };
 
-  if (orientation === "horizontal") {
-    const item = items[itemNumber];
-    if (!item) return null;
+  const handleChangeAnswer = (itemId, value) => {
+    const otherAnswers = answers.filter((a) => a.itemId !== itemId);
+    const solution = getSolution(itemId);
 
-    return (
-      <>
-        <Item
-          key={item.id}
-          item={item}
-          answer={answers.filter((a) => a.itemId === item.id)[0]}
-          onChangeAnswer={onChangeAnswer}
-          showSolution={showSolutions}
-        />
-        {itemNumber > 0 && !showSolutions && (
-          <Zoom in>
-            <Fab
-              className={classes.fabLeft}
-              onClick={() => setItemNumber(itemNumber - 1)}
-              variant={notOnMobile ? "extended" : "round"}
-              color="primary"
-              aria-label="go back"
-            >
-              {notOnMobile ? (
-                <>
-                  <ArrowBackIcon className={classes.fabLeftIcon} /> Go back
-                </>
-              ) : (
-                <ArrowBackIcon />
-              )}
-            </Fab>
-          </Zoom>
-        )}
-        <Zoom in>
-          {itemNumber < items.length - 1 ? (
-            <Fab
-              className={classes.fabRight}
-              onClick={() => setItemNumber(itemNumber + 1)}
-              variant={notOnMobile ? "extended" : "round"}
-              color="primary"
-              aria-label="continue"
-            >
-              {notOnMobile ? (
-                <>
-                  Continue <ArrowForwardIcon className={classes.fabRightIcon} />
-                </>
-              ) : (
-                <ArrowForwardIcon />
-              )}
-            </Fab>
-          ) : (
-            <Fab
-              className={classes.fabRight}
-              component={RouterLink}
-              to={`${url}/score`}
-              onClick={handleFinishCourse}
-              variant="extended"
-              color="primary"
-              aria-label="submit"
-            >
-              {showSolutions ? "Back to my score" : "I'm all done!"}
-              <ArrowForwardIcon className={classes.fabRightIcon} />
-            </Fab>
-          )}
-        </Zoom>
-      </>
-    );
-  }
+    setAnswers([
+      ...otherAnswers,
+      {
+        itemId,
+        value,
+        solution,
+        isCorrect: isAnswerCorrect(value, solution),
+      },
+    ]);
+  };
+
+  // if the course isn't found, show 404
+  if (show404) return <NotFound type="course" />;
+
+  // compute progress percentage
+  const progress = Math.min(
+    course ? Math.round((itemNumber / course.items.length) * 100) : 0,
+    100
+  );
 
   return (
-    <>
-      {items.map((item) => (
-        <Item
-          key={item.id}
-          item={item}
-          answer={answers.filter((a) => a.itemId === item.id)[0]}
-          onChangeAnswer={onChangeAnswer}
-          showSolution={showSolutions}
+    course && (
+      <>
+        <Header
+          courseTitle={course.title}
+          progress={progress}
+          orientation={orientation}
+          setOrientation={setOrientation}
+          setShowFeedbackModal={setShowFeedbackModal}
         />
-      ))}
-      <Zoom in>
-        <Fab
-          className={classes.fabRight}
-          component={RouterLink}
-          to={`${url}/score`}
-          onClick={handleFinishCourse}
-          variant="extended"
-          color="primary"
-          aria-label="submit"
-        >
-          {showSolutions ? "Back to my score" : "I'm all done!"}
-          <ArrowForwardIcon className={classes.fabRightIcon} />
-        </Fab>
-      </Zoom>
-    </>
+        <FeedbackModal
+          open={showFeedbackModal}
+          setOpen={setShowFeedbackModal}
+          courseId={courseId}
+          answers={answers}
+        />
+        <Container className={classes.container}>
+          <Switch>
+            <Route exact path={path}>
+              <ItemList
+                items={course.items}
+                answers={answers}
+                onChangeAnswer={handleChangeAnswer}
+                showSolutions={showSolutions}
+                setShowSolutions={setShowSolutions}
+                orientation={orientation}
+                itemNumber={itemNumber}
+                setItemNumber={setItemNumber}
+              />
+            </Route>
+            <Route exact path={`${path}/score`}>
+              <Score
+                message={course.finalMessage}
+                finalCta={course.finalCta}
+                answers={answers}
+              />
+            </Route>
+            <Route path={`${path}/*`}>
+              <NotFound type="page" />
+            </Route>
+          </Switch>
+        </Container>
+      </>
+    )
   );
 }
