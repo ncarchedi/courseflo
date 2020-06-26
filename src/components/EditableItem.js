@@ -11,9 +11,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Item(props) {
+export default function EditableItem({ item, onFocus }) {
   const classes = useStyles();
-  const { item } = props;
 
   // get metadata based on item type
   let { Component, icon } = getItemMetadata(item, true);
@@ -21,7 +20,7 @@ export default function Item(props) {
   return (
     <Paper className={classes.container} elevation={2}>
       <EditableItemHeader item={item} icon={icon} />
-      <Component {...props} />
+      <Component item={item} onFocus={onFocus} />
       <EditableItemFooter item={item} />
     </Paper>
   );

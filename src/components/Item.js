@@ -14,10 +14,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Item(props) {
+export default function Item({ item, answer, onChangeAnswer, showSolution }) {
   const classes = useStyles();
   const theme = useTheme();
-  const { item, answer, showSolution } = props;
 
   // get metadata based on item type
   let { Component, helperText, icon } = getItemMetadata(item);
@@ -47,7 +46,12 @@ export default function Item(props) {
           helperText={helperText}
           icon={icon}
         />
-        <Component {...props} />
+        <Component
+          item={item}
+          answer={answer}
+          onChangeAnswer={onChangeAnswer}
+          showSolution={showSolution}
+        />
         {!showSolution && <ItemFooter item={item} />}
       </Paper>
     </>
