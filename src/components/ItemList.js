@@ -2,6 +2,7 @@ import React from "react";
 import { Link as RouterLink, useRouteMatch } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { makeStyles, useTheme } from "@material-ui/styles";
+import Box from "@material-ui/core/Box";
 import Fab from "@material-ui/core/Fab";
 import Zoom from "@material-ui/core/Zoom";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
@@ -10,6 +11,9 @@ import Item from "./Item";
 import NoItems from "./NoItems";
 
 const useStyles = makeStyles((theme) => ({
+  item: {
+    marginTop: theme.spacing(3),
+  },
   fabLeft: {
     margin: 0,
     position: "fixed",
@@ -65,13 +69,14 @@ export default function ItemList({
     if (!item) return null;
     return (
       <>
-        <Item
-          key={item.id}
-          item={item}
-          answer={answers && answers.filter((a) => a.itemId === item.id)[0]}
-          onChangeAnswer={onChangeAnswer}
-          showSolution={showSolutions}
-        />
+        <Box className={classes.item}>
+          <Item
+            item={item}
+            answer={answers && answers.filter((a) => a.itemId === item.id)[0]}
+            onChangeAnswer={onChangeAnswer}
+            showSolution={showSolutions}
+          />
+        </Box>
         {itemNumber > 0 && !showSolutions && (
           <Zoom in>
             <Fab
@@ -130,13 +135,14 @@ export default function ItemList({
   return (
     <>
       {items.map((item) => (
-        <Item
-          key={item.id}
-          item={item}
-          answer={answers && answers.filter((a) => a.itemId === item.id)[0]}
-          onChangeAnswer={onChangeAnswer}
-          showSolution={showSolutions}
-        />
+        <Box key={item.id} className={classes.item}>
+          <Item
+            item={item}
+            answer={answers && answers.filter((a) => a.itemId === item.id)[0]}
+            onChangeAnswer={onChangeAnswer}
+            showSolution={showSolutions}
+          />
+        </Box>
       ))}
       <Zoom in>
         <Fab

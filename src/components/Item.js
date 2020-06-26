@@ -19,7 +19,6 @@ import { CorrectItemIcon, IncorrectItemIcon, getItemIcon } from "./Icons";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    marginTop: theme.spacing(3),
     padding: theme.spacing(3),
   },
 }));
