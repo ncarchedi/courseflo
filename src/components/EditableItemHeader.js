@@ -12,12 +12,14 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "right",
     paddingTop: theme.spacing(0.5),
   },
-  helperText: {
-    fontSize: "0.9rem",
-  },
 }));
 
-export default function EditableItemHeader({ item, icon, onChangeItemValue }) {
+export default function EditableItemHeader({
+  item,
+  icon,
+  onChangeItemValue,
+  onFocus,
+}) {
   const classes = useStyles();
 
   const handleChange = (e) => {
@@ -35,6 +37,7 @@ export default function EditableItemHeader({ item, icon, onChangeItemValue }) {
           onChange={handleChange}
           multiline
           fullWidth
+          onFocus={() => onFocus(item.id)}
         />
       </Grid>
       <Grid className={classes.iconContainer} item xs={1}>

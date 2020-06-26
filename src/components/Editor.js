@@ -21,11 +21,11 @@ const useStyles = makeStyles((theme) => ({
   },
   rightPanel: {
     padding: theme.spacing(3),
+    height: "100%",
+    overflowY: "scroll",
     borderLeft: "solid",
     borderLeftWidth: "1px",
     borderLeftColor: theme.palette.grey[300],
-    display: "flex",
-    alignItems: "center",
   },
 }));
 
@@ -34,7 +34,7 @@ export default function Editor() {
   let { courseId } = useParams();
   const [show404, setShow404] = useState(false);
   const [course, setCourse] = useState();
-  const [currentItem, setCurrentItem] = useState();
+  const [currentItemId, setCurrentItemId] = useState();
 
   useEffect(() => {
     getCourseFromFirestore(courseId)
@@ -56,11 +56,18 @@ export default function Editor() {
   }, [courseId]);
 
   useEffect(() => {
-    course && setCurrentItem(course.items[0]);
+    course && setCurrentItemId(course.items[0].id);
   }, [course]);
 
   // if the course isn't found, show 404
   if (show404) return <NotFound type="course" />;
+
+  const handleFocus = (itemId) => {
+    setCurrentItemId(itemId);
+  };
+
+  const currentItem =
+    course && course.items.filter((item) => item.id === currentItemId)[0];
 
   return (
     <>
@@ -69,14 +76,16 @@ export default function Editor() {
           <Grid className={classes.leftPanel} item md={6}>
             {course.items.map((item) => (
               <Box key={item.id} marginBottom={3}>
-                <EditableItem item={item} />
+                <EditableItem item={item} onFocus={handleFocus} />
               </Box>
             ))}
           </Grid>
           <Hidden smDown>
             <Grid className={classes.rightPanel} item md={6}>
               {/* todo: set maxWidth for item preview */}
-              <Box>{currentItem && <Item item={currentItem} />}</Box>
+              <Box width="100%">
+                {currentItem && <Item item={currentItem} />}
+              </Box>
             </Grid>
           </Hidden>
         </Grid>

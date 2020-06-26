@@ -1,7 +1,7 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 
-export default function EditableVideo({ item, onChangeItemValue }) {
+export default function EditableVideo({ item, onChangeItemValue, onFocus }) {
   const handleChange = (e) => {
     onChangeItemValue(e.target.name, e.target.value);
   };
@@ -15,6 +15,7 @@ export default function EditableVideo({ item, onChangeItemValue }) {
         onChange={handleChange}
         margin="normal"
         fullWidth
+        onFocus={() => onFocus(item.id)}
       />
     </form>
   );

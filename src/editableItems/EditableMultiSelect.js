@@ -1,18 +1,13 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 
-const useStyles = makeStyles((theme) => ({
-  form: {
-    marginTop: theme.spacing(2),
-  },
-}));
-
-export default function EditableMultiSelect({ item, onChangeItemValue }) {
-  const classes = useStyles();
-
+export default function EditableMultiSelect({
+  item,
+  onChangeItemValue,
+  onFocus,
+}) {
   const handleChange = (e) => {
     onChangeItemValue(e.target.name, e.target.value);
   };
@@ -25,7 +20,17 @@ export default function EditableMultiSelect({ item, onChangeItemValue }) {
   };
 
   return (
-    <form className={classes.form}>
+    <form>
+      <TextField
+        name="image"
+        label="Image (optional)"
+        value={item.image}
+        onChange={handleChange}
+        margin="normal"
+        multiline
+        fullWidth
+        onFocus={() => onFocus(item.id)}
+      />
       {item.options.map((o, index) => (
         <Grid key={"option" + index} container alignItems="flex-end">
           <Grid item xs={1}>
@@ -38,6 +43,7 @@ export default function EditableMultiSelect({ item, onChangeItemValue }) {
               onChange={handleChangeOptions}
               margin="dense"
               fullWidth
+              onFocus={() => onFocus(item.id)}
             />
           </Grid>
         </Grid>
@@ -50,6 +56,7 @@ export default function EditableMultiSelect({ item, onChangeItemValue }) {
         margin="normal"
         multiline
         fullWidth
+        onFocus={() => onFocus(item.id)}
       />
       <TextField
         name="hint"
@@ -59,6 +66,7 @@ export default function EditableMultiSelect({ item, onChangeItemValue }) {
         margin="normal"
         multiline
         fullWidth
+        onFocus={() => onFocus(item.id)}
       />
     </form>
   );

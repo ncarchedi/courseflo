@@ -1,7 +1,7 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
 
-export default function EditableText({ item, onChangeItemValue }) {
+export default function EditableText({ item, onChangeItemValue, onFocus }) {
   const handleChange = (e) => {
     onChangeItemValue(e.target.name, e.target.value);
   };
@@ -16,6 +16,7 @@ export default function EditableText({ item, onChangeItemValue }) {
         margin="normal"
         multiline
         fullWidth
+        onFocus={() => onFocus(item.id)}
       />
     </form>
   );

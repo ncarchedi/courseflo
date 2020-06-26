@@ -19,7 +19,7 @@ export default function EditableItem({ item, onFocus }) {
 
   return (
     <Paper className={classes.container} elevation={2}>
-      <EditableItemHeader item={item} icon={icon} />
+      <EditableItemHeader item={item} icon={icon} onFocus={onFocus} />
       <Component item={item} onFocus={onFocus} />
       <EditableItemFooter item={item} />
     </Paper>
