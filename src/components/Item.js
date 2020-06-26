@@ -44,12 +44,7 @@ export default function Item(props) {
     <>
       {editable ? (
         <Paper className={classes.container} elevation={2}>
-          <EditableItemHeader
-            item={item}
-            titleColor={titleColor}
-            helperText={helperText}
-            icon={icon}
-          />
+          <EditableItemHeader item={item} icon={icon} />
           <Component {...props} />
           {!showSolution && <EditableItemFooter item={item} />}
         </Paper>
