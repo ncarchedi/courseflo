@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
+import Hidden from "@material-ui/core/Hidden";
 import Item from "./Item";
 import NotFound from "./NotFound";
 import { getCourseFromFirestore } from "../services/firestore";
@@ -14,10 +15,10 @@ const useStyles = makeStyles((theme) => ({
   panel: {
     padding: theme.spacing(3),
   },
-  leftPanel: {
-    borderRight: "solid",
-    borderWidth: "1px",
-    borderRightColor: theme.palette.grey[300],
+  rightPanel: {
+    borderLeft: "solid",
+    borderLeftWidth: "1px",
+    borderLeftColor: theme.palette.grey[300],
   },
 }));
 
@@ -58,14 +59,20 @@ export default function Editor() {
     <>
       {course && (
         <Grid className={classes.container} container>
-          <Grid className={`${classes.panel} ${classes.leftPanel}`} item xs={6}>
+          <Grid className={classes.panel} item md={6}>
             <pre style={{ whiteSpace: "pre-wrap" }}>
               {JSON.stringify(course, null, 2)}
             </pre>
           </Grid>
-          <Grid className={classes.panel} item xs={6}>
-            {currentItem && <Item item={currentItem} />}
-          </Grid>
+          <Hidden smDown>
+            <Grid
+              className={`${classes.panel} ${classes.rightPanel}`}
+              item
+              md={6}
+            >
+              {currentItem && <Item item={currentItem} />}
+            </Grid>
+          </Hidden>
         </Grid>
       )}
     </>
