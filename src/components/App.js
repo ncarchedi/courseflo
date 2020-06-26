@@ -11,8 +11,8 @@ export default function App() {
     <Router>
       <Switch>
         <Route exact path="/" component={LandingPage} />
-        <Route path="/course/:courseId" component={Course} />
         <Route exact path="/course/:courseId/edit" component={Editor} />
+        <Route path="/course/:courseId" component={Course} />
         <Route exact path="/upload" component={Upload} />
         <Route exact path="/404" children={<NotFound type="page" />} />
         <Route path="*" children={<NotFound type="page" />} />
