@@ -5,6 +5,7 @@ import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import Item from "./Item";
+import EditableItem from "./EditableItem";
 import NotFound from "./NotFound";
 import { getCourseFromFirestore } from "../services/firestore";
 
@@ -68,7 +69,7 @@ export default function Editor() {
           <Grid className={classes.leftPanel} item md={6}>
             {course.items.map((item) => (
               <Box key={item.id} marginBottom={3}>
-                <Item item={item} editable />
+                <EditableItem item={item} />
               </Box>
             ))}
           </Grid>

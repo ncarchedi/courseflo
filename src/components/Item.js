@@ -5,8 +5,6 @@ import green from "@material-ui/core/colors/green";
 import Paper from "@material-ui/core/Paper";
 import ItemHeader from "./ItemHeader";
 import ItemFooter from "./ItemFooter";
-import EditableItemHeader from "./EditableItemHeader";
-import EditableItemFooter from "./EditableItemFooter";
 import getItemMetadata from "../utils/getItemMetadata";
 import { CorrectItemIcon, IncorrectItemIcon } from "./Icons";
 
@@ -19,10 +17,10 @@ const useStyles = makeStyles((theme) => ({
 export default function Item(props) {
   const classes = useStyles();
   const theme = useTheme();
-  const { item, answer, showSolution, editable } = props;
+  const { item, answer, showSolution } = props;
 
   // get metadata based on item type
-  let { Component, helperText, icon } = getItemMetadata(item, editable);
+  let { Component, helperText, icon } = getItemMetadata(item);
 
   let titleColor;
 
@@ -42,24 +40,16 @@ export default function Item(props) {
 
   return (
     <>
-      {editable ? (
-        <Paper className={classes.container} elevation={2}>
-          <EditableItemHeader item={item} icon={icon} />
-          <Component {...props} />
-          {!showSolution && <EditableItemFooter item={item} />}
-        </Paper>
-      ) : (
-        <Paper className={classes.container} elevation={2}>
-          <ItemHeader
-            item={item}
-            titleColor={titleColor}
-            helperText={helperText}
-            icon={icon}
-          />
-          <Component {...props} />
-          {!showSolution && <ItemFooter item={item} />}
-        </Paper>
-      )}
+      <Paper className={classes.container} elevation={2}>
+        <ItemHeader
+          item={item}
+          titleColor={titleColor}
+          helperText={helperText}
+          icon={icon}
+        />
+        <Component {...props} />
+        {!showSolution && <ItemFooter item={item} />}
+      </Paper>
     </>
   );
 }
