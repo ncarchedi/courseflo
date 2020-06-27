@@ -1,22 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
+import useDebounce from "../hooks/useDebounce";
 
-export default function EditableSingleSelect({
-  item,
-  onFocus,
-  onChangeItemValue,
-}) {
+export default function EditableSingleSelect({ item, onFocus, onChangeItem }) {
+  const [values, setValues] = useState(item);
+  const debouncedValues = useDebounce(values, 500);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => onChangeItem(debouncedValues), [debouncedValues]);
+
   const handleChange = (e) => {
-    onChangeItemValue(item.id, e.target.name, e.target.value);
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   const handleChangeOptions = (e) => {
-    const updatedOptions = [...item.options];
+    const options = [...values.options];
     const index = Number(e.target.name);
-    updatedOptions[index] = e.target.value;
-    onChangeItemValue(item.id, "options", updatedOptions);
+    options[index] = e.target.value;
+    setValues({ ...values, options });
   };
 
   return (
@@ -24,14 +27,14 @@ export default function EditableSingleSelect({
       <TextField
         name="image"
         label="Image (optional)"
-        value={item.image}
+        value={values.image}
         onChange={handleChange}
         margin="normal"
         multiline
         fullWidth
-        onFocus={() => onFocus(item.id)}
+        onFocus={() => onFocus(values.id)}
       />
-      {item.options.map((o, index) => (
+      {values.options.map((o, index) => (
         <Grid key={"option" + index} container alignItems="flex-end">
           <Grid item xs={1}>
             <RadioButtonUncheckedIcon color="disabled" />
@@ -43,7 +46,7 @@ export default function EditableSingleSelect({
               onChange={handleChangeOptions}
               margin="dense"
               fullWidth
-              onFocus={() => onFocus(item.id)}
+              onFocus={() => onFocus(values.id)}
             />
           </Grid>
         </Grid>
@@ -51,22 +54,22 @@ export default function EditableSingleSelect({
       <TextField
         name="solution"
         label="Solution"
-        value={item.solution}
+        value={values.solution}
         onChange={handleChange}
         margin="normal"
         multiline
         fullWidth
-        onFocus={() => onFocus(item.id)}
+        onFocus={() => onFocus(values.id)}
       />
       <TextField
         name="hint"
         label="Hint"
-        value={item.hint}
+        value={values.hint}
         onChange={handleChange}
         margin="normal"
         multiline
         fullWidth
-        onFocus={() => onFocus(item.id)}
+        onFocus={() => onFocus(values.id)}
       />
     </form>
   );

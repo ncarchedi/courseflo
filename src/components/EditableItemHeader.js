@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
+import useDebounce from "../hooks/useDebounce";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -18,12 +19,17 @@ export default function EditableItemHeader({
   item,
   icon,
   onFocus,
-  onChangeItemValue,
+  onChangeItem,
 }) {
   const classes = useStyles();
+  const [values, setValues] = useState(item);
+  const debouncedValues = useDebounce(values, 500);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => onChangeItem(debouncedValues), [debouncedValues]);
 
   const handleChange = (e) => {
-    onChangeItemValue(item.id, e.target.name, e.target.value);
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   return (
@@ -31,13 +37,13 @@ export default function EditableItemHeader({
       <Grid item xs={11}>
         <TextField
           variant="filled"
-          name={item.title ? "title" : "prompt"}
-          label={item.title ? "Title" : "Prompt"}
-          value={item.title ? item.title : item.prompt}
+          name={values.title ? "title" : "prompt"}
+          label={values.title ? "Title" : "Prompt"}
+          value={values.title ? values.title : values.prompt}
           onChange={handleChange}
           multiline
           fullWidth
-          onFocus={() => onFocus(item.id)}
+          onFocus={() => onFocus(values.id)}
         />
       </Grid>
       <Grid className={classes.iconContainer} item xs={1}>

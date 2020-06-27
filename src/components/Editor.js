@@ -59,16 +59,16 @@ export default function Editor() {
     setCurrentItemId(itemId);
   };
 
-  const handleChangeItemValue = (itemId, name, value) => {
+  const handleChangeItem = (changedItem) => {
     const items = [...course.items];
-    const index = items.findIndex((item) => item.id === itemId);
-    items[index][name] = value;
+    const index = items.findIndex((item) => item.id === changedItem.id);
+    items[index] = changedItem;
     setCourse({ ...course, items });
   };
 
   const currentItem = useMemo(
     () => course && course.items.filter((item) => item.id === currentItemId)[0],
-    [currentItemId]
+    [currentItemId, course]
   );
 
   // if the course isn't found, show 404
@@ -84,7 +84,7 @@ export default function Editor() {
                 <EditableItem
                   item={item}
                   onFocus={handleFocus}
-                  onChangeItemValue={handleChangeItemValue}
+                  onChangeItem={handleChangeItem}
                 />
               </Box>
             ))}
