@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
@@ -55,9 +55,6 @@ export default function Editor() {
       );
   }, [courseId]);
 
-  // if the course isn't found, show 404
-  if (show404) return <NotFound type="course" />;
-
   const handleFocus = (itemId) => {
     setCurrentItemId(itemId);
   };
@@ -69,8 +66,13 @@ export default function Editor() {
     setCourse({ ...course, items });
   };
 
-  const currentItem =
-    course && course.items.filter((item) => item.id === currentItemId)[0];
+  const currentItem = useMemo(
+    () => course && course.items.filter((item) => item.id === currentItemId)[0],
+    [currentItemId]
+  );
+
+  // if the course isn't found, show 404
+  if (show404) return <NotFound type="course" />;
 
   return (
     <>
