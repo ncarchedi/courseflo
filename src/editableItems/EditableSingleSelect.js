@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Box from "@material-ui/core/Box";
 import TextField from "@material-ui/core/TextField";
+import IconButton from "@material-ui/core/IconButton";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
+import ClearIcon from "@material-ui/icons/Clear";
 import useDebounce from "../hooks/useDebounce";
 
 export default function EditableSingleSelect({ item, onFocus, onChangeItem }) {
@@ -15,10 +17,15 @@ export default function EditableSingleSelect({ item, onFocus, onChangeItem }) {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  const handleChangeOptions = (e) => {
+  const handleChangeOption = (index, value) => {
     const options = [...values.options];
-    const index = Number(e.target.name);
-    options[index] = e.target.value;
+    options[index] = value;
+    setValues({ ...values, options });
+  };
+
+  const handleDeleteOption = (index) => {
+    const options = [...values.options];
+    options.splice(index, 1);
     setValues({ ...values, options });
   };
 
@@ -35,18 +42,22 @@ export default function EditableSingleSelect({ item, onFocus, onChangeItem }) {
         onFocus={() => onFocus(values.id)}
       />
       {values.options.map((o, index) => (
-        <Box key={"option" + index} display="flex" alignItems="flex-end">
-          <Box marginRight={1}>
+        <Box key={"option" + index} display="flex" alignItems="center">
+          <Box marginRight={1} display="flex">
             <RadioButtonUncheckedIcon color="disabled" />
           </Box>
           <TextField
             name={String(index)}
             value={o}
-            onChange={handleChangeOptions}
-            margin="dense"
+            onChange={(e) => handleChangeOption(index, e.target.value)}
             fullWidth
             onFocus={() => onFocus(values.id)}
           />
+          <Box>
+            <IconButton onClick={() => handleDeleteOption(index)}>
+              <ClearIcon />
+            </IconButton>
+          </Box>
         </Box>
       ))}
       <TextField
