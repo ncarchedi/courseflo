@@ -3,6 +3,8 @@ import "katex/dist/katex.min.css";
 import TeX from "@matejmazur/react-katex";
 
 export default function renderHtmlFromString(string) {
+  if (!string) return string;
+
   // if string isn't a string, make it on
   if (typeof string !== "string") string = string.toString();
 

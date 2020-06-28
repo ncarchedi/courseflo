@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
 import TextField from "@material-ui/core/TextField";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import useDebounce from "../hooks/useDebounce";
@@ -35,21 +35,19 @@ export default function EditableSingleSelect({ item, onFocus, onChangeItem }) {
         onFocus={() => onFocus(values.id)}
       />
       {values.options.map((o, index) => (
-        <Grid key={"option" + index} container alignItems="flex-end">
-          <Grid item xs={1}>
+        <Box key={"option" + index} display="flex" alignItems="flex-end">
+          <Box marginRight={1}>
             <RadioButtonUncheckedIcon color="disabled" />
-          </Grid>
-          <Grid item xs={11}>
-            <TextField
-              name={String(index)}
-              value={o}
-              onChange={handleChangeOptions}
-              margin="dense"
-              fullWidth
-              onFocus={() => onFocus(values.id)}
-            />
-          </Grid>
-        </Grid>
+          </Box>
+          <TextField
+            name={String(index)}
+            value={o}
+            onChange={handleChangeOptions}
+            margin="dense"
+            fullWidth
+            onFocus={() => onFocus(values.id)}
+          />
+        </Box>
       ))}
       <TextField
         name="solution"
