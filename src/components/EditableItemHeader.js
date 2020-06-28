@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import useDebounce from "../hooks/useDebounce";
@@ -22,6 +22,7 @@ export default function EditableItemHeader({
   onChangeItem,
 }) {
   const classes = useStyles();
+  const theme = useTheme();
   const [values, setValues] = useState(item);
   const debouncedValues = useDebounce(values, 500);
 
@@ -38,9 +39,17 @@ export default function EditableItemHeader({
         <TextField
           variant="filled"
           name={values.title ? "title" : "prompt"}
-          label={values.title ? "Title" : "Prompt"}
+          placeholder={values.title ? "Title" : "Prompt"}
           value={values.title ? values.title : values.prompt}
           onChange={handleChange}
+          // match style of item header
+          InputProps={{
+            style: {
+              padding: theme.spacing(2),
+              fontSize: "1.15rem",
+              fontWeight: 500,
+            },
+          }}
           multiline
           fullWidth
           onFocus={() => onFocus(values.id)}
