@@ -16,6 +16,8 @@ const useStyles = makeStyles((theme) => ({
   container: {
     position: "fixed",
     height: "100%",
+    // need padding on bottom due to header
+    paddingBottom: theme.mixins.toolbar.minHeight,
   },
   leftPanel: {
     padding: theme.spacing(3),
@@ -117,7 +119,9 @@ export default function Editor() {
         <Hidden smDown>
           <Grid className={classes.rightPanel} item md={6}>
             {/* todo: set maxWidth for item preview */}
-            <Box width="100%">{currentItem && <Item item={currentItem} />}</Box>
+            <Box width="100%" marginBottom={3}>
+              {currentItem && <Item item={currentItem} />}
+            </Box>
           </Grid>
         </Hidden>
       </Grid>
