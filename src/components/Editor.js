@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
+import Typography from "@material-ui/core/Typography";
 import Item from "./Item";
 import EditorHeader from "./EditorHeader";
 import EditableItem from "./EditableItem";
@@ -119,7 +120,15 @@ export default function Editor() {
         <Hidden smDown>
           <Grid className={classes.rightPanel} item xs={0} md={6}>
             <Box width="100%" marginBottom={3}>
-              {currentItem && <Item item={currentItem} />}
+              {currentItemId ? (
+                <Item item={currentItem} />
+              ) : (
+                <Box marginTop="10%">
+                  <Typography color="textSecondary" align="center">
+                    Select an exercise to preview it here
+                  </Typography>
+                </Box>
+              )}
             </Box>
           </Grid>
         </Hidden>
