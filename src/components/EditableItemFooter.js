@@ -13,12 +13,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EditableItemFooter({ item, onClickMove }) {
+export default function EditableItemFooter({
+  item,
+  onClickMove,
+  onClickDelete,
+}) {
   const classes = useStyles();
-
-  // const onClickDelete = () => {
-  //   onDeleteItem(item.id);
-  // };
 
   return (
     <Box className={classes.container}>
@@ -32,7 +32,7 @@ export default function EditableItemFooter({ item, onClickMove }) {
       <Button
         variant="outlined"
         color="secondary"
-        // onClick={onClickDelete}
+        onClick={() => onClickDelete(item.id)}
         startIcon={<DeleteIcon />}
       >
         Delete

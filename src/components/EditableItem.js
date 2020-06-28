@@ -16,6 +16,7 @@ export default function EditableItem({
   onFocus,
   onChangeItem,
   onClickMove,
+  onClickDelete,
 }) {
   const classes = useStyles();
 
@@ -31,7 +32,11 @@ export default function EditableItem({
         onChangeItem={onChangeItem}
       />
       <Component item={item} onFocus={onFocus} onChangeItem={onChangeItem} />
-      <EditableItemFooter item={item} onClickMove={onClickMove} />
+      <EditableItemFooter
+        item={item}
+        onClickMove={onClickMove}
+        onClickDelete={onClickDelete}
+      />
     </Paper>
   );
 }

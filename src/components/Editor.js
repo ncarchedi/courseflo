@@ -64,8 +64,15 @@ export default function Editor() {
   const handleChangeItem = (changedItem) => {
     const items = [...course.items];
     const index = items.findIndex((item) => item.id === changedItem.id);
-    items[index] = changedItem;
+    items[index] = changedItem; // update item in place to avoid reordering
     setCourse({ ...course, items });
+  };
+
+  const handleDeleteItem = (itemId) => {
+    setCourse({
+      ...course,
+      items: course.items.filter((item) => item.id !== itemId),
+    });
   };
 
   // generic function for updating items (e.g. for reordering them)
@@ -95,6 +102,7 @@ export default function Editor() {
                 onFocus={handleFocus}
                 onChangeItem={handleChangeItem}
                 onClickMove={() => setOpenReorderDialog(true)}
+                onClickDelete={handleDeleteItem}
               />
             </Box>
           ))}
