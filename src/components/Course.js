@@ -116,7 +116,6 @@ export default function Course() {
         <FeedbackModal
           open={showFeedbackModal}
           setOpen={setShowFeedbackModal}
-          courseId={courseId}
           answers={answers}
         />
         <Container className={classes.container}>

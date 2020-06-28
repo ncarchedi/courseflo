@@ -11,7 +11,10 @@ import EditableItem from "./EditableItem";
 import NotFound from "./NotFound";
 import ReorderItemsDialog from "./ReorderItemsDialog";
 import FeedbackModal from "./FeedbackModal";
-import { getCourseFromFirestore } from "../services/firestore";
+import {
+  getCourseFromFirestore,
+  updateCourseItemsInFirestore,
+} from "../services/firestore";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -86,6 +89,14 @@ export default function Editor() {
     setCourse({ ...course, items });
   };
 
+  const handlePublish = () => {
+    updateCourseItemsInFirestore(courseId, course.items);
+  };
+
+  const handleRestore = () => {
+    window.location.reload();
+  };
+
   const currentItem = useMemo(
     () => course && course.items.filter((item) => item.id === currentItemId)[0],
     [currentItemId, course]
@@ -101,6 +112,8 @@ export default function Editor() {
     <>
       <EditorHeader
         courseTitle={course.title}
+        onPublish={handlePublish}
+        onRestore={handleRestore}
         setShowFeedbackModal={setShowFeedbackModal}
       />
       <Grid className={classes.container} container>
@@ -118,7 +131,7 @@ export default function Editor() {
           ))}
         </Grid>
         <Hidden smDown>
-          <Grid className={classes.rightPanel} item xs={0} md={6}>
+          <Grid className={classes.rightPanel} item xs={false} md={6}>
             <Box width="100%" marginBottom={3}>
               {currentItemId ? (
                 <Item item={currentItem} />
@@ -139,11 +152,7 @@ export default function Editor() {
         setOpen={setOpenReorderDialog}
         onReorderItems={handleUpdateItems}
       />
-      <FeedbackModal
-        open={showFeedbackModal}
-        setOpen={setShowFeedbackModal}
-        courseId={course.id}
-      />
+      <FeedbackModal open={showFeedbackModal} setOpen={setShowFeedbackModal} />
     </>
   );
 }

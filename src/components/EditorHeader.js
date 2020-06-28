@@ -11,6 +11,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import FeedbackOutlinedIcon from "@material-ui/icons/FeedbackOutlined";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
+import PublishButton from "./PublishButton";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -18,7 +19,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header({ courseTitle, setShowFeedbackModal }) {
+export default function Header({
+  courseTitle,
+  onPublish,
+  onRestore,
+  setShowFeedbackModal,
+}) {
   const classes = useStyles();
   let { url } = useRouteMatch();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -45,6 +51,7 @@ export default function Header({ courseTitle, setShowFeedbackModal }) {
             {courseTitle}
           </Typography>
           <Box display="flex" alignItems="center">
+            <PublishButton onPublish={onPublish} onRestore={onRestore} />
             <Tooltip title="Share Course">
               <IconButton color="inherit" onClick={handleCopy}>
                 <ShareOutlinedIcon />
