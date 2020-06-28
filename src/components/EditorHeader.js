@@ -11,10 +11,6 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import FeedbackOutlinedIcon from "@material-ui/icons/FeedbackOutlined";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
-import ViewAgendaOutlinedIcon from "@material-ui/icons/ViewAgendaOutlined";
-import Crop75OutlinedIcon from "@material-ui/icons/Crop75Outlined";
-
-import ProgressBar from "./ProgressBar";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -22,13 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header({
-  courseTitle,
-  progress,
-  orientation,
-  setOrientation,
-  setShowFeedbackModal,
-}) {
+export default function Header({ courseTitle, setShowFeedbackModal }) {
   const classes = useStyles();
   let { url } = useRouteMatch();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -37,11 +27,9 @@ export default function Header({
   // todo: confirm browser coverage is sufficient
   const handleCopy = () => {
     setSnackbarOpen(true);
-    navigator.clipboard.writeText(`https://courseflo.com${url}`);
-  };
-
-  const toggleView = () => {
-    setOrientation(orientation === "horizontal" ? "vertical" : "horizontal");
+    // get rid of anything after /edit (e.g. trailing forward slash)
+    const courseUrl = url.split("/edit")[0];
+    navigator.clipboard.writeText(`https://courseflo.com${courseUrl}`);
   };
 
   return (
@@ -57,17 +45,6 @@ export default function Header({
             {courseTitle}
           </Typography>
           <Box display="flex" alignItems="center">
-            {progress !== 100 && (
-              <Tooltip title="Change View">
-                <IconButton color="inherit" onClick={toggleView}>
-                  {orientation === "horizontal" ? (
-                    <ViewAgendaOutlinedIcon />
-                  ) : (
-                    <Crop75OutlinedIcon />
-                  )}
-                </IconButton>
-              </Tooltip>
-            )}
             <Tooltip title="Share Course">
               <IconButton color="inherit" onClick={handleCopy}>
                 <ShareOutlinedIcon />
@@ -84,8 +61,6 @@ export default function Header({
             </Tooltip>
           </Box>
         </Toolbar>
-        {/* only show progress bar for horizontal orientation */}
-        {orientation === "horizontal" && <ProgressBar value={progress} />}
       </AppBar>
       {/* second toolbar due to: https://material-ui.com/components/app-bar/#fixed-placement */}
       <Toolbar />

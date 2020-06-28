@@ -5,9 +5,11 @@ import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import Item from "./Item";
+import EditorHeader from "./EditorHeader";
 import EditableItem from "./EditableItem";
 import NotFound from "./NotFound";
 import ReorderItemsDialog from "./ReorderItemsDialog";
+import FeedbackModal from "./FeedbackModal";
 import { getCourseFromFirestore } from "../services/firestore";
 
 const useStyles = makeStyles((theme) => ({
@@ -37,6 +39,7 @@ export default function Editor() {
   const [course, setCourse] = useState();
   const [currentItemId, setCurrentItemId] = useState();
   const [openReorderDialog, setOpenReorderDialog] = useState(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
   useEffect(() => {
     getCourseFromFirestore(courseId)
@@ -93,6 +96,10 @@ export default function Editor() {
 
   return (
     <>
+      <EditorHeader
+        courseTitle={course.title}
+        setShowFeedbackModal={setShowFeedbackModal}
+      />
       <Grid className={classes.container} container>
         <Grid className={classes.leftPanel} item md={6}>
           {course.items.map((item) => (
@@ -119,6 +126,11 @@ export default function Editor() {
         open={openReorderDialog}
         setOpen={setOpenReorderDialog}
         onReorderItems={handleUpdateItems}
+      />
+      <FeedbackModal
+        open={showFeedbackModal}
+        setOpen={setShowFeedbackModal}
+        courseId={course.id}
       />
     </>
   );
