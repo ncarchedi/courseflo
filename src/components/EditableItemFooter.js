@@ -13,22 +13,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EditableItemFooter({
-  item,
-  onDeleteItem,
-  setOpenReorderDialog,
-}) {
+export default function EditableItemFooter({ item, onClickMove }) {
   const classes = useStyles();
 
-  const onClickDelete = () => {
-    onDeleteItem(item.id);
-  };
+  // const onClickDelete = () => {
+  //   onDeleteItem(item.id);
+  // };
 
   return (
     <Box className={classes.container}>
       <Button
         variant="outlined"
-        onClick={() => setOpenReorderDialog(true)}
+        onClick={onClickMove}
         startIcon={<HeightIcon />}
       >
         Move
@@ -36,7 +32,7 @@ export default function EditableItemFooter({
       <Button
         variant="outlined"
         color="secondary"
-        onClick={onClickDelete}
+        // onClick={onClickDelete}
         startIcon={<DeleteIcon />}
       >
         Delete

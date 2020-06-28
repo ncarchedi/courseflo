@@ -11,7 +11,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EditableItem({ item, onFocus, onChangeItem }) {
+export default function EditableItem({
+  item,
+  onFocus,
+  onChangeItem,
+  onClickMove,
+}) {
   const classes = useStyles();
 
   // get metadata based on item type
@@ -26,7 +31,7 @@ export default function EditableItem({ item, onFocus, onChangeItem }) {
         onChangeItem={onChangeItem}
       />
       <Component item={item} onFocus={onFocus} onChangeItem={onChangeItem} />
-      <EditableItemFooter item={item} />
+      <EditableItemFooter item={item} onClickMove={onClickMove} />
     </Paper>
   );
 }

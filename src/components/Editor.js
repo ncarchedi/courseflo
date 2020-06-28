@@ -7,6 +7,7 @@ import Hidden from "@material-ui/core/Hidden";
 import Item from "./Item";
 import EditableItem from "./EditableItem";
 import NotFound from "./NotFound";
+import ReorderItemsDialog from "./ReorderItemsDialog";
 import { getCourseFromFirestore } from "../services/firestore";
 
 const useStyles = makeStyles((theme) => ({
@@ -35,6 +36,7 @@ export default function Editor() {
   const [show404, setShow404] = useState(false);
   const [course, setCourse] = useState();
   const [currentItemId, setCurrentItemId] = useState();
+  const [openReorderDialog, setOpenReorderDialog] = useState(false);
 
   useEffect(() => {
     getCourseFromFirestore(courseId)
@@ -66,39 +68,50 @@ export default function Editor() {
     setCourse({ ...course, items });
   };
 
+  // generic function for updating items (e.g. for reordering them)
+  const handleUpdateItems = (items) => {
+    setCourse({ ...course, items });
+  };
+
   const currentItem = useMemo(
     () => course && course.items.filter((item) => item.id === currentItemId)[0],
     [currentItemId, course]
   );
+
+  // return null if the course isn't loaded yet
+  if (!course) return null;
 
   // if the course isn't found, show 404
   if (show404) return <NotFound type="course" />;
 
   return (
     <>
-      {course && (
-        <Grid className={classes.container} container>
-          <Grid className={classes.leftPanel} item md={6}>
-            {course.items.map((item) => (
-              <Box key={item.id} marginBottom={3}>
-                <EditableItem
-                  item={item}
-                  onFocus={handleFocus}
-                  onChangeItem={handleChangeItem}
-                />
-              </Box>
-            ))}
-          </Grid>
-          <Hidden smDown>
-            <Grid className={classes.rightPanel} item md={6}>
-              {/* todo: set maxWidth for item preview */}
-              <Box width="100%">
-                {currentItem && <Item item={currentItem} />}
-              </Box>
-            </Grid>
-          </Hidden>
+      <Grid className={classes.container} container>
+        <Grid className={classes.leftPanel} item md={6}>
+          {course.items.map((item) => (
+            <Box key={item.id} marginBottom={3}>
+              <EditableItem
+                item={item}
+                onFocus={handleFocus}
+                onChangeItem={handleChangeItem}
+                onClickMove={() => setOpenReorderDialog(true)}
+              />
+            </Box>
+          ))}
         </Grid>
-      )}
+        <Hidden smDown>
+          <Grid className={classes.rightPanel} item md={6}>
+            {/* todo: set maxWidth for item preview */}
+            <Box width="100%">{currentItem && <Item item={currentItem} />}</Box>
+          </Grid>
+        </Hidden>
+      </Grid>
+      <ReorderItemsDialog
+        items={course.items}
+        open={openReorderDialog}
+        setOpen={setOpenReorderDialog}
+        onReorderItems={handleUpdateItems}
+      />
     </>
   );
 }
