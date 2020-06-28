@@ -8,6 +8,8 @@ import getItemMetadata from "../utils/getItemMetadata";
 const useStyles = makeStyles((theme) => ({
   container: {
     padding: theme.spacing(3),
+    margin: theme.spacing(0, "auto"),
+    maxWidth: theme.breakpoints.values.md,
   },
 }));
 

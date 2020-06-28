@@ -103,7 +103,7 @@ export default function Editor() {
         setShowFeedbackModal={setShowFeedbackModal}
       />
       <Grid className={classes.container} container>
-        <Grid className={classes.leftPanel} item md={6}>
+        <Grid className={classes.leftPanel} item xs={12} md={6}>
           {course.items.map((item) => (
             <Box key={item.id} marginBottom={3}>
               <EditableItem
@@ -117,8 +117,7 @@ export default function Editor() {
           ))}
         </Grid>
         <Hidden smDown>
-          <Grid className={classes.rightPanel} item md={6}>
-            {/* todo: set maxWidth for item preview */}
+          <Grid className={classes.rightPanel} item xs={0} md={6}>
             <Box width="100%" marginBottom={3}>
               {currentItem && <Item item={currentItem} />}
             </Box>
