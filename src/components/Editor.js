@@ -5,6 +5,7 @@ import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import Typography from "@material-ui/core/Typography";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Item from "./Item";
 import EditorHeader from "./EditorHeader";
 import EditableItem from "./EditableItem";
@@ -39,6 +40,15 @@ const useStyles = makeStyles((theme) => ({
     borderLeftWidth: "1px",
     borderLeftColor: theme.palette.grey[300],
   },
+  loadingContainer: {
+    position: "absolute",
+    height: "100%",
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 }));
 
 export default function Editor() {
@@ -52,22 +62,27 @@ export default function Editor() {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
   useEffect(() => {
-    getCourseFromFirestore(courseId)
-      .then((course) => {
-        if (course.exists) {
-          // extract the course data
-          const courseData = course.data();
-          // load into state
-          setCourse(courseData);
-          // update the browser tab title dynamically
-          document.title = courseData.title;
-        } else {
-          setShow404(true);
-        }
-      })
-      .catch((error) =>
-        console.error("Error loading course from Firestore: ", error)
-      );
+    // intentionally show the loading page for a second
+    setTimeout(
+      () =>
+        getCourseFromFirestore(courseId)
+          .then((course) => {
+            if (course.exists) {
+              // extract the course data
+              const courseData = course.data();
+              // load into state
+              setCourse(courseData);
+              // update the browser tab title dynamically
+              document.title = courseData.title;
+            } else {
+              setShow404(true);
+            }
+          })
+          .catch((error) =>
+            console.error("Error loading course from Firestore: ", error)
+          ),
+      1000
+    );
   }, [courseId]);
 
   const handleChangeTitle = (title) => {
@@ -120,8 +135,18 @@ export default function Editor() {
     [currentItemId, course]
   );
 
-  // return null if the course isn't loaded yet
-  if (!course) return null;
+  // show loading indicator before the course loads
+  if (!course)
+    return (
+      <Box className={classes.loadingContainer}>
+        <Box marginBottom={1}>
+          <CircularProgress />
+        </Box>
+        <Typography variant="body1" color="textSecondary">
+          Loading your course...
+        </Typography>
+      </Box>
+    );
 
   // if the course isn't found, show 404
   if (show404) return <NotFound type="course" />;
