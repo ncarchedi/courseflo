@@ -68,7 +68,7 @@ export default function LandingPageSignup({ setCourseId }) {
   return (
     <Grid item xs={12} md={6}>
       <Typography className={classes.formHeader}>
-        Sign up now to create a course or quiz for free.
+        Sign up now to create your first course or quiz for free.
       </Typography>
       <form className={classes.form} onSubmit={handleSubmit}>
         <Grid container spacing={2}>
