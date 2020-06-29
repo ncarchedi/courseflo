@@ -139,6 +139,7 @@ export default function Editor() {
             <Box key={item.id} marginBottom={3}>
               <EditableItem
                 item={item}
+                focused={item.id === currentItemId}
                 onFocus={handleFocus}
                 onChangeItem={handleChangeItem}
                 onClickMove={() => setOpenReorderDialog(true)}

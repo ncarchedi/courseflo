@@ -11,10 +11,16 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(0, "auto"),
     maxWidth: theme.breakpoints.values.md,
   },
+  focused: {
+    borderLeft: "solid",
+    borderLeftWidth: theme.spacing(1),
+    borderLeftColor: theme.palette.primary.main,
+  },
 }));
 
 export default function EditableItem({
   item,
+  focused,
   onFocus,
   onChangeItem,
   onClickMove,
@@ -26,7 +32,10 @@ export default function EditableItem({
   let { Component, icon } = getItemMetadata(item, true);
 
   return (
-    <Paper className={classes.container} elevation={2}>
+    <Paper
+      className={`${classes.container} ${focused && classes.focused}`}
+      elevation={2}
+    >
       <EditableItemHeader
         item={item}
         icon={icon}
