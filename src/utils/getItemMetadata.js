@@ -22,6 +22,8 @@ import EditableTextInput from "../editableItems/EditableTextInput";
 import { getItemIcon } from "../components/Icons";
 
 export default function getItemMetadata(item, editable) {
+  if (!item) return null;
+
   let helperText;
   let Component;
   let icon = getItemIcon(item.type);

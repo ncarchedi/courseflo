@@ -12,6 +12,7 @@ import NotFound from "./NotFound";
 import ReorderItemsDialog from "./ReorderItemsDialog";
 import FeedbackModal from "./FeedbackModal";
 import AddItemFab from "./AddItemFab";
+import NoItems from "./NoItems";
 import createItem from "../utils/createItem";
 import {
   getCourseFromFirestore,
@@ -83,7 +84,8 @@ export default function Editor() {
     items.push(newItem);
     setCourse({ ...course, items });
     // https://stackoverflow.com/questions/270612/scroll-to-bottom-of-div
-    panelRef.current.scrollTop = panelRef.current.scrollHeight;
+    if (panelRef.current)
+      panelRef.current.scrollTop = panelRef.current.scrollHeight;
   };
 
   const handleChangeItem = (changedItem) => {
@@ -133,37 +135,47 @@ export default function Editor() {
         onRestore={handleRestore}
         setShowFeedbackModal={setShowFeedbackModal}
       />
-      <Grid className={classes.container} container>
-        <Grid className={classes.leftPanel} ref={panelRef} item xs={12} md={6}>
-          {course.items.map((item) => (
-            <Box key={item.id} marginBottom={3}>
-              <EditableItem
-                item={item}
-                focused={item.id === currentItemId}
-                onFocus={handleFocus}
-                onChangeItem={handleChangeItem}
-                onClickMove={() => setOpenReorderDialog(true)}
-                onClickDelete={handleDeleteItem}
-              />
-            </Box>
-          ))}
-        </Grid>
-        <Hidden smDown>
-          <Grid className={classes.rightPanel} item xs={false} md={6}>
-            <Box width="100%" marginBottom={3}>
-              {currentItemId ? (
-                <Item item={currentItem} />
-              ) : (
-                <Box marginTop="10%">
-                  <Typography color="textSecondary" align="center">
-                    Select an exercise to preview it here
-                  </Typography>
-                </Box>
-              )}
-            </Box>
+      {course.items.length === 0 ? (
+        <NoItems editing />
+      ) : (
+        <Grid className={classes.container} container>
+          <Grid
+            className={classes.leftPanel}
+            ref={panelRef}
+            item
+            xs={12}
+            md={6}
+          >
+            {course.items.map((item) => (
+              <Box key={item.id} marginBottom={3}>
+                <EditableItem
+                  item={item}
+                  focused={item.id === currentItemId}
+                  onFocus={handleFocus}
+                  onChangeItem={handleChangeItem}
+                  onClickMove={() => setOpenReorderDialog(true)}
+                  onClickDelete={handleDeleteItem}
+                />
+              </Box>
+            ))}
           </Grid>
-        </Hidden>
-      </Grid>
+          <Hidden smDown>
+            <Grid className={classes.rightPanel} item xs={false} md={6}>
+              <Box width="100%" marginBottom={3}>
+                {currentItemId ? (
+                  <Item item={currentItem} />
+                ) : (
+                  <Box marginTop="10%">
+                    <Typography color="textSecondary" align="center">
+                      Select an exercise to preview it here
+                    </Typography>
+                  </Box>
+                )}
+              </Box>
+            </Grid>
+          </Hidden>
+        </Grid>
+      )}
       <ReorderItemsDialog
         items={course.items}
         open={openReorderDialog}
