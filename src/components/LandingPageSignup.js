@@ -124,6 +124,7 @@ export default function LandingPageSignup({ setCourseId }) {
             <Link
               href="https://courseflo.com/course/CnONPrnou4370gHU2DV0"
               target="_blank"
+              variant="body1"
             >
               See an example course
             </Link>
