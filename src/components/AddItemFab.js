@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import SpeedDial from "@material-ui/lab/SpeedDial";
 import SpeedDialIcon from "@material-ui/lab/SpeedDialIcon";
 import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
-import { getItemIcon } from "../components/Icons";
+import { getItemIcon } from "./Icons";
 
 const useStyles = makeStyles((theme) => ({
   container: {
