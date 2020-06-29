@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -6,9 +7,9 @@ import Paper from "@material-ui/core/Paper";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import LandingPageHeader from "../components/LandingPageHeader";
-import LandingPageFooter from "../components/LandingPageFooter";
-import LandingPageSignup from "../components/LandingPageSignup";
+import LandingPageHeader from "./LandingPageHeader";
+import LandingPageFooter from "./LandingPageFooter";
+import LandingPageSignup from "./LandingPageSignup";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -71,100 +72,126 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LandingPage() {
   const classes = useStyles();
+  const [courseId, setCourseId] = useState();
 
   return (
     <>
-      {/* header */}
-      <LandingPageHeader />
+      {courseId ? (
+        <Redirect to={`/course/${courseId}/edit`} />
+      ) : (
+        <>
+          {/* header */}
+          <LandingPageHeader />
 
-      {/* main content */}
-      <Container className={classes.container}>
-        {/* first row */}
-        <Grid className={classes.firstRow} container spacing={3}>
-          <Grid item xs={12} md={10}>
-            <Typography className={classes.header} variant="h1">
-              The fastest way to create online courses and quizzes.
-            </Typography>
-          </Grid>
-          <LandingPageSignup />
-        </Grid>
+          {/* main content */}
+          <Container className={classes.container}>
+            {/* first row */}
+            <Grid className={classes.firstRow} container spacing={3}>
+              <Grid item xs={12} md={10}>
+                <Typography className={classes.header} variant="h1">
+                  The fastest way to create online courses and quizzes.
+                </Typography>
+              </Grid>
+              <LandingPageSignup setCourseId={setCourseId} />
+            </Grid>
 
-        <Divider className={classes.divider} />
+            <Divider className={classes.divider} />
 
-        {/* second row */}
-        <Grid className={classes.middleRow} container spacing={6}>
-          <Grid className={classes.supportingTextContainer} item xs={12} md={4}>
-            <Typography className={classes.supportingText}>
-              Use a combination of videos, text, and images to teach new
-              material.
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={8}>
-            <Paper className={classes.imageContainer} elevation={3}>
-              <img src="video.png" alt="video example" width="100%" />
-            </Paper>
-          </Grid>
-        </Grid>
+            {/* second row */}
+            <Grid className={classes.middleRow} container spacing={6}>
+              <Grid
+                className={classes.supportingTextContainer}
+                item
+                xs={12}
+                md={4}
+              >
+                <Typography className={classes.supportingText}>
+                  Use a combination of videos, text, and images to teach new
+                  material.
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={8}>
+                <Paper className={classes.imageContainer} elevation={3}>
+                  <img src="video.png" alt="video example" width="100%" />
+                </Paper>
+              </Grid>
+            </Grid>
 
-        <Divider className={classes.divider} />
+            <Divider className={classes.divider} />
 
-        {/* third row */}
-        <Grid className={classes.middleRow} container spacing={6}>
-          <Grid item xs={12} md={8}>
-            <Paper className={classes.imageContainer} elevation={3}>
-              <img src="multiSelect.png" alt="question example" width="100%" />
-            </Paper>
-          </Grid>
-          <Grid className={classes.supportingTextContainer} item xs={12} md={4}>
-            <Typography className={classes.supportingText}>
-              Mix-and-match question types to reinforce learning and check
-              comprehension.
-            </Typography>
-          </Grid>
-        </Grid>
+            {/* third row */}
+            <Grid className={classes.middleRow} container spacing={6}>
+              <Grid item xs={12} md={8}>
+                <Paper className={classes.imageContainer} elevation={3}>
+                  <img
+                    src="multiSelect.png"
+                    alt="question example"
+                    width="100%"
+                  />
+                </Paper>
+              </Grid>
+              <Grid
+                className={classes.supportingTextContainer}
+                item
+                xs={12}
+                md={4}
+              >
+                <Typography className={classes.supportingText}>
+                  Mix-and-match question types to reinforce learning and check
+                  comprehension.
+                </Typography>
+              </Grid>
+            </Grid>
 
-        <Divider className={classes.divider} />
+            <Divider className={classes.divider} />
 
-        {/* fourth row */}
-        <Grid className={classes.middleRow} container spacing={6}>
-          <Grid className={classes.supportingTextContainer} item xs={12} md={4}>
-            <Typography className={classes.supportingText}>
-              Provide feedback so students can learn from their mistakes.
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={8}>
-            <Paper className={classes.imageContainer} elevation={3}>
-              <img
-                src="incorrectAnswer.png"
-                alt="incorrect answer"
-                width="100%"
-              />
-            </Paper>
-          </Grid>
-        </Grid>
+            {/* fourth row */}
+            <Grid className={classes.middleRow} container spacing={6}>
+              <Grid
+                className={classes.supportingTextContainer}
+                item
+                xs={12}
+                md={4}
+              >
+                <Typography className={classes.supportingText}>
+                  Provide feedback so students can learn from their mistakes.
+                </Typography>
+              </Grid>
+              <Grid item xs={12} md={8}>
+                <Paper className={classes.imageContainer} elevation={3}>
+                  <img
+                    src="incorrectAnswer.png"
+                    alt="incorrect answer"
+                    width="100%"
+                  />
+                </Paper>
+              </Grid>
+            </Grid>
 
-        <Divider className={classes.divider} />
+            <Divider className={classes.divider} />
 
-        {/* final row */}
-        <Grid className={classes.finalRow} container>
-          <Grid item xs={12}>
-            <Typography className={classes.supportingText} gutterBottom>
-              Ready to get started for free?
-            </Typography>
-            <Button
-              className={classes.button}
-              variant="contained"
-              color="primary"
-              onClick={() => window.scrollTo(0, 0)}
-            >
-              Let's do this!
-            </Button>
-          </Grid>
-        </Grid>
+            {/* final row */}
+            <Grid className={classes.finalRow} container>
+              <Grid item xs={12}>
+                <Typography className={classes.supportingText} gutterBottom>
+                  Ready to get started for free?
+                </Typography>
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  color="primary"
+                  onClick={() => window.scrollTo(0, 0)}
+                >
+                  Let's do this!
+                </Button>
+              </Grid>
+            </Grid>
 
-        {/* footer */}
-        <LandingPageFooter />
-      </Container>
+            {/* footer */}
+            <LandingPageFooter />
+          </Container>
+        </>
+      )}
     </>
   );
 }

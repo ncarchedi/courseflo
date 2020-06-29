@@ -12,10 +12,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-export const authenticateAnonymously = () => {
-  return firebase.auth().signInAnonymously();
-};
-
 export const saveSubmissionToFirestore = (courseId, submission) => {
   return db.collection("submissions").add({
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -45,6 +41,21 @@ export const saveCourseToFirestore = (course) => {
     ...course,
   });
 };
+
+export const updateCourseInFirestore = (courseId, course) => {
+  return db
+    .collection("courses")
+    .doc(courseId)
+    .update({ ...course });
+};
+
+// export const authenticateAnonymously = () => {
+//   return firebase.auth().signInAnonymously();
+// };
+
+// export const updateCourseItemsInFirestore = (courseId, items) => {
+//   return db.collection("courses").doc(courseId).update({ items });
+// };
 
 // export const getGroceryListItems = groceryListId => {
 //     return db.collection('groceryLists')

@@ -20,13 +20,9 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
-  remaining: {
-    fontStyle: "italic",
-    marginRight: theme.spacing(1),
-  },
 }));
 
-export default function Header({
+export default function CourseHeader({
   courseTitle,
   progress,
   orientation,
@@ -62,7 +58,7 @@ export default function Header({
           </Typography>
           <Box display="flex" alignItems="center">
             {progress !== 100 && (
-              <Tooltip title="Change View">
+              <Tooltip title="Toggle View">
                 <IconButton color="inherit" onClick={toggleView}>
                   {orientation === "horizontal" ? (
                     <ViewAgendaOutlinedIcon />

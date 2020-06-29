@@ -42,7 +42,10 @@ export default function SingleSelect({
 }) {
   const classes = useStyles();
 
-  if (!answer) return null;
+  const handleChange = (e) => {
+    if (!onChangeAnswer) return null;
+    onChangeAnswer(item.id, e.target.value);
+  };
 
   if (showSolution)
     return (
@@ -52,10 +55,7 @@ export default function SingleSelect({
             <img src={item.image} alt={item.title} width="100%" />
           </Box>
         )}
-        <RadioGroup
-          value={answer.value}
-          onChange={(e) => onChangeAnswer(item.id, e.target.value)}
-        >
+        <RadioGroup value={answer.value} onChange={handleChange}>
           {item.options.map((option) => (
             <Box
               key={option}
@@ -114,8 +114,8 @@ export default function SingleSelect({
         </Box>
       )}
       <RadioGroup
-        value={answer.value}
-        onChange={(e) => onChangeAnswer(item.id, e.target.value)}
+        value={(answer && answer.value) || false}
+        onChange={handleChange}
       >
         {item.options.map((option) => (
           <Box key={option} marginBottom={1}>

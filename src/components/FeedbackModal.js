@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -8,9 +9,10 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { saveFeedbackToFirestore } from "../services/firestore";
 
-export default function FeedbackModal({ open, setOpen, courseId, answers }) {
+export default function FeedbackModal({ open, setOpen, answers }) {
   const [email, setEmail] = useState("");
   const [feedback, setFeedback] = useState("");
+  const { courseId } = useParams();
 
   const handleSubmit = (e) => {
     saveFeedbackToFirestore(courseId, email, feedback, answers);
@@ -28,7 +30,7 @@ export default function FeedbackModal({ open, setOpen, courseId, answers }) {
       <DialogTitle>Provide Feedback</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Let us know if you have any questions or suggestions!
+          Please let us know if you have any questions or suggestions!
         </DialogContentText>
         <form>
           <TextField

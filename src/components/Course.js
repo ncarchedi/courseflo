@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Switch, Route, useRouteMatch, useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import Header from "./Header";
+import CourseHeader from "./CourseHeader";
 import ItemList from "./ItemList";
 import Score from "./Score";
-import FeedbackModal from "../components/FeedbackModal";
-import NotFound from "../components/NotFound";
+import FeedbackModal from "./FeedbackModal";
+import NotFound from "./NotFound";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
 import initializeAnswers from "../utils/initializeAnswers";
 import {
@@ -17,7 +17,6 @@ import {
 const useStyles = makeStyles((theme) => ({
   container: {
     margin: theme.spacing(0, "auto", 12, "auto"),
-    maxWidth: theme.breakpoints.values.md,
   },
 }));
 
@@ -77,6 +76,10 @@ export default function Course() {
   };
 
   const handleChangeAnswer = (itemId, value) => {
+    // if answers is undefined, do nothing
+    if (!answers) return null;
+
+    // otherwise, update it
     const otherAnswers = answers.filter((a) => a.itemId !== itemId);
     const solution = getSolution(itemId);
 
@@ -103,7 +106,7 @@ export default function Course() {
   return (
     course && (
       <>
-        <Header
+        <CourseHeader
           courseTitle={course.title}
           progress={progress}
           orientation={orientation}
@@ -113,7 +116,6 @@ export default function Course() {
         <FeedbackModal
           open={showFeedbackModal}
           setOpen={setShowFeedbackModal}
-          courseId={courseId}
           answers={answers}
         />
         <Container className={classes.container}>

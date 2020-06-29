@@ -35,7 +35,10 @@ export default function TextInput({
 }) {
   const classes = useStyles();
 
-  if (!answer) return null;
+  const handleChange = (e) => {
+    if (!onChangeAnswer) return null;
+    onChangeAnswer(item.id, e.target.value);
+  };
 
   if (showSolution)
     return (
@@ -55,7 +58,7 @@ export default function TextInput({
         >
           <TextField
             value={answer.value}
-            onChange={(e) => onChangeAnswer(item.id, e.target.value)}
+            onChange={handleChange}
             placeholder="Type your answer here..."
             fullWidth
             disabled
@@ -86,8 +89,8 @@ export default function TextInput({
       )}
       <Box component="span" display="flex" alignItems="center">
         <TextField
-          value={answer.value}
-          onChange={(e) => onChangeAnswer(item.id, e.target.value)}
+          value={answer ? answer.value : ""}
+          onChange={handleChange}
           placeholder="Type your answer here..."
           fullWidth
         />
