@@ -71,6 +71,7 @@ export default function ItemList({
       <>
         <Box className={classes.item}>
           <Item
+            key={item.id}
             item={item}
             answer={answers && answers.filter((a) => a.itemId === item.id)[0]}
             onChangeAnswer={onChangeAnswer}
