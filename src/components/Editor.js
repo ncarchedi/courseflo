@@ -13,7 +13,7 @@ import ReorderItemsDialog from "./ReorderItemsDialog";
 import FeedbackModal from "./FeedbackModal";
 import {
   getCourseFromFirestore,
-  updateCourseItemsInFirestore,
+  updateCourseInFirestore,
 } from "../services/firestore";
 
 const useStyles = makeStyles((theme) => ({
@@ -66,6 +66,10 @@ export default function Editor() {
       );
   }, [courseId]);
 
+  const handleChangeTitle = (title) => {
+    setCourse({ ...course, title });
+  };
+
   const handleFocus = (itemId) => {
     setCurrentItemId(itemId);
   };
@@ -90,7 +94,7 @@ export default function Editor() {
   };
 
   const handlePublish = () => {
-    updateCourseItemsInFirestore(courseId, course.items);
+    updateCourseInFirestore(courseId, course);
   };
 
   const handleRestore = () => {
@@ -112,6 +116,7 @@ export default function Editor() {
     <>
       <EditorHeader
         courseTitle={course.title}
+        onChangeTitle={handleChangeTitle}
         onPublish={handlePublish}
         onRestore={handleRestore}
         setShowFeedbackModal={setShowFeedbackModal}
