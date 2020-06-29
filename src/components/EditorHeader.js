@@ -12,6 +12,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import FeedbackOutlinedIcon from "@material-ui/icons/FeedbackOutlined";
+import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
 import CreateOutlinedIcon from "@material-ui/icons/CreateOutlined";
 import PublishButton from "./PublishButton";
@@ -37,6 +38,9 @@ export default function Header({
   const [titleFormOpen, setTitleFormOpen] = useState(false);
   const [title, setTitle] = useState(courseTitle);
 
+  // create course URL
+  const courseUrl = url.split("/edit")[0];
+
   const handleChangeTitle = (e) => {
     setTitle(e.target.value);
   };
@@ -51,7 +55,6 @@ export default function Header({
   const handleCopy = () => {
     setSnackbarOpen(true);
     // get rid of anything after /edit (e.g. trailing forward slash)
-    const courseUrl = url.split("/edit")[0];
     navigator.clipboard.writeText(`https://courseflo.com${courseUrl}`);
   };
 
@@ -89,7 +92,14 @@ export default function Header({
             )}
           </Box>
           <Box display="flex" alignItems="center">
-            <PublishButton onPublish={onPublish} onRestore={onRestore} />
+            <Box marginRight={1}>
+              <PublishButton onPublish={onPublish} onRestore={onRestore} />
+            </Box>
+            <Tooltip title="Preview Course">
+              <IconButton color="inherit" href={courseUrl} target="_blank">
+                <VisibilityOutlinedIcon />
+              </IconButton>
+            </Tooltip>
             <Tooltip title="Share Course">
               <IconButton color="inherit" onClick={handleCopy}>
                 <ShareOutlinedIcon />

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Switch, Route, useRouteMatch, useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import Header from "./Header";
+import CourseHeader from "./CourseHeader";
 import ItemList from "./ItemList";
 import Score from "./Score";
 import FeedbackModal from "./FeedbackModal";
@@ -106,7 +106,7 @@ export default function Course() {
   return (
     course && (
       <>
-        <Header
+        <CourseHeader
           courseTitle={course.title}
           progress={progress}
           orientation={orientation}
