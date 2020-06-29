@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
@@ -11,6 +11,8 @@ import EditableItem from "./EditableItem";
 import NotFound from "./NotFound";
 import ReorderItemsDialog from "./ReorderItemsDialog";
 import FeedbackModal from "./FeedbackModal";
+import AddItemFab from "./AddItemFab";
+import createItem from "../utils/createItem";
 import {
   getCourseFromFirestore,
   updateCourseInFirestore,
@@ -40,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Editor() {
   const classes = useStyles();
+  const panelRef = useRef();
   let { courseId } = useParams();
   const [show404, setShow404] = useState(false);
   const [course, setCourse] = useState();
@@ -72,6 +75,15 @@ export default function Editor() {
 
   const handleFocus = (itemId) => {
     setCurrentItemId(itemId);
+  };
+
+  const handleAddItem = (type) => {
+    const items = [...course.items];
+    const newItem = createItem(type);
+    items.push(newItem);
+    setCourse({ ...course, items });
+    // https://stackoverflow.com/questions/270612/scroll-to-bottom-of-div
+    panelRef.current.scrollTop = panelRef.current.scrollHeight;
   };
 
   const handleChangeItem = (changedItem) => {
@@ -122,7 +134,7 @@ export default function Editor() {
         setShowFeedbackModal={setShowFeedbackModal}
       />
       <Grid className={classes.container} container>
-        <Grid className={classes.leftPanel} item xs={12} md={6}>
+        <Grid className={classes.leftPanel} ref={panelRef} item xs={12} md={6}>
           {course.items.map((item) => (
             <Box key={item.id} marginBottom={3}>
               <EditableItem
@@ -158,6 +170,7 @@ export default function Editor() {
         onReorderItems={handleUpdateItems}
       />
       <FeedbackModal open={showFeedbackModal} setOpen={setShowFeedbackModal} />
+      <AddItemFab onAddItem={handleAddItem} />
     </>
   );
 }

@@ -13,7 +13,7 @@ import TextInput from "../items/TextInput";
 // editable items
 import EditableText from "../editableItems/EditableText";
 import EditableVideo from "../editableItems/EditableVideo";
-// import EditableDocument from "../editableItems/EditableDocument";
+import EditableDocument from "../editableItems/EditableDocument";
 import EditableImage from "../editableItems/EditableImage";
 import EditableSingleSelect from "../editableItems/EditableSingleSelect";
 import EditableMultiSelect from "../editableItems/EditableMultiSelect";
@@ -37,8 +37,7 @@ export default function getItemMetadata(item, editable) {
       break;
     case "Document":
       helperText = null;
-      // Component = editable ? EditableDocument : Document;
-      Component = Document;
+      Component = editable ? EditableDocument : Document;
       break;
     case "Image":
       helperText = null;
