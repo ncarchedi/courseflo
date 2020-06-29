@@ -42,7 +42,7 @@ const items = [
   },
   {
     type: "MultiSelect",
-    name: "Multi Select",
+    name: "Multiple Select",
     icon: getItemIcon("MultiSelect"),
   },
   {
