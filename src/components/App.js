@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import LoadingScreen from "./LoadingScreen";
 
 const LandingPage = lazy(() => import("./LandingPage"));
+const Dashboard = lazy(() => import("./Dashboard"));
 const Course = lazy(() => import("./Course"));
 const Editor = lazy(() => import("./Editor"));
 const Upload = lazy(() => import("./Upload"));
@@ -14,6 +15,7 @@ export default function App() {
       <Suspense fallback={<LoadingScreen />}>
         <Switch>
           <Route exact path="/" component={LandingPage} />
+          <Route path="/dashboard/:userId" component={Dashboard} />
           <Route exact path="/course/:courseId/edit" component={Editor} />
           <Route path="/course/:courseId" component={Course} />
           <Route exact path="/upload" component={Upload} />

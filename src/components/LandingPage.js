@@ -1,7 +1,7 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 import * as firebase from "firebase/app";
 import "firebase/auth";
-// import { Redirect } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -72,16 +72,13 @@ export default function LandingPage() {
   const classes = useStyles();
   const [user, loading, error] = useAuthState(firebase.auth());
 
-  user && console.log({ email: user.email, uid: user.uid });
-
   // return null if auth is still loading
   if (loading) return null;
 
   return (
     <>
       {user ? (
-        // <Redirect to={`/course/${courseId}/edit`} />
-        <Typography>Welcome {user.email}!</Typography>
+        <Redirect to={`/dashboard/${user.uid}`} />
       ) : (
         <>
           {/* header */}

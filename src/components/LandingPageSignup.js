@@ -7,8 +7,6 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 import { addNewUserToFirebase } from "../services/firebase";
-// import createCourse from "../utils/createCourse";
-// import { saveCourseToFirestore } from "../services/firebase";
 
 const useStyles = makeStyles((theme) => ({
   form: {
