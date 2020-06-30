@@ -11,7 +11,7 @@ import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import FeedbackOutlinedIcon from "@material-ui/icons/FeedbackOutlined";
+import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
 import CreateOutlinedIcon from "@material-ui/icons/CreateOutlined";
@@ -111,7 +111,7 @@ export default function Header({
                 edge="end"
                 color="inherit"
               >
-                <FeedbackOutlinedIcon />
+                <ErrorOutlineOutlinedIcon />
               </IconButton>
             </Tooltip>
           </Box>

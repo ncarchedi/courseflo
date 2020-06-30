@@ -9,7 +9,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import FeedbackOutlinedIcon from "@material-ui/icons/FeedbackOutlined";
+import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
 import ViewAgendaOutlinedIcon from "@material-ui/icons/ViewAgendaOutlined";
 import Crop75OutlinedIcon from "@material-ui/icons/Crop75Outlined";
@@ -79,7 +79,7 @@ export default function CourseHeader({
                 edge="end"
                 color="inherit"
               >
-                <FeedbackOutlinedIcon />
+                <ErrorOutlineOutlinedIcon />
               </IconButton>
             </Tooltip>
           </Box>
