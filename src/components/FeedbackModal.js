@@ -7,7 +7,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { saveFeedbackToFirestore } from "../services/firestore";
+import { saveFeedbackToFirestore } from "../services/firebase";
 
 export default function FeedbackModal({ open, setOpen, answers }) {
   const [email, setEmail] = useState("");

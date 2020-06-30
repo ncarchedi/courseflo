@@ -12,7 +12,7 @@ import initializeAnswers from "../utils/initializeAnswers";
 import {
   saveSubmissionToFirestore,
   getCourseFromFirestore,
-} from "../services/firestore";
+} from "../services/firebase";
 
 const useStyles = makeStyles((theme) => ({
   container: {

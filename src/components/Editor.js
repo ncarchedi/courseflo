@@ -18,7 +18,7 @@ import createItem from "../utils/createItem";
 import {
   getCourseFromFirestore,
   updateCourseInFirestore,
-} from "../services/firestore";
+} from "../services/firebase";
 
 const useStyles = makeStyles((theme) => ({
   container: {
