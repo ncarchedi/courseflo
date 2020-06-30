@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
 import Button from "@material-ui/core/Button";
+import Link from "@material-ui/core/Link";
 import createCourse from "../utils/createCourse";
 import { saveCourseToFirestore } from "../services/firestore";
 
@@ -122,7 +123,8 @@ export default function LandingPageSignup({ setCourseId }) {
         <Grid container justify="center">
           <Grid item>
             <Link
-              href="https://courseflo.com/course/CnONPrnou4370gHU2DV0"
+              component={RouterLink}
+              to="/course/wSWLr1JGVVRGnWuXJxtF"
               target="_blank"
               variant="body1"
             >

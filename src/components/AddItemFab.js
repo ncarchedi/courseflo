@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 const items = [
   { type: "Text", name: "Text", icon: getItemIcon("Text") },
-  { type: "Video", name: "Video", icon: getItemIcon("Video") },
+  { type: "YouTube", name: "YouTube Video", icon: getItemIcon("YouTube") },
   { type: "Document", name: "Document", icon: getItemIcon("Document") },
   { type: "Image", name: "Image", icon: getItemIcon("Image") },
   {

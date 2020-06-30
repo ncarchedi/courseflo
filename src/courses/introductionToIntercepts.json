@@ -11,9 +11,9 @@
     },
     {
       "id": "introVideo",
-      "type": "Video",
+      "type": "YouTube",
       "title": "Watch this 6-minute video on intercepts",
-      "source": "https://www.youtube-nocookie.com/embed/LNSB0N6esPU"
+      "videoId": "LNSB0N6esPU"
     },
     {
       "id": "yInterceptDescription",

@@ -42,6 +42,9 @@ export function getItemIcon(itemType) {
     case "Video":
       icon = <OndemandVideoIcon color="disabled" />;
       break;
+    case "YouTube":
+      icon = <OndemandVideoIcon color="disabled" />;
+      break;
     case "Document":
       icon = <DescriptionIcon color="disabled" />;
       break;
