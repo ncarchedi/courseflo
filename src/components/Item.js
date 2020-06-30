@@ -20,6 +20,8 @@ export default function Item({ item, answer, onChangeAnswer, showSolution }) {
   const classes = useStyles();
   const theme = useTheme();
 
+  if (!item) return null;
+
   // get metadata based on item type
   let { Component, helperText, icon } = getItemMetadata(item);
 
