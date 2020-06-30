@@ -20,6 +20,14 @@ export default function createItem(type) {
         source: "https://www.youtube-nocookie.com/embed/1s58rW0_LN4",
       };
       break;
+    case "YouTube":
+      item = {
+        id: uuidv4(),
+        type: type,
+        title: "New YouTube video item",
+        videoId: "1s58rW0_LN4",
+      };
+      break;
     case "Document":
       item = {
         id: uuidv4(),

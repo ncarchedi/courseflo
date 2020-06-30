@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography";
 // normal items
 import Text from "../items/Text";
 import Video from "../items/Video";
+import YouTube from "../items/YouTube";
 import Document from "../items/Document";
 import Image from "../items/Image";
 import SingleSelect from "../items/SingleSelect";
@@ -13,6 +14,7 @@ import TextInput from "../items/TextInput";
 // editable items
 import EditableText from "../editableItems/EditableText";
 import EditableVideo from "../editableItems/EditableVideo";
+import EditableYouTube from "../editableItems/EditableYouTube";
 import EditableDocument from "../editableItems/EditableDocument";
 import EditableImage from "../editableItems/EditableImage";
 import EditableSingleSelect from "../editableItems/EditableSingleSelect";
@@ -22,8 +24,6 @@ import EditableTextInput from "../editableItems/EditableTextInput";
 import { getItemIcon } from "../components/Icons";
 
 export default function getItemMetadata(item, editable) {
-  if (!item) return null;
-
   let helperText;
   let Component;
   let icon = getItemIcon(item.type);
@@ -36,6 +36,10 @@ export default function getItemMetadata(item, editable) {
     case "Video":
       helperText = null;
       Component = editable ? EditableVideo : Video;
+      break;
+    case "YouTube":
+      helperText = null;
+      Component = editable ? EditableYouTube : YouTube;
       break;
     case "Document":
       helperText = null;

@@ -28,6 +28,8 @@ export default function EditableItem({
 }) {
   const classes = useStyles();
 
+  if (!item) return null;
+
   // get metadata based on item type
   let { Component, icon } = getItemMetadata(item, true);
 
