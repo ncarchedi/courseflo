@@ -18,8 +18,11 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "1.1rem",
   },
   formHeader: {
-    fontSize: theme.typography.h5.fontSize,
+    fontSize: theme.typography.h6.fontSize,
     fontWeight: theme.typography.fontWeightLight,
+    [theme.breakpoints.up("md")]: {
+      fontSize: theme.typography.h5.fontSize,
+    },
   },
 }));
 

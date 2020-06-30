@@ -39,10 +39,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   supportingText: {
-    fontSize: theme.typography.h5.fontSize,
+    fontSize: theme.typography.h6.fontSize,
     fontWeight: theme.typography.fontWeightLight,
     [theme.breakpoints.up("md")]: {
-      fontSize: theme.typography.h4.fontSize,
+      fontSize: theme.typography.h5.fontSize,
     },
   },
   finalRow: {
