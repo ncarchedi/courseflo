@@ -23,13 +23,8 @@ const useStyles = makeStyles((theme) => ({
   },
   header: {
     fontFamily: ["Alegreya Sans", "sans-serif"],
-    fontSize: "2.5rem",
-    [theme.breakpoints.up("sm")]: {
-      fontSize: "4.5rem",
-    },
-    [theme.breakpoints.up("md")]: {
-      fontSize: "5.5rem",
-    },
+    // https://css-tricks.com/books/fundamental-css-tactics/scale-typography-screen-size/
+    fontSize: "calc(35px + (75 - 35) * ((100vw - 300px) / (1600 - 300)))",
   },
   middleRow: {
     [theme.breakpoints.up("md")]: {
@@ -87,7 +82,7 @@ export default function LandingPage() {
           <Container className={classes.container}>
             {/* first row */}
             <Grid className={classes.firstRow} container spacing={3}>
-              <Grid item xs={12} md={10}>
+              <Grid item xs={12} md={9}>
                 <Typography className={classes.header} variant="h1">
                   The fastest way to create online courses and quizzes.
                 </Typography>
