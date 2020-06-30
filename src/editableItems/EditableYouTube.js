@@ -20,7 +20,7 @@ export default function EditableYouTube({ item, onFocus, onChangeItem }) {
         label="Video ID"
         value={values.videoId}
         onChange={handleChange}
-        helperText="This is the series of letters and numbers at the end of the YouTube URL (example: 1s58rW0_LN4)"
+        helperText="This is the series of letters and numbers at the end of the YouTube video URL (example: 1s58rW0_LN4)"
         margin="normal"
         fullWidth
         onFocus={() => onFocus(values.id)}
