@@ -1,5 +1,8 @@
-import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
+import React from "react";
+import * as firebase from "firebase/app";
+import "firebase/auth";
+// import { Redirect } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -67,12 +70,20 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LandingPage() {
   const classes = useStyles();
-  const [courseId, setCourseId] = useState();
+  const [
+    user,
+    // loading,
+    //  error
+  ] = useAuthState(firebase.auth());
+  // const [courseId, setCourseId] = useState();
+
+  user && console.log({ email: user.email, uid: user.uid });
 
   return (
     <>
-      {courseId ? (
-        <Redirect to={`/course/${courseId}/edit`} />
+      {user ? (
+        // <Redirect to={`/course/${courseId}/edit`} />
+        <Typography>Welcome {user.email}!</Typography>
       ) : (
         <>
           {/* header */}
@@ -87,7 +98,7 @@ export default function LandingPage() {
                   The fastest way to create online courses and quizzes.
                 </Typography>
               </Grid>
-              <LandingPageSignup setCourseId={setCourseId} />
+              <LandingPageSignup />
             </Grid>
 
             <Divider className={classes.divider} />

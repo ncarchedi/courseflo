@@ -6,8 +6,9 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
-import createCourse from "../utils/createCourse";
-import { saveCourseToFirestore } from "../services/firebase";
+import { addNewUserToFirebase } from "../services/firebase";
+// import createCourse from "../utils/createCourse";
+// import { saveCourseToFirestore } from "../services/firebase";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -26,18 +27,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const encode = (data) => {
-  return Object.keys(data)
-    .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-    .join("&");
-};
+// const encode = (data) => {
+//   return Object.keys(data)
+//     .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+//     .join("&");
+// };
 
-export default function LandingPageSignup({ setCourseId }) {
+export default function LandingPageSignup() {
   const classes = useStyles();
   const [inputs, setInputs] = useState({
-    firstName: "",
-    lastName: "",
+    // firstName: "",
+    // lastName: "",
     email: "",
+    password: "",
   });
 
   const handleChange = (e) => {
@@ -48,26 +50,32 @@ export default function LandingPageSignup({ setCourseId }) {
   };
 
   const handleSubmit = (e) => {
-    // create course
-    const fullName = (inputs.firstName + " " + inputs.lastName).trim();
-    const newCourse = createCourse(fullName);
-    saveCourseToFirestore(newCourse)
-      .then((docRef) => setCourseId(docRef.id))
-      .catch((error) =>
-        console.error("Error saving course to Firestore: ", error)
-      );
-
-    // send netlify form data
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: encode({ "form-name": "signup", ...inputs }),
-    }).catch((error) =>
-      console.error("Error sending form data to Netlify: ", error)
-    );
-
     e.preventDefault();
+    console.log(inputs);
+    addNewUserToFirebase(inputs.email, inputs.password);
   };
+
+  // const handleSubmit = (e) => {
+  //   // create course
+  //   const fullName = (inputs.firstName + " " + inputs.lastName).trim();
+  //   const newCourse = createCourse(fullName);
+  //   saveCourseToFirestore(newCourse)
+  //     .then((docRef) => setCourseId(docRef.id))
+  //     .catch((error) =>
+  //       console.error("Error saving course to Firestore: ", error)
+  //     );
+
+  //   // send netlify form data
+  //   fetch("/", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/x-www-form-urlencoded" },
+  //     body: encode({ "form-name": "signup", ...inputs }),
+  //   }).catch((error) =>
+  //     console.error("Error sending form data to Netlify: ", error)
+  //   );
+
+  //   e.preventDefault();
+  // };
 
   return (
     <Grid item xs={12} md={6}>
@@ -76,7 +84,7 @@ export default function LandingPageSignup({ setCourseId }) {
       </Typography>
       <form className={classes.form} onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
+          {/* <Grid item xs={12} sm={6}>
             <TextField
               name="firstName"
               label="First Name"
@@ -99,7 +107,7 @@ export default function LandingPageSignup({ setCourseId }) {
               required
               fullWidth
             />
-          </Grid>
+          </Grid> */}
           <Grid item xs={12}>
             <TextField
               name="email"
@@ -108,6 +116,19 @@ export default function LandingPageSignup({ setCourseId }) {
               onChange={handleChange}
               type="email"
               autoComplete="email"
+              variant="outlined"
+              required
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              name="password"
+              label="Password"
+              value={inputs.password}
+              onChange={handleChange}
+              type="password"
+              autoComplete="new-password"
               variant="outlined"
               required
               fullWidth

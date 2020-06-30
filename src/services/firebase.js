@@ -13,6 +13,10 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+export const addNewUserToFirebase = (email, password) => {
+  firebase.auth().createUserWithEmailAndPassword(email, password);
+};
+
 export const saveSubmissionToFirestore = (courseId, submission) => {
   return db.collection("submissions").add({
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
