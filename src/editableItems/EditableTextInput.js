@@ -10,7 +10,7 @@ export default function EditableTextInput({ item, onFocus, onChangeItem }) {
   useEffect(() => onChangeItem(debouncedValues), [debouncedValues]);
 
   const handleChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+    setValues({ ...item, [e.target.name]: e.target.value });
   };
 
   return (

@@ -164,7 +164,7 @@ export default function Editor() {
             <Grid className={classes.rightPanel} item xs={false} md={6}>
               <Box width="100%" marginBottom={3}>
                 {currentItemId ? (
-                  <Item item={currentItem} />
+                  <Item key={currentItemId} item={currentItem} />
                 ) : (
                   <Box marginTop="10%">
                     <Typography color="textSecondary" align="center">

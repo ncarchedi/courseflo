@@ -15,25 +15,25 @@ export default function EditableSingleSelect({ item, onFocus, onChangeItem }) {
   useEffect(() => onChangeItem(debouncedValues), [debouncedValues]);
 
   const handleChange = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
+    setValues({ ...item, [e.target.name]: e.target.value });
   };
 
   const handleChangeOption = (index, value) => {
-    const options = [...values.options];
+    const options = [...item.options];
     options[index] = value;
-    setValues({ ...values, options });
+    setValues({ ...item, options });
   };
 
   const handleAddOption = () => {
-    const options = [...values.options];
+    const options = [...item.options];
     options.push("");
-    setValues({ ...values, options });
+    setValues({ ...item, options });
   };
 
   const handleDeleteOption = (index) => {
-    const options = [...values.options];
+    const options = [...item.options];
     options.splice(index, 1);
-    setValues({ ...values, options });
+    setValues({ ...item, options });
   };
 
   return (
