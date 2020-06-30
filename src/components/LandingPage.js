@@ -70,14 +70,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LandingPage() {
   const classes = useStyles();
-  const [
-    user,
-    // loading,
-    //  error
-  ] = useAuthState(firebase.auth());
-  // const [courseId, setCourseId] = useState();
+  const [user, loading, error] = useAuthState(firebase.auth());
 
   user && console.log({ email: user.email, uid: user.uid });
+
+  // return null if auth is still loading
+  if (loading) return null;
 
   return (
     <>

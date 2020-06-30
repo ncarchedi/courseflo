@@ -35,24 +35,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LandingPageSignup() {
   const classes = useStyles();
-  const [inputs, setInputs] = useState({
-    // firstName: "",
-    // lastName: "",
-    email: "",
-    password: "",
-  });
-
-  const handleChange = (e) => {
-    setInputs({
-      ...inputs,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(inputs);
-    addNewUserToFirebase(inputs.email, inputs.password);
+    addNewUserToFirebase(email, password);
   };
 
   // const handleSubmit = (e) => {
@@ -84,36 +72,12 @@ export default function LandingPageSignup() {
       </Typography>
       <form className={classes.form} onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-          {/* <Grid item xs={12} sm={6}>
-            <TextField
-              name="firstName"
-              label="First Name"
-              value={inputs.firstName}
-              onChange={handleChange}
-              autoComplete="given-name"
-              variant="outlined"
-              required
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              name="lastName"
-              label="Last Name"
-              value={inputs.lastName}
-              onChange={handleChange}
-              autoComplete="family-name"
-              variant="outlined"
-              required
-              fullWidth
-            />
-          </Grid> */}
           <Grid item xs={12}>
             <TextField
               name="email"
               label="Email Address"
-              value={inputs.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               type="email"
               autoComplete="email"
               variant="outlined"
@@ -125,8 +89,8 @@ export default function LandingPageSignup() {
             <TextField
               name="password"
               label="Password"
-              value={inputs.password}
-              onChange={handleChange}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               type="password"
               autoComplete="new-password"
               variant="outlined"
