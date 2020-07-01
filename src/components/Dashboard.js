@@ -25,6 +25,7 @@ import createCourse from "../utils/createCourse";
 import {
   getUserCoursesFromFirestore,
   saveCourseToFirestore,
+  deleteCourseFromFirestore,
 } from "../services/firebase";
 
 const useStyles = makeStyles((theme) => ({
@@ -93,6 +94,20 @@ export default function Dashboard() {
   // // if the user is logged in, but not on their dashboard, show 404
   // if (user && user.uid !== userId) return <NotFound type="page" />;
 
+  const handleCreateCourse = () => {
+    const newCourse = createCourse(user.email);
+    saveCourseToFirestore(newCourse)
+      .then((docRef) => setNewCourseId(docRef.id))
+      .catch((error) =>
+        console.error("Error saving course to Firestore: ", error)
+      );
+  };
+
+  const handleDeleteCourse = (courseId) => {
+    setCourses(courses.filter((course) => course.id !== courseId));
+    deleteCourseFromFirestore(courseId);
+  };
+
   const CourseCard = ({ id, title, updated }) => {
     return (
       <Card className={classes.card}>
@@ -134,25 +149,13 @@ export default function Dashboard() {
             </IconButton>
           </Tooltip>
           <Tooltip title="Delete">
-            <IconButton
-              color="inherit"
-              onClick={() => console.log("delete " + id)}
-            >
+            <IconButton color="inherit" onClick={() => handleDeleteCourse(id)}>
               <DeleteOutlinedIcon />
             </IconButton>
           </Tooltip>
         </CardActions>
       </Card>
     );
-  };
-
-  const handleCreateCourse = () => {
-    const newCourse = createCourse(user.email);
-    saveCourseToFirestore(newCourse)
-      .then((docRef) => setNewCourseId(docRef.id))
-      .catch((error) =>
-        console.error("Error saving course to Firestore: ", error)
-      );
   };
 
   const CreateCard = () => {

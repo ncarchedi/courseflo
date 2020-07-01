@@ -60,6 +60,10 @@ export const saveCourseToFirestore = (course) => {
   });
 };
 
+export const deleteCourseFromFirestore = (courseId) => {
+  return db.collection("courses").doc(courseId).delete();
+};
+
 export const updateCourseInFirestore = (courseId, course) => {
   return db
     .collection("courses")
