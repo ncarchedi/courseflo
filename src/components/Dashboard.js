@@ -12,6 +12,8 @@ import CardContent from "@material-ui/core/CardContent";
 import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
@@ -69,6 +71,7 @@ export default function Dashboard() {
   const [courses, setCourses] = useState();
   const [newCourseId, setNewCourseId] = useState();
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   useEffect(() => {
     // update the browser tab title
@@ -103,7 +106,14 @@ export default function Dashboard() {
       );
   };
 
-  const handleDeleteCourse = (courseId) => {
+  // https://stackoverflow.com/a/52033479/2338922
+  // todo: confirm browser coverage is sufficient
+  const handleShare = (courseId) => {
+    setSnackbarOpen(true);
+    navigator.clipboard.writeText(`https://courseflo.com/course/${courseId}`);
+  };
+
+  const handleDelete = (courseId) => {
     setCourses(courses.filter((course) => course.id !== courseId));
     deleteCourseFromFirestore(courseId);
   };
@@ -136,20 +146,18 @@ export default function Dashboard() {
               color="inherit"
               component={RouterLink}
               to={`/course/${id}`}
+              target="_blank"
             >
               <VisibilityOutlinedIcon />
             </IconButton>
           </Tooltip>
           <Tooltip title="Share">
-            <IconButton
-              color="inherit"
-              onClick={() => console.log("share " + id)}
-            >
+            <IconButton color="inherit" onClick={() => handleShare(id)}>
               <ShareOutlinedIcon />
             </IconButton>
           </Tooltip>
           <Tooltip title="Delete">
-            <IconButton color="inherit" onClick={() => handleDeleteCourse(id)}>
+            <IconButton color="inherit" onClick={() => handleDelete(id)}>
               <DeleteOutlinedIcon />
             </IconButton>
           </Tooltip>
@@ -205,6 +213,21 @@ export default function Dashboard() {
         setOpen={setShowFeedbackModal}
         sentFrom="dashboard"
       />
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={() => setSnackbarOpen(false)}
+          severity="success"
+        >
+          Course link copied to clipboard!
+        </MuiAlert>
+      </Snackbar>
     </>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useRouteMatch, Redirect, Link as RouterLink } from "react-router-dom";
+import { useParams, Redirect, Link as RouterLink } from "react-router-dom";
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -41,7 +41,7 @@ export default function Header({
 }) {
   const classes = useStyles();
   const theme = useTheme();
-  let { url } = useRouteMatch();
+  let { courseId } = useParams();
   const { user, userLoading } = useContext(UserContext);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [titleFormOpen, setTitleFormOpen] = useState(false);
@@ -57,7 +57,7 @@ export default function Header({
   // if (user && user.uid !== userId) return <NotFound type="page" />;
 
   // create course URL
-  const courseUrl = url.split("/edit")[0];
+  const courseUrl = `https://courseflo.com/course/${courseId}`;
 
   const handleChangeTitle = (e) => {
     setTitle(e.target.value);
@@ -73,8 +73,7 @@ export default function Header({
   // todo: confirm browser coverage is sufficient
   const handleCopy = () => {
     setSnackbarOpen(true);
-    // get rid of anything after /edit (e.g. trailing forward slash)
-    navigator.clipboard.writeText(`https://courseflo.com${courseUrl}`);
+    navigator.clipboard.writeText(courseUrl);
   };
 
   return (
