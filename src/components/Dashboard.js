@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Redirect, useParams } from "react-router-dom";
+import moment from "moment";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
@@ -13,6 +14,7 @@ import Typography from "@material-ui/core/Typography";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import UpdateIcon from "@material-ui/icons/Update";
 import DashboardHeader from "./DashboardHeader";
 import NotFound from "./NotFound";
 import FeedbackModal from "./FeedbackModal";
@@ -44,6 +46,10 @@ const useStyles = makeStyles((theme) => ({
   },
   createCardActionArea: {
     height: "100%",
+  },
+  updateIcon: {
+    marginRight: theme.spacing(1),
+    color: theme.palette.text.secondary,
   },
 }));
 
@@ -88,12 +94,17 @@ export default function Dashboard() {
       <Card className={classes.card}>
         <CardActionArea className={classes.cardActionArea}>
           <CardContent className={classes.cardContent}>
-            <Typography gutterBottom variant="h5" component="h2">
+            <Typography variant="h5" component="h2" gutterBottom>
               {title}
             </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              Updated {updated}
-            </Typography>
+            <Box display="flex" justifyContent="center" alignItems="center">
+              <Tooltip title="Last update">
+                <UpdateIcon className={classes.updateIcon} />
+              </Tooltip>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {updated}
+              </Typography>
+            </Box>
           </CardContent>
         </CardActionArea>
         <CardActions className={classes.cardActions}>
@@ -136,7 +147,7 @@ export default function Dashboard() {
             <CourseCard
               key={course.id}
               title={course.title}
-              updated={course.updated}
+              updated={moment(course.updated.toDate()).calendar()}
             />
           ))}
           <CreateCard />

@@ -45,7 +45,10 @@ export const getUserCoursesFromFirestore = async (userEmail) => {
     .where("authorEmail", "==", userEmail)
     .get();
 
-  return result.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  return result.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
 };
 
 export const saveCourseToFirestore = (course) => {
