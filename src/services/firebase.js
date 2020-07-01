@@ -43,6 +43,7 @@ export const getUserCoursesFromFirestore = async (userEmail) => {
   const result = await db
     .collection("courses")
     .where("authorEmail", "==", userEmail)
+    .orderBy("updated", "desc")
     .get();
 
   return result.docs.map((doc) => ({

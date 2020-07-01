@@ -29,7 +29,7 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    margin: theme.spacing(3, "auto"),
+    margin: theme.spacing(2, "auto"),
   },
   card: {
     minHeight: 190,
@@ -176,6 +176,11 @@ export default function Dashboard() {
     <>
       <DashboardHeader setShowFeedbackModal={setShowFeedbackModal} />
       <Container className={classes.container} maxWidth="md">
+        <Box marginBottom={2}>
+          <Typography variant="h5" color="inherit">
+            My Courses
+          </Typography>
+        </Box>
         <Grid container spacing={3}>
           {courses.map((course) => (
             <Grid item key={course.id} xs={12} sm={6} md={4}>
