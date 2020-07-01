@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Redirect, useParams, Link as RouterLink } from "react-router-dom";
+import { Redirect, Link as RouterLink } from "react-router-dom";
 import moment from "moment";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -18,10 +18,14 @@ import Link from "@material-ui/core/Link";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import UpdateIcon from "@material-ui/icons/Update";
 import DashboardHeader from "./DashboardHeader";
-import NotFound from "./NotFound";
+// import NotFound from "./NotFound";
 import FeedbackModal from "./FeedbackModal";
 import UserContext from "../context/UserContext";
-import { getUserCoursesFromFirestore } from "../services/firebase";
+import createCourse from "../utils/createCourse";
+import {
+  getUserCoursesFromFirestore,
+  saveCourseToFirestore,
+} from "../services/firebase";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -68,12 +72,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
   const classes = useStyles();
-  const { userId } = useParams();
+  // const { userId } = useParams();
   const { user, userLoading } = useContext(UserContext);
   const [courses, setCourses] = useState();
+  const [newCourseId, setNewCourseId] = useState();
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
   useEffect(() => {
+    // update the browser tab title
+    document.title = "Courseflo - Dashboard";
+
     const setUserCourses = async () => {
       const userCourses = await getUserCoursesFromFirestore(user.email);
       setCourses(userCourses);
@@ -84,6 +92,9 @@ export default function Dashboard() {
 
   // do nothing until user and courses are done loading
   if (userLoading || !courses) return null;
+
+  // redirect when user creates a new course
+  if (newCourseId) return <Redirect to={`/course/${newCourseId}/edit`} />;
 
   // // if user is not logged in, redirect to landing page
   // if (!user) return <Redirect to="/" />;
@@ -146,12 +157,21 @@ export default function Dashboard() {
     );
   };
 
+  const handleCreateCourse = () => {
+    const newCourse = createCourse(user.email);
+    saveCourseToFirestore(newCourse)
+      .then((docRef) => setNewCourseId(docRef.id))
+      .catch((error) =>
+        console.error("Error saving course to Firestore: ", error)
+      );
+  };
+
   const CreateCard = () => {
     return (
       <Card className={classes.card}>
         <CardActionArea
           className={classes.createCardActionArea}
-          onClick={() => console.log("create a new course!")}
+          onClick={() => handleCreateCourse()}
         >
           <Typography variant="h5" component="h2">
             New Course
