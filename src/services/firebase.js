@@ -41,8 +41,9 @@ export const getCourseFromFirestore = (courseId) => {
 
 export const saveCourseToFirestore = (course) => {
   return db.collection("courses").add({
-    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     ...course,
+    created: firebase.firestore.FieldValue.serverTimestamp(),
+    updated: firebase.firestore.FieldValue.serverTimestamp(),
   });
 };
 
@@ -50,7 +51,10 @@ export const updateCourseInFirestore = (courseId, course) => {
   return db
     .collection("courses")
     .doc(courseId)
-    .update({ ...course });
+    .update({
+      ...course,
+      updated: firebase.firestore.FieldValue.serverTimestamp(),
+    });
 };
 
 // export const authenticateAnonymously = () => {
