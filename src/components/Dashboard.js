@@ -119,7 +119,8 @@ export default function Dashboard() {
           <Tooltip title="Preview">
             <IconButton
               color="inherit"
-              onClick={() => console.log("preview " + id)}
+              component={RouterLink}
+              to={`/course/${id}`}
             >
               <VisibilityOutlinedIcon />
             </IconButton>
