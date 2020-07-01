@@ -1,5 +1,7 @@
-import React, { useState } from "react";
-import { useRouteMatch } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { useRouteMatch, Redirect } from "react-router-dom";
+import * as firebase from "firebase/app";
+import "firebase/auth";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -11,11 +13,13 @@ import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
+import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined";
+import ExitToAppOutlinedIcon from "@material-ui/icons/ExitToAppOutlined";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
 import CreateOutlinedIcon from "@material-ui/icons/CreateOutlined";
 import PublishButton from "./PublishButton";
+import UserContext from "../context/UserContext";
 
 const useStyles = makeStyles((theme) => ({
   titleContainer: {
@@ -34,9 +38,19 @@ export default function Header({
   const classes = useStyles();
   const theme = useTheme();
   let { url } = useRouteMatch();
+  const { user, userLoading } = useContext(UserContext);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [titleFormOpen, setTitleFormOpen] = useState(false);
   const [title, setTitle] = useState(courseTitle);
+
+  // do nothing until user is done loading
+  if (userLoading) return null;
+
+  // if user is not logged in, redirect to landing page
+  if (!user) return <Redirect to="/" />;
+
+  // todo: if the user is logged in, but not editing their course, show 404
+  // if (user && user.uid !== userId) return <NotFound type="page" />;
 
   // create course URL
   const courseUrl = url.split("/edit")[0];
@@ -108,10 +122,18 @@ export default function Header({
             <Tooltip title="Provide Feedback">
               <IconButton
                 onClick={() => setShowFeedbackModal(true)}
-                edge="end"
                 color="inherit"
               >
                 <ErrorOutlineOutlinedIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Log Out">
+              <IconButton
+                onClick={() => firebase.auth().signOut()}
+                edge="end"
+                color="inherit"
+              >
+                <ExitToAppOutlinedIcon />
               </IconButton>
             </Tooltip>
           </Box>

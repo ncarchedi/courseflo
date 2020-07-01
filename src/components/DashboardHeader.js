@@ -1,4 +1,6 @@
 import React from "react";
+import * as firebase from "firebase/app";
+import "firebase/auth";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -6,6 +8,7 @@ import Box from "@material-ui/core/Box";
 import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined";
+import ExitToAppOutlinedIcon from "@material-ui/icons/ExitToAppOutlined";
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -32,10 +35,18 @@ export default function DashboardHeader({ setShowFeedbackModal }) {
             <Tooltip title="Provide Feedback">
               <IconButton
                 onClick={() => setShowFeedbackModal(true)}
-                edge="end"
                 color="inherit"
               >
                 <ErrorOutlineOutlinedIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Log Out">
+              <IconButton
+                onClick={() => firebase.auth().signOut()}
+                edge="end"
+                color="inherit"
+              >
+                <ExitToAppOutlinedIcon />
               </IconButton>
             </Tooltip>
           </Box>
