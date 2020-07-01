@@ -1,7 +1,5 @@
 import React, { useState, useContext } from "react";
 import { useParams, Redirect, Link as RouterLink } from "react-router-dom";
-import * as firebase from "firebase/app";
-import "firebase/auth";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -16,7 +14,6 @@ import MuiAlert from "@material-ui/lab/Alert";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined";
-import ExitToAppOutlinedIcon from "@material-ui/icons/ExitToAppOutlined";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
 import CreateOutlinedIcon from "@material-ui/icons/CreateOutlined";
 import PublishButton from "./PublishButton";
@@ -138,15 +135,6 @@ export default function Header({
                 color="inherit"
               >
                 <ErrorOutlineOutlinedIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Log Out">
-              <IconButton
-                onClick={() => firebase.auth().signOut()}
-                edge="end"
-                color="inherit"
-              >
-                <ExitToAppOutlinedIcon />
               </IconButton>
             </Tooltip>
           </Box>
