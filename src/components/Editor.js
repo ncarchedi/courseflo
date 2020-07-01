@@ -183,7 +183,11 @@ export default function Editor() {
         setOpen={setOpenReorderDialog}
         onReorderItems={handleUpdateItems}
       />
-      <FeedbackModal open={showFeedbackModal} setOpen={setShowFeedbackModal} />
+      <FeedbackModal
+        open={showFeedbackModal}
+        setOpen={setShowFeedbackModal}
+        sentFrom="editor"
+      />
       <AddItemFab onAddItem={handleAddItem} />
     </>
   );

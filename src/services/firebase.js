@@ -18,13 +18,20 @@ export const saveSubmissionToFirestore = (courseId, submission) => {
   });
 };
 
-export const saveFeedbackToFirestore = (courseId, email, feedback, answers) => {
+export const saveFeedbackToFirestore = (
+  sentFrom,
+  courseId,
+  email,
+  feedback,
+  answers
+) => {
   return db.collection("feedback").add({
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    courseId,
+    sentFrom,
+    courseId: courseId || null,
     email,
     feedback,
-    answers,
+    answers: answers || null,
   });
 };
 

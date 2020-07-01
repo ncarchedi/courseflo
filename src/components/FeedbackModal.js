@@ -9,13 +9,13 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { saveFeedbackToFirestore } from "../services/firebase";
 
-export default function FeedbackModal({ open, setOpen, answers }) {
+export default function FeedbackModal({ open, setOpen, sentFrom, answers }) {
   const [email, setEmail] = useState("");
   const [feedback, setFeedback] = useState("");
   const { courseId } = useParams();
 
   const handleSubmit = (e) => {
-    saveFeedbackToFirestore(courseId, email, feedback, answers);
+    saveFeedbackToFirestore(sentFrom, courseId, email, feedback, answers);
     handleClose();
     e.preventDefault();
   };

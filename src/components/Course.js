@@ -116,6 +116,7 @@ export default function Course() {
         <FeedbackModal
           open={showFeedbackModal}
           setOpen={setShowFeedbackModal}
+          sentFrom="course"
           answers={answers}
         />
         <Container className={classes.container}>
