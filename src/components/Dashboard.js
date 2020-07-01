@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Redirect, useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -17,6 +17,7 @@ import DashboardHeader from "./DashboardHeader";
 import NotFound from "./NotFound";
 import FeedbackModal from "./FeedbackModal";
 import UserContext from "../context/UserContext";
+import { getUserCoursesFromFirestore } from "../services/firebase";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -46,14 +47,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// const fakeCourses = [
+//   { id: 1, title: "My Really Cool Course", updated: "June 28, 2020" },
+//   { id: 2, title: "My Slightly Less Cool Course", updated: "June 25, 2020" },
+//   {
+//     id: 3,
+//     title: "My Blah Course That Has a Crazy Long Title",
+//     updated: "September 19, 2019",
+//   },
+//   { id: 4, title: "My Other Really Cool Course", updated: "May 12, 2019" },
+// ];
+
 export default function Dashboard() {
   const classes = useStyles();
   const { userId } = useParams();
   const { user, userLoading } = useContext(UserContext);
+  const [courses, setCourses] = useState();
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
-  // do nothing until user is done loading
-  if (userLoading) return null;
+  useEffect(() => {
+    const setUserCourses = async () => {
+      const userCourses = await getUserCoursesFromFirestore(user.email);
+      setCourses(userCourses);
+    };
+
+    user && setUserCourses();
+  }, [user]);
+
+  // do nothing until user and courses are done loading
+  if (userLoading || !courses) return null;
 
   // if user is not logged in, redirect to landing page
   if (!user) return <Redirect to="/" />;
@@ -105,17 +127,6 @@ export default function Dashboard() {
     );
   };
 
-  const courses = [
-    { id: 1, title: "My Really Cool Course", updated: "June 28, 2020" },
-    { id: 2, title: "My Slightly Less Cool Course", updated: "June 25, 2020" },
-    {
-      id: 3,
-      title: "My Blah Course That Has a Crazy Long Title",
-      updated: "September 19, 2019",
-    },
-    { id: 4, title: "My Other Really Cool Course", updated: "May 12, 2019" },
-  ];
-
   return (
     <>
       <DashboardHeader setShowFeedbackModal={setShowFeedbackModal} />
@@ -123,7 +134,7 @@ export default function Dashboard() {
         <Box className={classes.cardContainer}>
           {courses.map((course) => (
             <CourseCard
-              key={course.id} // todo: how to use actual course IDs?
+              key={course.id}
               title={course.title}
               updated={course.updated}
             />

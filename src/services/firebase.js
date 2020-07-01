@@ -39,6 +39,15 @@ export const getCourseFromFirestore = (courseId) => {
   return db.collection("courses").doc(courseId).get();
 };
 
+export const getUserCoursesFromFirestore = async (userEmail) => {
+  const result = await db
+    .collection("courses")
+    .where("authorEmail", "==", userEmail)
+    .get();
+
+  return result.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+};
+
 export const saveCourseToFirestore = (course) => {
   return db.collection("courses").add({
     ...course,
