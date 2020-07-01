@@ -85,11 +85,11 @@ export default function Dashboard() {
   // do nothing until user and courses are done loading
   if (userLoading || !courses) return null;
 
-  // if user is not logged in, redirect to landing page
-  if (!user) return <Redirect to="/" />;
+  // // if user is not logged in, redirect to landing page
+  // if (!user) return <Redirect to="/" />;
 
-  // if the user is logged in, but not on their dashboard, show 404
-  if (user && user.uid !== userId) return <NotFound type="page" />;
+  // // if the user is logged in, but not on their dashboard, show 404
+  // if (user && user.uid !== userId) return <NotFound type="page" />;
 
   const CourseCard = ({ id, title, updated }) => {
     return (

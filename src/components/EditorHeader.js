@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useRouteMatch, Redirect } from "react-router-dom";
+import { useRouteMatch, Redirect, Link as RouterLink } from "react-router-dom";
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -13,6 +13,7 @@ import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined";
 import ExitToAppOutlinedIcon from "@material-ui/icons/ExitToAppOutlined";
@@ -24,7 +25,7 @@ import UserContext from "../context/UserContext";
 const useStyles = makeStyles((theme) => ({
   titleContainer: {
     flexGrow: 1,
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(3),
   },
 }));
 
@@ -76,6 +77,15 @@ export default function Header({
     <>
       <AppBar position="fixed" color="default">
         <Toolbar className={classes.toolbar}>
+          <Box marginRight={1}>
+            <IconButton
+              component={RouterLink}
+              to={`/dashboard/${user.uid}`}
+              edge="start"
+            >
+              <ArrowBackIcon />
+            </IconButton>
+          </Box>
           <Box className={classes.titleContainer}>
             {titleFormOpen ? (
               <form onSubmit={handleSaveTitle} onBlur={handleSaveTitle}>
