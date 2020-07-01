@@ -3,6 +3,7 @@ import { Redirect, Link as RouterLink } from "react-router-dom";
 import moment from "moment";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -28,16 +29,10 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    margin: theme.spacing(2, "auto"),
-  },
-  cardContainer: {
-    display: "flex",
-    flexWrap: "wrap",
+    margin: theme.spacing(3, "auto"),
   },
   card: {
-    width: 250,
     minHeight: 190,
-    margin: theme.spacing(2),
     textAlign: "center",
     display: "flex",
     flexDirection: "column",
@@ -48,9 +43,6 @@ const useStyles = makeStyles((theme) => ({
   },
   cardActions: {
     justifyContent: "space-evenly",
-  },
-  createCardActionArea: {
-    height: "100%",
   },
   updateIcon: {
     marginRight: theme.spacing(1),
@@ -166,7 +158,7 @@ export default function Dashboard() {
     return (
       <Card className={classes.card}>
         <CardActionArea
-          className={classes.createCardActionArea}
+          className={classes.cardActionArea}
           onClick={() => handleCreateCourse()}
         >
           <Typography variant="h5" component="h2">
@@ -184,17 +176,20 @@ export default function Dashboard() {
     <>
       <DashboardHeader setShowFeedbackModal={setShowFeedbackModal} />
       <Container className={classes.container} maxWidth="md">
-        <Box className={classes.cardContainer}>
+        <Grid container spacing={3}>
           {courses.map((course) => (
-            <CourseCard
-              key={course.id}
-              id={course.id}
-              title={course.title}
-              updated={moment(course.updated.toDate()).calendar()}
-            />
+            <Grid item key={course.id} xs={12} sm={6} md={4}>
+              <CourseCard
+                id={course.id}
+                title={course.title}
+                updated={moment(course.updated.toDate()).calendar()}
+              />
+            </Grid>
           ))}
-          <CreateCard />
-        </Box>
+          <Grid item xs={12} sm={6} md={4}>
+            <CreateCard />
+          </Grid>
+        </Grid>
       </Container>
       <FeedbackModal
         open={showFeedbackModal}
