@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
   titleContainer: {
     flexGrow: 1,
     marginRight: theme.spacing(3),
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
 }));
 
@@ -60,7 +63,8 @@ export default function Header({
     setTitle(e.target.value);
   };
 
-  const handleSaveTitle = () => {
+  const handleSaveTitle = (e) => {
+    e.preventDefault();
     setTitleFormOpen(false);
     onChangeTitle(title);
   };
@@ -87,8 +91,8 @@ export default function Header({
             </IconButton>
           </Box>
           <Box className={classes.titleContainer}>
-            {titleFormOpen ? (
-              <form onSubmit={handleSaveTitle} onBlur={handleSaveTitle}>
+            <form onSubmit={handleSaveTitle} onBlur={handleSaveTitle}>
+              {titleFormOpen ? (
                 <TextField
                   value={title}
                   onChange={handleChangeTitle}
@@ -101,19 +105,19 @@ export default function Header({
                   autoFocus
                   fullWidth
                 />
-              </form>
-            ) : (
-              <Hidden xsDown>
-                <Box display="flex" alignItems="center">
-                  <Typography variant="h5" component="h1" noWrap>
-                    {title}
-                  </Typography>
-                  <IconButton onClick={() => setTitleFormOpen(true)}>
-                    <CreateOutlinedIcon />
-                  </IconButton>
-                </Box>
-              </Hidden>
-            )}
+              ) : (
+                <Hidden xsDown>
+                  <Box display="flex" alignItems="center">
+                    <Typography variant="h5" component="h1" noWrap>
+                      {title}
+                    </Typography>
+                    <IconButton onClick={() => setTitleFormOpen(true)}>
+                      <CreateOutlinedIcon />
+                    </IconButton>
+                  </Box>
+                </Hidden>
+              )}
+            </form>
           </Box>
           <Box display="flex" alignItems="center">
             <Box marginRight={1}>

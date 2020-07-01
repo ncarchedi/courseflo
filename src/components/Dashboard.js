@@ -6,15 +6,14 @@ import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-// import CardActions from "@material-ui/core/CardActions";
+import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Tooltip from "@material-ui/core/Tooltip";
-// import IconButton from "@material-ui/core/IconButton";
+import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
-// import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
-// import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
-// import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
+import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
+import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
+import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import UpdateIcon from "@material-ui/icons/Update";
 import DashboardHeader from "./DashboardHeader";
@@ -42,12 +41,12 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     display: "flex",
     flexDirection: "column",
+    justifyContent: "space-between",
   },
   cardActionArea: {
     flexGrow: 1,
   },
   cardActions: {
-    display: "flex",
     justifyContent: "space-evenly",
   },
   createCardActionArea: {
@@ -105,29 +104,26 @@ export default function Dashboard() {
   const CourseCard = ({ id, title, updated }) => {
     return (
       <Card className={classes.card}>
-        <CardActionArea className={classes.cardActionArea}>
-          <Link
-            component={RouterLink}
-            to={`/course/${id}/edit`}
-            underline="none"
-            color="inherit"
-          >
-            <CardContent className={classes.cardContent}>
-              <Typography variant="h5" component="h2" gutterBottom>
-                {title}
+        <CardActionArea
+          className={classes.cardActionArea}
+          component={RouterLink}
+          to={`/course/${id}/edit`}
+        >
+          <CardContent className={classes.cardContent}>
+            <Typography variant="h5" component="h2" gutterBottom>
+              {title}
+            </Typography>
+            <Box display="flex" justifyContent="center" alignItems="center">
+              <Tooltip title="Last update">
+                <UpdateIcon className={classes.updateIcon} />
+              </Tooltip>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {updated}
               </Typography>
-              <Box display="flex" justifyContent="center" alignItems="center">
-                <Tooltip title="Last update">
-                  <UpdateIcon className={classes.updateIcon} />
-                </Tooltip>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {updated}
-                </Typography>
-              </Box>
-            </CardContent>
-          </Link>
+            </Box>
+          </CardContent>
         </CardActionArea>
-        {/* <CardActions className={classes.cardActions}>
+        <CardActions className={classes.cardActions}>
           <Tooltip title="Preview">
             <IconButton
               color="inherit"
@@ -152,7 +148,7 @@ export default function Dashboard() {
               <DeleteOutlinedIcon />
             </IconButton>
           </Tooltip>
-        </CardActions> */}
+        </CardActions>
       </Card>
     );
   };
