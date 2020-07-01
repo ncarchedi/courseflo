@@ -1,8 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
-import * as firebase from "firebase/app";
-import "firebase/auth";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -13,6 +10,7 @@ import Button from "@material-ui/core/Button";
 import LandingPageHeader from "./LandingPageHeader";
 import LandingPageFooter from "./LandingPageFooter";
 import LandingPageSignup from "./LandingPageSignup";
+import UserContext from "../context/UserContext";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -70,10 +68,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LandingPage() {
   const classes = useStyles();
-  const [user, loading, error] = useAuthState(firebase.auth());
+  const { user, userLoading } = useContext(UserContext);
 
   // return null if auth is still loading
-  if (loading) return null;
+  if (userLoading) return null;
 
   return (
     <>

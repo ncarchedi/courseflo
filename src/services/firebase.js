@@ -3,14 +3,6 @@ import "firebase/firestore";
 import "firebase/auth";
 import computeScoreFromAnswers from "../utils/computeScoreFromAnswers";
 
-const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
-};
-
-firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
 export const addNewUserToFirebase = (email, password) => {
