@@ -1,18 +1,20 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Redirect, useParams } from "react-router-dom";
+import { Redirect, useParams, Link as RouterLink } from "react-router-dom";
 import moment from "moment";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
+// import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Tooltip from "@material-ui/core/Tooltip";
-import IconButton from "@material-ui/core/IconButton";
+// import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
-import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
+import Link from "@material-ui/core/Link";
+// import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
+// import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
+// import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import UpdateIcon from "@material-ui/icons/Update";
 import DashboardHeader from "./DashboardHeader";
@@ -89,36 +91,57 @@ export default function Dashboard() {
   // if the user is logged in, but not on their dashboard, show 404
   if (user && user.uid !== userId) return <NotFound type="page" />;
 
-  const CourseCard = ({ title, updated }) => {
+  const CourseCard = ({ id, title, updated }) => {
     return (
       <Card className={classes.card}>
         <CardActionArea className={classes.cardActionArea}>
-          <CardContent className={classes.cardContent}>
-            <Typography variant="h5" component="h2" gutterBottom>
-              {title}
-            </Typography>
-            <Box display="flex" justifyContent="center" alignItems="center">
-              <Tooltip title="Last update">
-                <UpdateIcon className={classes.updateIcon} />
-              </Tooltip>
-              <Typography variant="body2" color="textSecondary" component="p">
-                {updated}
+          <Link
+            component={RouterLink}
+            to={`/course/${id}/edit`}
+            underline="none"
+            color="inherit"
+          >
+            <CardContent className={classes.cardContent}>
+              <Typography variant="h5" component="h2" gutterBottom>
+                {title}
               </Typography>
-            </Box>
-          </CardContent>
+              <Box display="flex" justifyContent="center" alignItems="center">
+                <Tooltip title="Last update">
+                  <UpdateIcon className={classes.updateIcon} />
+                </Tooltip>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  {updated}
+                </Typography>
+              </Box>
+            </CardContent>
+          </Link>
         </CardActionArea>
-        <CardActions className={classes.cardActions}>
+        {/* <CardActions className={classes.cardActions}>
+          <Tooltip title="Preview">
+            <IconButton
+              color="inherit"
+              onClick={() => console.log("preview " + id)}
+            >
+              <VisibilityOutlinedIcon />
+            </IconButton>
+          </Tooltip>
           <Tooltip title="Share">
-            <IconButton color="inherit">
+            <IconButton
+              color="inherit"
+              onClick={() => console.log("share " + id)}
+            >
               <ShareOutlinedIcon />
             </IconButton>
           </Tooltip>
           <Tooltip title="Delete">
-            <IconButton color="inherit">
+            <IconButton
+              color="inherit"
+              onClick={() => console.log("delete " + id)}
+            >
               <DeleteOutlinedIcon />
             </IconButton>
           </Tooltip>
-        </CardActions>
+        </CardActions> */}
       </Card>
     );
   };
@@ -126,7 +149,10 @@ export default function Dashboard() {
   const CreateCard = () => {
     return (
       <Card className={classes.card}>
-        <CardActionArea className={classes.createCardActionArea}>
+        <CardActionArea
+          className={classes.createCardActionArea}
+          onClick={() => console.log("create a new course!")}
+        >
           <Typography variant="h5" component="h2">
             New Course
           </Typography>
@@ -146,6 +172,7 @@ export default function Dashboard() {
           {courses.map((course) => (
             <CourseCard
               key={course.id}
+              id={course.id}
               title={course.title}
               updated={moment(course.updated.toDate()).calendar()}
             />
