@@ -53,7 +53,7 @@ export default function LandingPageSignup() {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: encode({ "form-name": "signup", email }),
     }).catch((error) =>
-      console.error("Error sending form data to Netlify: ", error)
+      console.error("Error sending form data to Netlify:", error)
     );
   };
 

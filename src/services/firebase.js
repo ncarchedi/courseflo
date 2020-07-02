@@ -9,14 +9,14 @@ const auth = firebase.auth();
 export const createNewUser = (email, password, setError) => {
   return auth.createUserWithEmailAndPassword(email, password).catch((error) => {
     setError(error.message);
-    console.error("Error creating user: ", error);
+    console.error("Error creating user:", error);
   });
 };
 
 export const signInExistingUser = (email, password, setError) => {
   return auth.signInWithEmailAndPassword(email, password).catch((error) => {
     setError(error.message);
-    console.error("Error signing in: ", error);
+    console.error("Error signing in:", error);
   });
 };
 
@@ -103,7 +103,7 @@ export const updateCourseInFirestore = (courseId, course) => {
 //   return auth
 //     .sendPasswordResetEmail(email)
 //     .catch((error) =>
-//       console.error("Error sending password reset email: ", error)
+//       console.error("Error sending password reset email:", error)
 //     );
 // };
 

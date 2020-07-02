@@ -19,6 +19,10 @@ export default function LandingPageHeader() {
   const [user, userLoading] = useContext(UserContext);
   const location = useLocation();
 
+  const showSignInButton =
+    !userLoading && !user && location.pathname !== "/login";
+  const showPricingButton = location.pathname !== "/pricing";
+
   return (
     <>
       <AppBar position="fixed" color="primary">
@@ -33,14 +37,14 @@ export default function LandingPageHeader() {
               />
             </Link>
           </Box>
-          {location.pathname !== "/pricing" && (
-            <Box mr={2}>
+          {showPricingButton && (
+            <Box mr={showSignInButton ? 2 : 0}>
               <Button component={RouterLink} to="/pricing" color="inherit">
                 Pricing
               </Button>
             </Box>
           )}
-          {!userLoading && !user && (
+          {showSignInButton && (
             <Button
               component={RouterLink}
               to="/login"

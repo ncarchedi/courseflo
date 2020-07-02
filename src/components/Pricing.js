@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { Link as RouterLink } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
 import Grid from "@material-ui/core/Grid";
-import StarIcon from "@material-ui/icons/StarBorder";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Header from "./LandingPageHeader";
 import Footer from "./LandingPageFooter";
+import UserContext from "../context/UserContext";
+import { isUserSubscribed } from "../services/firebase";
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -59,70 +61,104 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const tiers = [
-  {
-    title: "Free",
-    price: "0",
-    description: ["Create one course", "25 items per course", "Email support"],
-    buttonText: "Sign up for free",
-    buttonVariant: "outlined",
-  },
-  {
-    title: "Pro",
-    subheader: "Most popular",
-    price: "10",
-    description: [
-      "Create unlimited courses",
-      "Unlimited items per course",
-      "Priority email support",
-    ],
-    buttonText: "Get started",
-    buttonVariant: "contained",
-  },
-  {
-    title: "Enterprise",
-    price: "30",
-    description: [
-      "Create unlimited courses",
-      "Unlimited items per course",
-      "Phone + email support",
-    ],
-    buttonText: "Contact us",
-    buttonVariant: "outlined",
-  },
-];
-// const footers = [
-//   {
-//     title: "Company",
-//     description: ["Team", "History", "Contact us", "Locations"],
-//   },
-//   {
-//     title: "Features",
-//     description: [
-//       "Cool stuff",
-//       "Random feature",
-//       "Team feature",
-//       "Developer stuff",
-//       "Another one",
-//     ],
-//   },
-//   {
-//     title: "Resources",
-//     description: [
-//       "Resource",
-//       "Resource name",
-//       "Another resource",
-//       "Final resource",
-//     ],
-//   },
-//   {
-//     title: "Legal",
-//     description: ["Privacy policy", "Terms of use"],
-//   },
-// ];
-
 export default function Pricing() {
   const classes = useStyles();
+  const [user, userLoading] = useContext(UserContext);
+  const [subscribed, setSubscribed] = useState(false);
+
+  useEffect(() => {
+    const setSubscriptionStatus = async () => {
+      setSubscribed(await isUserSubscribed(user.uid));
+    };
+
+    user && setSubscriptionStatus();
+  }, [user]);
+
+  // return null until user is done loading
+  if (userLoading) return null;
+
+  // figure out current user status, if any
+  // todo: abstract this away somehow? Logic shouldn't live here
+  const status = user ? (subscribed ? "paid" : "free") : "none";
+
+  const tiers = [
+    {
+      title: "Free",
+      price: "0",
+      description: [
+        "Create one course",
+        "25 items per course",
+        "Email support",
+      ],
+      button: (
+        <>
+          {status === "free" ? (
+            <Button fullWidth variant="outlined" color="primary" disabled>
+              You have this plan
+            </Button>
+          ) : (
+            <Button
+              component={RouterLink}
+              to="/"
+              fullWidth
+              variant="outlined"
+              color="primary"
+            >
+              Sign up for free
+            </Button>
+          )}
+        </>
+      ),
+    },
+    {
+      title: "Pro",
+      subheader: "Most popular",
+      price: "10",
+      description: [
+        "Create unlimited courses",
+        "Unlimited items per course",
+        "Priority email support",
+      ],
+      button: (
+        <>
+          {status === "paid" ? (
+            <Button fullWidth variant="outlined" color="primary" disabled>
+              You have this plan
+            </Button>
+          ) : (
+            <Button
+              onClick={() => alert("subscribe me!")}
+              fullWidth
+              variant="contained"
+              color="primary"
+            >
+              Get started
+            </Button>
+          )}
+        </>
+      ),
+    },
+    {
+      title: "Enterprise",
+      price: "30",
+      description: [
+        "Create unlimited courses",
+        "Unlimited items per course",
+        "Phone + email support",
+      ],
+      button: (
+        <Button
+          href="mailto:hello@dayonelabs.io?subject=Enterprise plan inquiry"
+          target="_blank"
+          fullWidth
+          variant="outlined"
+          color="primary"
+        >
+          Contact us
+        </Button>
+      ),
+    },
+  ];
 
   return (
     <>
@@ -168,7 +204,6 @@ export default function Pricing() {
                   subheader={tier.subheader}
                   titleTypographyProps={{ align: "center" }}
                   subheaderTypographyProps={{ align: "center" }}
-                  action={tier.title === "Pro" ? <StarIcon /> : null}
                   className={classes.cardHeader}
                 />
                 <CardContent>
@@ -193,15 +228,7 @@ export default function Pricing() {
                     ))}
                   </ul>
                 </CardContent>
-                <CardActions>
-                  <Button
-                    fullWidth
-                    variant={tier.buttonVariant}
-                    color="primary"
-                  >
-                    {tier.buttonText}
-                  </Button>
-                </CardActions>
+                <CardActions>{tier.button}</CardActions>
               </Card>
             </Grid>
           ))}
@@ -209,29 +236,6 @@ export default function Pricing() {
       </Container>
 
       <Footer />
-
-      {/* Footer */}
-      {/* <Container maxWidth="md" component="footer" className={classes.footer}>
-        <Grid container spacing={4} justify="space-evenly">
-          {footers.map((footer) => (
-            <Grid item xs={6} sm={3} key={footer.title}>
-              <Typography variant="h6" color="textPrimary" gutterBottom>
-                {footer.title}
-              </Typography>
-              <ul>
-                {footer.description.map((item) => (
-                  <li key={item}>
-                    <Link href="#" variant="subtitle1" color="textSecondary">
-                      {item}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </Grid>
-          ))}
-        </Grid>
-      </Container> */}
-      {/* End footer */}
     </>
   );
 }

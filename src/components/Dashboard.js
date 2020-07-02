@@ -65,11 +65,11 @@ export default function Dashboard() {
   const classes = useStyles();
   const { userId } = useParams();
   const [user, userLoading] = useContext(UserContext);
+  const [isSubscribed, setIsSubscribed] = useState();
   const [courses, setCourses] = useState();
   const [newCourseId, setNewCourseId] = useState();
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [isSubscribed, setIsSubscribed] = useState(false);
 
   useEffect(() => {
     // update the browser tab title
@@ -89,8 +89,8 @@ export default function Dashboard() {
     }
   }, [user]);
 
-  // do nothing until user and courses are done loading
-  if (userLoading || !courses) return null;
+  // do nothing until user, courses, and isSubscribed are done loading
+  if (userLoading || !courses || isSubscribed === undefined) return null;
 
   // redirect when user creates a new course
   if (newCourseId) return <Redirect to={`/course/${newCourseId}/edit`} />;
@@ -106,7 +106,7 @@ export default function Dashboard() {
     saveCourseToFirestore(newCourse)
       .then((docRef) => setNewCourseId(docRef.id))
       .catch((error) =>
-        console.error("Error saving course to Firestore: ", error)
+        console.error("Error saving course to Firestore:", error)
       );
   };
 
@@ -212,7 +212,10 @@ export default function Dashboard() {
 
   return (
     <>
-      <DashboardHeader setShowFeedbackModal={setShowFeedbackModal} />
+      <DashboardHeader
+        isSubscribed={isSubscribed}
+        setShowFeedbackModal={setShowFeedbackModal}
+      />
       <Container className={classes.container} maxWidth="md">
         <Box marginBottom={2}>
           <Typography variant="h5" color="inherit">
