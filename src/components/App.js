@@ -8,6 +8,7 @@ import { UserProvider } from "../context/UserContext";
 
 // lazy load components
 const LandingPage = lazy(() => import("./LandingPage"));
+const Pricing = lazy(() => import("./Pricing"));
 const SignIn = lazy(() => import("./SignIn"));
 const Dashboard = lazy(() => import("./Dashboard"));
 const Course = lazy(() => import("./Course"));
@@ -33,6 +34,7 @@ export default function App() {
         <Suspense fallback={<LoadingScreen />}>
           <Switch>
             <Route exact path="/" component={LandingPage} />
+            <Route exact path="/pricing" component={Pricing} />
             <Route exact path="/login" component={SignIn} />
             <Route path="/dashboard/:userId" component={Dashboard} />
             <Route exact path="/course/:courseId/edit" component={Editor} />
