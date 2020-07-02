@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -11,6 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Footer from "./LandingPageFooter";
+import { signInExistingUser } from "../services/firebase";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -32,8 +33,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// https://github.com/mui-org/material-ui/blob/master/docs/src/pages/getting-started/templates/sign-in/SignIn.js
 export default function SignIn() {
   const classes = useStyles();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    signInExistingUser(email, password);
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -45,8 +54,10 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onSubmit={handleSubmit} noValidate>
           <TextField
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             variant="outlined"
             margin="normal"
             required
@@ -58,6 +69,8 @@ export default function SignIn() {
             autoFocus
           />
           <TextField
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             variant="outlined"
             margin="normal"
             required

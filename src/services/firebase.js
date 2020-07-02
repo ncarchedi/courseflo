@@ -9,6 +9,10 @@ export const addNewUserToFirebase = (email, password) => {
   firebase.auth().createUserWithEmailAndPassword(email, password);
 };
 
+export const signInExistingUser = (email, password) => {
+  firebase.auth().signInWithEmailAndPassword(email, password);
+};
+
 export const saveSubmissionToFirestore = (courseId, submission) => {
   return db.collection("submissions").add({
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -39,10 +43,10 @@ export const getCourseFromFirestore = (courseId) => {
   return db.collection("courses").doc(courseId).get();
 };
 
-export const getUserCoursesFromFirestore = async (userEmail) => {
+export const getUserCoursesFromFirestore = async (userId) => {
   const result = await db
     .collection("courses")
-    .where("authorEmail", "==", userEmail)
+    .where("userId", "==", userId)
     .orderBy("updated", "desc")
     .get();
 

@@ -78,7 +78,7 @@ export default function Dashboard() {
     document.title = "Courseflo - Dashboard";
 
     const setUserCourses = async () => {
-      const userCourses = await getUserCoursesFromFirestore(user.email);
+      const userCourses = await getUserCoursesFromFirestore(user.uid);
       setCourses(userCourses);
     };
 
@@ -98,7 +98,7 @@ export default function Dashboard() {
   // if (user && user.uid !== userId) return <NotFound type="page" />;
 
   const handleCreateCourse = () => {
-    const newCourse = createCourse(user.email);
+    const newCourse = createCourse(user.uid);
     saveCourseToFirestore(newCourse)
       .then((docRef) => setNewCourseId(docRef.id))
       .catch((error) =>
