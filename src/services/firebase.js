@@ -4,25 +4,20 @@ import "firebase/auth";
 import computeScoreFromAnswers from "../utils/computeScoreFromAnswers";
 
 const db = firebase.firestore();
+const auth = firebase.auth();
 
 export const createNewUser = (email, password, setError) => {
-  firebase
-    .auth()
-    .createUserWithEmailAndPassword(email, password)
-    .catch((error) => {
-      setError(error.message);
-      console.error("Error creating user: ", error);
-    });
+  return auth.createUserWithEmailAndPassword(email, password).catch((error) => {
+    setError(error.message);
+    console.error("Error creating user: ", error);
+  });
 };
 
 export const signInExistingUser = (email, password, setError) => {
-  firebase
-    .auth()
-    .signInWithEmailAndPassword(email, password)
-    .catch((error) => {
-      setError(error.message);
-      console.error("Error signing in: ", error);
-    });
+  return auth.signInWithEmailAndPassword(email, password).catch((error) => {
+    setError(error.message);
+    console.error("Error signing in: ", error);
+  });
 };
 
 export const saveSubmissionToFirestore = (courseId, submission) => {
@@ -91,7 +86,7 @@ export const updateCourseInFirestore = (courseId, course) => {
 };
 
 // export const sendPasswordResetEmail = (email) => {
-//   firebase
+//   return auth
 //     .sendPasswordResetEmail(email)
 //     .catch((error) =>
 //       console.error("Error sending password reset email: ", error)
@@ -99,7 +94,7 @@ export const updateCourseInFirestore = (courseId, course) => {
 // };
 
 // export const authenticateAnonymously = () => {
-//   return firebase.auth().signInAnonymously();
+//   return auth.signInAnonymously();
 // };
 
 // export const updateCourseItemsInFirestore = (courseId, items) => {
