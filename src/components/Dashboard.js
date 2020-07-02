@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Redirect, Link as RouterLink } from "react-router-dom";
+import { Redirect, useParams, Link as RouterLink } from "react-router-dom";
 import moment from "moment";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -21,7 +21,7 @@ import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import UpdateIcon from "@material-ui/icons/Update";
 import DashboardHeader from "./DashboardHeader";
-// import NotFound from "./NotFound";
+import NotFound from "./NotFound";
 import FeedbackModal from "./FeedbackModal";
 import Emoji from "./Emoji";
 import UserContext from "../context/UserContext";
@@ -61,36 +61,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// const fakeCourses = [
-//   { id: 1, title: "My Really Cool Course", updated: "June 28, 2020" },
-//   { id: 2, title: "My Slightly Less Cool Course", updated: "June 25, 2020" },
-//   {
-//     id: 3,
-//     title: "My Blah Course That Has a Crazy Long Title",
-//     updated: "September 19, 2019",
-//   },
-//   { id: 4, title: "My Other Really Cool Course", updated: "May 12, 2019" },
-// ];
-
 export default function Dashboard() {
   const classes = useStyles();
-  // const { userId } = useParams();
+  const { userId } = useParams();
   const [user, userLoading] = useContext(UserContext);
   const [courses, setCourses] = useState();
   const [newCourseId, setNewCourseId] = useState();
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(false);
 
   useEffect(() => {
     // update the browser tab title
     document.title = "Courseflo - Dashboard";
 
     const setUserCourses = async () => {
-      const userCourses = await getUserCoursesFromFirestore(user.uid);
-      setCourses(userCourses);
+      setCourses(await getUserCoursesFromFirestore(user.uid));
     };
 
-    user && setUserCourses();
+    const setUserIsSubscribed = async () => {
+      setIsSubscribed(await isUserSubscribed(user.uid));
+    };
+
+    if (user) {
+      setUserCourses();
+      setUserIsSubscribed();
+    }
   }, [user]);
 
   // do nothing until user and courses are done loading
@@ -102,8 +98,8 @@ export default function Dashboard() {
   // if user is not logged in, redirect to landing page
   if (!user) return <Redirect to="/" />;
 
-  // // if the user is logged in, but not on their dashboard, show 404
-  // if (user && user.uid !== userId) return <NotFound type="page" />;
+  // if the user is logged in, but not on their dashboard, show 404
+  if (user && user.uid !== userId) return <NotFound type="page" />;
 
   const handleCreateCourse = () => {
     const newCourse = createCourse(user.uid);
@@ -186,10 +182,11 @@ export default function Dashboard() {
           >
             <CardContent>
               <Typography variant="h5">
-                Course limit reached <Emoji symbol="🤯" label="mind blown" />{" "}
                 <Link component={RouterLink} to="/pricing">
-                  Upgrade now to create more.
-                </Link>
+                  Upgrade now
+                </Link>{" "}
+                to create more courses{" "}
+                <Emoji symbol="📈" label="chart increasing" />
               </Typography>
             </CardContent>
           </Card>
@@ -213,9 +210,6 @@ export default function Dashboard() {
     );
   };
 
-  // decide whether to show paywall or not
-  const showPaywall = courses.length > 0 && !isUserSubscribed(user.uid);
-
   return (
     <>
       <DashboardHeader setShowFeedbackModal={setShowFeedbackModal} />
@@ -236,7 +230,7 @@ export default function Dashboard() {
             </Grid>
           ))}
           <Grid item xs={12} sm={6} md={4}>
-            <CreateCard showPaywall={showPaywall} />
+            <CreateCard showPaywall={courses.length > 0 && !isSubscribed} />
           </Grid>
         </Grid>
       </Container>

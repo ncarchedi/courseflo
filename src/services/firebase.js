@@ -20,8 +20,18 @@ export const signInExistingUser = (email, password, setError) => {
   });
 };
 
-export const isUserSubscribed = (userId) => {
-  return false;
+export const getUserSubscription = async (userId) => {
+  const result = await db
+    .collection("subscriptions")
+    .where("userId", "==", userId)
+    .get();
+
+  return result.docs.map((doc) => doc.data())[0];
+};
+
+export const isUserSubscribed = async (userId) => {
+  const result = await getUserSubscription(userId);
+  return !!result;
 };
 
 export const saveSubmissionToFirestore = (courseId, submission) => {
