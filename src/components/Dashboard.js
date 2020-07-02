@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Dashboard() {
   const classes = useStyles();
   // const { userId } = useParams();
-  const { user, userLoading } = useContext(UserContext);
+  const [user, userLoading] = useContext(UserContext);
   const [courses, setCourses] = useState();
   const [newCourseId, setNewCourseId] = useState();
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);

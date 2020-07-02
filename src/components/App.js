@@ -27,7 +27,7 @@ export default function App() {
   const [user, userLoading, userError] = useAuthState(firebase.auth());
 
   return (
-    <UserProvider value={{ user, userLoading, userError }}>
+    <UserProvider value={[user, userLoading, userError]}>
       <Router>
         <Suspense fallback={<LoadingScreen />}>
           <Switch>

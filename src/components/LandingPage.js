@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LandingPage() {
   const classes = useStyles();
-  const { user, userLoading } = useContext(UserContext);
+  const [user, userLoading] = useContext(UserContext);
 
   // return null if auth is still loading
   if (userLoading) return null;

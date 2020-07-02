@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -7,10 +8,19 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import UserContext from "../context/UserContext";
 import { saveFeedbackToFirestore } from "../services/firebase";
 
+const useStyles = makeStyles((theme) => ({
+  textField: {
+    marginBottom: theme.spacing(1),
+  },
+}));
+
 export default function FeedbackModal({ open, setOpen, sentFrom, answers }) {
-  const [email, setEmail] = useState("");
+  const classes = useStyles();
+  const [user] = useContext(UserContext);
+  const [email, setEmail] = useState(user ? user.email : "");
   const [feedback, setFeedback] = useState("");
   const { courseId } = useParams();
 
@@ -33,17 +43,21 @@ export default function FeedbackModal({ open, setOpen, sentFrom, answers }) {
           Please let us know if you have any questions or suggestions!
         </DialogContentText>
         <form>
+          {!user && (
+            <TextField
+              className={classes.textField}
+              type="email"
+              name="email"
+              label="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              variant="outlined"
+              fullWidth
+              required
+            />
+          )}
           <TextField
-            type="email"
-            name="email"
-            label="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            variant="outlined"
-            fullWidth
-            required
-          />
-          <TextField
+            className={classes.textField}
             name="feedback"
             label="Feedback"
             value={feedback}
@@ -51,7 +65,6 @@ export default function FeedbackModal({ open, setOpen, sentFrom, answers }) {
             variant="outlined"
             multiline
             rows={3}
-            margin="normal"
             fullWidth
             required
           />

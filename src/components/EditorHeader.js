@@ -39,7 +39,7 @@ export default function Header({
   const classes = useStyles();
   const theme = useTheme();
   let { courseId } = useParams();
-  const { user, userLoading } = useContext(UserContext);
+  const [user, userLoading] = useContext(UserContext);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [titleFormOpen, setTitleFormOpen] = useState(false);
   const [title, setTitle] = useState(courseTitle);
