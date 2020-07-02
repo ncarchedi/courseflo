@@ -9,6 +9,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Header from "./LandingPageHeader";
 import Footer from "./LandingPageFooter";
 import UserContext from "../context/UserContext";
 import { signInExistingUser } from "../services/firebase";
@@ -67,77 +68,80 @@ export default function SignIn() {
       {user ? (
         <Redirect to={`/dashboard/${user.uid}`} />
       ) : (
-        <Container component="main" maxWidth="xs">
-          <div className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
-            <form className={classes.form} onSubmit={handleSubmit} noValidate>
-              <TextField
-                value={email}
-                onChange={handleChangeEmail}
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-              />
-              <TextField
-                value={password}
-                onChange={handleChangePassword}
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <Typography
-                className={classes.errorMessage}
-                variant="body1"
-                color="error"
-              >
-                {error}
+        <>
+          <Header />
+          <Container component="main" maxWidth="xs">
+            <div className={classes.paper}>
+              <Avatar className={classes.avatar}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                Sign in
               </Typography>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                Sign In
-              </Button>
-              <Grid container justify="center">
-                <Grid item xs>
-                  <Link
-                    href="mailto:hello@dayonelabs.io?subject=Please reset my password!"
-                    target="_blank"
-                    variant="body2"
-                  >
-                    Forgot password?
-                  </Link>
+              <form className={classes.form} onSubmit={handleSubmit} noValidate>
+                <TextField
+                  value={email}
+                  onChange={handleChangeEmail}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                />
+                <TextField
+                  value={password}
+                  onChange={handleChangePassword}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                />
+                <Typography
+                  className={classes.errorMessage}
+                  variant="body1"
+                  color="error"
+                >
+                  {error}
+                </Typography>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                >
+                  Sign In
+                </Button>
+                <Grid container justify="center">
+                  <Grid item xs>
+                    <Link
+                      href="mailto:hello@dayonelabs.io?subject=Please reset my password!"
+                      target="_blank"
+                      variant="body2"
+                    >
+                      Forgot password?
+                    </Link>
+                  </Grid>
+                  <Grid item>
+                    <Link component={RouterLink} to="/" variant="body2">
+                      {"Don't have an account? Sign up"}
+                    </Link>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <Link component={RouterLink} to="/" variant="body2">
-                    {"Don't have an account? Sign up"}
-                  </Link>
-                </Grid>
-              </Grid>
-            </form>
-          </div>
-          <Footer />
-        </Container>
+              </form>
+            </div>
+            <Footer />
+          </Container>
+        </>
       )}
     </>
   );

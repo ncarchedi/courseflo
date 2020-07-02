@@ -9,7 +9,7 @@ import StarIcon from "@material-ui/icons/StarBorder";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import LandingPageHeader from "./LandingPageHeader";
+import Header from "./LandingPageHeader";
 import Footer from "./LandingPageFooter";
 
 const useStyles = makeStyles((theme) => ({
@@ -126,7 +126,7 @@ export default function Pricing() {
 
   return (
     <>
-      <LandingPageHeader />
+      <Header />
 
       {/* Hero unit */}
       <Container maxWidth="sm" component="main" className={classes.heroContent}>

@@ -13,9 +13,6 @@ import LandingPageSignup from "./LandingPageSignup";
 import UserContext from "../context/UserContext";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    marginBottom: theme.spacing(5),
-  },
   firstRow: {
     marginTop: theme.spacing(4),
     [theme.breakpoints.up("md")]: {
@@ -83,7 +80,7 @@ export default function LandingPage() {
           <LandingPageHeader />
 
           {/* main content */}
-          <Container className={classes.container}>
+          <Container>
             {/* first row */}
             <Grid className={classes.firstRow} container spacing={3}>
               <Grid item xs={12} md={9}>

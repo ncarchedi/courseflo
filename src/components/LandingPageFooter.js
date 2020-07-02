@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
   footer: {
     textAlign: "center",
     color: theme.palette.text.secondary,
-    marginTop: theme.spacing(10),
+    margin: theme.spacing(10, 0, 5, 0),
   },
 }));
 
