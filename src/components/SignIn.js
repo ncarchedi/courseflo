@@ -29,8 +29,11 @@ const useStyles = makeStyles((theme) => ({
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
+  errorMessage: {
+    marginTop: theme.spacing(1),
+  },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(2, 0, 2),
   },
 }));
 
@@ -40,10 +43,24 @@ export default function SignIn() {
   const [user] = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    signInExistingUser(email, password);
+    // if there's an error, don't submit
+    if (error) return;
+    // sign in existing user
+    signInExistingUser(email, password, setError);
+  };
+
+  const handleChangeEmail = (e) => {
+    setEmail(e.target.value);
+    setError("");
+  };
+
+  const handleChangePassword = (e) => {
+    setPassword(e.target.value);
+    setError("");
   };
 
   return (
@@ -63,7 +80,7 @@ export default function SignIn() {
             <form className={classes.form} onSubmit={handleSubmit} noValidate>
               <TextField
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleChangeEmail}
                 variant="outlined"
                 margin="normal"
                 required
@@ -76,7 +93,7 @@ export default function SignIn() {
               />
               <TextField
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handleChangePassword}
                 variant="outlined"
                 margin="normal"
                 required
@@ -87,6 +104,13 @@ export default function SignIn() {
                 id="password"
                 autoComplete="current-password"
               />
+              <Typography
+                className={classes.errorMessage}
+                variant="body1"
+                color="error"
+              >
+                {error}
+              </Typography>
               <Button
                 type="submit"
                 fullWidth
@@ -97,11 +121,15 @@ export default function SignIn() {
                 Sign In
               </Button>
               <Grid container justify="center">
-                {/* <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid> */}
+                <Grid item xs>
+                  <Link
+                    href="mailto:hello@dayonelabs.io?subject=Please reset my password!"
+                    target="_blank"
+                    variant="body2"
+                  >
+                    Forgot password?
+                  </Link>
+                </Grid>
                 <Grid item>
                   <Link component={RouterLink} to="/" variant="body2">
                     {"Don't have an account? Sign up"}

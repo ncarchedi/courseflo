@@ -5,12 +5,24 @@ import computeScoreFromAnswers from "../utils/computeScoreFromAnswers";
 
 const db = firebase.firestore();
 
-export const addNewUserToFirebase = (email, password) => {
-  firebase.auth().createUserWithEmailAndPassword(email, password);
+export const createNewUser = (email, password, setError) => {
+  firebase
+    .auth()
+    .createUserWithEmailAndPassword(email, password)
+    .catch((error) => {
+      setError(error.message);
+      console.error("Error creating user: ", error);
+    });
 };
 
-export const signInExistingUser = (email, password) => {
-  firebase.auth().signInWithEmailAndPassword(email, password);
+export const signInExistingUser = (email, password, setError) => {
+  firebase
+    .auth()
+    .signInWithEmailAndPassword(email, password)
+    .catch((error) => {
+      setError(error.message);
+      console.error("Error signing in: ", error);
+    });
 };
 
 export const saveSubmissionToFirestore = (courseId, submission) => {
@@ -77,6 +89,14 @@ export const updateCourseInFirestore = (courseId, course) => {
       updated: firebase.firestore.FieldValue.serverTimestamp(),
     });
 };
+
+// export const sendPasswordResetEmail = (email) => {
+//   firebase
+//     .sendPasswordResetEmail(email)
+//     .catch((error) =>
+//       console.error("Error sending password reset email: ", error)
+//     );
+// };
 
 // export const authenticateAnonymously = () => {
 //   return firebase.auth().signInAnonymously();
