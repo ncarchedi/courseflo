@@ -26,11 +26,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// const encode = (data) => {
-//   return Object.keys(data)
-//     .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-//     .join("&");
-// };
+const encode = (data) => {
+  return Object.keys(data)
+    .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+    .join("&");
+};
 
 export default function LandingPageSignup() {
   const classes = useStyles();
@@ -39,30 +39,17 @@ export default function LandingPageSignup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // create and sign-in new user
     addNewUserToFirebase(email, password);
+    // send netlify form data
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: encode({ "form-name": "signup", email }),
+    }).catch((error) =>
+      console.error("Error sending form data to Netlify: ", error)
+    );
   };
-
-  // const handleSubmit = (e) => {
-  //   // create course
-  //   const fullName = (inputs.firstName + " " + inputs.lastName).trim();
-  //   const newCourse = createCourse(fullName);
-  //   saveCourseToFirestore(newCourse)
-  //     .then((docRef) => setCourseId(docRef.id))
-  //     .catch((error) =>
-  //       console.error("Error saving course to Firestore: ", error)
-  //     );
-
-  //   // send netlify form data
-  //   fetch("/", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-  //     body: encode({ "form-name": "signup", ...inputs }),
-  //   }).catch((error) =>
-  //     console.error("Error sending form data to Netlify: ", error)
-  //   );
-
-  //   e.preventDefault();
-  // };
 
   return (
     <Grid item xs={12} md={6}>
