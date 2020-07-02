@@ -1,10 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { Link as RouterLink } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import EmailOutlinedIcon from "@material-ui/icons/EmailOutlined";
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -24,12 +24,12 @@ export default function LandingPageHeader() {
             <img className={classes.logo} src="logo.png" alt="Courseflo logo" />
           </Box>
           <Button
-            href="mailto:hello@dayonelabs.io"
-            target="_blank"
+            component={RouterLink}
+            to="/login"
+            variant="outlined"
             color="inherit"
-            endIcon={<EmailOutlinedIcon aria-label="email" />}
           >
-            Send us an
+            Sign in
           </Button>
         </Toolbar>
       </AppBar>

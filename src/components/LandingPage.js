@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -10,6 +10,7 @@ import Button from "@material-ui/core/Button";
 import LandingPageHeader from "./LandingPageHeader";
 import LandingPageFooter from "./LandingPageFooter";
 import LandingPageSignup from "./LandingPageSignup";
+import UserContext from "../context/UserContext";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -67,12 +68,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LandingPage() {
   const classes = useStyles();
-  const [courseId, setCourseId] = useState();
+  const [user, userLoading] = useContext(UserContext);
+
+  // return null if auth is still loading
+  if (userLoading) return null;
 
   return (
     <>
-      {courseId ? (
-        <Redirect to={`/course/${courseId}/edit`} />
+      {user ? (
+        <Redirect to={`/dashboard/${user.uid}`} />
       ) : (
         <>
           {/* header */}
@@ -87,7 +91,7 @@ export default function LandingPage() {
                   The fastest way to create online courses and quizzes.
                 </Typography>
               </Grid>
-              <LandingPageSignup setCourseId={setCourseId} />
+              <LandingPageSignup />
             </Grid>
 
             <Divider className={classes.divider} />
@@ -177,7 +181,7 @@ export default function LandingPage() {
                   color="primary"
                   onClick={() => window.scrollTo(0, 0)}
                 >
-                  Let's do this!
+                  Sign up now
                 </Button>
               </Grid>
             </Grid>

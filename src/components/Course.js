@@ -12,7 +12,7 @@ import initializeAnswers from "../utils/initializeAnswers";
 import {
   saveSubmissionToFirestore,
   getCourseFromFirestore,
-} from "../services/firestore";
+} from "../services/firebase";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -116,6 +116,7 @@ export default function Course() {
         <FeedbackModal
           open={showFeedbackModal}
           setOpen={setShowFeedbackModal}
+          sentFrom="course"
           answers={answers}
         />
         <Container className={classes.container}>

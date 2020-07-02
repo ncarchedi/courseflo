@@ -18,9 +18,11 @@
     "clsx": "latest",
     "firebase": "^7.15.0",
     "katex": "^0.11.1",
+    "moment": "^2.27.0",
     "react": "latest",
     "react-dom": "latest",
     "react-dropzone": "^11.0.1",
+    "react-firebase-hooks": "^2.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "latest",
     "react-sortable-hoc": "^1.11.0"

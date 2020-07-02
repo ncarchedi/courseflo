@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useRouteMatch } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { useParams, Redirect, Link as RouterLink } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -11,16 +11,21 @@ import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
+import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
 import CreateOutlinedIcon from "@material-ui/icons/CreateOutlined";
 import PublishButton from "./PublishButton";
+import UserContext from "../context/UserContext";
 
 const useStyles = makeStyles((theme) => ({
   titleContainer: {
     flexGrow: 1,
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(3),
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
 }));
 
@@ -33,19 +38,30 @@ export default function Header({
 }) {
   const classes = useStyles();
   const theme = useTheme();
-  let { url } = useRouteMatch();
+  let { courseId } = useParams();
+  const [user, userLoading] = useContext(UserContext);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [titleFormOpen, setTitleFormOpen] = useState(false);
   const [title, setTitle] = useState(courseTitle);
 
+  // do nothing until user is done loading
+  if (userLoading) return null;
+
+  // if user is not logged in, redirect to landing page
+  if (!user) return <Redirect to="/" />;
+
+  // todo: if the user is logged in, but not editing their course, show 404
+  // if (user && user.uid !== userId) return <NotFound type="page" />;
+
   // create course URL
-  const courseUrl = url.split("/edit")[0];
+  const courseUrl = `https://courseflo.com/course/${courseId}`;
 
   const handleChangeTitle = (e) => {
     setTitle(e.target.value);
   };
 
-  const handleSaveTitle = () => {
+  const handleSaveTitle = (e) => {
+    e.preventDefault();
     setTitleFormOpen(false);
     onChangeTitle(title);
   };
@@ -54,17 +70,25 @@ export default function Header({
   // todo: confirm browser coverage is sufficient
   const handleCopy = () => {
     setSnackbarOpen(true);
-    // get rid of anything after /edit (e.g. trailing forward slash)
-    navigator.clipboard.writeText(`https://courseflo.com${courseUrl}`);
+    navigator.clipboard.writeText(courseUrl);
   };
 
   return (
     <>
       <AppBar position="fixed" color="default">
         <Toolbar className={classes.toolbar}>
+          <Box marginRight={1}>
+            <IconButton
+              component={RouterLink}
+              to={`/dashboard/${user.uid}`}
+              edge="start"
+            >
+              <ArrowBackIcon />
+            </IconButton>
+          </Box>
           <Box className={classes.titleContainer}>
-            {titleFormOpen ? (
-              <form onSubmit={handleSaveTitle} onBlur={handleSaveTitle}>
+            <form onSubmit={handleSaveTitle} onBlur={handleSaveTitle}>
+              {titleFormOpen ? (
                 <TextField
                   value={title}
                   onChange={handleChangeTitle}
@@ -77,19 +101,19 @@ export default function Header({
                   autoFocus
                   fullWidth
                 />
-              </form>
-            ) : (
-              <Hidden xsDown>
-                <Box display="flex" alignItems="center">
-                  <Typography variant="h5" component="h1" noWrap>
-                    {title}
-                  </Typography>
-                  <IconButton onClick={() => setTitleFormOpen(true)}>
-                    <CreateOutlinedIcon />
-                  </IconButton>
-                </Box>
-              </Hidden>
-            )}
+              ) : (
+                <Hidden xsDown>
+                  <Box display="flex" alignItems="center">
+                    <Typography variant="h5" component="h1" noWrap>
+                      {title}
+                    </Typography>
+                    <IconButton onClick={() => setTitleFormOpen(true)}>
+                      <CreateOutlinedIcon />
+                    </IconButton>
+                  </Box>
+                </Hidden>
+              )}
+            </form>
           </Box>
           <Box display="flex" alignItems="center">
             <Box marginRight={1}>
@@ -108,7 +132,6 @@ export default function Header({
             <Tooltip title="Provide Feedback">
               <IconButton
                 onClick={() => setShowFeedbackModal(true)}
-                edge="end"
                 color="inherit"
               >
                 <ErrorOutlineOutlinedIcon />

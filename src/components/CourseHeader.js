@@ -13,7 +13,6 @@ import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
 import ViewAgendaOutlinedIcon from "@material-ui/icons/ViewAgendaOutlined";
 import Crop75OutlinedIcon from "@material-ui/icons/Crop75Outlined";
-
 import ProgressBar from "./ProgressBar";
 
 const useStyles = makeStyles((theme) => ({
