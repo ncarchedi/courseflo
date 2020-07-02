@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import { addNewUserToFirebase } from "../services/firebase";
 
 const useStyles = makeStyles((theme) => ({
@@ -103,8 +104,9 @@ export default function LandingPageSignup() {
           fullWidth
           variant="contained"
           color="primary"
+          endIcon={<ArrowForwardIcon />}
         >
-          Let's do this!
+          Get started in seconds
         </Button>
         <Grid container justify="center">
           <Grid item>

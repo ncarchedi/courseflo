@@ -181,7 +181,7 @@ export default function LandingPage() {
                   color="primary"
                   onClick={() => window.scrollTo(0, 0)}
                 >
-                  Let's do this!
+                  Sign up now
                 </Button>
               </Grid>
             </Grid>

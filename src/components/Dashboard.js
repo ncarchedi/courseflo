@@ -91,8 +91,8 @@ export default function Dashboard() {
   // redirect when user creates a new course
   if (newCourseId) return <Redirect to={`/course/${newCourseId}/edit`} />;
 
-  // // if user is not logged in, redirect to landing page
-  // if (!user) return <Redirect to="/" />;
+  // if user is not logged in, redirect to landing page
+  if (!user) return <Redirect to="/" />;
 
   // // if the user is logged in, but not on their dashboard, show 404
   // if (user && user.uid !== userId) return <NotFound type="page" />;
