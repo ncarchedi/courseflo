@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 // https://github.com/mui-org/material-ui/blob/master/docs/src/pages/getting-started/templates/sign-in/SignIn.js
 export default function SignIn() {
   const classes = useStyles();
-  const [user] = useContext(UserContext);
+  const [user, userLoading] = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -62,6 +62,9 @@ export default function SignIn() {
     setPassword(e.target.value);
     setError("");
   };
+
+  // return null until user is done loading
+  if (userLoading) return null;
 
   return (
     <>
