@@ -25,12 +25,12 @@ import NotFound from "./NotFound";
 import FeedbackModal from "./FeedbackModal";
 import Emoji from "./Emoji";
 import UserContext from "../context/UserContext";
+import SubscriberContext from "../context/SubscriberContext";
 import createCourse from "../utils/createCourse";
 import {
   getUserCoursesFromFirestore,
   saveCourseToFirestore,
   deleteCourseFromFirestore,
-  isUserSubscribed,
 } from "../services/firebase";
 
 const useStyles = makeStyles((theme) => ({
@@ -65,7 +65,7 @@ export default function Dashboard() {
   const classes = useStyles();
   const { userId } = useParams();
   const [user, userLoading] = useContext(UserContext);
-  const [isSubscribed, setIsSubscribed] = useState();
+  const subscriber = useContext(SubscriberContext);
   const [courses, setCourses] = useState();
   const [newCourseId, setNewCourseId] = useState();
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
@@ -79,18 +79,11 @@ export default function Dashboard() {
       setCourses(await getUserCoursesFromFirestore(user.uid));
     };
 
-    const setUserIsSubscribed = async () => {
-      setIsSubscribed(await isUserSubscribed(user.uid));
-    };
-
-    if (user) {
-      setUserCourses();
-      setUserIsSubscribed();
-    }
+    user && setUserCourses();
   }, [user]);
 
-  // do nothing until user, courses, and isSubscribed are done loading
-  if (userLoading || !courses || isSubscribed === undefined) return null;
+  // do nothing until user and courses are done loading
+  if (userLoading || !courses) return null;
 
   // redirect when user creates a new course
   if (newCourseId) return <Redirect to={`/course/${newCourseId}/edit`} />;
@@ -213,7 +206,7 @@ export default function Dashboard() {
   return (
     <>
       <DashboardHeader
-        isSubscribed={isSubscribed}
+        isSubscribed={!!subscriber}
         setShowFeedbackModal={setShowFeedbackModal}
       />
       <Container className={classes.container} maxWidth="md">
@@ -233,7 +226,7 @@ export default function Dashboard() {
             </Grid>
           ))}
           <Grid item xs={12} sm={6} md={4}>
-            <CreateCard showPaywall={courses.length > 0 && !isSubscribed} />
+            <CreateCard showPaywall={courses.length > 0 && !subscriber} />
           </Grid>
         </Grid>
       </Container>

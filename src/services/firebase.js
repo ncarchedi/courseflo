@@ -3,6 +3,15 @@ import "firebase/firestore";
 import "firebase/auth";
 import computeScoreFromAnswers from "../utils/computeScoreFromAnswers";
 
+// initialize firebase
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+};
+firebase.initializeApp(firebaseConfig);
+
 const db = firebase.firestore();
 const auth = firebase.auth();
 
@@ -26,12 +35,9 @@ export const getUserSubscription = async (userId) => {
     .where("userId", "==", userId)
     .get();
 
-  return result.docs.map((doc) => doc.data())[0];
-};
+  const sub = result.docs.map((doc) => doc.data())[0];
 
-export const isUserSubscribed = async (userId) => {
-  const result = await getUserSubscription(userId);
-  return !!result;
+  return sub || null;
 };
 
 export const saveSubmissionToFirestore = (courseId, submission) => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -12,7 +12,7 @@ import Container from "@material-ui/core/Container";
 import Header from "./LandingPageHeader";
 import Footer from "./LandingPageFooter";
 import UserContext from "../context/UserContext";
-import { isUserSubscribed } from "../services/firebase";
+import SubscriberContext from "../context/SubscriberContext";
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -64,22 +64,13 @@ const useStyles = makeStyles((theme) => ({
 export default function Pricing() {
   const classes = useStyles();
   const [user, userLoading] = useContext(UserContext);
-  const [subscribed, setSubscribed] = useState(false);
-
-  useEffect(() => {
-    const setSubscriptionStatus = async () => {
-      setSubscribed(await isUserSubscribed(user.uid));
-    };
-
-    user && setSubscriptionStatus();
-  }, [user]);
+  const subscriber = useContext(SubscriberContext);
 
   // return null until user is done loading
   if (userLoading) return null;
 
   // figure out current user status, if any
-  // todo: abstract this away somehow? Logic shouldn't live here
-  const status = user ? (subscribed ? "paid" : "free") : "none";
+  const status = user ? (subscriber ? "paid" : "free") : "none";
 
   const tiers = [
     {
@@ -97,15 +88,28 @@ export default function Pricing() {
               You have this plan
             </Button>
           ) : (
-            <Button
-              component={RouterLink}
-              to="/"
-              fullWidth
-              variant="outlined"
-              color="primary"
-            >
-              Sign up for free
-            </Button>
+            <>
+              {status === "paid" ? (
+                <Button
+                  onClick={() => alert("downgrade me!")}
+                  fullWidth
+                  variant="outlined"
+                  color="primary"
+                >
+                  Downgrade to free plan
+                </Button>
+              ) : (
+                <Button
+                  component={RouterLink}
+                  to="/"
+                  fullWidth
+                  variant="outlined"
+                  color="primary"
+                >
+                  Sign up for free
+                </Button>
+              )}
+            </>
           )}
         </>
       ),
