@@ -203,10 +203,13 @@ export default function Dashboard() {
     );
   };
 
+  // is the user an active subscriber?
+  const isSubscribed = subscriber && subscriber.active;
+
   return (
     <>
       <DashboardHeader
-        isSubscribed={!!subscriber}
+        isSubscribed={isSubscribed}
         setShowFeedbackModal={setShowFeedbackModal}
       />
       <Container className={classes.container} maxWidth="md">
@@ -226,7 +229,7 @@ export default function Dashboard() {
             </Grid>
           ))}
           <Grid item xs={12} sm={6} md={4}>
-            <CreateCard showPaywall={courses.length > 0 && !subscriber} />
+            <CreateCard showPaywall={courses.length > 0 && !isSubscribed} />
           </Grid>
         </Grid>
       </Container>

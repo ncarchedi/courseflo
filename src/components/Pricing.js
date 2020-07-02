@@ -70,7 +70,11 @@ export default function Pricing() {
   if (userLoading) return null;
 
   // figure out current user status, if any
-  const status = user ? (subscriber ? "paid" : "free") : "none";
+  const status = user
+    ? subscriber && subscriber.active
+      ? "paid"
+      : "free"
+    : "none";
 
   const tiers = [
     {
