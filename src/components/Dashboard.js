@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
-import Link from "@material-ui/core/Link";
+// import Link from "@material-ui/core/Link";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
@@ -23,7 +23,7 @@ import UpdateIcon from "@material-ui/icons/Update";
 import DashboardHeader from "./DashboardHeader";
 import NotFound from "./NotFound";
 import FeedbackModal from "./FeedbackModal";
-import Emoji from "./Emoji";
+// import Emoji from "./Emoji";
 import UserContext from "../context/UserContext";
 import SubscriberContext from "../context/SubscriberContext";
 import createCourse from "../utils/createCourse";
@@ -164,42 +164,42 @@ export default function Dashboard() {
   };
 
   const CreateCard = ({ showPaywall }) => {
-    const [paywallVisible, setPaywallVisible] = useState(false);
+    // const [paywallVisible, setPaywallVisible] = useState(false);
 
     return (
-      <>
-        {showPaywall && paywallVisible ? (
-          <Card
-            className={`${classes.card} ${classes.paywall}`}
-            onMouseLeave={() => setPaywallVisible(false)}
-          >
-            <CardContent>
-              <Typography variant="h5">
-                <Link component={RouterLink} to="/pricing">
-                  Upgrade now
-                </Link>{" "}
-                to create more courses{" "}
-                <Emoji symbol="📈" label="chart increasing" />
-              </Typography>
-            </CardContent>
-          </Card>
-        ) : (
-          <Card
-            className={classes.card}
-            onMouseOver={() => setPaywallVisible(true)}
-          >
-            <CardActionArea
-              className={classes.cardActionArea}
-              onClick={() => handleCreateCourse()}
-            >
-              <Typography variant="h5">New Course</Typography>
-              <Box marginTop={1}>
-                <AddCircleOutlineIcon fontSize="large" color="primary" />
-              </Box>
-            </CardActionArea>
-          </Card>
-        )}
-      </>
+      // <>
+      //   {showPaywall && paywallVisible ? (
+      //     <Card
+      //       className={`${classes.card} ${classes.paywall}`}
+      //       onMouseLeave={() => setPaywallVisible(false)}
+      //     >
+      //       <CardContent>
+      //         <Typography variant="h5">
+      //           <Link component={RouterLink} to="/pricing">
+      //             Upgrade now
+      //           </Link>{" "}
+      //           to create more courses{" "}
+      //           <Emoji symbol="📈" label="chart increasing" />
+      //         </Typography>
+      //       </CardContent>
+      //     </Card>
+      //   ) : (
+      <Card
+        className={classes.card}
+        // onMouseOver={() => setPaywallVisible(true)}
+      >
+        <CardActionArea
+          className={classes.cardActionArea}
+          onClick={() => handleCreateCourse()}
+        >
+          <Typography variant="h5">New Course</Typography>
+          <Box marginTop={1}>
+            <AddCircleOutlineIcon fontSize="large" color="primary" />
+          </Box>
+        </CardActionArea>
+      </Card>
+      //   )}
+      // </>
     );
   };
 
