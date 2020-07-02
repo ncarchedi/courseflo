@@ -23,12 +23,14 @@ import UpdateIcon from "@material-ui/icons/Update";
 import DashboardHeader from "./DashboardHeader";
 // import NotFound from "./NotFound";
 import FeedbackModal from "./FeedbackModal";
+import Emoji from "./Emoji";
 import UserContext from "../context/UserContext";
 import createCourse from "../utils/createCourse";
 import {
   getUserCoursesFromFirestore,
   saveCourseToFirestore,
   deleteCourseFromFirestore,
+  isUserSubscribed,
 } from "../services/firebase";
 
 const useStyles = makeStyles((theme) => ({
@@ -51,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   paywall: {
     display: "flex",
     justifyContent: "center",
-    backgroundColor: theme.palette.grey[200],
+    backgroundColor: theme.palette.grey[100],
   },
   updateIcon: {
     marginRight: theme.spacing(1),
@@ -172,36 +174,33 @@ export default function Dashboard() {
     );
   };
 
-  const CreateCard = ({ paywall }) => {
-    const [showPaywall, setShowPaywall] = useState(false);
+  const CreateCard = ({ showPaywall }) => {
+    const [paywallVisible, setPaywallVisible] = useState(false);
 
     return (
       <>
-        {showPaywall ? (
+        {showPaywall && paywallVisible ? (
           <Card
             className={`${classes.card} ${classes.paywall}`}
-            onMouseOver={() => setShowPaywall(true)}
-            onMouseLeave={() => setShowPaywall(false)}
+            onMouseLeave={() => setPaywallVisible(false)}
           >
             <CardContent>
               <Typography variant="h5">
-                Course limit reached!{" "}
+                Course limit reached <Emoji symbol="🤯" label="mind blown" />{" "}
                 <Link component={RouterLink} to="/pricing">
-                  Upgrade now
-                </Link>{" "}
-                to create more.
+                  Upgrade now to create more.
+                </Link>
               </Typography>
             </CardContent>
           </Card>
         ) : (
           <Card
             className={classes.card}
-            onMouseOver={() => setShowPaywall(true)}
+            onMouseOver={() => setPaywallVisible(true)}
           >
             <CardActionArea
               className={classes.cardActionArea}
               onClick={() => handleCreateCourse()}
-              disabled={paywall}
             >
               <Typography variant="h5">New Course</Typography>
               <Box marginTop={1}>
@@ -213,6 +212,9 @@ export default function Dashboard() {
       </>
     );
   };
+
+  // decide whether to show paywall or not
+  const showPaywall = courses.length > 0 && !isUserSubscribed(user.uid);
 
   return (
     <>
@@ -234,7 +236,7 @@ export default function Dashboard() {
             </Grid>
           ))}
           <Grid item xs={12} sm={6} md={4}>
-            <CreateCard paywall={true} />
+            <CreateCard showPaywall={showPaywall} />
           </Grid>
         </Grid>
       </Container>

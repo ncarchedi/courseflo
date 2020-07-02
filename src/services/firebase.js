@@ -20,6 +20,10 @@ export const signInExistingUser = (email, password, setError) => {
   });
 };
 
+export const isUserSubscribed = (userId) => {
+  return false;
+};
+
 export const saveSubmissionToFirestore = (courseId, submission) => {
   return db.collection("submissions").add({
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
