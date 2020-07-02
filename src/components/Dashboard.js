@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
+import Link from "@material-ui/core/Link";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
@@ -46,6 +47,11 @@ const useStyles = makeStyles((theme) => ({
   },
   cardActions: {
     justifyContent: "space-evenly",
+  },
+  paywall: {
+    display: "flex",
+    justifyContent: "center",
+    backgroundColor: theme.palette.grey[200],
   },
   updateIcon: {
     marginRight: theme.spacing(1),
@@ -166,21 +172,45 @@ export default function Dashboard() {
     );
   };
 
-  const CreateCard = () => {
+  const CreateCard = ({ paywall }) => {
+    const [showPaywall, setShowPaywall] = useState(false);
+
     return (
-      <Card className={classes.card}>
-        <CardActionArea
-          className={classes.cardActionArea}
-          onClick={() => handleCreateCourse()}
-        >
-          <Typography variant="h5" component="h2">
-            New Course
-          </Typography>
-          <Box marginTop={1}>
-            <AddCircleOutlineIcon fontSize="large" color="primary" />
-          </Box>
-        </CardActionArea>
-      </Card>
+      <>
+        {showPaywall ? (
+          <Card
+            className={`${classes.card} ${classes.paywall}`}
+            onMouseOver={() => setShowPaywall(true)}
+            onMouseLeave={() => setShowPaywall(false)}
+          >
+            <CardContent>
+              <Typography variant="h5">
+                Course limit reached!{" "}
+                <Link component={RouterLink} to="/pricing">
+                  Upgrade now
+                </Link>{" "}
+                to create more.
+              </Typography>
+            </CardContent>
+          </Card>
+        ) : (
+          <Card
+            className={classes.card}
+            onMouseOver={() => setShowPaywall(true)}
+          >
+            <CardActionArea
+              className={classes.cardActionArea}
+              onClick={() => handleCreateCourse()}
+              disabled={paywall}
+            >
+              <Typography variant="h5">New Course</Typography>
+              <Box marginTop={1}>
+                <AddCircleOutlineIcon fontSize="large" color="primary" />
+              </Box>
+            </CardActionArea>
+          </Card>
+        )}
+      </>
     );
   };
 
@@ -204,7 +234,7 @@ export default function Dashboard() {
             </Grid>
           ))}
           <Grid item xs={12} sm={6} md={4}>
-            <CreateCard />
+            <CreateCard paywall={true} />
           </Grid>
         </Grid>
       </Container>
