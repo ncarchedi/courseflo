@@ -3,26 +3,41 @@ import "firebase/firestore";
 import "firebase/auth";
 import computeScoreFromAnswers from "../utils/computeScoreFromAnswers";
 
+// initialize firebase
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+};
+firebase.initializeApp(firebaseConfig);
+
 const db = firebase.firestore();
+const auth = firebase.auth();
 
 export const createNewUser = (email, password, setError) => {
-  firebase
-    .auth()
-    .createUserWithEmailAndPassword(email, password)
-    .catch((error) => {
-      setError(error.message);
-      console.error("Error creating user: ", error);
-    });
+  return auth.createUserWithEmailAndPassword(email, password).catch((error) => {
+    setError(error.message);
+    console.error("Error creating user:", error);
+  });
 };
 
 export const signInExistingUser = (email, password, setError) => {
-  firebase
-    .auth()
-    .signInWithEmailAndPassword(email, password)
-    .catch((error) => {
-      setError(error.message);
-      console.error("Error signing in: ", error);
-    });
+  return auth.signInWithEmailAndPassword(email, password).catch((error) => {
+    setError(error.message);
+    console.error("Error signing in:", error);
+  });
+};
+
+export const getUserSubscription = async (userId) => {
+  const result = await db
+    .collection("subscriptions")
+    .where("userId", "==", userId)
+    .get();
+
+  const sub = result.docs.map((doc) => doc.data())[0];
+
+  return sub || null;
 };
 
 export const saveSubmissionToFirestore = (courseId, submission) => {
@@ -91,15 +106,15 @@ export const updateCourseInFirestore = (courseId, course) => {
 };
 
 // export const sendPasswordResetEmail = (email) => {
-//   firebase
+//   return auth
 //     .sendPasswordResetEmail(email)
 //     .catch((error) =>
-//       console.error("Error sending password reset email: ", error)
+//       console.error("Error sending password reset email:", error)
 //     );
 // };
 
 // export const authenticateAnonymously = () => {
-//   return firebase.auth().signInAnonymously();
+//   return auth.signInAnonymously();
 // };
 
 // export const updateCourseItemsInFirestore = (courseId, items) => {

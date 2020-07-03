@@ -47,7 +47,7 @@ export default function Course() {
         }
       })
       .catch((error) =>
-        console.error("Error loading course from Firestore: ", error)
+        console.error("Error loading course from Firestore:", error)
       );
   }, [courseId]);
 

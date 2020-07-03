@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Redirect, Link as RouterLink } from "react-router-dom";
+import { Redirect, useParams, Link as RouterLink } from "react-router-dom";
 import moment from "moment";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
+// import Link from "@material-ui/core/Link";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
@@ -20,9 +21,11 @@ import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import UpdateIcon from "@material-ui/icons/Update";
 import DashboardHeader from "./DashboardHeader";
-// import NotFound from "./NotFound";
+import NotFound from "./NotFound";
 import FeedbackModal from "./FeedbackModal";
+// import Emoji from "./Emoji";
 import UserContext from "../context/UserContext";
+import SubscriberContext from "../context/SubscriberContext";
 import createCourse from "../utils/createCourse";
 import {
   getUserCoursesFromFirestore,
@@ -47,27 +50,22 @@ const useStyles = makeStyles((theme) => ({
   cardActions: {
     justifyContent: "space-evenly",
   },
+  paywall: {
+    display: "flex",
+    justifyContent: "center",
+    backgroundColor: theme.palette.grey[100],
+  },
   updateIcon: {
     marginRight: theme.spacing(1),
     color: theme.palette.text.secondary,
   },
 }));
 
-// const fakeCourses = [
-//   { id: 1, title: "My Really Cool Course", updated: "June 28, 2020" },
-//   { id: 2, title: "My Slightly Less Cool Course", updated: "June 25, 2020" },
-//   {
-//     id: 3,
-//     title: "My Blah Course That Has a Crazy Long Title",
-//     updated: "September 19, 2019",
-//   },
-//   { id: 4, title: "My Other Really Cool Course", updated: "May 12, 2019" },
-// ];
-
 export default function Dashboard() {
   const classes = useStyles();
-  // const { userId } = useParams();
+  const { userId } = useParams();
   const [user, userLoading] = useContext(UserContext);
+  const subscriber = useContext(SubscriberContext);
   const [courses, setCourses] = useState();
   const [newCourseId, setNewCourseId] = useState();
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
@@ -78,8 +76,7 @@ export default function Dashboard() {
     document.title = "Courseflo - Dashboard";
 
     const setUserCourses = async () => {
-      const userCourses = await getUserCoursesFromFirestore(user.uid);
-      setCourses(userCourses);
+      setCourses(await getUserCoursesFromFirestore(user.uid));
     };
 
     user && setUserCourses();
@@ -94,15 +91,15 @@ export default function Dashboard() {
   // if user is not logged in, redirect to landing page
   if (!user) return <Redirect to="/" />;
 
-  // // if the user is logged in, but not on their dashboard, show 404
-  // if (user && user.uid !== userId) return <NotFound type="page" />;
+  // if the user is logged in, but not on their dashboard, show 404
+  if (user && user.uid !== userId) return <NotFound type="page" />;
 
   const handleCreateCourse = () => {
     const newCourse = createCourse(user.uid);
     saveCourseToFirestore(newCourse)
       .then((docRef) => setNewCourseId(docRef.id))
       .catch((error) =>
-        console.error("Error saving course to Firestore: ", error)
+        console.error("Error saving course to Firestore:", error)
       );
   };
 
@@ -166,27 +163,55 @@ export default function Dashboard() {
     );
   };
 
-  const CreateCard = () => {
+  const CreateCard = ({ showPaywall }) => {
+    // const [paywallVisible, setPaywallVisible] = useState(false);
+
     return (
-      <Card className={classes.card}>
+      // <>
+      //   {showPaywall && paywallVisible ? (
+      //     <Card
+      //       className={`${classes.card} ${classes.paywall}`}
+      //       onMouseLeave={() => setPaywallVisible(false)}
+      //     >
+      //       <CardContent>
+      //         <Typography variant="h5">
+      //           <Link component={RouterLink} to="/pricing">
+      //             Upgrade now
+      //           </Link>{" "}
+      //           to create more courses{" "}
+      //           <Emoji symbol="📈" label="chart increasing" />
+      //         </Typography>
+      //       </CardContent>
+      //     </Card>
+      //   ) : (
+      <Card
+        className={classes.card}
+        // onMouseOver={() => setPaywallVisible(true)}
+      >
         <CardActionArea
           className={classes.cardActionArea}
           onClick={() => handleCreateCourse()}
         >
-          <Typography variant="h5" component="h2">
-            New Course
-          </Typography>
+          <Typography variant="h5">New Course</Typography>
           <Box marginTop={1}>
             <AddCircleOutlineIcon fontSize="large" color="primary" />
           </Box>
         </CardActionArea>
       </Card>
+      //   )}
+      // </>
     );
   };
 
+  // is the user an active subscriber?
+  const isSubscribed = subscriber && subscriber.active;
+
   return (
     <>
-      <DashboardHeader setShowFeedbackModal={setShowFeedbackModal} />
+      <DashboardHeader
+        isSubscribed={isSubscribed}
+        setShowFeedbackModal={setShowFeedbackModal}
+      />
       <Container className={classes.container} maxWidth="md">
         <Box marginBottom={2}>
           <Typography variant="h5" color="inherit">
@@ -204,7 +229,7 @@ export default function Dashboard() {
             </Grid>
           ))}
           <Grid item xs={12} sm={6} md={4}>
-            <CreateCard />
+            <CreateCard showPaywall={courses.length > 0 && !isSubscribed} />
           </Grid>
         </Grid>
       </Container>
