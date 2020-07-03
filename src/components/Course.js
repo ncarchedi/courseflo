@@ -63,7 +63,7 @@ export default function Course() {
     if (showSolutions && courseId) {
       saveSubmissionToFirestore(courseId, userEmail, answers);
     }
-  }, [courseId, answers, showSolutions]);
+  }, [courseId, userEmail, answers, showSolutions]);
 
   // if answers are shown, switch to vertical view mode
   // and set progress percentage to 100
