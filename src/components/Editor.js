@@ -16,6 +16,7 @@ import AddItemFab from "./AddItemFab";
 import NoItems from "./NoItems";
 import LoadingScreen from "./LoadingScreen";
 import createItem from "../utils/createItem";
+import addDefaultSettings from "../utils/addDefaultSettings";
 import {
   getCourseFromFirestore,
   updateCourseInFirestore,
@@ -60,8 +61,10 @@ export default function Editor() {
         if (course.exists) {
           // extract the course data
           const courseData = course.data();
+          // if proper settings aren't set, set defaults
+          const courseDataWithSettings = addDefaultSettings(courseData);
           // load into state
-          setCourse(courseData);
+          setCourse(courseDataWithSettings);
           // update the browser tab title dynamically
           document.title = courseData.title;
         } else {

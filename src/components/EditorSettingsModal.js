@@ -14,13 +14,8 @@ export default function FeedbackModal({
   initialSettings,
   onSaveSettings,
 }) {
-  // set some helpful defaults
-  const defaultSettings = {
-    collectEmails: true,
-  };
-
   // if there are no settings yet, then start fresh
-  const [settings, setSettings] = useState(initialSettings || defaultSettings);
+  const [settings, setSettings] = useState(initialSettings);
 
   const handleSubmit = (e) => {
     setOpen(false);
@@ -30,7 +25,7 @@ export default function FeedbackModal({
   const handleCancel = () => {
     setOpen(false);
     // restore previous settings
-    setSettings(initialSettings || defaultSettings);
+    setSettings(initialSettings);
   };
 
   const handleToggleCollectEmails = () => {
