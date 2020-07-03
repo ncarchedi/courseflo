@@ -4,6 +4,10 @@
   "finalMessage": "Thanks for completing the course! We'll be in touch ✌️",
   "items": [
     {
+      "id": "email",
+      "type": "Email"
+    },
+    {
       "id": "welcome",
       "type": "Text",
       "title": "Welcome to the example course 🙌",

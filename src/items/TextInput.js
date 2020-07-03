@@ -87,14 +87,12 @@ export default function TextInput({
           <img src={item.image} alt={item.title} width="100%" />
         </Box>
       )}
-      <Box component="span" display="flex" alignItems="center">
-        <TextField
-          value={answer ? answer.value : ""}
-          onChange={handleChange}
-          placeholder="Type your answer here..."
-          fullWidth
-        />
-      </Box>
+      <TextField
+        value={answer ? answer.value : ""}
+        onChange={handleChange}
+        placeholder="Type your answer here..."
+        fullWidth
+      />
     </>
   );
 }

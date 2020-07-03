@@ -5,6 +5,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CancelIcon from "@material-ui/icons/Cancel";
+import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import NotesIcon from "@material-ui/icons/Notes";
 import OndemandVideoIcon from "@material-ui/icons/OndemandVideo";
 import DescriptionIcon from "@material-ui/icons/Description";
@@ -36,6 +37,9 @@ export function getItemIcon(itemType) {
   let icon;
 
   switch (itemType) {
+    case "Email":
+      icon = <MailOutlineIcon color="disabled" />;
+      break;
     case "Text":
       icon = <NotesIcon color="disabled" />;
       break;

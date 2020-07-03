@@ -8,6 +8,10 @@
   },
   "items": [
     {
+      "id": "email",
+      "type": "Email"
+    },
+    {
       "id": "welcome",
       "type": "Text",
       "title": "Welcome to orientation 👋",

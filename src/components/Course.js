@@ -25,6 +25,7 @@ export default function Course() {
   let { path } = useRouteMatch();
   let { courseId } = useParams();
   const [course, setCourse] = useState(null);
+  const [userEmail, setUserEmail] = useState(""); // to ID user
   const [answers, setAnswers] = useState(null);
   const [showSolutions, setShowSolutions] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
@@ -60,7 +61,7 @@ export default function Course() {
   // save answers to firebase when user submits
   useEffect(() => {
     if (showSolutions && courseId) {
-      saveSubmissionToFirestore(courseId, answers);
+      saveSubmissionToFirestore(courseId, userEmail, answers);
     }
   }, [courseId, answers, showSolutions]);
 
@@ -131,6 +132,8 @@ export default function Course() {
                 orientation={orientation}
                 itemNumber={itemNumber}
                 setItemNumber={setItemNumber}
+                userEmail={userEmail}
+                setUserEmail={setUserEmail}
               />
             </Route>
             <Route exact path={`${path}/score`}>
