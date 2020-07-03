@@ -105,6 +105,16 @@ export const updateCourseInFirestore = (courseId, course) => {
     });
 };
 
+export const getSubmissionsFromFirestore = async (courseId) => {
+  const result = await db
+    .collection("submissions")
+    .where("courseId", "==", courseId)
+    .orderBy("timestamp", "desc")
+    .get();
+
+  return result.docs.map((doc) => doc.data());
+};
+
 // export const sendPasswordResetEmail = (email) => {
 //   return auth
 //     .sendPasswordResetEmail(email)

@@ -50,7 +50,7 @@ export default function Header({
   // if user is not logged in, redirect to landing page
   if (!user) return <Redirect to="/" />;
 
-  // todo: if the user is logged in, but not editing their course, show 404
+  // todo: if the user is logged in, but not editing their own course, show 404
   // if (user && user.uid !== userId) return <NotFound type="page" />;
 
   // create course URL
