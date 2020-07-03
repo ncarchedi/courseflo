@@ -12,6 +12,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
@@ -35,6 +36,7 @@ export default function Header({
   onPublish,
   onRestore,
   setShowFeedbackModal,
+  setShowSettingsModal,
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -119,6 +121,14 @@ export default function Header({
             <Box marginRight={1}>
               <PublishButton onPublish={onPublish} onRestore={onRestore} />
             </Box>
+            <Tooltip title="Settings">
+              <IconButton
+                color="inherit"
+                onClick={() => setShowSettingsModal(true)}
+              >
+                <SettingsOutlinedIcon />
+              </IconButton>
+            </Tooltip>
             <Tooltip title="Preview Course">
               <IconButton color="inherit" href={courseUrl} target="_blank">
                 <VisibilityOutlinedIcon />
