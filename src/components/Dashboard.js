@@ -15,6 +15,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
+import TimelineOutlinedIcon from "@material-ui/icons/TimelineOutlined";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
@@ -23,6 +24,7 @@ import UpdateIcon from "@material-ui/icons/Update";
 import DashboardHeader from "./DashboardHeader";
 import NotFound from "./NotFound";
 import FeedbackModal from "./FeedbackModal";
+import Analytics from "./Analytics";
 // import Emoji from "./Emoji";
 import UserContext from "../context/UserContext";
 import SubscriberContext from "../context/SubscriberContext";
@@ -70,6 +72,8 @@ export default function Dashboard() {
   const [newCourseId, setNewCourseId] = useState();
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [showAnalytics, setShowAnalytics] = useState(false);
+  const [selectedCourseId, setSelectedCourseId] = useState();
 
   useEffect(() => {
     // update the browser tab title
@@ -101,6 +105,11 @@ export default function Dashboard() {
       .catch((error) =>
         console.error("Error saving course to Firestore:", error)
       );
+  };
+
+  const handleClickAnalytics = (courseId) => {
+    setSelectedCourseId(courseId);
+    setShowAnalytics(true);
   };
 
   // https://stackoverflow.com/a/52033479/2338922
@@ -138,6 +147,14 @@ export default function Dashboard() {
           </CardContent>
         </CardActionArea>
         <CardActions className={classes.cardActions}>
+          <Tooltip title="Analytics">
+            <IconButton
+              color="inherit"
+              onClick={() => handleClickAnalytics(id)}
+            >
+              <TimelineOutlinedIcon />
+            </IconButton>
+          </Tooltip>
           <Tooltip title="Preview">
             <IconButton
               color="inherit"
@@ -213,25 +230,35 @@ export default function Dashboard() {
         setShowFeedbackModal={setShowFeedbackModal}
       />
       <Container className={classes.container} maxWidth="md">
-        <Box marginBottom={2}>
-          <Typography variant="h5" color="inherit">
-            My Courses
-          </Typography>
-        </Box>
-        <Grid container spacing={3}>
-          {courses.map((course) => (
-            <Grid item key={course.id} xs={12} sm={6} md={4}>
-              <CourseCard
-                id={course.id}
-                title={course.title}
-                updated={moment(course.updated.toDate()).calendar()}
-              />
+        {showAnalytics ? (
+          <Analytics
+            courses={courses}
+            initialCourseId={selectedCourseId}
+            setShowAnalytics={setShowAnalytics}
+          />
+        ) : (
+          <>
+            <Box marginBottom={2}>
+              <Typography variant="h5" color="inherit">
+                My Courses
+              </Typography>
+            </Box>
+            <Grid container spacing={3}>
+              {courses.map((course) => (
+                <Grid item key={course.id} xs={12} sm={6} md={4}>
+                  <CourseCard
+                    id={course.id}
+                    title={course.title}
+                    updated={moment(course.updated.toDate()).calendar()}
+                  />
+                </Grid>
+              ))}
+              <Grid item xs={12} sm={6} md={4}>
+                <CreateCard showPaywall={courses.length > 0 && !isSubscribed} />
+              </Grid>
             </Grid>
-          ))}
-          <Grid item xs={12} sm={6} md={4}>
-            <CreateCard showPaywall={courses.length > 0 && !isSubscribed} />
-          </Grid>
-        </Grid>
+          </>
+        )}
       </Container>
       <FeedbackModal
         open={showFeedbackModal}
