@@ -5,7 +5,9 @@ export default function initializeAnswers(course, setAnswers) {
   course.items.forEach((item) => {
     // for each item type that requires a response
     if (
-      !["Text", "Video", "YouTube", "Document", "Image"].includes(item.type)
+      !["Email", "Text", "Video", "YouTube", "Document", "Image"].includes(
+        item.type
+      )
     ) {
       a.push({
         itemId: item.id,

@@ -40,10 +40,11 @@ export const getUserSubscription = async (userId) => {
   return sub || null;
 };
 
-export const saveSubmissionToFirestore = (courseId, submission) => {
+export const saveSubmissionToFirestore = (courseId, userEmail, submission) => {
   return db.collection("submissions").add({
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     courseId,
+    userEmail,
     score: computeScoreFromAnswers(submission),
     submission,
   });

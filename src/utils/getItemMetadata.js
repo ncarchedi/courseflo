@@ -2,6 +2,7 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 
 // normal items
+import Email from "../items/Email";
 import Text from "../items/Text";
 import Video from "../items/Video";
 import YouTube from "../items/YouTube";
@@ -29,6 +30,11 @@ export default function getItemMetadata(item, editable) {
   let icon = getItemIcon(item.type);
 
   switch (item.type) {
+    // email is a special item
+    case "Email":
+      helperText = null;
+      Component = Email;
+      break;
     case "Text":
       helperText = null;
       Component = editable ? EditableText : Text;

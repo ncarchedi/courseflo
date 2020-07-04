@@ -4,6 +4,12 @@ export default function createItem(type) {
   let item;
 
   switch (type) {
+    case "Email":
+      item = {
+        id: uuidv4(),
+        type: type,
+      };
+      break;
     case "Text":
       item = {
         id: uuidv4(),

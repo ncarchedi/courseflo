@@ -47,6 +47,8 @@ export default function ItemList({
   orientation,
   itemNumber,
   setItemNumber,
+  userEmail,
+  setUserEmail,
 }) {
   const classes = useStyles();
   let { url } = useRouteMatch();
@@ -64,6 +66,7 @@ export default function ItemList({
     }, 500);
   };
 
+  // for horizontal orientation
   if (orientation === "horizontal") {
     const item = items[itemNumber];
     if (!item) return null;
@@ -76,6 +79,8 @@ export default function ItemList({
             answer={answers && answers.filter((a) => a.itemId === item.id)[0]}
             onChangeAnswer={onChangeAnswer}
             showSolution={showSolutions}
+            userEmail={userEmail}
+            setUserEmail={setUserEmail}
           />
         </Box>
         {itemNumber > 0 && !showSolutions && (
@@ -133,6 +138,7 @@ export default function ItemList({
     );
   }
 
+  // for vertical orientation
   return (
     <>
       {items.map((item) => (
@@ -142,6 +148,8 @@ export default function ItemList({
             answer={answers && answers.filter((a) => a.itemId === item.id)[0]}
             onChangeAnswer={onChangeAnswer}
             showSolution={showSolutions}
+            userEmail={userEmail}
+            setUserEmail={setUserEmail}
           />
         </Box>
       ))}

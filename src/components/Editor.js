@@ -11,10 +11,12 @@ import EditableItem from "./EditableItem";
 import NotFound from "./NotFound";
 import ReorderItemsDialog from "./ReorderItemsDialog";
 import FeedbackModal from "./FeedbackModal";
+import EditorSettingsModal from "./EditorSettingsModal";
 import AddItemFab from "./AddItemFab";
 import NoItems from "./NoItems";
 import LoadingScreen from "./LoadingScreen";
 import createItem from "../utils/createItem";
+import addDefaultSettings from "../utils/addDefaultSettings";
 import {
   getCourseFromFirestore,
   updateCourseInFirestore,
@@ -51,6 +53,7 @@ export default function Editor() {
   const [currentItemId, setCurrentItemId] = useState();
   const [openReorderDialog, setOpenReorderDialog] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
 
   useEffect(() => {
     getCourseFromFirestore(courseId)
@@ -58,8 +61,10 @@ export default function Editor() {
         if (course.exists) {
           // extract the course data
           const courseData = course.data();
+          // if proper settings aren't set, set defaults
+          const courseDataWithSettings = addDefaultSettings(courseData);
           // load into state
-          setCourse(courseData);
+          setCourse(courseDataWithSettings);
           // update the browser tab title dynamically
           document.title = courseData.title;
         } else {
@@ -116,6 +121,12 @@ export default function Editor() {
     window.location.reload();
   };
 
+  const handleSaveSettings = (settings) => {
+    const updatedCourse = { ...course, settings };
+    setCourse(updatedCourse);
+    updateCourseInFirestore(courseId, updatedCourse);
+  };
+
   const currentItem = useMemo(
     () => course && course.items.filter((item) => item.id === currentItemId)[0],
     [currentItemId, course]
@@ -135,6 +146,7 @@ export default function Editor() {
         onPublish={handlePublish}
         onRestore={handleRestore}
         setShowFeedbackModal={setShowFeedbackModal}
+        setShowSettingsModal={setShowSettingsModal}
       />
       {course.items.length === 0 ? (
         <NoItems editing />
@@ -187,6 +199,12 @@ export default function Editor() {
         open={showFeedbackModal}
         setOpen={setShowFeedbackModal}
         sentFrom="editor"
+      />
+      <EditorSettingsModal
+        open={showSettingsModal}
+        setOpen={setShowSettingsModal}
+        initialSettings={course.settings}
+        onSaveSettings={handleSaveSettings}
       />
       <AddItemFab onAddItem={handleAddItem} />
     </>

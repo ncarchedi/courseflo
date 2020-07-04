@@ -9,6 +9,7 @@ import FeedbackModal from "./FeedbackModal";
 import NotFound from "./NotFound";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
 import initializeAnswers from "../utils/initializeAnswers";
+import createItem from "../utils/createItem";
 import {
   saveSubmissionToFirestore,
   getCourseFromFirestore,
@@ -25,6 +26,7 @@ export default function Course() {
   let { path } = useRouteMatch();
   let { courseId } = useParams();
   const [course, setCourse] = useState(null);
+  const [userEmail, setUserEmail] = useState(""); // to ID user
   const [answers, setAnswers] = useState(null);
   const [showSolutions, setShowSolutions] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
@@ -37,7 +39,15 @@ export default function Course() {
       .then((course) => {
         if (course.exists) {
           // extract the course data
-          const courseData = course.data();
+          let courseData = course.data();
+          // if collecting emails, prepend Email item
+          if (courseData.settings && courseData.settings.collectEmails) {
+            const emailItem = createItem("Email");
+            courseData = {
+              ...courseData,
+              items: [emailItem, ...courseData.items],
+            };
+          }
           // load into state
           setCourse(courseData);
           // update the browser tab title dynamically
@@ -60,9 +70,9 @@ export default function Course() {
   // save answers to firebase when user submits
   useEffect(() => {
     if (showSolutions && courseId) {
-      saveSubmissionToFirestore(courseId, answers);
+      saveSubmissionToFirestore(courseId, userEmail, answers);
     }
-  }, [courseId, answers, showSolutions]);
+  }, [courseId, userEmail, answers, showSolutions]);
 
   // if answers are shown, switch to vertical view mode
   // and set progress percentage to 100
@@ -131,6 +141,8 @@ export default function Course() {
                 orientation={orientation}
                 itemNumber={itemNumber}
                 setItemNumber={setItemNumber}
+                userEmail={userEmail}
+                setUserEmail={setUserEmail}
               />
             </Route>
             <Route exact path={`${path}/score`}>
