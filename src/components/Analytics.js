@@ -20,7 +20,8 @@ const useStyles = makeStyles((theme) => ({
 
 const cleanSubmissions = (submissions) => {
   return submissions.map((sub) => ({
-    timestamp: moment(sub.timestamp.toDate()).format("YYYY-MM-DD hh:MMa"),
+    email: sub.userEmail,
+    timestamp: moment(sub.timestamp.toDate()).format("YYYY-MM-DD hh:mm a"),
     numQuestions: sub.score.numTotal,
     numCorrect: sub.score.numCorrect,
     percCorrect: Math.round((sub.score.numCorrect / sub.score.numTotal) * 100),
@@ -49,10 +50,11 @@ export default function Analytics({
 
   const tableData = {
     columns: [
+      { title: "Email", field: "email", type: "string" },
       { title: "Timestamp", field: "timestamp", type: "string" },
       { title: "# Correct", field: "numCorrect", type: "numeric" },
       { title: "# Questions", field: "numQuestions", type: "numeric" },
-      { title: "Score", field: "percCorrect", type: "numeric" },
+      { title: "Score (%)", field: "percCorrect", type: "numeric" },
     ],
     data: cleanSubmissions(submissions),
   };
