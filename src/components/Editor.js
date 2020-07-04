@@ -203,7 +203,7 @@ export default function Editor() {
       <EditorSettingsModal
         open={showSettingsModal}
         setOpen={setShowSettingsModal}
-        initialSettings={course.settings}
+        currentSettings={course.settings}
         onSaveSettings={handleSaveSettings}
       />
       <AddItemFab onAddItem={handleAddItem} />
