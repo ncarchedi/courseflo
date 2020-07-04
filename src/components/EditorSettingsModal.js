@@ -11,11 +11,11 @@ import Button from "@material-ui/core/Button";
 export default function FeedbackModal({
   open,
   setOpen,
-  initialSettings,
+  currentSettings,
   onSaveSettings,
 }) {
   // if there are no settings yet, then start fresh
-  const [settings, setSettings] = useState(initialSettings);
+  const [settings, setSettings] = useState(currentSettings);
 
   const handleSubmit = (e) => {
     setOpen(false);
@@ -25,7 +25,7 @@ export default function FeedbackModal({
   const handleCancel = () => {
     setOpen(false);
     // restore previous settings
-    setSettings(initialSettings);
+    setSettings(currentSettings);
   };
 
   const handleToggleCollectEmails = () => {
