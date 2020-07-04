@@ -40,7 +40,7 @@ export default function FeedbackModal({
       <DialogTitle>Settings</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Change settings for the current course or quiz.
+          Any changes will take effect immediately.
         </DialogContentText>
         <FormControlLabel
           control={
