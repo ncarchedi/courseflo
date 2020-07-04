@@ -4,10 +4,6 @@
   "finalMessage": "Thanks for completing this lesson on intercepts! We'll be in touch once everyone else has submitted their work ✌️",
   "items": [
     {
-      "id": "email",
-      "type": "Email"
-    },
-    {
       "id": "welcome",
       "type": "Text",
       "title": "Welcome to our lesson on intercepts! 🙌",

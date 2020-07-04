@@ -9,6 +9,7 @@ import FeedbackModal from "./FeedbackModal";
 import NotFound from "./NotFound";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
 import initializeAnswers from "../utils/initializeAnswers";
+import createItem from "../utils/createItem";
 import {
   saveSubmissionToFirestore,
   getCourseFromFirestore,
@@ -38,7 +39,15 @@ export default function Course() {
       .then((course) => {
         if (course.exists) {
           // extract the course data
-          const courseData = course.data();
+          let courseData = course.data();
+          // if collecting emails, prepend Email item
+          if (courseData.settings && courseData.settings.collectEmails) {
+            const emailItem = createItem("Email");
+            courseData = {
+              ...courseData,
+              items: [emailItem, ...courseData.items],
+            };
+          }
           // load into state
           setCourse(courseData);
           // update the browser tab title dynamically
