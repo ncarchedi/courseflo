@@ -157,7 +157,7 @@ export default function Dashboard() {
               <TimelineOutlinedIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Preview">
+          <Tooltip title="View">
             <IconButton
               color="inherit"
               component={RouterLink}

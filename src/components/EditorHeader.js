@@ -129,7 +129,7 @@ export default function Header({
                 <SettingsOutlinedIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Preview Course">
+            <Tooltip title="View Course">
               <IconButton color="inherit" href={courseUrl} target="_blank">
                 <VisibilityOutlinedIcon />
               </IconButton>
