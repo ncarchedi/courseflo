@@ -92,8 +92,12 @@ export const saveCourseToFirestore = (course) => {
   });
 };
 
-export const deleteCourseFromFirestore = (courseId) => {
-  return db.collection("courses").doc(courseId).delete();
+// soft delete course
+export const deleteCourseInFirestore = (courseId) => {
+  return db.collection("courses").doc(courseId).update({
+    deleted: true,
+    updated: firebase.firestore.FieldValue.serverTimestamp(),
+  });
 };
 
 export const updateCourseInFirestore = (courseId, course) => {

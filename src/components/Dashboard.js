@@ -32,7 +32,7 @@ import createCourse from "../utils/createCourse";
 import {
   getUserCoursesFromFirestore,
   saveCourseToFirestore,
-  deleteCourseFromFirestore,
+  deleteCourseInFirestore,
 } from "../services/firebase";
 
 const useStyles = makeStyles((theme) => ({
@@ -80,7 +80,9 @@ export default function Dashboard() {
     document.title = "Courseflo - Dashboard";
 
     const setUserCourses = async () => {
-      setCourses(await getUserCoursesFromFirestore(user.uid));
+      const userCourses = await getUserCoursesFromFirestore(user.uid);
+      // don't show soft deleted courses in dashboard
+      setCourses(userCourses.filter((course) => !course.deleted));
     };
 
     user && setUserCourses();
@@ -121,7 +123,7 @@ export default function Dashboard() {
 
   const handleDelete = (courseId) => {
     setCourses(courses.filter((course) => course.id !== courseId));
-    deleteCourseFromFirestore(courseId);
+    deleteCourseInFirestore(courseId);
   };
 
   const CourseCard = ({ id, title, updated }) => {
