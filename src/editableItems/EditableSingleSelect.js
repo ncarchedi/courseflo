@@ -92,7 +92,7 @@ export default function EditableSingleSelect({ item, onFocus, onChangeItem }) {
             {values.options.map((o, index) => (
               <Box key={"option" + index} display="flex" alignItems="center">
                 <Box marginRight={1} display="flex">
-                  {o === item.solution ? (
+                  {o && o === item.solution ? (
                     <RadioButtonCheckedIcon color="disabled" />
                   ) : (
                     <RadioButtonUncheckedIcon color="disabled" />

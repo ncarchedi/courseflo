@@ -50,7 +50,7 @@ export default function EditableMultiSelect({ item, onFocus, onChangeItem }) {
     // if option is checked, uncheck it
     if (newSolution.includes(option))
       newSolution = newSolution.filter((o) => o !== option);
-    // otherwise, uncheck it
+    // otherwise, check it
     else newSolution = [...newSolution, option];
     // update state (skip debounce to avoid delay)
     onChangeItem({ ...item, solution: newSolution });
@@ -104,7 +104,7 @@ export default function EditableMultiSelect({ item, onFocus, onChangeItem }) {
             {values.options.map((o, index) => (
               <Box key={"option" + index} display="flex" alignItems="center">
                 <Box marginRight={1} display="flex">
-                  {item.solution.includes(o) ? (
+                  {o && item.solution.includes(o) ? (
                     <CheckBoxIcon color="disabled" />
                   ) : (
                     <CheckBoxOutlineBlankIcon color="disabled" />

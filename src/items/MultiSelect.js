@@ -51,7 +51,7 @@ export default function MultiSelect({
     // if option is checked, uncheck it
     if (newValue.includes(option))
       newValue = newValue.filter((o) => o !== option);
-    // otherwise, uncheck it
+    // otherwise, check it
     else newValue = [...newValue, option];
     // update state
     onChangeAnswer(item.id, newValue);
