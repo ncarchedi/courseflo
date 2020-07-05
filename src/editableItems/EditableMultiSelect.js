@@ -30,25 +30,25 @@ export default function EditableMultiSelect({ item, onFocus, onChangeItem }) {
   };
 
   const handleChangeOption = (index, value) => {
-    const options = [...item.options];
+    const options = [...values.options];
     options[index] = value;
     setValues({ ...item, options });
   };
 
   const handleAddOption = () => {
-    const options = [...item.options];
+    const options = [...values.options];
     options.push("");
     setValues({ ...item, options });
   };
 
   const handleDeleteOption = (index) => {
-    const options = [...item.options];
+    const options = [...values.options];
     options.splice(index, 1);
     setValues({ ...item, options });
   };
 
   const handleChangeSolution = (option) => {
-    let newSolution = item.solution;
+    let newSolution = values.solution;
     // if option is checked, uncheck it
     if (newSolution.includes(option))
       newSolution = newSolution.filter((o) => o !== option);

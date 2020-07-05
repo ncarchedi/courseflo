@@ -30,19 +30,19 @@ export default function EditableSingleSelect({ item, onFocus, onChangeItem }) {
   };
 
   const handleChangeOption = (index, value) => {
-    const options = [...item.options];
+    const options = [...values.options];
     options[index] = value;
     setValues({ ...item, options });
   };
 
   const handleAddOption = () => {
-    const options = [...item.options];
+    const options = [...values.options];
     options.push("");
     setValues({ ...item, options });
   };
 
   const handleDeleteOption = (index) => {
-    const options = [...item.options];
+    const options = [...values.options];
     options.splice(index, 1);
     setValues({ ...item, options });
   };
