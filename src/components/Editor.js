@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useParams } from "react-router-dom";
+import moment from "moment";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
@@ -56,25 +57,59 @@ export default function Editor() {
   const [showSettingsModal, setShowSettingsModal] = useState(false);
 
   useEffect(() => {
-    getCourseFromFirestore(courseId)
-      .then((course) => {
-        if (course.exists) {
-          // extract the course data
-          const courseData = course.data();
-          // if proper settings aren't set, set defaults
-          const courseDataWithSettings = addDefaultSettings(courseData);
-          // load into state
-          setCourse(courseDataWithSettings);
-          // update the browser tab title dynamically
-          document.title = courseData.title;
-        } else {
-          setShow404(true);
-        }
-      })
-      .catch((error) =>
-        console.error("Error loading course from Firestore:", error)
-      );
+    let courseData;
+
+    // check local storage first
+    const localCourses = JSON.parse(localStorage.getItem("courses"));
+    if (localCourses && localCourses[courseId]) {
+      courseData = localCourses[courseId];
+      // if proper settings aren't set, set defaults
+      const courseDataWithSettings = addDefaultSettings(courseData);
+      // load into state
+      setCourse(courseDataWithSettings);
+      // update the browser tab title dynamically
+      document.title = courseData.title;
+    } else {
+      // if not in local storage, fetch from firestore
+      getCourseFromFirestore(courseId)
+        .then((course) => {
+          if (course.exists) {
+            // extract the course data
+            courseData = course.data();
+            // if proper settings aren't set, set defaults
+            const courseDataWithSettings = addDefaultSettings(courseData);
+            // load into state
+            setCourse(courseDataWithSettings);
+            // update the browser tab title dynamically
+            document.title = courseData.title;
+          } else {
+            setShow404(true);
+          }
+        })
+        .catch((error) =>
+          console.error("Error loading course from Firestore:", error)
+        );
+    }
   }, [courseId]);
+
+  useEffect(() => {
+    if (course) {
+      // get local courses
+      const localCourses = JSON.parse(localStorage.getItem("courses"));
+
+      // update the current course in local storage
+      localStorage.setItem(
+        "courses",
+        JSON.stringify({
+          ...localCourses,
+          [courseId]: {
+            ...course,
+            updated: moment().format(),
+          },
+        })
+      );
+    }
+  }, [courseId, course]);
 
   const handleChangeTitle = (title) => {
     setCourse({ ...course, title });
@@ -118,6 +153,12 @@ export default function Editor() {
   };
 
   const handleRestore = () => {
+    // get local courses
+    const localCourses = JSON.parse(localStorage.getItem("courses"));
+    // remove course from local storage
+    delete localCourses[courseId];
+    localStorage.setItem("courses", JSON.stringify(localCourses));
+    // reload the page
     window.location.reload();
   };
 
@@ -132,11 +173,11 @@ export default function Editor() {
     [currentItemId, course]
   );
 
-  // show loading indicator before the course loads
-  if (!course) return <LoadingScreen />;
-
   // if the course isn't found, show 404
   if (show404) return <NotFound type="course" />;
+
+  // show loading indicator before the course loads
+  if (!course) return <LoadingScreen />;
 
   return (
     <>
