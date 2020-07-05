@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Box from "@material-ui/core/Box";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
+import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import ClearIcon from "@material-ui/icons/Clear";
@@ -60,9 +61,11 @@ export default function EditableMultiSelect({ item, onFocus, onChangeItem }) {
             onFocus={() => onFocus(values.id)}
           />
           <Box>
-            <IconButton onClick={() => handleDeleteOption(index)}>
-              <ClearIcon />
-            </IconButton>
+            <Tooltip title="Delete">
+              <IconButton onClick={() => handleDeleteOption(index)}>
+                <ClearIcon />
+              </IconButton>
+            </Tooltip>
           </Box>
         </Box>
       ))}
