@@ -6,8 +6,8 @@ export default function isAnswerCorrect(answer, solution) {
   // if the answer is null, empty, etc.
   if (!ans) return false;
 
-  // if the solution is an array...
   if (typeof sol === "object") {
+    // if the solution is an array...
     // they must be the same length
     if (ans.length !== sol.length) return false;
 
@@ -19,12 +19,16 @@ export default function isAnswerCorrect(answer, solution) {
     for (var i = 0; i < sol.length; i++) {
       if (ans[i] !== sol[i]) return false;
     }
-    // if the solution is not an array...
   } else {
-    if (ans.toString().toLowerCase() !== sol.toString().toLowerCase())
+    // if the solution is not an array...
+    if (
+      // ignore leading/trailing whitespace and caps
+      ans.toString().trim().toLowerCase() !==
+      sol.toString().trim().toLowerCase()
+    )
       return false;
   }
 
-  // if all checks are passed, the the answer is correct
+  // if all checks are passed, the answer is correct
   return true;
 }

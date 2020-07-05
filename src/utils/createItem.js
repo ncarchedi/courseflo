@@ -15,7 +15,7 @@ export default function createItem(type) {
         id: uuidv4(),
         type: type,
         title: "New text item",
-        body: "Body text here",
+        body: "",
       };
       break;
     case "Video":
@@ -57,9 +57,9 @@ export default function createItem(type) {
         id: uuidv4(),
         type: type,
         prompt: "New single select item",
-        hint: "Hint here",
-        options: ["Option 1", "Option 2", "Option 3", "Option 4"],
-        solution: "Option 3",
+        hint: "",
+        options: [""],
+        solution: "",
       };
       break;
     case "MultiSelect":
@@ -67,9 +67,9 @@ export default function createItem(type) {
         id: uuidv4(),
         type: type,
         prompt: "New multiple select item",
-        hint: "Hint here",
-        options: ["Option 1", "Option 2", "Option 3", "Option 4"],
-        solution: ["Option 2", "Option 4"],
+        hint: "",
+        options: [""],
+        solution: [],
       };
       break;
     case "TextInput":
@@ -77,8 +77,8 @@ export default function createItem(type) {
         id: uuidv4(),
         type: type,
         prompt: "New text input item",
-        hint: "Hint here",
-        solution: "Solution here",
+        hint: "",
+        solution: "",
       };
       break;
     default:

@@ -39,7 +39,7 @@ export default function EditableItemHeader({
         <TextField
           variant="filled"
           name={values.title ? "title" : "prompt"}
-          placeholder={values.title ? "Title" : "Prompt"}
+          placeholder={values.title ? "Title" : "Question"}
           value={values.title ? values.title : values.prompt}
           onChange={handleChange}
           // match style of item header
