@@ -14,7 +14,7 @@ export default function EditableTextInput({ item, onFocus, onChangeItem }) {
   };
 
   return (
-    <form>
+    <form onFocus={() => onFocus(values.id)}>
       <TextField
         name="image"
         label="Image (optional)"
@@ -23,7 +23,6 @@ export default function EditableTextInput({ item, onFocus, onChangeItem }) {
         margin="normal"
         multiline
         fullWidth
-        onFocus={() => onFocus(values.id)}
       />
       <TextField
         name="solution"
@@ -33,7 +32,6 @@ export default function EditableTextInput({ item, onFocus, onChangeItem }) {
         margin="normal"
         multiline
         fullWidth
-        onFocus={() => onFocus(values.id)}
       />
       <TextField
         name="hint"
@@ -43,7 +41,6 @@ export default function EditableTextInput({ item, onFocus, onChangeItem }) {
         margin="normal"
         multiline
         fullWidth
-        onFocus={() => onFocus(values.id)}
       />
     </form>
   );
