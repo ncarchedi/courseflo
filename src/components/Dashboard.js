@@ -118,7 +118,8 @@ export default function Dashboard() {
   // todo: confirm browser coverage is sufficient
   const handleShare = (courseId) => {
     setSnackbarOpen(true);
-    navigator.clipboard.writeText(`https://courseflo.com/course/${courseId}`);
+    const courseUrl = `${window.location.origin}/course/${courseId}`;
+    navigator.clipboard.writeText(courseUrl);
   };
 
   const handleDelete = (courseId) => {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useRouteMatch } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -29,14 +29,15 @@ export default function CourseHeader({
   setShowFeedbackModal,
 }) {
   const classes = useStyles();
-  let { url } = useRouteMatch();
+  let { courseId } = useParams();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   // https://stackoverflow.com/a/52033479/2338922
   // todo: confirm browser coverage is sufficient
   const handleCopy = () => {
     setSnackbarOpen(true);
-    navigator.clipboard.writeText(`https://courseflo.com${url}`);
+    const courseUrl = `${window.location.origin}/course/${courseId}`;
+    navigator.clipboard.writeText(courseUrl);
   };
 
   const toggleView = () => {

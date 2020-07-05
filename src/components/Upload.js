@@ -115,7 +115,7 @@ export default function Upload() {
   const { ref, ...rootProps } = getRootProps();
 
   // construct url to course
-  const courseURL = `https://courseflo.com/course/${courseId}`;
+  const courseUrl = `${window.location.origin}/course/${courseId}`;
 
   return (
     <Container className={classes.container} maxWidth="sm">
@@ -131,7 +131,7 @@ export default function Upload() {
             variant="outlined"
             inputRef={inputRef}
             onFocus={(e) => e.target.select()}
-            value={courseURL}
+            value={courseUrl}
             InputProps={{
               readOnly: true,
               endAdornment: (
@@ -146,7 +146,7 @@ export default function Upload() {
           />
           <Button
             className={classes.button}
-            href={courseURL}
+            href={courseUrl}
             target="_blank"
             rel="noopener"
             variant="contained"

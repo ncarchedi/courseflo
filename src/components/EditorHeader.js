@@ -56,7 +56,7 @@ export default function Header({
   // if (user && user.uid !== userId) return <NotFound type="page" />;
 
   // create course URL
-  const courseUrl = `https://courseflo.com/course/${courseId}`;
+  const courseUrl = `${window.location.origin}/course/${courseId}`;
 
   const handleChangeTitle = (e) => {
     setTitle(e.target.value);
