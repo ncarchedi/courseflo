@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Link as RouterLink, useRouteMatch } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { makeStyles, useTheme } from "@material-ui/styles";
@@ -54,6 +54,24 @@ export default function ItemList({
   let { url } = useRouteMatch();
   const theme = useTheme();
   const notOnMobile = useMediaQuery(theme.breakpoints.up("sm"));
+  const continueRef = useRef(null);
+
+  useEffect(() => {
+    // if the ref exists, create keyboard shortcut
+    if (continueRef && continueRef.current) {
+      const listener = (event) => {
+        if (event.code === "Enter" || event.code === "NumpadEnter") {
+          event.preventDefault();
+          continueRef.current.click();
+        }
+      };
+      document.addEventListener("keydown", listener);
+
+      return () => {
+        document.removeEventListener("keydown", listener);
+      };
+    }
+  });
 
   // if there are no items to show, show empty screen
   if (!items.length) return <NoItems />;
@@ -105,6 +123,7 @@ export default function ItemList({
         <Zoom in>
           {itemNumber < items.length - 1 ? (
             <Fab
+              ref={continueRef}
               className={classes.fabRight}
               onClick={() => setItemNumber(itemNumber + 1)}
               variant={notOnMobile ? "extended" : "round"}
@@ -121,6 +140,7 @@ export default function ItemList({
             </Fab>
           ) : (
             <Fab
+              ref={continueRef}
               className={classes.fabRight}
               component={RouterLink}
               to={`${url}/score`}
