@@ -57,16 +57,18 @@ export default function AddItemFab({ onAddItem }) {
   const [open, setOpen] = React.useState(false);
 
   const handleClick = (type) => {
-    handleClose();
     onAddItem(type);
-  };
-
-  const handleClose = () => {
     setOpen(false);
   };
 
-  const handleOpen = () => {
-    setOpen(true);
+  const handleClose = (event, reason) => {
+    // close on click, blur, or esc keydown
+    if (["toggle", "blur", "escapeKeyDown"].includes(reason)) setOpen(false);
+  };
+
+  const handleOpen = (event, reason) => {
+    // open only on click
+    if (reason === "toggle") setOpen(true);
   };
 
   return (

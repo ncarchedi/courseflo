@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
-import AddIcon from "@material-ui/icons/Add";
+import AddCircleOutlineOutlinedIcon from "@material-ui/icons/AddCircleOutlineOutlined";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -23,9 +23,13 @@ export default function NoItems({ editing }) {
           component="span"
           display="flex"
           justifyContent="center"
-          alignItems="flex-end"
+          alignItems="center"
         >
-          Use the <AddIcon /> icon below to add your first item
+          Use the
+          <Box component="span" mx={0.25}>
+            <AddCircleOutlineOutlinedIcon />
+          </Box>
+          button below to add your first item
         </Box>
       </Typography>
     </Box>
