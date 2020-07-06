@@ -25,12 +25,3 @@
 --
 
 - START USING GITHUB ISSUES!!!
-
----
-
-agenda for scott:
-
-- status update from his end
-- timeline for launching orientation
-- reason for multiple copies (google classroom, schoology, etc.)?
-- english / spanish translations (some content english-only?)
