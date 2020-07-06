@@ -32,7 +32,7 @@ export default function getItemMetadata(item, editable) {
   switch (item.type) {
     // email is a special item
     case "Email":
-      helperText = null;
+      helperText = "Required";
       Component = Email;
       break;
     case "Text":

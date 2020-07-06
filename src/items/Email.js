@@ -6,7 +6,7 @@ export default function Email({ userEmail, setUserEmail, showSolution }) {
     <TextField
       value={userEmail}
       onChange={(e) => setUserEmail(e.target.value)}
-      placeholder="Type your email here..."
+      placeholder="someone@example.com"
       fullWidth
       disabled={showSolution}
     />
