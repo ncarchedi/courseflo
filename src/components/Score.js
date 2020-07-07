@@ -41,14 +41,15 @@ export default function Score({ message, finalCta, answers }) {
   const coursePath = `/course/${courseId}`;
   if (!answers) return <Redirect to={coursePath} />;
 
-  const { numCorrect, numTotal } = computeScoreFromAnswers(answers);
-  const percentCorrect = ((numCorrect / numTotal) * 100).toFixed(0);
+  const { numCorrect, numTotal, percCorrect } = computeScoreFromAnswers(
+    answers
+  );
 
   return (
     <Paper className={classes.container} elevation={2}>
       <Typography className={classes.scoreText} variant="h4" color="primary">
         {numTotal > 0
-          ? `Your Score: ${numCorrect}/${numTotal} (${percentCorrect}%)`
+          ? `Your Score: ${numCorrect}/${numTotal} (${percCorrect}%)`
           : "You're all done"}
       </Typography>
       <Typography className={classes.messageText} variant="h6">

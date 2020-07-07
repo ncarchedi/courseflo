@@ -22,10 +22,12 @@ const cleanSubmissions = (submissions) => {
   return submissions.map((sub) => ({
     email: sub.userEmail,
     timestamp: moment(sub.timestamp.toDate()).format("YYYY-MM-DD hh:mm a"),
-    numQuestions: sub.score.numTotal,
     numCorrect: sub.score.numCorrect,
-    percCorrect: Math.round((sub.score.numCorrect / sub.score.numTotal) * 100),
+    numQuestions: sub.score.numTotal,
+    percCorrect: sub.score.percCorrect,
   }));
+  // // submissions before this date didn't have all the data yet
+  // .filter((sub) => moment(sub.timestamp).isAfter("2020-07-06", "day"))
 };
 
 export default function Analytics({
