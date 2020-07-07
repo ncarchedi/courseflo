@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
 import Button from "@material-ui/core/Button";
+import Tooltip from "@material-ui/core/Tooltip";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -40,10 +41,12 @@ export default function ReorderItemsDialog({
   const SortableItem = SortableElement(({ item }) => (
     <ListItem className={classes.listItem}>
       <ListItemIcon>{getItemIcon(item.type)}</ListItemIcon>
-      <ListItemText
-        primary={renderHtmlFromString(item.title || item.prompt)}
-        primaryTypographyProps={{ noWrap: true }}
-      />
+      <Tooltip title={renderHtmlFromString(item.title || item.prompt)}>
+        <ListItemText
+          primary={renderHtmlFromString(item.title || item.prompt)}
+          primaryTypographyProps={{ noWrap: true }}
+        />
+      </Tooltip>
     </ListItem>
   ));
 
