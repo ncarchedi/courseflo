@@ -17,7 +17,7 @@ export default function EditableVideo({ item, onFocus, onChangeItem }) {
     <form>
       <TextField
         name="source"
-        label="YouTube URL"
+        label="Video URL"
         value={values.source}
         onChange={handleChange}
         margin="normal"

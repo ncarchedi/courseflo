@@ -23,7 +23,7 @@ export default function createItem(type) {
         id: uuidv4(),
         type: type,
         title: "New video item",
-        source: "https://www.youtube-nocookie.com/embed/1s58rW0_LN4",
+        source: "https://player.vimeo.com/video/435845870",
       };
       break;
     case "YouTube":

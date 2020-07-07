@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 const items = [
   { type: "Text", name: "Text", icon: getItemIcon("Text") },
   { type: "YouTube", name: "YouTube Video", icon: getItemIcon("YouTube") },
+  { type: "Video", name: "Video (Non-YouTube)", icon: getItemIcon("YouTube") },
   { type: "Document", name: "Document", icon: getItemIcon("Document") },
   { type: "Image", name: "Image", icon: getItemIcon("Image") },
   {
