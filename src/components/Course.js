@@ -70,7 +70,7 @@ export default function Course() {
   // save answers to firebase when user submits
   useEffect(() => {
     if (showSolutions && courseId) {
-      saveSubmissionToFirestore(courseId, userEmail, answers);
+      saveSubmissionToFirestore(courseId, userEmail, answers, course);
     }
   }, [courseId, userEmail, answers, showSolutions]);
 
