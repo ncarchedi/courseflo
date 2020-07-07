@@ -127,6 +127,8 @@ export default function ItemList({
               className={classes.fabRight}
               onClick={() => setItemNumber(itemNumber + 1)}
               variant={notOnMobile ? "extended" : "round"}
+              // force user to enter email before continuing
+              disabled={item.type === "Email" && !userEmail}
               color="primary"
               aria-label="continue"
             >

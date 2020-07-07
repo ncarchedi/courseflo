@@ -11,8 +11,8 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
-import ViewAgendaOutlinedIcon from "@material-ui/icons/ViewAgendaOutlined";
-import Crop75OutlinedIcon from "@material-ui/icons/Crop75Outlined";
+// import ViewAgendaOutlinedIcon from "@material-ui/icons/ViewAgendaOutlined";
+// import Crop75OutlinedIcon from "@material-ui/icons/Crop75Outlined";
 import ProgressBar from "./ProgressBar";
 
 const useStyles = makeStyles((theme) => ({
@@ -40,9 +40,9 @@ export default function CourseHeader({
     navigator.clipboard.writeText(courseUrl);
   };
 
-  const toggleView = () => {
-    setOrientation(orientation === "horizontal" ? "vertical" : "horizontal");
-  };
+  // const toggleView = () => {
+  //   setOrientation(orientation === "horizontal" ? "vertical" : "horizontal");
+  // };
 
   return (
     <>
@@ -57,7 +57,7 @@ export default function CourseHeader({
             {courseTitle}
           </Typography>
           <Box display="flex" alignItems="center">
-            {progress !== 100 && (
+            {/* {progress !== 100 && (
               <Tooltip title="Toggle View">
                 <IconButton color="inherit" onClick={toggleView}>
                   {orientation === "horizontal" ? (
@@ -67,7 +67,7 @@ export default function CourseHeader({
                   )}
                 </IconButton>
               </Tooltip>
-            )}
+            )} */}
             <Tooltip title="Share Course">
               <IconButton color="inherit" onClick={handleCopy}>
                 <ShareOutlinedIcon />
