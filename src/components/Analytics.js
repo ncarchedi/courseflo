@@ -19,15 +19,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const cleanSubmissions = (submissions) => {
-  return submissions.map((sub) => ({
-    email: sub.userEmail,
-    timestamp: moment(sub.timestamp.toDate()).format("YYYY-MM-DD hh:mm a"),
-    numCorrect: sub.score.numCorrect,
-    numQuestions: sub.score.numTotal,
-    percCorrect: sub.score.percCorrect,
-  }));
-  // // submissions before this date didn't have all the data yet
-  // .filter((sub) => moment(sub.timestamp).isAfter("2020-07-06", "day"))
+  return (
+    submissions
+      // ignore submissions before we included `course`
+      .filter((sub) => sub.course)
+      .map((sub) => ({
+        email: sub.userEmail,
+        timestamp: moment(sub.timestamp.toDate()).format("YYYY-MM-DD hh:mm a"),
+        numCorrect: sub.score.numCorrect,
+        numQuestions: sub.score.numTotal,
+        percCorrect: sub.score.percCorrect,
+      }))
+  );
 };
 
 export default function Analytics({
