@@ -92,6 +92,7 @@ export default function TextInput({
         onChange={handleChange}
         placeholder="Type your answer here..."
         fullWidth
+        autoFocus={!item.image} // only if it won't force scroll
       />
     </>
   );

@@ -11,8 +11,6 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
-import ViewAgendaOutlinedIcon from "@material-ui/icons/ViewAgendaOutlined";
-import Crop75OutlinedIcon from "@material-ui/icons/Crop75Outlined";
 import ProgressBar from "./ProgressBar";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,8 +22,7 @@ const useStyles = makeStyles((theme) => ({
 export default function CourseHeader({
   courseTitle,
   progress,
-  orientation,
-  setOrientation,
+  showProgress,
   setShowFeedbackModal,
 }) {
   const classes = useStyles();
@@ -38,10 +35,6 @@ export default function CourseHeader({
     setSnackbarOpen(true);
     const courseUrl = `${window.location.origin}/course/${courseId}`;
     navigator.clipboard.writeText(courseUrl);
-  };
-
-  const toggleView = () => {
-    setOrientation(orientation === "horizontal" ? "vertical" : "horizontal");
   };
 
   return (
@@ -57,17 +50,6 @@ export default function CourseHeader({
             {courseTitle}
           </Typography>
           <Box display="flex" alignItems="center">
-            {progress !== 100 && (
-              <Tooltip title="Toggle View">
-                <IconButton color="inherit" onClick={toggleView}>
-                  {orientation === "horizontal" ? (
-                    <ViewAgendaOutlinedIcon />
-                  ) : (
-                    <Crop75OutlinedIcon />
-                  )}
-                </IconButton>
-              </Tooltip>
-            )}
             <Tooltip title="Share Course">
               <IconButton color="inherit" onClick={handleCopy}>
                 <ShareOutlinedIcon />
@@ -84,8 +66,7 @@ export default function CourseHeader({
             </Tooltip>
           </Box>
         </Toolbar>
-        {/* only show progress bar for horizontal orientation */}
-        {orientation === "horizontal" && <ProgressBar value={progress} />}
+        {showProgress && <ProgressBar value={progress} />}
       </AppBar>
       {/* second toolbar due to: https://material-ui.com/components/app-bar/#fixed-placement */}
       <Toolbar />

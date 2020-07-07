@@ -8,6 +8,7 @@ export default function Email({ userEmail, setUserEmail, showSolution }) {
       onChange={(e) => setUserEmail(e.target.value)}
       placeholder="someone@example.com"
       fullWidth
+      autoFocus
       disabled={showSolution}
     />
   );
