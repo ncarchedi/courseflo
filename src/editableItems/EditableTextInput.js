@@ -35,7 +35,7 @@ export default function EditableTextInput({ item, onFocus, onChangeItem }) {
       />
       <TextField
         name="hint"
-        label="Hint (Optional)"
+        label="Hint (optional)"
         value={values.hint}
         onChange={handleChange}
         margin="normal"
