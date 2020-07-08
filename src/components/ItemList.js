@@ -56,22 +56,22 @@ export default function ItemList({
   const notOnMobile = useMediaQuery(theme.breakpoints.up("sm"));
   const continueRef = useRef(null);
 
-  useEffect(() => {
-    // if the ref exists, create keyboard shortcut
-    if (continueRef && continueRef.current) {
-      const listener = (event) => {
-        if (event.code === "Enter" || event.code === "NumpadEnter") {
-          event.preventDefault();
-          continueRef.current.click();
-        }
-      };
-      document.addEventListener("keydown", listener);
+  // useEffect(() => {
+  //   // if the ref exists, create keyboard shortcut
+  //   if (continueRef && continueRef.current) {
+  //     const listener = (event) => {
+  //       if (event.code === "Enter" || event.code === "NumpadEnter") {
+  //         event.preventDefault();
+  //         continueRef.current.click();
+  //       }
+  //     };
+  //     document.addEventListener("keydown", listener);
 
-      return () => {
-        document.removeEventListener("keydown", listener);
-      };
-    }
-  });
+  //     return () => {
+  //       document.removeEventListener("keydown", listener);
+  //     };
+  //   }
+  // });
 
   // if there are no items to show, show empty screen
   if (!items.length) return <NoItems />;
