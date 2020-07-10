@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link as RouterLink, useRouteMatch } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import Box from "@material-ui/core/Box";
@@ -49,7 +48,6 @@ export default function ItemViewer({
   setUserEmail,
 }) {
   const classes = useStyles();
-  let { url } = useRouteMatch();
   const theme = useTheme();
   const notOnMobile = useMediaQuery(theme.breakpoints.up("sm"));
   const [jumpToDialogOpen, setJumpToDialogOpen] = useState(false);
@@ -86,147 +84,107 @@ export default function ItemViewer({
     }, 500);
   };
 
-  // for horizontal orientation
-  if (orientation === "horizontal") {
-    const item = items[itemNumber];
-    if (!item) return null;
-    return (
-      <>
-        <Box className={classes.item}>
-          <Item
-            key={item.id}
-            item={item}
-            answer={answers && answers.filter((a) => a.itemId === item.id)[0]}
-            onChangeAnswer={onChangeAnswer}
-            showSolution={showSolutions}
-            userEmail={userEmail}
-            setUserEmail={setUserEmail}
-          />
-        </Box>
+  const item = items[itemNumber];
+  if (!item) return null;
 
-        <Box className={classes.fabContainer}>
-          {/* Go back button */}
-          <Box minWidth={notOnMobile ? 150 : 0}>
-            {itemNumber > 0 && !showSolutions && (
-              <Zoom in>
-                <Fab
-                  onClick={() => setItemNumber(itemNumber - 1)}
-                  variant={notOnMobile ? "extended" : "round"}
-                  color="primary"
-                  aria-label="go back"
-                >
-                  {notOnMobile ? (
-                    <>
-                      <ArrowBackIcon className={classes.fabLeftIcon} /> Go back
-                    </>
-                  ) : (
-                    <ArrowBackIcon />
-                  )}
-                </Fab>
-              </Zoom>
-            )}
-          </Box>
-
-          {/* Jump to button */}
-          <Box>
-            {notOnMobile && (
-              <Zoom in>
-                <Fab
-                  onClick={() => setJumpToDialogOpen(true)}
-                  variant="extended"
-                  color="primary"
-                  disabled={item.type === "Email" && !userEmail}
-                  aria-label="jump to..."
-                >
-                  Jump to...
-                </Fab>
-              </Zoom>
-            )}
-          </Box>
-
-          {/* Continue button */}
-          <Box minWidth={notOnMobile ? 150 : 0}>
-            <Zoom in>
-              {itemNumber < items.length - 1 ? (
-                <Fab
-                  // ref={continueRef}
-                  onClick={() => setItemNumber(itemNumber + 1)}
-                  variant={notOnMobile ? "extended" : "round"}
-                  // force user to enter email before continuing
-                  disabled={item.type === "Email" && !userEmail}
-                  color="primary"
-                  aria-label="continue"
-                >
-                  {notOnMobile ? (
-                    <>
-                      Continue{" "}
-                      <ArrowForwardIcon className={classes.fabRightIcon} />
-                    </>
-                  ) : (
-                    <ArrowForwardIcon />
-                  )}
-                </Fab>
-              ) : (
-                <Fab
-                  // ref={continueRef}
-                  onClick={() => setOpenCompleteCourseDialog(true)}
-                  variant="extended"
-                  color="primary"
-                  aria-label="submit"
-                >
-                  {showSolutions ? "Back to my score" : "I'm all done!"}
-                  <ArrowForwardIcon className={classes.fabRightIcon} />
-                </Fab>
-              )}
-            </Zoom>
-          </Box>
-        </Box>
-        <JumpToItemDialog
-          items={items}
-          itemNumber={itemNumber}
-          setItemNumber={setItemNumber}
-          open={jumpToDialogOpen}
-          setOpen={setJumpToDialogOpen}
-        />
-        <CompleteCourseDialog
-          onSubmit={handleFinishCourse}
-          open={openCompleteCourseDialog}
-          setOpen={setOpenCompleteCourseDialog}
-        />
-      </>
-    );
-  }
-
-  // for vertical orientation
   return (
     <>
-      {items.map((item) => (
-        <Box key={item.id} className={classes.item}>
-          <Item
-            item={item}
-            answer={answers && answers.filter((a) => a.itemId === item.id)[0]}
-            onChangeAnswer={onChangeAnswer}
-            showSolution={showSolutions}
-            userEmail={userEmail}
-            setUserEmail={setUserEmail}
-          />
-        </Box>
-      ))}
-      <Box className={`${classes.fabContainer} ${classes.justifyRight}`}>
-        <Zoom in>
-          <Fab
-            component={RouterLink}
-            to={`${url}/score`}
-            onClick={handleFinishCourse}
-            variant="extended"
-            color="primary"
-            aria-label="submit"
-          >
-            {showSolutions ? "Back to my score" : "I'm all done!"}
-            <ArrowForwardIcon className={classes.fabRightIcon} />
-          </Fab>
-        </Zoom>
+      <Box className={classes.item}>
+        <Item
+          key={item.id}
+          item={item}
+          answer={answers && answers.filter((a) => a.itemId === item.id)[0]}
+          onChangeAnswer={onChangeAnswer}
+          showSolution={showSolutions}
+          userEmail={userEmail}
+          setUserEmail={setUserEmail}
+        />
       </Box>
+
+      <Box className={classes.fabContainer}>
+        {/* Go back button */}
+        <Box minWidth={notOnMobile ? 150 : 0}>
+          {itemNumber > 0 && !showSolutions && (
+            <Zoom in>
+              <Fab
+                onClick={() => setItemNumber(itemNumber - 1)}
+                variant={notOnMobile ? "extended" : "round"}
+                color="primary"
+                aria-label="go back"
+              >
+                {notOnMobile ? (
+                  <>
+                    <ArrowBackIcon className={classes.fabLeftIcon} /> Go back
+                  </>
+                ) : (
+                  <ArrowBackIcon />
+                )}
+              </Fab>
+            </Zoom>
+          )}
+        </Box>
+
+        {/* Jump to button */}
+        <Box>
+          {notOnMobile && (
+            <Zoom in>
+              <Fab
+                onClick={() => setJumpToDialogOpen(true)}
+                variant="extended"
+                color="primary"
+                disabled={item.type === "Email" && !userEmail}
+                aria-label="jump to..."
+              >
+                Jump to...
+              </Fab>
+            </Zoom>
+          )}
+        </Box>
+
+        {/* Continue button */}
+        <Box minWidth={notOnMobile ? 150 : 0}>
+          <Zoom in>
+            {itemNumber < items.length - 1 ? (
+              <Fab
+                // ref={continueRef}
+                onClick={() => setItemNumber(itemNumber + 1)}
+                variant={notOnMobile ? "extended" : "round"}
+                // force user to enter email before continuing
+                disabled={item.type === "Email" && !userEmail}
+                color="primary"
+                aria-label="continue"
+              >
+                {notOnMobile ? (
+                  <>
+                    Continue{" "}
+                    <ArrowForwardIcon className={classes.fabRightIcon} />
+                  </>
+                ) : (
+                  <ArrowForwardIcon />
+                )}
+              </Fab>
+            ) : (
+              <Fab
+                // ref={continueRef}
+                onClick={() => setOpenCompleteCourseDialog(true)}
+                variant="extended"
+                color="primary"
+                aria-label="submit"
+              >
+                {showSolutions ? "Back to my score" : "I'm all done!"}
+                <ArrowForwardIcon className={classes.fabRightIcon} />
+              </Fab>
+            )}
+          </Zoom>
+        </Box>
+      </Box>
+      <JumpToItemDialog
+        items={items}
+        itemNumber={itemNumber}
+        setItemNumber={setItemNumber}
+        open={jumpToDialogOpen}
+        setOpen={setJumpToDialogOpen}
+      />
       <CompleteCourseDialog
         onSubmit={handleFinishCourse}
         open={openCompleteCourseDialog}
