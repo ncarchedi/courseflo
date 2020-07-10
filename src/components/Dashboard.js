@@ -18,6 +18,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import TimelineOutlinedIcon from "@material-ui/icons/TimelineOutlined";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
+import FileCopyOutlinedIcon from "@material-ui/icons/FileCopyOutlined";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import UpdateIcon from "@material-ui/icons/Update";
@@ -29,6 +30,7 @@ import Analytics from "./Analytics";
 import UserContext from "../context/UserContext";
 import SubscriberContext from "../context/SubscriberContext";
 import createCourse from "../utils/createCourse";
+import duplicateCourse from "../utils/duplicateCourse";
 import {
   getUserCoursesFromFirestore,
   saveCourseToFirestore,
@@ -41,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     minHeight: 190,
+    height: "100%",
     textAlign: "center",
     display: "flex",
     flexDirection: "column",
@@ -122,6 +125,18 @@ export default function Dashboard() {
     navigator.clipboard.writeText(courseUrl);
   };
 
+  const handleDuplicate = (courseId) => {
+    const originalCourse = courses.filter(
+      (course) => course.id === courseId
+    )[0];
+    const newCourse = duplicateCourse(originalCourse);
+    saveCourseToFirestore(newCourse)
+      .then((docRef) => setNewCourseId(docRef.id))
+      .catch((error) =>
+        console.error("Error saving course to Firestore:", error)
+      );
+  };
+
   const handleDelete = (courseId) => {
     setCourses(courses.filter((course) => course.id !== courseId));
     deleteCourseInFirestore(courseId);
@@ -171,6 +186,11 @@ export default function Dashboard() {
           <Tooltip title="Share">
             <IconButton color="inherit" onClick={() => handleShare(id)}>
               <ShareOutlinedIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Duplicate">
+            <IconButton color="inherit" onClick={() => handleDuplicate(id)}>
+              <FileCopyOutlinedIcon />
             </IconButton>
           </Tooltip>
           <Tooltip title="Delete">
