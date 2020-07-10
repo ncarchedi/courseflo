@@ -25,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
   },
+  justifyRight: {
+    justifyContent: "flex-end",
+  },
   fabLeftIcon: {
     marginRight: theme.spacing(1),
   },
@@ -46,6 +49,7 @@ export default function ItemList({
   setUserEmail,
 }) {
   const classes = useStyles();
+  let { url } = useRouteMatch();
   const theme = useTheme();
   const notOnMobile = useMediaQuery(theme.breakpoints.up("sm"));
   const [jumpToDialogOpen, setJumpToDialogOpen] = useState(false);
@@ -165,7 +169,6 @@ export default function ItemList({
               ) : (
                 <Fab
                   // ref={continueRef}
-                  className={classes.fabRight}
                   onClick={() => setOpenCompleteCourseDialog(true)}
                   variant="extended"
                   color="primary"
@@ -209,18 +212,21 @@ export default function ItemList({
           />
         </Box>
       ))}
-      <Zoom in>
-        <Fab
-          className={classes.fabRight}
-          onClick={() => setOpenCompleteCourseDialog(true)}
-          variant="extended"
-          color="primary"
-          aria-label="submit"
-        >
-          {showSolutions ? "Back to my score" : "I'm all done!"}
-          <ArrowForwardIcon className={classes.fabRightIcon} />
-        </Fab>
-      </Zoom>
+      <Box className={`${classes.fabContainer} ${classes.justifyRight}`}>
+        <Zoom in>
+          <Fab
+            component={RouterLink}
+            to={`${url}/score`}
+            onClick={handleFinishCourse}
+            variant="extended"
+            color="primary"
+            aria-label="submit"
+          >
+            {showSolutions ? "Back to my score" : "I'm all done!"}
+            <ArrowForwardIcon className={classes.fabRightIcon} />
+          </Fab>
+        </Zoom>
+      </Box>
       <CompleteCourseDialog
         onSubmit={handleFinishCourse}
         openCompleteCourseDialog={openCompleteCourseDialog}
