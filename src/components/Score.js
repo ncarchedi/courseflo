@@ -56,15 +56,17 @@ export default function Score({ showScore, message, finalCta, answers }) {
         {message}
       </Typography>
       <Box>
-        <Button
-          className={classes.button}
-          component={RouterLink}
-          to={coursePath}
-          variant="outlined"
-          color="primary"
-        >
-          Review my answers
-        </Button>
+        {showScore && (
+          <Button
+            className={classes.button}
+            component={RouterLink}
+            to={coursePath}
+            variant="outlined"
+            color="primary"
+          >
+            Review my answers
+          </Button>
+        )}
         {finalCta && (
           <Button
             className={classes.button}
