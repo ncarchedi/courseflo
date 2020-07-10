@@ -43,9 +43,7 @@ export default function ReorderItemsDialog({
       <ListItemIcon>{getItemIcon(item.type)}</ListItemIcon>
       <Tooltip title={renderHtmlFromString(item.title || item.prompt)}>
         <ListItemText
-          primary={`${itemIndex + 1}. ${renderHtmlFromString(
-            item.title || item.prompt
-          )}`}
+          primary={renderHtmlFromString(item.title || item.prompt)}
           primaryTypographyProps={{ noWrap: true }}
         />
       </Tooltip>
