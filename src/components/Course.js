@@ -32,7 +32,6 @@ export default function Course() {
   const [showSolutions, setShowSolutions] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [show404, setShow404] = useState(false);
-  const [orientation, setOrientation] = useState("horizontal");
   const [itemNumber, setItemNumber] = useState(0);
 
   useEffect(() => {
@@ -75,12 +74,6 @@ export default function Course() {
     }
   }, [courseId, userEmail, answers, course, showSolutions]);
 
-  // if answers are shown, switch to vertical view mode
-  // and set progress percentage to 100
-  useEffect(() => {
-    if (showSolutions) setOrientation("vertical");
-  }, [showSolutions]);
-
   const getSolution = (itemId) => {
     const item = course.items.filter((i) => i.id === itemId)[0];
     return item.solution;
@@ -120,8 +113,6 @@ export default function Course() {
         <CourseHeader
           courseTitle={course.title}
           progress={progress}
-          orientation={orientation}
-          setOrientation={setOrientation}
           setShowFeedbackModal={setShowFeedbackModal}
         />
         <FeedbackModal
@@ -139,7 +130,6 @@ export default function Course() {
                 onChangeAnswer={handleChangeAnswer}
                 showSolutions={showSolutions}
                 setShowSolutions={setShowSolutions}
-                orientation={orientation}
                 itemNumber={itemNumber}
                 setItemNumber={setItemNumber}
                 userEmail={userEmail}

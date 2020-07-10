@@ -41,7 +41,6 @@ export default function ItemViewer({
   onChangeAnswer,
   showSolutions,
   setShowSolutions,
-  orientation,
   itemNumber,
   setItemNumber,
   userEmail,

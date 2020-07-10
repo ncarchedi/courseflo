@@ -24,8 +24,6 @@ const useStyles = makeStyles((theme) => ({
 export default function CourseHeader({
   courseTitle,
   progress,
-  orientation,
-  setOrientation,
   setShowFeedbackModal,
 }) {
   const classes = useStyles();
@@ -40,10 +38,6 @@ export default function CourseHeader({
     navigator.clipboard.writeText(courseUrl);
   };
 
-  // const toggleView = () => {
-  //   setOrientation(orientation === "horizontal" ? "vertical" : "horizontal");
-  // };
-
   return (
     <>
       <AppBar position="fixed" color="default">
@@ -57,17 +51,6 @@ export default function CourseHeader({
             {courseTitle}
           </Typography>
           <Box display="flex" alignItems="center">
-            {/* {progress !== 100 && (
-              <Tooltip title="Toggle View">
-                <IconButton color="inherit" onClick={toggleView}>
-                  {orientation === "horizontal" ? (
-                    <ViewAgendaOutlinedIcon />
-                  ) : (
-                    <Crop75OutlinedIcon />
-                  )}
-                </IconButton>
-              </Tooltip>
-            )} */}
             <Tooltip title="Share Course">
               <IconButton color="inherit" onClick={handleCopy}>
                 <ShareOutlinedIcon />
@@ -84,8 +67,7 @@ export default function CourseHeader({
             </Tooltip>
           </Box>
         </Toolbar>
-        {/* only show progress bar for horizontal orientation */}
-        {orientation === "horizontal" && <ProgressBar value={progress} />}
+        <ProgressBar value={progress} />
       </AppBar>
       {/* second toolbar due to: https://material-ui.com/components/app-bar/#fixed-placement */}
       <Toolbar />
