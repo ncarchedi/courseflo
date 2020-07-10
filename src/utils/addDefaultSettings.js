@@ -4,6 +4,7 @@ export default function addDefaultSettings(course) {
   // define default settings
   const defaultSettings = {
     collectEmails: true,
+    showScore: true,
   };
 
   // get existing user settings, if any

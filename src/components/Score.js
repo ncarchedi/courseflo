@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Score({ message, finalCta, answers }) {
+export default function Score({ showScore, message, finalCta, answers }) {
   const classes = useStyles();
   const { courseId } = useParams();
 
@@ -48,9 +48,9 @@ export default function Score({ message, finalCta, answers }) {
   return (
     <Paper className={classes.container} elevation={2}>
       <Typography className={classes.scoreText} variant="h4" color="primary">
-        {numTotal > 0
+        {showScore && numTotal > 0
           ? `Your Score: ${numCorrect}/${numTotal} (${percCorrect}%)`
-          : "You're all done"}
+          : "You're all done!"}
       </Typography>
       <Typography className={classes.messageText} variant="h6">
         {message}
