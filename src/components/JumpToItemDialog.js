@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
   currentItem: {
     backgroundColor: theme.palette.grey[300],
     borderRadius: theme.shape.borderRadius,
+    "& span": {
+      fontWeight: theme.typography.fontWeightBold,
+    },
   },
 }));
 
