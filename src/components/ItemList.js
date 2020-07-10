@@ -10,6 +10,7 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import Item from "./Item";
 import NoItems from "./NoItems";
 import JumpToItemDialog from "./JumpToItemDialog";
+import CompleteCourseDialog from "./CompleteCourseDialog";
 
 const useStyles = makeStyles((theme) => ({
   item: {
@@ -23,6 +24,9 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 3, 3),
     display: "flex",
     justifyContent: "space-between",
+  },
+  justifyRight: {
+    justifyContent: "flex-end",
   },
   fabLeftIcon: {
     marginRight: theme.spacing(1),
@@ -49,6 +53,9 @@ export default function ItemList({
   const theme = useTheme();
   const notOnMobile = useMediaQuery(theme.breakpoints.up("sm"));
   const [jumpToDialogOpen, setJumpToDialogOpen] = useState(false);
+  const [openCompleteCourseDialog, setOpenCompleteCourseDialog] = useState(
+    false
+  );
   // const continueRef = useRef(null);
 
   // useEffect(() => {
@@ -128,6 +135,7 @@ export default function ItemList({
                   onClick={() => setJumpToDialogOpen(true)}
                   variant="extended"
                   color="primary"
+                  disabled={item.type === "Email" && !userEmail}
                   aria-label="jump to..."
                 >
                   Jump to...
@@ -161,10 +169,7 @@ export default function ItemList({
               ) : (
                 <Fab
                   // ref={continueRef}
-                  className={classes.fabRight}
-                  component={RouterLink}
-                  to={`${url}/score`}
-                  onClick={handleFinishCourse}
+                  onClick={() => setOpenCompleteCourseDialog(true)}
                   variant="extended"
                   color="primary"
                   aria-label="submit"
@@ -182,6 +187,11 @@ export default function ItemList({
           setItemNumber={setItemNumber}
           open={jumpToDialogOpen}
           setOpen={setJumpToDialogOpen}
+        />
+        <CompleteCourseDialog
+          onSubmit={handleFinishCourse}
+          open={openCompleteCourseDialog}
+          setOpen={setOpenCompleteCourseDialog}
         />
       </>
     );
@@ -202,20 +212,26 @@ export default function ItemList({
           />
         </Box>
       ))}
-      <Zoom in>
-        <Fab
-          className={classes.fabRight}
-          component={RouterLink}
-          to={`${url}/score`}
-          onClick={handleFinishCourse}
-          variant="extended"
-          color="primary"
-          aria-label="submit"
-        >
-          {showSolutions ? "Back to my score" : "I'm all done!"}
-          <ArrowForwardIcon className={classes.fabRightIcon} />
-        </Fab>
-      </Zoom>
+      <Box className={`${classes.fabContainer} ${classes.justifyRight}`}>
+        <Zoom in>
+          <Fab
+            component={RouterLink}
+            to={`${url}/score`}
+            onClick={handleFinishCourse}
+            variant="extended"
+            color="primary"
+            aria-label="submit"
+          >
+            {showSolutions ? "Back to my score" : "I'm all done!"}
+            <ArrowForwardIcon className={classes.fabRightIcon} />
+          </Fab>
+        </Zoom>
+      </Box>
+      <CompleteCourseDialog
+        onSubmit={handleFinishCourse}
+        open={openCompleteCourseDialog}
+        setOpen={setOpenCompleteCourseDialog}
+      />
     </>
   );
 }
