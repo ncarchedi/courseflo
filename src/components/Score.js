@@ -39,6 +39,7 @@ export default function Score({ showScore, message, finalCta, answers }) {
 
   // define path back to course
   const coursePath = `/course/${courseId}`;
+
   if (!answers) return <Redirect to={coursePath} />;
 
   const { numCorrect, numTotal, percCorrect } = computeScoreFromAnswers(
@@ -60,7 +61,7 @@ export default function Score({ showScore, message, finalCta, answers }) {
           <Button
             className={classes.button}
             component={RouterLink}
-            to={coursePath}
+            to={`${coursePath}/review`}
             variant="outlined"
             color="primary"
           >

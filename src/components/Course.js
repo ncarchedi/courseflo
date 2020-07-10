@@ -5,6 +5,7 @@ import Container from "@material-ui/core/Container";
 import CourseHeader from "./CourseHeader";
 import ItemViewer from "./ItemViewer";
 import Score from "./Score";
+import Review from "./Review";
 import FeedbackModal from "./FeedbackModal";
 import NotFound from "./NotFound";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
@@ -151,6 +152,13 @@ export default function Course() {
                 message={course.finalMessage}
                 finalCta={course.finalCta}
                 answers={answers}
+              />
+            </Route>
+            <Route exact path={`${path}/review`}>
+              <Review
+                items={course.items}
+                answers={answers}
+                userEmail={userEmail}
               />
             </Route>
             <Route path={`${path}/*`}>
