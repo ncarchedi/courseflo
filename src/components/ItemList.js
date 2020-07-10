@@ -229,8 +229,8 @@ export default function ItemList({
       </Box>
       <CompleteCourseDialog
         onSubmit={handleFinishCourse}
-        openCompleteCourseDialog={openCompleteCourseDialog}
-        setOpenCompleteCourseDialog={setOpenCompleteCourseDialog}
+        open={openCompleteCourseDialog}
+        setOpen={setOpenCompleteCourseDialog}
       />
     </>
   );
