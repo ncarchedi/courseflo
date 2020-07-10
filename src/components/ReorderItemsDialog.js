@@ -38,12 +38,14 @@ export default function ReorderItemsDialog({
   // initialize the ordered list
   useEffect(() => setItemsArray(items), [items]);
 
-  const SortableItem = SortableElement(({ item }) => (
+  const SortableItem = SortableElement(({ item, itemIndex }) => (
     <ListItem className={classes.listItem}>
       <ListItemIcon>{getItemIcon(item.type)}</ListItemIcon>
       <Tooltip title={renderHtmlFromString(item.title || item.prompt)}>
         <ListItemText
-          primary={renderHtmlFromString(item.title || item.prompt)}
+          primary={`${itemIndex + 1}. ${renderHtmlFromString(
+            item.title || item.prompt
+          )}`}
           primaryTypographyProps={{ noWrap: true }}
         />
       </Tooltip>
@@ -54,7 +56,12 @@ export default function ReorderItemsDialog({
     return (
       <List dense>
         {items.map((item, index) => (
-          <SortableItem key={item.id} index={index} item={item} />
+          <SortableItem
+            key={item.id}
+            index={index}
+            item={item}
+            itemIndex={index}
+          />
         ))}
       </List>
     );
@@ -76,8 +83,12 @@ export default function ReorderItemsDialog({
   };
 
   return (
-    <Dialog open={open} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title">Move Item(s)</DialogTitle>
+    <Dialog
+      open={open}
+      onClose={handleCancel}
+      aria-labelledby="reorder-dialog-title"
+    >
+      <DialogTitle id="reorder-dialog-title">Move Item(s)</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Drag-and-drop the items below to reorder them.

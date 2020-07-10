@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link as RouterLink, useRouteMatch } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { makeStyles, useTheme } from "@material-ui/styles";
@@ -9,6 +9,7 @@ import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import Item from "./Item";
 import NoItems from "./NoItems";
+import JumpToItemDialog from "./JumpToItemDialog";
 
 const useStyles = makeStyles((theme) => ({
   item: {
@@ -47,6 +48,7 @@ export default function ItemList({
   let { url } = useRouteMatch();
   const theme = useTheme();
   const notOnMobile = useMediaQuery(theme.breakpoints.up("sm"));
+  const [jumpToDialogOpen, setJumpToDialogOpen] = useState(false);
   // const continueRef = useRef(null);
 
   // useEffect(() => {
@@ -123,7 +125,7 @@ export default function ItemList({
             {notOnMobile && (
               <Zoom in>
                 <Fab
-                  onClick={() => console.log("open nav")}
+                  onClick={() => setJumpToDialogOpen(true)}
                   variant="extended"
                   color="primary"
                   aria-label="jump to..."
@@ -174,6 +176,13 @@ export default function ItemList({
             </Zoom>
           </Box>
         </Box>
+        <JumpToItemDialog
+          items={items}
+          itemNumber={itemNumber}
+          setItemNumber={setItemNumber}
+          open={jumpToDialogOpen}
+          setOpen={setJumpToDialogOpen}
+        />
       </>
     );
   }
