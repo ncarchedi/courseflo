@@ -27,10 +27,7 @@ export default function ItemHeader({ item, titleColor, helperText, icon }) {
   const classes = useStyles();
 
   // render the title or prompt, depending on item type
-  const text =
-    item.type === "Email"
-      ? "What's your email address?"
-      : renderHtmlFromString(item.title ? item.title : item.prompt);
+  const text = renderHtmlFromString(item.title ? item.title : item.prompt);
 
   return (
     <Box className={classes.container}>

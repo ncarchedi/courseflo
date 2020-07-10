@@ -8,6 +8,7 @@ export default function createItem(type) {
       item = {
         id: uuidv4(),
         type: type,
+        title: "What's your email address?",
       };
       break;
     case "Text":
