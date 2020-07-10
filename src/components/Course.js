@@ -29,7 +29,6 @@ export default function Course() {
   const [course, setCourse] = useState(null);
   const [userEmail, setUserEmail] = useState(""); // to ID user
   const [answers, setAnswers] = useState(null);
-  const [showSolutions, setShowSolutions] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [show404, setShow404] = useState(false);
   const [itemNumber, setItemNumber] = useState(0);
@@ -67,13 +66,6 @@ export default function Course() {
     if (course) initializeAnswers(course, setAnswers);
   }, [course]);
 
-  // save answers to firebase when user submits
-  useEffect(() => {
-    if (showSolutions && courseId) {
-      saveSubmissionToFirestore(courseId, userEmail, answers, course);
-    }
-  }, [courseId, userEmail, answers, course, showSolutions]);
-
   const getSolution = (itemId) => {
     const item = course.items.filter((i) => i.id === itemId)[0];
     return item.solution;
@@ -96,6 +88,11 @@ export default function Course() {
         isCorrect: isAnswerCorrect(value, solution),
       },
     ]);
+  };
+
+  const handleSubmitCourse = () => {
+    setItemNumber(course.items.length);
+    saveSubmissionToFirestore(courseId, userEmail, answers, course);
   };
 
   // if the course isn't found, show 404
@@ -128,8 +125,7 @@ export default function Course() {
                 items={course.items}
                 answers={answers}
                 onChangeAnswer={handleChangeAnswer}
-                showSolutions={showSolutions}
-                setShowSolutions={setShowSolutions}
+                onSubmitCourse={handleSubmitCourse}
                 itemNumber={itemNumber}
                 setItemNumber={setItemNumber}
                 userEmail={userEmail}

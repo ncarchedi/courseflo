@@ -39,8 +39,7 @@ export default function ItemViewer({
   items,
   answers,
   onChangeAnswer,
-  showSolutions,
-  setShowSolutions,
+  onSubmitCourse,
   itemNumber,
   setItemNumber,
   userEmail,
@@ -75,14 +74,6 @@ export default function ItemViewer({
   // if there are no items to show, show empty screen
   if (!items.length) return <NoItems />;
 
-  const handleFinishCourse = () => {
-    setItemNumber(items.length);
-    // use timeout so progress bar has time to advance to 100%
-    setTimeout(() => {
-      setShowSolutions(true);
-    }, 500);
-  };
-
   const item = items[itemNumber];
   if (!item) return null;
 
@@ -94,7 +85,6 @@ export default function ItemViewer({
           item={item}
           answer={answers && answers.filter((a) => a.itemId === item.id)[0]}
           onChangeAnswer={onChangeAnswer}
-          showSolution={showSolutions}
           userEmail={userEmail}
           setUserEmail={setUserEmail}
         />
@@ -103,7 +93,7 @@ export default function ItemViewer({
       <Box className={classes.fabContainer}>
         {/* Go back button */}
         <Box minWidth={notOnMobile ? 150 : 0}>
-          {itemNumber > 0 && !showSolutions && (
+          {itemNumber > 0 && (
             <Zoom in>
               <Fab
                 onClick={() => setItemNumber(itemNumber - 1)}
@@ -170,7 +160,7 @@ export default function ItemViewer({
                 color="primary"
                 aria-label="submit"
               >
-                {showSolutions ? "Back to my score" : "I'm all done!"}
+                I'm all done!
                 <ArrowForwardIcon className={classes.fabRightIcon} />
               </Fab>
             )}
@@ -185,7 +175,7 @@ export default function ItemViewer({
         setOpen={setJumpToDialogOpen}
       />
       <CompleteCourseDialog
-        onSubmit={handleFinishCourse}
+        onSubmit={onSubmitCourse}
         open={openCompleteCourseDialog}
         setOpen={setOpenCompleteCourseDialog}
       />
