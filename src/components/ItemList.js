@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { Link as RouterLink, useRouteMatch } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { makeStyles, useTheme } from "@material-ui/styles";
@@ -14,21 +14,14 @@ const useStyles = makeStyles((theme) => ({
   item: {
     marginTop: theme.spacing(3),
   },
-  fabLeft: {
-    margin: 0,
+  fabContainer: {
     position: "fixed",
-    top: "auto",
-    left: theme.spacing(3),
-    bottom: theme.spacing(3),
-    right: "auto",
-  },
-  fabRight: {
-    margin: 0,
-    position: "fixed",
-    top: "auto",
-    right: theme.spacing(3),
-    bottom: theme.spacing(3),
-    left: "auto",
+    left: 0,
+    bottom: 0,
+    right: 0,
+    padding: theme.spacing(0, 3, 3),
+    display: "flex",
+    justifyContent: "space-between",
   },
   fabLeftIcon: {
     marginRight: theme.spacing(1),
@@ -54,7 +47,7 @@ export default function ItemList({
   let { url } = useRouteMatch();
   const theme = useTheme();
   const notOnMobile = useMediaQuery(theme.breakpoints.up("sm"));
-  const continueRef = useRef(null);
+  // const continueRef = useRef(null);
 
   // useEffect(() => {
   //   // if the ref exists, create keyboard shortcut
@@ -101,61 +94,86 @@ export default function ItemList({
             setUserEmail={setUserEmail}
           />
         </Box>
-        {itemNumber > 0 && !showSolutions && (
-          <Zoom in>
-            <Fab
-              className={classes.fabLeft}
-              onClick={() => setItemNumber(itemNumber - 1)}
-              variant={notOnMobile ? "extended" : "round"}
-              color="primary"
-              aria-label="go back"
-            >
-              {notOnMobile ? (
-                <>
-                  <ArrowBackIcon className={classes.fabLeftIcon} /> Go back
-                </>
+
+        <Box className={classes.fabContainer}>
+          {/* Go back button */}
+          <Box minWidth={notOnMobile ? 150 : 0}>
+            {itemNumber > 0 && !showSolutions && (
+              <Zoom in>
+                <Fab
+                  onClick={() => setItemNumber(itemNumber - 1)}
+                  variant={notOnMobile ? "extended" : "round"}
+                  color="primary"
+                  aria-label="go back"
+                >
+                  {notOnMobile ? (
+                    <>
+                      <ArrowBackIcon className={classes.fabLeftIcon} /> Go back
+                    </>
+                  ) : (
+                    <ArrowBackIcon />
+                  )}
+                </Fab>
+              </Zoom>
+            )}
+          </Box>
+
+          {/* Jump to button */}
+          <Box>
+            {notOnMobile && (
+              <Zoom in>
+                <Fab
+                  onClick={() => console.log("open nav")}
+                  variant="extended"
+                  color="primary"
+                  aria-label="jump to..."
+                >
+                  Jump to...
+                </Fab>
+              </Zoom>
+            )}
+          </Box>
+
+          {/* Continue button */}
+          <Box minWidth={notOnMobile ? 150 : 0}>
+            <Zoom in>
+              {itemNumber < items.length - 1 ? (
+                <Fab
+                  // ref={continueRef}
+                  onClick={() => setItemNumber(itemNumber + 1)}
+                  variant={notOnMobile ? "extended" : "round"}
+                  // force user to enter email before continuing
+                  disabled={item.type === "Email" && !userEmail}
+                  color="primary"
+                  aria-label="continue"
+                >
+                  {notOnMobile ? (
+                    <>
+                      Continue{" "}
+                      <ArrowForwardIcon className={classes.fabRightIcon} />
+                    </>
+                  ) : (
+                    <ArrowForwardIcon />
+                  )}
+                </Fab>
               ) : (
-                <ArrowBackIcon />
+                <Fab
+                  // ref={continueRef}
+                  className={classes.fabRight}
+                  component={RouterLink}
+                  to={`${url}/score`}
+                  onClick={handleFinishCourse}
+                  variant="extended"
+                  color="primary"
+                  aria-label="submit"
+                >
+                  {showSolutions ? "Back to my score" : "I'm all done!"}
+                  <ArrowForwardIcon className={classes.fabRightIcon} />
+                </Fab>
               )}
-            </Fab>
-          </Zoom>
-        )}
-        <Zoom in>
-          {itemNumber < items.length - 1 ? (
-            <Fab
-              ref={continueRef}
-              className={classes.fabRight}
-              onClick={() => setItemNumber(itemNumber + 1)}
-              variant={notOnMobile ? "extended" : "round"}
-              // force user to enter email before continuing
-              disabled={item.type === "Email" && !userEmail}
-              color="primary"
-              aria-label="continue"
-            >
-              {notOnMobile ? (
-                <>
-                  Continue <ArrowForwardIcon className={classes.fabRightIcon} />
-                </>
-              ) : (
-                <ArrowForwardIcon />
-              )}
-            </Fab>
-          ) : (
-            <Fab
-              ref={continueRef}
-              className={classes.fabRight}
-              component={RouterLink}
-              to={`${url}/score`}
-              onClick={handleFinishCourse}
-              variant="extended"
-              color="primary"
-              aria-label="submit"
-            >
-              {showSolutions ? "Back to my score" : "I'm all done!"}
-              <ArrowForwardIcon className={classes.fabRightIcon} />
-            </Fab>
-          )}
-        </Zoom>
+            </Zoom>
+          </Box>
+        </Box>
       </>
     );
   }
