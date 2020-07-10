@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
+import Box from "@material-ui/core/Box";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
@@ -35,23 +36,44 @@ export default function FeedbackModal({
     });
   };
 
+  const handleToggleShowScore = () => {
+    setSettings({
+      ...settings,
+      showScore: !settings.showScore,
+    });
+  };
+
   return (
     <Dialog open={open} onClose={handleCancel}>
       <DialogTitle>Settings</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Any changes will take effect immediately.
+          Any changes will take effect immediately after clicking 'Done'.
         </DialogContentText>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={settings.collectEmails}
-              onChange={handleToggleCollectEmails}
-              color="primary"
-            />
-          }
-          label="Collect email addresses"
-        />
+        <Box>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={settings.collectEmails}
+                onChange={handleToggleCollectEmails}
+                color="primary"
+              />
+            }
+            label="Collect email addresses"
+          />
+        </Box>
+        <Box>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={settings.showScore}
+                onChange={handleToggleShowScore}
+                color="primary"
+              />
+            }
+            label="Show score upon completion"
+          />
+        </Box>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancel} color="primary">

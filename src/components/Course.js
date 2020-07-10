@@ -147,6 +147,7 @@ export default function Course() {
             </Route>
             <Route exact path={`${path}/score`}>
               <Score
+                showScore={course.settings.showScore}
                 message={course.finalMessage}
                 finalCta={course.finalCta}
                 answers={answers}
