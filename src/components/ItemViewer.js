@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ItemList({
+export default function ItemViewer({
   items,
   answers,
   onChangeAnswer,

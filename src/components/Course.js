@@ -3,7 +3,7 @@ import { Switch, Route, useRouteMatch, useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import CourseHeader from "./CourseHeader";
-import ItemList from "./ItemList";
+import ItemViewer from "./ItemViewer";
 import Score from "./Score";
 import FeedbackModal from "./FeedbackModal";
 import NotFound from "./NotFound";
@@ -132,7 +132,7 @@ export default function Course() {
         <Container className={classes.container}>
           <Switch>
             <Route exact path={path}>
-              <ItemList
+              <ItemViewer
                 items={course.items}
                 answers={answers}
                 onChangeAnswer={handleChangeAnswer}
