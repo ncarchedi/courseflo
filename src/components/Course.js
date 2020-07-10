@@ -66,28 +66,26 @@ export default function Course() {
     if (course) initializeAnswers(course, setAnswers);
   }, [course]);
 
-  const getSolution = (itemId) => {
-    const item = course.items.filter((i) => i.id === itemId)[0];
-    return item.solution;
-  };
-
   const handleChangeAnswer = (itemId, value) => {
     // if answers is undefined, do nothing
     if (!answers) return null;
 
-    // otherwise, update it
-    const otherAnswers = answers.filter((a) => a.itemId !== itemId);
-    const solution = getSolution(itemId);
+    // make a copy of all answers
+    const updatedAnswers = [...answers];
 
-    setAnswers([
-      ...otherAnswers,
-      {
-        itemId,
-        value,
-        solution,
-        isCorrect: isAnswerCorrect(value, solution),
-      },
-    ]);
+    // find the old answer
+    const index = answers.findIndex((a) => a.itemId === itemId);
+    const oldAnswer = answers[index];
+
+    // update the relevant answer
+    updatedAnswers[index] = {
+      ...oldAnswer,
+      value,
+      isCorrect: isAnswerCorrect(value, oldAnswer.solution),
+    };
+
+    // update state
+    setAnswers(updatedAnswers);
   };
 
   const handleSubmitCourse = () => {
