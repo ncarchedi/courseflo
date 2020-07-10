@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Switch, Route, useRouteMatch, useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -93,14 +93,18 @@ export default function Course() {
     saveSubmissionToFirestore(courseId, userEmail, answers, course);
   };
 
+  // compute progress percentage
+  const progress = useMemo(
+    () =>
+      Math.min(
+        course ? Math.round((itemNumber / course.items.length) * 100) : 0,
+        100
+      ),
+    [itemNumber, course]
+  );
+
   // if the course isn't found, show 404
   if (show404) return <NotFound type="course" />;
-
-  // compute progress percentage
-  const progress = Math.min(
-    course ? Math.round((itemNumber / course.items.length) * 100) : 0,
-    100
-  );
 
   return (
     course && (
