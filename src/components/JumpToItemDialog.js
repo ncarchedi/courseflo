@@ -68,9 +68,7 @@ export default function JumpToItemDialog({
                   title={renderHtmlFromString(item.title || item.prompt)}
                 >
                   <ListItemText
-                    primary={`${index + 1}. ${renderHtmlFromString(
-                      item.title || item.prompt
-                    )}`}
+                    primary={renderHtmlFromString(item.title || item.prompt)}
                     primaryTypographyProps={{ noWrap: true }}
                   />
                 </Tooltip>
