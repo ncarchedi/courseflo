@@ -32,7 +32,7 @@ import SubscriberContext from "../context/SubscriberContext";
 import createCourse from "../utils/createCourse";
 import duplicateCourse from "../utils/duplicateCourse";
 import {
-  getUserCoursesFromFirestore,
+  getAuthorCoursesFromFirestore,
   saveCourseToFirestore,
   deleteCourseInFirestore,
 } from "../services/firebase";
@@ -83,7 +83,7 @@ export default function Dashboard() {
     document.title = "Courseflo - Dashboard";
 
     const setUserCourses = async () => {
-      const userCourses = await getUserCoursesFromFirestore(user.uid);
+      const userCourses = await getAuthorCoursesFromFirestore(user.uid);
       // don't show soft deleted courses in dashboard
       setCourses(userCourses.filter((course) => !course.deleted));
     };

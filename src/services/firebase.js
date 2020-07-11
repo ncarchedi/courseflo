@@ -105,7 +105,7 @@ export const getCourseFromFirestore = (courseId) => {
   return db.collection("courses").doc(courseId).get();
 };
 
-export const getUserCoursesFromFirestore = async (userId) => {
+export const getAuthorCoursesFromFirestore = async (userId) => {
   const result = await db
     .collection("courses")
     .where("userId", "==", userId)
@@ -143,11 +143,11 @@ export const updateCourseInFirestore = (courseId, course) => {
     });
 };
 
-export const getSubmissionsFromFirestore = async (courseId) => {
+export const getUserCoursesFromFirestore = async (courseId) => {
   const result = await db
-    .collection("submissions")
+    .collection("userCourses")
     .where("courseId", "==", courseId)
-    .orderBy("timestamp", "desc")
+    .orderBy("submitted", "desc")
     .get();
 
   return result.docs.map((doc) => doc.data());
