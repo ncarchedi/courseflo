@@ -122,7 +122,7 @@ export default function LandingPageSignup() {
           <Grid item>
             <Link
               component={RouterLink}
-              to="/course/wSWLr1JGVVRGnWuXJxtF"
+              to="/course/TqysgMQ83mssI1DTkHqD"
               target="_blank"
               variant="body1"
             >
