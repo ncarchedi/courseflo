@@ -11,8 +11,10 @@ import NotFound from "./NotFound";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
 import initializeAnswers from "../utils/initializeAnswers";
 import createItem from "../utils/createItem";
+import useQuery from "../hooks/useQuery";
 import {
-  saveSubmissionToFirestore,
+  createUserCourseInFirestore,
+  updateUserCourseInFirestore,
   getCourseFromFirestore,
 } from "../services/firebase";
 
@@ -26,31 +28,20 @@ export default function Course() {
   const classes = useStyles();
   let { path } = useRouteMatch();
   let { courseId } = useParams();
+  let query = useQuery(); // get query params, if any
   const [course, setCourse] = useState(null);
   const [userEmail, setUserEmail] = useState(""); // to ID user
   const [answers, setAnswers] = useState(null);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [show404, setShow404] = useState(false);
   const [itemNumber, setItemNumber] = useState(0);
+  const [userCourseId, setUserCourseId] = useState(query.get("uc"));
 
   useEffect(() => {
     getCourseFromFirestore(courseId)
       .then((course) => {
         if (course.exists) {
-          // extract the course data
-          let courseData = course.data();
-          // if collecting emails, prepend Email item
-          if (courseData.settings && courseData.settings.collectEmails) {
-            const emailItem = createItem("Email");
-            courseData = {
-              ...courseData,
-              items: [emailItem, ...courseData.items],
-            };
-          }
-          // load into state
-          setCourse(courseData);
-          // update the browser tab title dynamically
-          document.title = courseData.title;
+          handleLoadCourse(course);
         } else {
           setShow404(true);
         }
@@ -65,6 +56,24 @@ export default function Course() {
     // once the course has been loaded into state
     if (course) initializeAnswers(course, setAnswers);
   }, [course]);
+
+  const handleLoadCourse = (course) => {
+    // extract the course data
+    let courseData = course.data();
+    // if collecting emails, prepend Email item
+    if (courseData.settings && courseData.settings.collectEmails) {
+      const emailItem = createItem("Email");
+      courseData = {
+        ...courseData,
+        items: [emailItem, ...courseData.items],
+      };
+    }
+    // load into state
+    setCourse(courseData);
+    // update the browser tab title dynamically
+    document.title = courseData.title;
+    return null;
+  };
 
   const handleChangeAnswer = (itemId, value) => {
     // if answers is undefined, do nothing
@@ -88,9 +97,47 @@ export default function Course() {
     setAnswers(updatedAnswers);
   };
 
+  const handleChangeItemNumber = (newItemNumber) => {
+    // change item number
+    setItemNumber(newItemNumber);
+
+    // handle update / create userCourse
+    if (userCourseId) {
+      // update userCourse
+      updateUserCourseInFirestore(
+        userCourseId,
+        newItemNumber,
+        answers,
+        false // not submitted
+      );
+    } else {
+      // or create userCourse if it doesn't exist yet
+      createUserCourseInFirestore(
+        courseId,
+        userEmail,
+        newItemNumber,
+        answers,
+        course
+      )
+        .then((docRef) => setUserCourseId(docRef.id))
+        .catch((error) =>
+          console.error("Error creating userCourse in Firestore:", error)
+        );
+    }
+  };
+
   const handleSubmitCourse = () => {
-    setItemNumber(course.items.length);
-    saveSubmissionToFirestore(courseId, userEmail, answers, course);
+    // set item number directly to avoid triggering a duplicate
+    // update to firestore (see handleChangeItemNumber)
+    const newItemNumber = course.items.length;
+    setItemNumber(newItemNumber);
+
+    updateUserCourseInFirestore(
+      userCourseId,
+      newItemNumber,
+      answers,
+      true // submitted
+    );
   };
 
   // compute progress percentage
@@ -129,7 +176,7 @@ export default function Course() {
                 onChangeAnswer={handleChangeAnswer}
                 onSubmitCourse={handleSubmitCourse}
                 itemNumber={itemNumber}
-                setItemNumber={setItemNumber}
+                onChangeItemNumber={handleChangeItemNumber}
                 userEmail={userEmail}
                 setUserEmail={setUserEmail}
               />

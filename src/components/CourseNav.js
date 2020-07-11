@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CourseNav({
   itemNumber,
-  setItemNumber,
+  onChangeItemNumber,
   setJumpToDialogOpen,
   setOpenCompleteCourseDialog,
   disableButtons,
@@ -65,7 +65,7 @@ export default function CourseNav({
         {itemNumber > 0 && (
           <Zoom in>
             <Fab
-              onClick={() => setItemNumber(itemNumber - 1)}
+              onClick={() => onChangeItemNumber(itemNumber - 1)}
               variant={notOnMobile ? "extended" : "round"}
               color="primary"
               aria-label="go back"
@@ -116,7 +116,7 @@ export default function CourseNav({
           ) : (
             <Fab
               // ref={continueRef}
-              onClick={() => setItemNumber(itemNumber + 1)}
+              onClick={() => onChangeItemNumber(itemNumber + 1)}
               variant={notOnMobile ? "extended" : "round"}
               // force user to enter email before continuing
               disabled={disableButtons}

@@ -19,7 +19,7 @@ export default function ItemViewer({
   onChangeAnswer,
   onSubmitCourse,
   itemNumber,
-  setItemNumber,
+  onChangeItemNumber,
   userEmail,
   setUserEmail,
 }) {
@@ -49,7 +49,7 @@ export default function ItemViewer({
       </Box>
       <CourseNav
         itemNumber={itemNumber}
-        setItemNumber={setItemNumber}
+        onChangeItemNumber={onChangeItemNumber}
         setJumpToDialogOpen={setJumpToDialogOpen}
         setOpenCompleteCourseDialog={setOpenCompleteCourseDialog}
         disableButtons={item.type === "Email" && !userEmail}
@@ -58,7 +58,7 @@ export default function ItemViewer({
       <JumpToItemDialog
         items={items}
         itemNumber={itemNumber}
-        setItemNumber={setItemNumber}
+        onChangeItemNumber={onChangeItemNumber}
         open={jumpToDialogOpen}
         setOpen={setJumpToDialogOpen}
       />
