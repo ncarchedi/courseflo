@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Switch, Route, useRouteMatch, useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import CourseHeader from "./CourseHeader";
-import ItemList from "./ItemList";
+import ItemViewer from "./ItemViewer";
 import Score from "./Score";
+import Review from "./Review";
 import FeedbackModal from "./FeedbackModal";
 import NotFound from "./NotFound";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
@@ -28,10 +29,8 @@ export default function Course() {
   const [course, setCourse] = useState(null);
   const [userEmail, setUserEmail] = useState(""); // to ID user
   const [answers, setAnswers] = useState(null);
-  const [showSolutions, setShowSolutions] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [show404, setShow404] = useState(false);
-  const [orientation, setOrientation] = useState("horizontal");
   const [itemNumber, setItemNumber] = useState(0);
 
   useEffect(() => {
@@ -67,51 +66,45 @@ export default function Course() {
     if (course) initializeAnswers(course, setAnswers);
   }, [course]);
 
-  // save answers to firebase when user submits
-  useEffect(() => {
-    if (showSolutions && courseId) {
-      saveSubmissionToFirestore(courseId, userEmail, answers, course);
-    }
-  }, [courseId, userEmail, answers, course, showSolutions]);
-
-  // if answers are shown, switch to vertical view mode
-  // and set progress percentage to 100
-  useEffect(() => {
-    if (showSolutions) setOrientation("vertical");
-  }, [showSolutions]);
-
-  const getSolution = (itemId) => {
-    const item = course.items.filter((i) => i.id === itemId)[0];
-    return item.solution;
-  };
-
   const handleChangeAnswer = (itemId, value) => {
     // if answers is undefined, do nothing
     if (!answers) return null;
 
-    // otherwise, update it
-    const otherAnswers = answers.filter((a) => a.itemId !== itemId);
-    const solution = getSolution(itemId);
+    // make a copy of all answers
+    const updatedAnswers = [...answers];
 
-    setAnswers([
-      ...otherAnswers,
-      {
-        itemId,
-        value,
-        solution,
-        isCorrect: isAnswerCorrect(value, solution),
-      },
-    ]);
+    // find the old answer
+    const index = answers.findIndex((a) => a.itemId === itemId);
+    const oldAnswer = answers[index];
+
+    // update the relevant answer
+    updatedAnswers[index] = {
+      ...oldAnswer,
+      value,
+      isCorrect: isAnswerCorrect(value, oldAnswer.solution),
+    };
+
+    // update state
+    setAnswers(updatedAnswers);
   };
+
+  const handleSubmitCourse = () => {
+    setItemNumber(course.items.length);
+    saveSubmissionToFirestore(courseId, userEmail, answers, course);
+  };
+
+  // compute progress percentage
+  const progress = useMemo(
+    () =>
+      Math.min(
+        course ? Math.round((itemNumber / course.items.length) * 100) : 0,
+        100
+      ),
+    [itemNumber, course]
+  );
 
   // if the course isn't found, show 404
   if (show404) return <NotFound type="course" />;
-
-  // compute progress percentage
-  const progress = Math.min(
-    course ? Math.round((itemNumber / course.items.length) * 100) : 0,
-    100
-  );
 
   return (
     course && (
@@ -119,8 +112,6 @@ export default function Course() {
         <CourseHeader
           courseTitle={course.title}
           progress={progress}
-          orientation={orientation}
-          setOrientation={setOrientation}
           setShowFeedbackModal={setShowFeedbackModal}
         />
         <FeedbackModal
@@ -132,13 +123,11 @@ export default function Course() {
         <Container className={classes.container}>
           <Switch>
             <Route exact path={path}>
-              <ItemList
+              <ItemViewer
                 items={course.items}
                 answers={answers}
                 onChangeAnswer={handleChangeAnswer}
-                showSolutions={showSolutions}
-                setShowSolutions={setShowSolutions}
-                orientation={orientation}
+                onSubmitCourse={handleSubmitCourse}
                 itemNumber={itemNumber}
                 setItemNumber={setItemNumber}
                 userEmail={userEmail}
@@ -151,6 +140,13 @@ export default function Course() {
                 message={course.finalMessage}
                 finalCta={course.finalCta}
                 answers={answers}
+              />
+            </Route>
+            <Route exact path={`${path}/review`}>
+              <Review
+                items={course.items}
+                answers={answers}
+                userEmail={userEmail}
               />
             </Route>
             <Route path={`${path}/*`}>
