@@ -33,7 +33,7 @@ export default function Course() {
   const [userEmail, setUserEmail] = useState(""); // to ID user
   const [answers, setAnswers] = useState(null);
   const [showFeedbackDialog, setShowFeedbackDialog] = useState(false);
-  const [showEmailDialog, setShowEmailDialog] = useState(true);
+  const [showEmailDialog, setShowEmailDialog] = useState(false);
   const [show404, setShow404] = useState(false);
   const [itemNumber, setItemNumber] = useState(0);
   const [userCourseId, setUserCourseId] = useState(query.get("uc"));
