@@ -31,9 +31,9 @@ const getSubmissions = (userCourses) => {
       // ignore userCourses that haven't been submitted
       .filter((sub) => sub.submitted)
       .map((sub) => ({
-        id: sub.id,
+        ...sub,
         email: sub.userEmail || "<None>",
-        submitted: moment(sub.submitted.toDate()).format("YYYY-MM-DD hh:mm a"),
+        submitted: moment(sub.submitted.toDate()).format("YYYY-MM-DD hh:mm A"),
         numCorrect: sub.score.numCorrect,
         numQuestions: sub.score.numTotal,
         percCorrect: sub.score.percCorrect,
@@ -48,7 +48,7 @@ export default function Analytics({
 }) {
   const classes = useStyles();
   const [selectedCourseId, setSelectedCourseId] = useState(initialCourseId);
-  const [selectedUserCourseId, setSelectedUserCourseId] = useState();
+  const [selectedUserCourse, setSelectedUserCourse] = useState();
   const [userCourses, setUserCourses] = useState();
 
   useEffect(() => {
@@ -73,20 +73,8 @@ export default function Analytics({
     [userCourses]
   );
 
-  const selectedUserCourse = useMemo(
-    () =>
-      userCourses &&
-      selectedUserCourseId &&
-      userCourses.filter((uc) => uc.id === selectedUserCourseId)[0],
-    [userCourses, selectedUserCourseId]
-  );
-
   const handleChangeCourse = (event) => {
     setSelectedCourseId(event.target.value);
-  };
-
-  const handleChangeUserCourse = (userCourseId) => {
-    setSelectedUserCourseId(userCourseId);
   };
 
   return (
@@ -121,14 +109,22 @@ export default function Analytics({
       </FormControl>
       <FancyTable
         tableData={tableData}
-        onChangeUserCourse={handleChangeUserCourse}
+        selectedUserCourse={selectedUserCourse}
+        setSelectedUserCourse={setSelectedUserCourse}
       />
       {selectedUserCourse && (
         <Paper className={classes.reviewContainer} variant="outlined">
-          <Typography variant="h6">Detailed Review</Typography>
+          <Typography variant="h6">
+            {`Detailed Review (${
+              selectedUserCourse.userEmail
+                ? selectedUserCourse.userEmail
+                : selectedUserCourse.submitted
+            })`}
+          </Typography>
           <Review
             items={selectedUserCourse.course.items}
             answers={selectedUserCourse.answers}
+            hideFab
           />
         </Paper>
       )}

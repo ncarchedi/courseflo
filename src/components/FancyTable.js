@@ -1,4 +1,5 @@
 import React, { forwardRef } from "react";
+import { useTheme } from "@material-ui/styles";
 import MaterialTable from "material-table";
 
 import AddBox from "@material-ui/icons/AddBox";
@@ -41,7 +42,13 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-export default function MaterialTableDemo({ tableData, onChangeUserCourse }) {
+export default function MaterialTableDemo({
+  tableData,
+  selectedUserCourse,
+  setSelectedUserCourse,
+}) {
+  const theme = useTheme();
+
   if (!tableData) return null;
 
   return (
@@ -52,8 +59,14 @@ export default function MaterialTableDemo({ tableData, onChangeUserCourse }) {
       data={tableData.data}
       options={{
         exportButton: true,
+        rowStyle: (rowData) => ({
+          backgroundColor:
+            selectedUserCourse &&
+            selectedUserCourse.id === rowData.id &&
+            theme.palette.grey[300],
+        }),
       }}
-      onRowClick={(event, rowData) => onChangeUserCourse(rowData.id)}
+      onRowClick={(event, rowData) => setSelectedUserCourse(rowData)}
     />
   );
 }

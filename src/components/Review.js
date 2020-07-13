@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Review({ items, answers }) {
+export default function Review({ items, answers, hideFab }) {
   const classes = useStyles();
   const { courseId } = useParams();
 
@@ -45,20 +45,22 @@ export default function Review({ items, answers }) {
           />
         </Box>
       ))}
-      <Box className={classes.fabContainer}>
-        <Zoom in>
-          <Fab
-            component={RouterLink}
-            to={`${coursePath}/score`}
-            variant="extended"
-            color="primary"
-            aria-label="submit"
-          >
-            Back to my score
-            <ArrowForwardIcon className={classes.fabRightIcon} />
-          </Fab>
-        </Zoom>
-      </Box>
+      {!hideFab && (
+        <Box className={classes.fabContainer}>
+          <Zoom in>
+            <Fab
+              component={RouterLink}
+              to={`${coursePath}/score`}
+              variant="extended"
+              color="primary"
+              aria-label="submit"
+            >
+              Back to my score
+              <ArrowForwardIcon className={classes.fabRightIcon} />
+            </Fab>
+          </Zoom>
+        </Box>
+      )}
     </>
   );
 }
