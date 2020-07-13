@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import moment from "moment";
 import Box from "@material-ui/core/Box";
@@ -9,6 +9,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import FancyTable from "./FancyTable";
+import Review from "./Review";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { getUserCoursesFromFirestore } from "../services/firebase";
 
@@ -24,6 +25,7 @@ const getSubmissions = (userCourses) => {
       // ignore userCourses that haven't been submitted
       .filter((sub) => sub.submitted)
       .map((sub) => ({
+        id: sub.id,
         email: sub.userEmail || "<None>",
         submitted: moment(sub.submitted.toDate()).format("YYYY-MM-DD hh:mm a"),
         numCorrect: sub.score.numCorrect,
@@ -40,6 +42,7 @@ export default function Analytics({
 }) {
   const classes = useStyles();
   const [selectedCourseId, setSelectedCourseId] = useState(initialCourseId);
+  const [selectedUserCourseId, setSelectedUserCourseId] = useState();
   const [userCourses, setUserCourses] = useState();
 
   useEffect(() => {
@@ -50,22 +53,34 @@ export default function Analytics({
     selectedCourseId && setUserCoursesAsync();
   }, [selectedCourseId]);
 
-  // wait until userCourses is loaded before doing anything
-  if (!userCourses) return null;
+  const tableData = useMemo(
+    () => ({
+      columns: [
+        { title: "Email", field: "email", type: "string" },
+        { title: "Submitted", field: "submitted", type: "string" },
+        { title: "# Correct", field: "numCorrect", type: "numeric" },
+        { title: "# Questions", field: "numQuestions", type: "numeric" },
+        { title: "Score (%)", field: "percCorrect", type: "numeric" },
+      ],
+      data: userCourses && getSubmissions(userCourses),
+    }),
+    [userCourses]
+  );
 
-  const tableData = {
-    columns: [
-      { title: "Email", field: "email", type: "string" },
-      { title: "Submitted", field: "submitted", type: "string" },
-      { title: "# Correct", field: "numCorrect", type: "numeric" },
-      { title: "# Questions", field: "numQuestions", type: "numeric" },
-      { title: "Score (%)", field: "percCorrect", type: "numeric" },
-    ],
-    data: getSubmissions(userCourses),
+  const selectedUserCourse = useMemo(
+    () =>
+      userCourses &&
+      selectedUserCourseId &&
+      userCourses.filter((uc) => uc.id === selectedUserCourseId)[0],
+    [userCourses, selectedUserCourseId]
+  );
+
+  const handleChangeCourse = (event) => {
+    setSelectedCourseId(event.target.value);
   };
 
-  const handleChange = (event) => {
-    setSelectedCourseId(event.target.value);
+  const handleChangeUserCourse = (userCourseId) => {
+    setSelectedUserCourseId(userCourseId);
   };
 
   return (
@@ -88,7 +103,7 @@ export default function Analytics({
         <Select
           labelId="course-select-label"
           value={selectedCourseId}
-          onChange={handleChange}
+          onChange={handleChangeCourse}
           label="Course"
         >
           {courses.map((course) => (
@@ -98,7 +113,16 @@ export default function Analytics({
           ))}
         </Select>
       </FormControl>
-      <FancyTable tableData={tableData} />
+      <FancyTable
+        tableData={tableData}
+        onChangeUserCourse={handleChangeUserCourse}
+      />
+      {selectedUserCourse && (
+        <Review
+          items={selectedUserCourse.course.items}
+          answers={selectedUserCourse.answers}
+        />
+      )}
     </>
   );
 }

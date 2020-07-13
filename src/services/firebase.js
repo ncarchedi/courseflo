@@ -150,7 +150,10 @@ export const getUserCoursesFromFirestore = async (courseId) => {
     .orderBy("submitted", "desc")
     .get();
 
-  return result.docs.map((doc) => doc.data());
+  return result.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
 };
 
 // export const sendPasswordResetEmail = (email) => {

@@ -41,7 +41,7 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-export default function MaterialTableDemo({ tableData, courseName }) {
+export default function MaterialTableDemo({ tableData, onChangeUserCourse }) {
   if (!tableData) return null;
 
   return (
@@ -53,6 +53,7 @@ export default function MaterialTableDemo({ tableData, courseName }) {
       options={{
         exportButton: true,
       }}
+      onRowClick={(event, rowData) => onChangeUserCourse(rowData.id)}
     />
   );
 }
