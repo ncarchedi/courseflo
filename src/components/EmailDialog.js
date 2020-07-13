@@ -21,8 +21,8 @@ export default function EmailDialog({ open, setOpen, setUserEmail }) {
       <DialogTitle>What's your email address?</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          We'll send you an email with information on how to restore your
-          progress if you need to leave and come back later.
+          We'll send you a link to restore your progress in case you need to
+          leave and come back later.
         </DialogContentText>
         <form onSubmit={handleSubmit} noValidate>
           <TextField
