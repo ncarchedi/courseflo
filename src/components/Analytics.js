@@ -9,7 +9,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import FancyTable from "./FancyTable";
+import SubmissionsTable from "./SubmissionsTable";
 import Review from "./Review";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { getUserCoursesFromFirestore } from "../services/firebase";
@@ -48,7 +48,7 @@ export default function Analytics({
 }) {
   const classes = useStyles();
   const [selectedCourseId, setSelectedCourseId] = useState(initialCourseId);
-  const [selectedUserCourse, setSelectedUserCourse] = useState();
+  const [selectedSubmission, setSelectedSubmission] = useState();
   const [userCourses, setUserCourses] = useState();
 
   useEffect(() => {
@@ -107,23 +107,23 @@ export default function Analytics({
           ))}
         </Select>
       </FormControl>
-      <FancyTable
+      <SubmissionsTable
         tableData={tableData}
-        selectedUserCourse={selectedUserCourse}
-        setSelectedUserCourse={setSelectedUserCourse}
+        selectedSubmission={selectedSubmission}
+        setSelectedSubmission={setSelectedSubmission}
       />
-      {selectedUserCourse && (
+      {selectedSubmission && (
         <Paper className={classes.reviewContainer} variant="outlined">
           <Typography variant="h6">
             {`Detailed Review (${
-              selectedUserCourse.userEmail
-                ? selectedUserCourse.userEmail
-                : selectedUserCourse.submitted
+              selectedSubmission.userEmail
+                ? selectedSubmission.userEmail
+                : selectedSubmission.submitted
             })`}
           </Typography>
           <Review
-            items={selectedUserCourse.course.items}
-            answers={selectedUserCourse.answers}
+            items={selectedSubmission.course.items}
+            answers={selectedSubmission.answers}
             hideFab
           />
         </Paper>

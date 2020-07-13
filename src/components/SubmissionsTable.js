@@ -42,10 +42,10 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-export default function MaterialTableDemo({
+export default function SubmissionsTable({
   tableData,
-  selectedUserCourse,
-  setSelectedUserCourse,
+  selectedSubmission,
+  setSelectedSubmission,
 }) {
   const theme = useTheme();
 
@@ -61,12 +61,12 @@ export default function MaterialTableDemo({
         exportButton: true,
         rowStyle: (rowData) => ({
           backgroundColor:
-            selectedUserCourse &&
-            selectedUserCourse.id === rowData.id &&
+            selectedSubmission &&
+            selectedSubmission.id === rowData.id &&
             theme.palette.grey[300],
         }),
       }}
-      onRowClick={(event, rowData) => setSelectedUserCourse(rowData)}
+      onRowClick={(event, rowData) => setSelectedSubmission(rowData)}
     />
   );
 }
