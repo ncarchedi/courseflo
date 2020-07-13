@@ -20,8 +20,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DashboardHeader({
-  isSubscribed,
-  setShowFeedbackModal,
+  // isSubscribed,
+  setShowFeedbackDialog,
 }) {
   const classes = useStyles();
 
@@ -54,7 +54,7 @@ export default function DashboardHeader({
             )} */}
             <Tooltip title="Provide Feedback">
               <IconButton
-                onClick={() => setShowFeedbackModal(true)}
+                onClick={() => setShowFeedbackDialog(true)}
                 color="inherit"
               >
                 <ErrorOutlineOutlinedIcon />

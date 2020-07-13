@@ -6,7 +6,7 @@ import CourseHeader from "./CourseHeader";
 import ItemViewer from "./ItemViewer";
 import Score from "./Score";
 import Review from "./Review";
-import FeedbackModal from "./FeedbackModal";
+import FeedbackDialog from "./FeedbackDialog";
 import EmailDialog from "./EmailDialog";
 import NotFound from "./NotFound";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
@@ -32,7 +32,7 @@ export default function Course() {
   const [course, setCourse] = useState(null);
   const [userEmail, setUserEmail] = useState(""); // to ID user
   const [answers, setAnswers] = useState(null);
-  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [showFeedbackDialog, setShowFeedbackDialog] = useState(false);
   const [showEmailDialog, setShowEmailDialog] = useState(true);
   const [show404, setShow404] = useState(false);
   const [itemNumber, setItemNumber] = useState(0);
@@ -156,11 +156,11 @@ export default function Course() {
         <CourseHeader
           courseTitle={course.title}
           progress={progress}
-          setShowFeedbackModal={setShowFeedbackModal}
+          setShowFeedbackDialog={setShowFeedbackDialog}
         />
-        <FeedbackModal
-          open={showFeedbackModal}
-          setOpen={setShowFeedbackModal}
+        <FeedbackDialog
+          open={showFeedbackDialog}
+          setOpen={setShowFeedbackDialog}
           sentFrom="course"
           answers={answers}
         />

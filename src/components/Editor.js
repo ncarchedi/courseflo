@@ -11,8 +11,8 @@ import EditorHeader from "./EditorHeader";
 import EditableItem from "./EditableItem";
 import NotFound from "./NotFound";
 import ReorderItemsDialog from "./ReorderItemsDialog";
-import FeedbackModal from "./FeedbackModal";
-import EditorSettingsModal from "./EditorSettingsModal";
+import FeedbackDialog from "./FeedbackDialog";
+import EditorSettingsDialog from "./EditorSettingsDialog";
 import AddItemFab from "./AddItemFab";
 import NoItems from "./NoItems";
 import LoadingScreen from "./LoadingScreen";
@@ -53,8 +53,8 @@ export default function Editor() {
   const [course, setCourse] = useState();
   const [currentItemId, setCurrentItemId] = useState();
   const [openReorderDialog, setOpenReorderDialog] = useState(false);
-  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
-  const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [showFeedbackDialog, setShowFeedbackDialog] = useState(false);
+  const [showSettingsDialog, setShowSettingsDialog] = useState(false);
 
   useEffect(() => {
     let courseData;
@@ -186,8 +186,8 @@ export default function Editor() {
         onChangeTitle={handleChangeTitle}
         onPublish={handlePublish}
         onRestore={handleRestore}
-        setShowFeedbackModal={setShowFeedbackModal}
-        setShowSettingsModal={setShowSettingsModal}
+        setShowFeedbackDialog={setShowFeedbackDialog}
+        setShowSettingsDialog={setShowSettingsDialog}
       />
       {course.items.length === 0 ? (
         <NoItems editing />
@@ -236,14 +236,14 @@ export default function Editor() {
         setOpen={setOpenReorderDialog}
         onReorderItems={handleUpdateItems}
       />
-      <FeedbackModal
-        open={showFeedbackModal}
-        setOpen={setShowFeedbackModal}
+      <FeedbackDialog
+        open={showFeedbackDialog}
+        setOpen={setShowFeedbackDialog}
         sentFrom="editor"
       />
-      <EditorSettingsModal
-        open={showSettingsModal}
-        setOpen={setShowSettingsModal}
+      <EditorSettingsDialog
+        open={showSettingsDialog}
+        setOpen={setShowSettingsDialog}
         currentSettings={course.settings}
         onSaveSettings={handleSaveSettings}
       />

@@ -35,8 +35,8 @@ export default function Header({
   onChangeTitle,
   onPublish,
   onRestore,
-  setShowFeedbackModal,
-  setShowSettingsModal,
+  setShowFeedbackDialog,
+  setShowSettingsDialog,
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -124,7 +124,7 @@ export default function Header({
             <Tooltip title="Settings">
               <IconButton
                 color="inherit"
-                onClick={() => setShowSettingsModal(true)}
+                onClick={() => setShowSettingsDialog(true)}
               >
                 <SettingsOutlinedIcon />
               </IconButton>
@@ -141,7 +141,7 @@ export default function Header({
             </Tooltip>
             <Tooltip title="Provide Feedback">
               <IconButton
-                onClick={() => setShowFeedbackModal(true)}
+                onClick={() => setShowFeedbackDialog(true)}
                 color="inherit"
               >
                 <ErrorOutlineOutlinedIcon />

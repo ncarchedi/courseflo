@@ -24,7 +24,7 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import UpdateIcon from "@material-ui/icons/Update";
 import DashboardHeader from "./DashboardHeader";
 import NotFound from "./NotFound";
-import FeedbackModal from "./FeedbackModal";
+import FeedbackDialog from "./FeedbackDialog";
 import Analytics from "./Analytics";
 // import Emoji from "./Emoji";
 import UserContext from "../context/UserContext";
@@ -73,7 +73,7 @@ export default function Dashboard() {
   const subscriber = useContext(SubscriberContext);
   const [courses, setCourses] = useState();
   const [newCourseId, setNewCourseId] = useState();
-  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [showFeedbackDialog, setShowFeedbackDialog] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [showAnalytics, setShowAnalytics] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState();
@@ -250,7 +250,7 @@ export default function Dashboard() {
     <>
       <DashboardHeader
         isSubscribed={isSubscribed}
-        setShowFeedbackModal={setShowFeedbackModal}
+        setShowFeedbackDialog={setShowFeedbackDialog}
       />
       <Container className={classes.container} maxWidth="md">
         {showAnalytics ? (
@@ -283,9 +283,9 @@ export default function Dashboard() {
           </>
         )}
       </Container>
-      <FeedbackModal
-        open={showFeedbackModal}
-        setOpen={setShowFeedbackModal}
+      <FeedbackDialog
+        open={showFeedbackDialog}
+        setOpen={setShowFeedbackDialog}
         sentFrom="dashboard"
       />
       <Snackbar

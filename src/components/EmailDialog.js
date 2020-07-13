@@ -7,7 +7,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
-export default function FeedbackModal({ open, setOpen, setUserEmail }) {
+export default function EmailDialog({ open, setOpen, setUserEmail }) {
   const [email, setEmail] = useState("");
 
   const handleSubmit = (e) => {

@@ -9,7 +9,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 
-export default function FeedbackModal({
+export default function EditorSettingsDialog({
   open,
   setOpen,
   currentSettings,
