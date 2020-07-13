@@ -16,14 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Item({
-  item,
-  answer,
-  onChangeAnswer,
-  showSolution,
-  userEmail,
-  setUserEmail,
-}) {
+export default function Item({ item, answer, onChangeAnswer, showSolution }) {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -62,8 +55,6 @@ export default function Item({
           answer={answer}
           onChangeAnswer={onChangeAnswer}
           showSolution={showSolution}
-          userEmail={userEmail}
-          setUserEmail={setUserEmail}
         />
         {!showSolution && <ItemFooter item={item} />}
       </Paper>

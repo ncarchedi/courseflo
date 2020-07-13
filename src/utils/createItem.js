@@ -4,13 +4,6 @@ export default function createItem(type) {
   let item;
 
   switch (type) {
-    case "Email":
-      item = {
-        id: uuidv4(),
-        type: type,
-        title: "What's your email address?",
-      };
-      break;
     case "Text":
       item = {
         id: uuidv4(),

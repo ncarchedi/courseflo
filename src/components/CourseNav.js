@@ -33,7 +33,6 @@ export default function CourseNav({
   onChangeItemNumber,
   setJumpToDialogOpen,
   setOpenCompleteCourseDialog,
-  disableButtons,
   onLastItem,
 }) {
   const classes = useStyles();
@@ -90,7 +89,6 @@ export default function CourseNav({
               onClick={() => setJumpToDialogOpen(true)}
               variant="extended"
               color="primary"
-              disabled={disableButtons}
               aria-label="jump to..."
             >
               Jump to...
@@ -119,7 +117,6 @@ export default function CourseNav({
               onClick={() => onChangeItemNumber(itemNumber + 1)}
               variant={notOnMobile ? "extended" : "round"}
               // force user to enter email before continuing
-              disabled={disableButtons}
               color="primary"
               aria-label="continue"
             >

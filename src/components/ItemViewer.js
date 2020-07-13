@@ -20,8 +20,6 @@ export default function ItemViewer({
   onSubmitCourse,
   itemNumber,
   onChangeItemNumber,
-  userEmail,
-  setUserEmail,
 }) {
   const classes = useStyles();
   const [jumpToDialogOpen, setJumpToDialogOpen] = useState(false);
@@ -43,8 +41,6 @@ export default function ItemViewer({
           item={item}
           answer={answers && answers.filter((a) => a.itemId === item.id)[0]}
           onChangeAnswer={onChangeAnswer}
-          userEmail={userEmail}
-          setUserEmail={setUserEmail}
         />
       </Box>
       <CourseNav
@@ -52,7 +48,6 @@ export default function ItemViewer({
         onChangeItemNumber={onChangeItemNumber}
         setJumpToDialogOpen={setJumpToDialogOpen}
         setOpenCompleteCourseDialog={setOpenCompleteCourseDialog}
-        disableButtons={item.type === "Email" && !userEmail}
         onLastItem={itemNumber === items.length - 1}
       />
       <JumpToItemDialog

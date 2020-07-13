@@ -7,10 +7,10 @@ import ItemViewer from "./ItemViewer";
 import Score from "./Score";
 import Review from "./Review";
 import FeedbackModal from "./FeedbackModal";
+import EmailDialog from "./EmailDialog";
 import NotFound from "./NotFound";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
 import initializeAnswers from "../utils/initializeAnswers";
-import createItem from "../utils/createItem";
 import useQuery from "../hooks/useQuery";
 import {
   createUserCourseInFirestore,
@@ -33,6 +33,7 @@ export default function Course() {
   const [userEmail, setUserEmail] = useState(""); // to ID user
   const [answers, setAnswers] = useState(null);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [showEmailDialog, setShowEmailDialog] = useState(true);
   const [show404, setShow404] = useState(false);
   const [itemNumber, setItemNumber] = useState(0);
   const [userCourseId, setUserCourseId] = useState(query.get("uc"));
@@ -60,14 +61,10 @@ export default function Course() {
   const handleLoadCourse = (course) => {
     // extract the course data
     let courseData = course.data();
-    // if collecting emails, prepend Email item
-    if (courseData.settings && courseData.settings.collectEmails) {
-      const emailItem = createItem("Email");
-      courseData = {
-        ...courseData,
-        items: [emailItem, ...courseData.items],
-      };
-    }
+    // if collecting emails, show email dialog
+    courseData.settings &&
+      courseData.settings.collectEmails &&
+      setShowEmailDialog(true);
     // load into state
     setCourse(courseData);
     // update the browser tab title dynamically
@@ -167,6 +164,11 @@ export default function Course() {
           sentFrom="course"
           answers={answers}
         />
+        <EmailDialog
+          open={showEmailDialog}
+          setOpen={setShowEmailDialog}
+          setUserEmail={setUserEmail}
+        />
         <Container className={classes.container}>
           <Switch>
             <Route exact path={path}>
@@ -177,8 +179,6 @@ export default function Course() {
                 onSubmitCourse={handleSubmitCourse}
                 itemNumber={itemNumber}
                 onChangeItemNumber={handleChangeItemNumber}
-                userEmail={userEmail}
-                setUserEmail={setUserEmail}
               />
             </Route>
             <Route exact path={`${path}/score`}>
@@ -190,11 +190,7 @@ export default function Course() {
               />
             </Route>
             <Route exact path={`${path}/review`}>
-              <Review
-                items={course.items}
-                answers={answers}
-                userEmail={userEmail}
-              />
+              <Review items={course.items} answers={answers} />
             </Route>
             <Route path={`${path}/*`}>
               <NotFound type="page" />

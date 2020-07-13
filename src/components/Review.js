@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Review({ items, answers, userEmail }) {
+export default function Review({ items, answers }) {
   const classes = useStyles();
   const { courseId } = useParams();
 
@@ -41,7 +41,6 @@ export default function Review({ items, answers, userEmail }) {
           <Item
             item={item}
             answer={answers.filter((a) => a.itemId === item.id)[0]}
-            userEmail={userEmail}
             showSolution
           />
         </Box>
