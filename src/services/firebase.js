@@ -40,21 +40,49 @@ export const getUserSubscription = async (userId) => {
   return sub || null;
 };
 
-export const saveSubmissionToFirestore = (
+export const createUserCourseInFirestore = (
   courseId,
   userEmail,
+  itemNumber,
   answers,
   course
 ) => {
-  return db.collection("submissions").add({
-    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+  return db.collection("userCourses").add({
+    created: firebase.firestore.FieldValue.serverTimestamp(),
+    updated: firebase.firestore.FieldValue.serverTimestamp(),
     courseId,
-    userEmail,
-    score: computeScoreFromAnswers(answers),
-    answers,
+    userEmail: userEmail || null,
     course,
+    itemNumber,
+    answers,
+    submitted: null,
+    score: null,
   });
 };
+
+export const updateUserCourseInFirestore = (
+  userCourseId,
+  itemNumber,
+  answers,
+  submitted
+) => {
+  return db
+    .collection("userCourses")
+    .doc(userCourseId)
+    .update({
+      updated: firebase.firestore.FieldValue.serverTimestamp(),
+      itemNumber,
+      answers,
+      submitted: submitted
+        ? firebase.firestore.FieldValue.serverTimestamp()
+        : null,
+      score: submitted ? computeScoreFromAnswers(answers) : null,
+    });
+};
+
+// export const getUserCourseFromFirestore = (userCourseId) => {
+//   return db.collection("userCourses").doc(userCourseId).get();
+// };
 
 export const saveFeedbackToFirestore = (
   sentFrom,
@@ -77,7 +105,7 @@ export const getCourseFromFirestore = (courseId) => {
   return db.collection("courses").doc(courseId).get();
 };
 
-export const getUserCoursesFromFirestore = async (userId) => {
+export const getAuthorCoursesFromFirestore = async (userId) => {
   const result = await db
     .collection("courses")
     .where("userId", "==", userId)
@@ -101,8 +129,7 @@ export const saveCourseToFirestore = (course) => {
 // soft delete course
 export const deleteCourseInFirestore = (courseId) => {
   return db.collection("courses").doc(courseId).update({
-    deleted: true,
-    updated: firebase.firestore.FieldValue.serverTimestamp(),
+    deleted: firebase.firestore.FieldValue.serverTimestamp(),
   });
 };
 
@@ -116,11 +143,11 @@ export const updateCourseInFirestore = (courseId, course) => {
     });
 };
 
-export const getSubmissionsFromFirestore = async (courseId) => {
+export const getUserCoursesFromFirestore = async (courseId) => {
   const result = await db
-    .collection("submissions")
+    .collection("userCourses")
     .where("courseId", "==", courseId)
-    .orderBy("timestamp", "desc")
+    .orderBy("submitted", "desc")
     .get();
 
   return result.docs.map((doc) => doc.data());

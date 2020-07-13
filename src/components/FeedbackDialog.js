@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FeedbackModal({ open, setOpen, sentFrom, answers }) {
+export default function FeedbackDialog({ open, setOpen, sentFrom, answers }) {
   const classes = useStyles();
   const [user] = useContext(UserContext);
   const [email, setEmail] = useState(user ? user.email : "");

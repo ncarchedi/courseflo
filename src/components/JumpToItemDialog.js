@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 export default function JumpToItemDialog({
   items,
   itemNumber,
-  setItemNumber,
+  onChangeItemNumber,
   open,
   setOpen,
 }) {
@@ -35,7 +35,7 @@ export default function JumpToItemDialog({
 
   const handleSelectItem = (item) => {
     const index = items.indexOf(item);
-    setItemNumber(index);
+    onChangeItemNumber(index);
     setOpen(false);
   };
 

@@ -10,7 +10,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import FancyTable from "./FancyTable";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import { getSubmissionsFromFirestore } from "../services/firebase";
+import { getUserCoursesFromFirestore } from "../services/firebase";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -18,14 +18,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const cleanSubmissions = (submissions) => {
+const getSubmissions = (userCourses) => {
   return (
-    submissions
-      // ignore submissions before we included `course`
-      .filter((sub) => sub.course)
+    userCourses
+      // ignore userCourses that haven't been submitted
+      .filter((sub) => sub.submitted)
       .map((sub) => ({
         email: sub.userEmail,
-        timestamp: moment(sub.timestamp.toDate()).format("YYYY-MM-DD hh:mm a"),
+        submitted: moment(sub.submitted.toDate()).format("YYYY-MM-DD hh:mm a"),
         numCorrect: sub.score.numCorrect,
         numQuestions: sub.score.numTotal,
         percCorrect: sub.score.percCorrect,
@@ -40,28 +40,28 @@ export default function Analytics({
 }) {
   const classes = useStyles();
   const [selectedCourseId, setSelectedCourseId] = useState(initialCourseId);
-  const [submissions, setSubmissions] = useState();
+  const [userCourses, setUserCourses] = useState();
 
   useEffect(() => {
-    const setCourseSubmissions = async () => {
-      setSubmissions(await getSubmissionsFromFirestore(selectedCourseId));
+    const setUserCoursesAsync = async () => {
+      setUserCourses(await getUserCoursesFromFirestore(selectedCourseId));
     };
 
-    selectedCourseId && setCourseSubmissions();
+    selectedCourseId && setUserCoursesAsync();
   }, [selectedCourseId]);
 
-  // wait until submissions are loaded before doing anything
-  if (!submissions) return null;
+  // wait until userCourses is loaded before doing anything
+  if (!userCourses) return null;
 
   const tableData = {
     columns: [
       { title: "Email", field: "email", type: "string" },
-      { title: "Timestamp", field: "timestamp", type: "string" },
+      { title: "Submitted", field: "submitted", type: "string" },
       { title: "# Correct", field: "numCorrect", type: "numeric" },
       { title: "# Questions", field: "numQuestions", type: "numeric" },
       { title: "Score (%)", field: "percCorrect", type: "numeric" },
     ],
-    data: cleanSubmissions(submissions),
+    data: getSubmissions(userCourses),
   };
 
   const handleChange = (event) => {

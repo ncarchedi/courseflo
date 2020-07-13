@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 export default function CourseHeader({
   courseTitle,
   progress,
-  setShowFeedbackModal,
+  setShowFeedbackDialog,
 }) {
   const classes = useStyles();
   let { courseId } = useParams();
@@ -58,7 +58,7 @@ export default function CourseHeader({
             </Tooltip>
             <Tooltip title="Provide Feedback">
               <IconButton
-                onClick={() => setShowFeedbackModal(true)}
+                onClick={() => setShowFeedbackDialog(true)}
                 edge="end"
                 color="inherit"
               >

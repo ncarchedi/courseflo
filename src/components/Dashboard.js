@@ -24,7 +24,7 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import UpdateIcon from "@material-ui/icons/Update";
 import DashboardHeader from "./DashboardHeader";
 import NotFound from "./NotFound";
-import FeedbackModal from "./FeedbackModal";
+import FeedbackDialog from "./FeedbackDialog";
 import Analytics from "./Analytics";
 // import Emoji from "./Emoji";
 import UserContext from "../context/UserContext";
@@ -32,7 +32,7 @@ import SubscriberContext from "../context/SubscriberContext";
 import createCourse from "../utils/createCourse";
 import duplicateCourse from "../utils/duplicateCourse";
 import {
-  getUserCoursesFromFirestore,
+  getAuthorCoursesFromFirestore,
   saveCourseToFirestore,
   deleteCourseInFirestore,
 } from "../services/firebase";
@@ -73,7 +73,7 @@ export default function Dashboard() {
   const subscriber = useContext(SubscriberContext);
   const [courses, setCourses] = useState();
   const [newCourseId, setNewCourseId] = useState();
-  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [showFeedbackDialog, setShowFeedbackDialog] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [showAnalytics, setShowAnalytics] = useState(false);
   const [selectedCourseId, setSelectedCourseId] = useState();
@@ -83,7 +83,7 @@ export default function Dashboard() {
     document.title = "Courseflo - Dashboard";
 
     const setUserCourses = async () => {
-      const userCourses = await getUserCoursesFromFirestore(user.uid);
+      const userCourses = await getAuthorCoursesFromFirestore(user.uid);
       // don't show soft deleted courses in dashboard
       setCourses(userCourses.filter((course) => !course.deleted));
     };
@@ -250,7 +250,7 @@ export default function Dashboard() {
     <>
       <DashboardHeader
         isSubscribed={isSubscribed}
-        setShowFeedbackModal={setShowFeedbackModal}
+        setShowFeedbackDialog={setShowFeedbackDialog}
       />
       <Container className={classes.container} maxWidth="md">
         {showAnalytics ? (
@@ -283,9 +283,9 @@ export default function Dashboard() {
           </>
         )}
       </Container>
-      <FeedbackModal
-        open={showFeedbackModal}
-        setOpen={setShowFeedbackModal}
+      <FeedbackDialog
+        open={showFeedbackDialog}
+        setOpen={setShowFeedbackDialog}
         sentFrom="dashboard"
       />
       <Snackbar
