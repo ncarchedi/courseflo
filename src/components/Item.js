@@ -25,6 +25,13 @@ export default function Item({ item, answer, onChangeAnswer, showSolution }) {
   // get metadata based on item type
   let { Component, helperText, icon } = getItemMetadata(item);
 
+  // if component type isn't valid, send error to console
+  // and return null (i.e. don't display it)
+  if (!Component) {
+    console.error(`Error: "${item.type}" isn't a valid item type`);
+    return null;
+  }
+
   let titleColor;
 
   // logic for when solutions are shown

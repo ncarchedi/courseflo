@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import moment from "moment";
 import Box from "@material-ui/core/Box";
+import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -16,6 +17,11 @@ import { getUserCoursesFromFirestore } from "../services/firebase";
 const useStyles = makeStyles((theme) => ({
   formControl: {
     marginBottom: theme.spacing(2),
+  },
+  reviewContainer: {
+    marginTop: theme.spacing(2),
+    padding: theme.spacing(2, 3),
+    backgroundColor: "inherit",
   },
 }));
 
@@ -118,10 +124,13 @@ export default function Analytics({
         onChangeUserCourse={handleChangeUserCourse}
       />
       {selectedUserCourse && (
-        <Review
-          items={selectedUserCourse.course.items}
-          answers={selectedUserCourse.answers}
-        />
+        <Paper className={classes.reviewContainer} variant="outlined">
+          <Typography variant="h6">Detailed Review</Typography>
+          <Review
+            items={selectedUserCourse.course.items}
+            answers={selectedUserCourse.answers}
+          />
+        </Paper>
       )}
     </>
   );
