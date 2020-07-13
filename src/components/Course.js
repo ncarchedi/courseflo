@@ -11,7 +11,7 @@ import EmailDialog from "./EmailDialog";
 import NotFound from "./NotFound";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
 import initializeAnswers from "../utils/initializeAnswers";
-import useQuery from "../hooks/useQuery";
+// import useQuery from "../hooks/useQuery";
 import {
   createUserCourseInFirestore,
   updateUserCourseInFirestore,
@@ -28,7 +28,7 @@ export default function Course() {
   const classes = useStyles();
   let { path } = useRouteMatch();
   let { courseId } = useParams();
-  let query = useQuery(); // get query params, if any
+  // let query = useQuery(); // get query params, if any
   const [course, setCourse] = useState(null);
   const [userEmail, setUserEmail] = useState(""); // to ID user
   const [answers, setAnswers] = useState(null);
@@ -36,7 +36,7 @@ export default function Course() {
   const [showEmailDialog, setShowEmailDialog] = useState(false);
   const [show404, setShow404] = useState(false);
   const [itemNumber, setItemNumber] = useState(0);
-  const [userCourseId, setUserCourseId] = useState(query.get("uc"));
+  const [userCourseId, setUserCourseId] = useState();
 
   useEffect(() => {
     getCourseFromFirestore(courseId)
