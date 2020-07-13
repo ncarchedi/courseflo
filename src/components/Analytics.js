@@ -24,7 +24,7 @@ const getSubmissions = (userCourses) => {
       // ignore userCourses that haven't been submitted
       .filter((sub) => sub.submitted)
       .map((sub) => ({
-        email: sub.userEmail,
+        email: sub.userEmail || "<None>",
         submitted: moment(sub.submitted.toDate()).format("YYYY-MM-DD hh:mm a"),
         numCorrect: sub.score.numCorrect,
         numQuestions: sub.score.numTotal,
