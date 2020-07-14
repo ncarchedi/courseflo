@@ -161,7 +161,7 @@ export const sendProgressEmailToUser = (userEmail, courseTitle, targetUrl) => {
     to: userEmail,
     message: {
       subject: courseTitle,
-      html: `<p>Thanks for starting ${courseTitle}! In case you need to leave before finishing the course, you can <a href="${targetUrl}" target="_blank">click this link</a> to restore your progress and start where you left off.</p><p>- The Courseflo Team</p>`,
+      html: `<p>Thanks for starting ${courseTitle}! In case you need to leave before finishing the course, you can <a href="${targetUrl}" target="_blank">click this link</a> to restore your progress and start where you left off.</p><p>- The Courseflo Team</p><p>P.S. You can respond to this email if you need help.</p>`,
     },
   });
 };
