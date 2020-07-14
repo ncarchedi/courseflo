@@ -80,10 +80,6 @@ export const updateUserCourseInFirestore = (
     });
 };
 
-// export const getUserCourseFromFirestore = (userCourseId) => {
-//   return db.collection("userCourses").doc(userCourseId).get();
-// };
-
 export const saveFeedbackToFirestore = (
   sentFrom,
   courseId,
@@ -154,6 +150,10 @@ export const getUserCoursesFromFirestore = async (courseId) => {
     id: doc.id,
     ...doc.data(),
   }));
+};
+
+export const getUserCourseFromFirestore = (userCourseId) => {
+  return db.collection("userCourses").doc(userCourseId).get();
 };
 
 // export const sendPasswordResetEmail = (email) => {
