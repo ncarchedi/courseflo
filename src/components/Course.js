@@ -55,10 +55,9 @@ export default function Course() {
             !uc.data().submitted && // not submitted yet
             uc.data().courseId === courseId // matches current course
           ) {
-            // if the user course exists and hasn't been submitted
-            // set the user course ID
+            // set the user course ID in state
             setUserCourseId(ucId);
-            // and set other progress-related data
+            // set other progress-related state
             setUserEmail(uc.data().userEmail);
             setItemNumber(uc.data().itemNumber);
             setAnswers(uc.data().answers);
