@@ -80,10 +80,6 @@ export const updateUserCourseInFirestore = (
     });
 };
 
-// export const getUserCourseFromFirestore = (userCourseId) => {
-//   return db.collection("userCourses").doc(userCourseId).get();
-// };
-
 export const saveFeedbackToFirestore = (
   sentFrom,
   courseId,
@@ -154,6 +150,20 @@ export const getUserCoursesFromFirestore = async (courseId) => {
     id: doc.id,
     ...doc.data(),
   }));
+};
+
+export const getUserCourseFromFirestore = (userCourseId) => {
+  return db.collection("userCourses").doc(userCourseId).get();
+};
+
+export const sendProgressEmailToUser = (userEmail, courseTitle, targetUrl) => {
+  return db.collection("mail").add({
+    to: userEmail,
+    message: {
+      subject: courseTitle,
+      html: `<p>Thanks for starting ${courseTitle}! In case you need to leave before finishing the course, you can <a href="${targetUrl}" target="_blank">click this link</a> to restore your progress and start where you left off.</p><p>- The Courseflo Team</p><p>P.S. You can respond to this email if you need help.</p>`,
+    },
+  });
 };
 
 // export const sendPasswordResetEmail = (email) => {

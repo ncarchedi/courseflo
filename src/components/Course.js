@@ -11,11 +11,13 @@ import EmailDialog from "./EmailDialog";
 import NotFound from "./NotFound";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
 import initializeAnswers from "../utils/initializeAnswers";
-// import useQuery from "../hooks/useQuery";
+import useQuery from "../hooks/useQuery";
 import {
   createUserCourseInFirestore,
   updateUserCourseInFirestore,
   getCourseFromFirestore,
+  getUserCourseFromFirestore,
+  sendProgressEmailToUser,
 } from "../services/firebase";
 
 const useStyles = makeStyles((theme) => ({
@@ -26,51 +28,85 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Course() {
   const classes = useStyles();
-  let { path } = useRouteMatch();
+  let { url, path } = useRouteMatch();
   let { courseId } = useParams();
-  // let query = useQuery(); // get query params, if any
+  let query = useQuery(); // get query params, if any
+  const [loadingProgress, setLoadingProgress] = useState(
+    !!query.get("continue")
+  );
   const [course, setCourse] = useState(null);
   const [userEmail, setUserEmail] = useState(""); // to ID user
   const [answers, setAnswers] = useState(null);
   const [showFeedbackDialog, setShowFeedbackDialog] = useState(false);
   const [showEmailDialog, setShowEmailDialog] = useState(false);
-  const [show404, setShow404] = useState(false);
+  const [showCourse404, setShowCourse404] = useState(false);
+  const [showPage404, setShowPage404] = useState(false);
   const [itemNumber, setItemNumber] = useState(0);
   const [userCourseId, setUserCourseId] = useState();
 
+  // load progress, if any
   useEffect(() => {
-    getCourseFromFirestore(courseId)
-      .then((course) => {
-        if (course.exists) {
-          handleLoadCourse(course);
-        } else {
-          setShow404(true);
-        }
-      })
-      .catch((error) =>
-        console.error("Error loading course from Firestore:", error)
-      );
-  }, [courseId]);
+    if (loadingProgress) {
+      const ucId = query.get("continue");
+      getUserCourseFromFirestore(ucId)
+        .then((uc) => {
+          if (
+            uc.exists && // exists in firestore
+            !uc.data().submitted && // not submitted yet
+            uc.data().courseId === courseId // matches current course
+          ) {
+            // if the user course exists and hasn't been submitted
+            // set the user course ID
+            setUserCourseId(ucId);
+            // and set other progress-related data
+            setUserEmail(uc.data().userEmail);
+            setItemNumber(uc.data().itemNumber);
+            setAnswers(uc.data().answers);
+          } else {
+            setShowPage404(true);
+          }
+        })
+        .catch((error) =>
+          console.error("Error loading progress from Firestore:", error)
+        )
+        .finally(() => setLoadingProgress(false));
+    }
+  }, [loadingProgress, query, courseId]);
 
-  // initialize the answers array
+  // load course content
+  useEffect(() => {
+    if (!loadingProgress) {
+      getCourseFromFirestore(courseId)
+        .then((course) => {
+          if (course.exists) {
+            // extract the course data
+            let courseData = course.data();
+            // if collecting emails and we don't have
+            // an email already, then show email dialog
+            courseData.settings &&
+              courseData.settings.collectEmails &&
+              !userEmail &&
+              setShowEmailDialog(true);
+            // load course into state
+            setCourse(courseData);
+            // update the browser tab title dynamically
+            document.title = courseData.title;
+          } else {
+            setShowCourse404(true);
+          }
+        })
+        .catch((error) =>
+          console.error("Error loading course from Firestore:", error)
+        );
+    }
+  }, [loadingProgress, courseId, userEmail]);
+
+  // initialize the answers array if it doesn't
+  // already exists (e.g. from loading progress)
   useEffect(() => {
     // once the course has been loaded into state
-    if (course) initializeAnswers(course, setAnswers);
-  }, [course]);
-
-  const handleLoadCourse = (course) => {
-    // extract the course data
-    let courseData = course.data();
-    // if collecting emails, show email dialog
-    courseData.settings &&
-      courseData.settings.collectEmails &&
-      setShowEmailDialog(true);
-    // load into state
-    setCourse(courseData);
-    // update the browser tab title dynamically
-    document.title = courseData.title;
-    return null;
-  };
+    if (course && !answers) initializeAnswers(course, setAnswers);
+  }, [course, answers]);
 
   const handleChangeAnswer = (itemId, value) => {
     // if answers is undefined, do nothing
@@ -116,7 +152,20 @@ export default function Course() {
         answers,
         course
       )
-        .then((docRef) => setUserCourseId(docRef.id))
+        .then((docRef) => {
+          // set user course in state
+          setUserCourseId(docRef.id);
+          // send progress email to user if we have their email
+          const targetUrl = `${window.location.origin}${url}?continue=${docRef.id}`;
+          userEmail &&
+            sendProgressEmailToUser(
+              userEmail,
+              course.title,
+              targetUrl
+            ).catch((error) =>
+              console.error("Error sending progress email:", error)
+            );
+        })
         .catch((error) =>
           console.error("Error creating userCourse in Firestore:", error)
         );
@@ -147,8 +196,11 @@ export default function Course() {
     [itemNumber, course]
   );
 
-  // if the course isn't found, show 404
-  if (show404) return <NotFound type="course" />;
+  // if the page isn't found (e.g. incorrect query param)
+  if (showPage404) return <NotFound type="page" />;
+
+  // if the course isn't found
+  if (showCourse404) return <NotFound type="course" />;
 
   return (
     course && (
