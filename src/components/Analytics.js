@@ -74,6 +74,7 @@ export default function Analytics({
   );
 
   const handleChangeCourse = (event) => {
+    setSelectedSubmission(null);
     setSelectedCourseId(event.target.value);
   };
 
