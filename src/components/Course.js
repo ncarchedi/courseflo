@@ -38,7 +38,8 @@ export default function Course() {
   const [answers, setAnswers] = useState(null);
   const [showFeedbackDialog, setShowFeedbackDialog] = useState(false);
   const [showEmailDialog, setShowEmailDialog] = useState(false);
-  const [show404, setShow404] = useState(false);
+  const [showCourse404, setShowCourse404] = useState(false);
+  const [showPage404, setShowPage404] = useState(false);
   const [itemNumber, setItemNumber] = useState(0);
   const [userCourseId, setUserCourseId] = useState();
 
@@ -48,17 +49,20 @@ export default function Course() {
       const ucId = query.get("continue");
       getUserCourseFromFirestore(ucId)
         .then((uc) => {
-          if (uc.exists && !uc.data().submitted) {
+          if (
+            uc.exists && // exists in firestore
+            !uc.data().submitted && // not submitted yet
+            uc.data().courseId === courseId // matches current course
+          ) {
             // if the user course exists and hasn't been submitted
             // set the user course ID
             setUserCourseId(ucId);
             // and set other progress-related data
-            const ucData = uc.data();
-            setUserEmail(ucData.userEmail);
-            setItemNumber(ucData.itemNumber);
-            setAnswers(ucData.answers);
+            setUserEmail(uc.data().userEmail);
+            setItemNumber(uc.data().itemNumber);
+            setAnswers(uc.data().answers);
           } else {
-            setShow404(true); // TODO: show a different empty screen
+            setShowPage404(true);
           }
         })
         .catch((error) =>
@@ -66,7 +70,7 @@ export default function Course() {
         )
         .finally(() => setLoadingProgress(false));
     }
-  }, [query, loadingProgress]);
+  }, [loadingProgress, query, courseId]);
 
   // load course content
   useEffect(() => {
@@ -87,14 +91,14 @@ export default function Course() {
             // update the browser tab title dynamically
             document.title = courseData.title;
           } else {
-            setShow404(true);
+            setShowCourse404(true);
           }
         })
         .catch((error) =>
           console.error("Error loading course from Firestore:", error)
         );
     }
-  }, [courseId, loadingProgress, userEmail]);
+  }, [loadingProgress, courseId, userEmail]);
 
   // initialize the answers array if it doesn't
   // already exists (e.g. from loading progress)
@@ -178,8 +182,11 @@ export default function Course() {
     [itemNumber, course]
   );
 
-  // if the course isn't found, show 404
-  if (show404) return <NotFound type="course" />;
+  // if the page isn't found (e.g. incorrect query param)
+  if (showPage404) return <NotFound type="page" />;
+
+  // if the course isn't found
+  if (showCourse404) return <NotFound type="course" />;
 
   return (
     course && (
