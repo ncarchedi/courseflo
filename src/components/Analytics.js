@@ -1,20 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import moment from "moment";
 import Box from "@material-ui/core/Box";
+import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import FancyTable from "./FancyTable";
+import SubmissionsTable from "./SubmissionsTable";
+import Review from "./Review";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { getUserCoursesFromFirestore } from "../services/firebase";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
     marginBottom: theme.spacing(2),
+  },
+  reviewContainer: {
+    marginTop: theme.spacing(2),
+    padding: theme.spacing(2, 3),
+    backgroundColor: "inherit",
   },
 }));
 
@@ -24,8 +31,9 @@ const getSubmissions = (userCourses) => {
       // ignore userCourses that haven't been submitted
       .filter((sub) => sub.submitted)
       .map((sub) => ({
+        ...sub,
         email: sub.userEmail || "<None>",
-        submitted: moment(sub.submitted.toDate()).format("YYYY-MM-DD hh:mm a"),
+        submitted: moment(sub.submitted.toDate()).format("YYYY-MM-DD hh:mm A"),
         numCorrect: sub.score.numCorrect,
         numQuestions: sub.score.numTotal,
         percCorrect: sub.score.percCorrect,
@@ -40,6 +48,7 @@ export default function Analytics({
 }) {
   const classes = useStyles();
   const [selectedCourseId, setSelectedCourseId] = useState(initialCourseId);
+  const [selectedSubmission, setSelectedSubmission] = useState();
   const [userCourses, setUserCourses] = useState();
 
   useEffect(() => {
@@ -50,21 +59,22 @@ export default function Analytics({
     selectedCourseId && setUserCoursesAsync();
   }, [selectedCourseId]);
 
-  // wait until userCourses is loaded before doing anything
-  if (!userCourses) return null;
+  const tableData = useMemo(
+    () => ({
+      columns: [
+        { title: "Email", field: "email", type: "string" },
+        { title: "Submitted", field: "submitted", type: "string" },
+        { title: "# Correct", field: "numCorrect", type: "numeric" },
+        { title: "# Questions", field: "numQuestions", type: "numeric" },
+        { title: "Score (%)", field: "percCorrect", type: "numeric" },
+      ],
+      data: userCourses && getSubmissions(userCourses),
+    }),
+    [userCourses]
+  );
 
-  const tableData = {
-    columns: [
-      { title: "Email", field: "email", type: "string" },
-      { title: "Submitted", field: "submitted", type: "string" },
-      { title: "# Correct", field: "numCorrect", type: "numeric" },
-      { title: "# Questions", field: "numQuestions", type: "numeric" },
-      { title: "Score (%)", field: "percCorrect", type: "numeric" },
-    ],
-    data: getSubmissions(userCourses),
-  };
-
-  const handleChange = (event) => {
+  const handleChangeCourse = (event) => {
+    setSelectedSubmission(null);
     setSelectedCourseId(event.target.value);
   };
 
@@ -88,7 +98,7 @@ export default function Analytics({
         <Select
           labelId="course-select-label"
           value={selectedCourseId}
-          onChange={handleChange}
+          onChange={handleChangeCourse}
           label="Course"
         >
           {courses.map((course) => (
@@ -98,7 +108,27 @@ export default function Analytics({
           ))}
         </Select>
       </FormControl>
-      <FancyTable tableData={tableData} />
+      <SubmissionsTable
+        tableData={tableData}
+        selectedSubmission={selectedSubmission}
+        setSelectedSubmission={setSelectedSubmission}
+      />
+      {selectedSubmission && (
+        <Paper className={classes.reviewContainer} variant="outlined">
+          <Typography variant="h6">
+            {`Detailed Review (${
+              selectedSubmission.userEmail
+                ? selectedSubmission.userEmail
+                : selectedSubmission.submitted
+            })`}
+          </Typography>
+          <Review
+            items={selectedSubmission.course.items}
+            answers={selectedSubmission.answers}
+            hideFab
+          />
+        </Paper>
+      )}
     </>
   );
 }

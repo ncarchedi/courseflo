@@ -1,4 +1,5 @@
 import React, { forwardRef } from "react";
+import { useTheme } from "@material-ui/styles";
 import MaterialTable from "material-table";
 
 import AddBox from "@material-ui/icons/AddBox";
@@ -41,7 +42,13 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-export default function MaterialTableDemo({ tableData, courseName }) {
+export default function SubmissionsTable({
+  tableData,
+  selectedSubmission,
+  setSelectedSubmission,
+}) {
+  const theme = useTheme();
+
   if (!tableData) return null;
 
   return (
@@ -52,7 +59,14 @@ export default function MaterialTableDemo({ tableData, courseName }) {
       data={tableData.data}
       options={{
         exportButton: true,
+        rowStyle: (rowData) => ({
+          backgroundColor:
+            selectedSubmission &&
+            selectedSubmission.id === rowData.id &&
+            theme.palette.grey[300],
+        }),
       }}
+      onRowClick={(event, rowData) => setSelectedSubmission(rowData)}
     />
   );
 }

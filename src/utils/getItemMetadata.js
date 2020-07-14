@@ -1,6 +1,3 @@
-import React from "react";
-import Typography from "@material-ui/core/Typography";
-
 // normal items
 import Text from "../items/Text";
 import Video from "../items/Video";
@@ -63,9 +60,7 @@ export default function getItemMetadata(item, editable) {
       break;
     default:
       helperText = null;
-      Component = () => (
-        <Typography>{`Error: "${item.type}" is not a valid item type.`}</Typography>
-      );
+      Component = null;
   }
 
   return { Component, helperText, icon };
