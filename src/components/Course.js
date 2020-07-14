@@ -17,6 +17,7 @@ import {
   updateUserCourseInFirestore,
   getCourseFromFirestore,
   getUserCourseFromFirestore,
+  sendProgressEmailToUser,
 } from "../services/firebase";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Course() {
   const classes = useStyles();
-  let { path } = useRouteMatch();
+  let { url, path } = useRouteMatch();
   let { courseId } = useParams();
   let query = useQuery(); // get query params, if any
   const [loadingProgress, setLoadingProgress] = useState(
@@ -151,7 +152,20 @@ export default function Course() {
         answers,
         course
       )
-        .then((docRef) => setUserCourseId(docRef.id))
+        .then((docRef) => {
+          // set user course in state
+          setUserCourseId(docRef.id);
+          // send progress email to user if we have their email
+          const targetUrl = `${window.location.origin}${url}?continue=${docRef.id}`;
+          userEmail &&
+            sendProgressEmailToUser(
+              userEmail,
+              course.title,
+              targetUrl
+            ).catch((error) =>
+              console.error("Error sending progress email:", error)
+            );
+        })
         .catch((error) =>
           console.error("Error creating userCourse in Firestore:", error)
         );
