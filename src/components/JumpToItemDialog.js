@@ -11,13 +11,14 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import CheckIcon from "@material-ui/icons/Check";
+import CheckCircleOutlineOutlinedIcon from "@material-ui/icons/CheckCircleOutlineOutlined";
+import RadioButtonUncheckedOutlinedIcon from "@material-ui/icons/RadioButtonUncheckedOutlined";
 import renderHtmlFromString from "../utils/renderHtmlFromString";
 
 const useStyles = makeStyles((theme) => ({
   currentItem: {
-    backgroundColor: theme.palette.grey[300],
-    borderRadius: theme.shape.borderRadius,
+    // backgroundColor: theme.palette.grey[300],
+    // borderRadius: theme.shape.borderRadius,
     "& span": {
       fontWeight: theme.typography.fontWeightBold,
     },
@@ -25,11 +26,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function JumpToItemDialog({
+  open,
+  setOpen,
   items,
   itemNumber,
   onChangeItemNumber,
-  open,
-  setOpen,
 }) {
   const classes = useStyles();
 
@@ -64,9 +65,14 @@ export default function JumpToItemDialog({
                 key={item.id}
                 button
                 onClick={() => handleSelectItem(index)}
+                disabled={index > itemNumber}
               >
                 <ListItemIcon>
-                  {index < itemNumber && <CheckIcon color="primary" />}
+                  {index < itemNumber ? (
+                    <CheckCircleOutlineOutlinedIcon color="primary" />
+                  ) : (
+                    <RadioButtonUncheckedOutlinedIcon color="primary" />
+                  )}
                 </ListItemIcon>
                 <Tooltip
                   title={renderHtmlFromString(item.title || item.prompt)}

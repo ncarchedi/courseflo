@@ -47,6 +47,7 @@ export default function EditableItem({
       <Component item={item} onFocus={onFocus} onChangeItem={onChangeItem} />
       <EditableItemFooter
         item={item}
+        onChangeItem={onChangeItem}
         onClickMove={onClickMove}
         onClickDelete={onClickDelete}
       />

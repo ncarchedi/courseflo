@@ -34,6 +34,7 @@ export default function CourseNav({
   setJumpToDialogOpen,
   setOpenCompleteCourseDialog,
   onLastItem,
+  disableContinue,
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -107,6 +108,7 @@ export default function CourseNav({
               variant="extended"
               color="primary"
               aria-label="submit"
+              disabled={disableContinue}
             >
               I'm all done!
               <ArrowForwardIcon className={classes.fabRightIcon} />
@@ -119,6 +121,7 @@ export default function CourseNav({
               // force user to enter email before continuing
               color="primary"
               aria-label="continue"
+              disabled={disableContinue}
             >
               {notOnMobile ? (
                 <>

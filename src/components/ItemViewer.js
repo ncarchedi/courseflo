@@ -30,8 +30,12 @@ export default function ItemViewer({
   // if there are no items to show, show empty screen
   if (!items.length) return <NoItems />;
 
+  // get the current item, if there is one
   const item = items[itemNumber];
   if (!item) return null;
+
+  // get the answer if there is one
+  const answer = answers && answers.filter((a) => a.itemId === item.id)[0];
 
   return (
     <>
@@ -39,7 +43,7 @@ export default function ItemViewer({
         <Item
           key={item.id}
           item={item}
-          answer={answers && answers.filter((a) => a.itemId === item.id)[0]}
+          answer={answer}
           onChangeAnswer={onChangeAnswer}
         />
       </Box>
@@ -49,13 +53,14 @@ export default function ItemViewer({
         setJumpToDialogOpen={setJumpToDialogOpen}
         setOpenCompleteCourseDialog={setOpenCompleteCourseDialog}
         onLastItem={itemNumber === items.length - 1}
+        disableContinue={item.required && answer.value.length === 0}
       />
       <JumpToItemDialog
+        open={jumpToDialogOpen}
+        setOpen={setJumpToDialogOpen}
         items={items}
         itemNumber={itemNumber}
         onChangeItemNumber={onChangeItemNumber}
-        open={jumpToDialogOpen}
-        setOpen={setJumpToDialogOpen}
       />
       <CompleteCourseDialog
         onSubmit={onSubmitCourse}
