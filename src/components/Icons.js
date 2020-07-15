@@ -5,12 +5,13 @@ import CheckIcon from "@material-ui/icons/Check";
 import CloseIcon from "@material-ui/icons/Close";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CancelIcon from "@material-ui/icons/Cancel";
-import NotesIcon from "@material-ui/icons/Notes";
-import OndemandVideoIcon from "@material-ui/icons/OndemandVideo";
+import MenuBookIcon from "@material-ui/icons/MenuBook";
+import VideocamIcon from "@material-ui/icons/Videocam";
+import YouTubeIcon from "@material-ui/icons/YouTube";
 import DescriptionIcon from "@material-ui/icons/Description";
 import ImageIcon from "@material-ui/icons/Image";
-import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
-import DoneAllIcon from "@material-ui/icons/DoneAll";
+import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import KeyboardIcon from "@material-ui/icons/Keyboard";
 
 // icons for marking individual options/inputs
@@ -37,13 +38,13 @@ export function getItemIcon(itemType) {
 
   switch (itemType) {
     case "Text":
-      icon = <NotesIcon color="disabled" />;
+      icon = <MenuBookIcon color="disabled" />;
       break;
     case "Video":
-      icon = <OndemandVideoIcon color="disabled" />;
+      icon = <VideocamIcon color="disabled" />;
       break;
     case "YouTube":
-      icon = <OndemandVideoIcon color="disabled" />;
+      icon = <YouTubeIcon color="disabled" />;
       break;
     case "Document":
       icon = <DescriptionIcon color="disabled" />;
@@ -52,10 +53,10 @@ export function getItemIcon(itemType) {
       icon = <ImageIcon color="disabled" />;
       break;
     case "SingleSelect":
-      icon = <FormatListBulletedIcon color="disabled" />;
+      icon = <RadioButtonCheckedIcon color="disabled" />;
       break;
     case "MultiSelect":
-      icon = <DoneAllIcon color="disabled" />;
+      icon = <CheckBoxIcon color="disabled" />;
       break;
     case "TextInput":
       icon = <KeyboardIcon color="disabled" />;
