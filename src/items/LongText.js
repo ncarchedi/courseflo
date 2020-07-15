@@ -36,6 +36,8 @@ export default function LongText({
   const classes = useStyles();
 
   const handleChange = (e) => {
+    // prevents changing answer in editor preview
+    if (!onChangeAnswer) return null;
     onChangeAnswer(item.id, e.target.value);
   };
 
