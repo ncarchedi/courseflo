@@ -36,6 +36,8 @@ export default function ItemViewer({
   if (!item) return null;
 
   // get the current userItem, if there is one
+  // note: don't require it to exist since it's created
+  // once the item loads
   const userItem = userItems[itemNumber];
 
   return (

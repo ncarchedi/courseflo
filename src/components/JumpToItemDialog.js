@@ -51,7 +51,7 @@ export default function JumpToItemDialog({
   const itemsStarted = userItems.map((ui) => ui.itemId);
 
   // array of IDs for items that have been completed
-  // (for unanswerable items, this means started)
+  // (for unanswerable items, this means they're started)
   // TODO: prevent this from running on every keystroke!
   const itemsCompleted = userItems
     .filter((ui) => {
@@ -71,7 +71,7 @@ export default function JumpToItemDialog({
       <DialogTitle id="jump-to-dialog-title">Jump to...</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Select an item you've already completed to jump back to it.
+          Select any item you've already seen to jump directly to it.
         </DialogContentText>
         <List dense>
           {items &&

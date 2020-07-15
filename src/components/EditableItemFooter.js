@@ -29,13 +29,13 @@ export default function EditableItemFooter({
     });
   };
 
-  // is the item gradable (i.e. can it have a solution)?
-  const isGradable = "solution" in item;
+  // is the item answerable (i.e. does it have a solution)?
+  const isAnswerable = "solution" in item;
 
   return (
     <Box className={classes.container}>
       <Box flexGrow={1}>
-        {isGradable && (
+        {isAnswerable && (
           <FormControlLabel
             control={
               <Switch

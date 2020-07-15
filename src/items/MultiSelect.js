@@ -44,7 +44,7 @@ export default function MultiSelect({
   const classes = useStyles();
 
   const handleCheck = (option) => {
-    // get the current userItem
+    // start with the current answer
     let newAnswer = userItem.answer;
     // if option is checked, uncheck it
     if (newAnswer.includes(option))
