@@ -36,7 +36,6 @@ export default function TextInput({
   const classes = useStyles();
 
   const handleChange = (e) => {
-    if (!onChangeAnswer) return null;
     onChangeAnswer(item.id, e.target.value);
   };
 

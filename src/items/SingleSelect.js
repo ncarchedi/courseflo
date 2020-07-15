@@ -43,7 +43,6 @@ export default function SingleSelect({
   const classes = useStyles();
 
   const handleChange = (e) => {
-    if (!onChangeAnswer) return null;
     onChangeAnswer(item.id, e.target.value);
   };
 

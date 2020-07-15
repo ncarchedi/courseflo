@@ -119,8 +119,13 @@ export default function Course() {
   };
 
   const handleAddUserItem = (item) => {
+    // if userItem already exists, do nothing
+    if (userItems.filter((ui) => ui.itemId === item.id).length) return;
+
+    // is the item answerable (i.e. does it have a solution)?
     const isAnswerable = "solution" in item;
 
+    // create the new userItem
     const newUserItem = {
       itemId: item.id,
       solution: isAnswerable ? item.solution : null,
@@ -128,6 +133,7 @@ export default function Course() {
       isCorrect: isAnswerable ? false : null,
     };
 
+    // add it to state
     setUserItems([...userItems, newUserItem]);
   };
 
