@@ -36,14 +36,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SingleSelect({
   item,
-  answer,
+  userItem,
   onChangeAnswer,
   showSolution,
 }) {
   const classes = useStyles();
 
   const handleChange = (e) => {
-    if (!onChangeAnswer) return null;
     onChangeAnswer(item.id, e.target.value);
   };
 
@@ -55,13 +54,13 @@ export default function SingleSelect({
             <img src={item.image} alt={item.title} width="100%" />
           </Box>
         )}
-        <RadioGroup value={answer.value} onChange={handleChange}>
+        <RadioGroup value={userItem.answer} onChange={handleChange}>
           {item.options.map((option) => (
             <Box
               key={option}
               className={`${classes.option} ${
-                answer.value === option
-                  ? answer.isCorrect
+                userItem.answer === option
+                  ? userItem.isCorrect
                     ? classes.correctOption
                     : classes.incorrectOption
                   : null
@@ -76,8 +75,8 @@ export default function SingleSelect({
                 label={renderHtmlFromString(option)}
                 control={<Radio disabled />}
               />
-              {answer.value === option ? ( // if the option is selected
-                answer.isCorrect ? ( // and it's correct
+              {userItem.answer === option ? ( // if the option is selected
+                userItem.isCorrect ? ( // and it's correct
                   <CorrectIcon />
                 ) : (
                   <IncorrectIcon />
@@ -86,7 +85,7 @@ export default function SingleSelect({
             </Box>
           ))}
         </RadioGroup>
-        {!answer.isCorrect && (
+        {!userItem.isCorrect && (
           <>
             <Typography
               className={classes.correctAnswer}
@@ -97,7 +96,7 @@ export default function SingleSelect({
             </Typography>
             <Box className={classes.option}>
               <FormControlLabel
-                label={renderHtmlFromString(answer.solution)}
+                label={renderHtmlFromString(userItem.solution)}
                 control={<Radio checked disabled />}
               />
             </Box>
@@ -114,7 +113,7 @@ export default function SingleSelect({
         </Box>
       )}
       <RadioGroup
-        value={(answer && answer.value) || false}
+        value={(userItem && userItem.answer) || false}
         onChange={handleChange}
       >
         {item.options.map((option) => (

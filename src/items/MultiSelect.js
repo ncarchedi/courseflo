@@ -37,24 +37,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MultiSelect({
   item,
-  answer,
+  userItem,
   onChangeAnswer,
   showSolution,
 }) {
   const classes = useStyles();
 
   const handleCheck = (option) => {
-    // if answer is undefined, do nothing
-    if (!answer || !onChangeAnswer) return null;
-    // get the current answer
-    let newValue = answer.value;
+    // start with the current answer
+    let newAnswer = userItem.answer;
     // if option is checked, uncheck it
-    if (newValue.includes(option))
-      newValue = newValue.filter((o) => o !== option);
+    if (newAnswer.includes(option))
+      newAnswer = newAnswer.filter((o) => o !== option);
     // otherwise, check it
-    else newValue = [...newValue, option];
+    else newAnswer = [...newAnswer, option];
     // update state
-    onChangeAnswer(item.id, newValue);
+    onChangeAnswer(item.id, newAnswer);
   };
 
   if (showSolution)
@@ -72,7 +70,7 @@ export default function MultiSelect({
               className={`
       ${classes.option}
       ${
-        answer.value.includes(option)
+        userItem.answer.includes(option)
           ? item.solution.includes(option)
             ? classes.correctOption
             : classes.incorrectOption
@@ -87,14 +85,14 @@ export default function MultiSelect({
                 control={
                   <Checkbox
                     name={option}
-                    checked={answer.value.includes(option)}
+                    checked={userItem.answer.includes(option)}
                     onChange={() => handleCheck(option)}
                     disabled
                   />
                 }
                 label={renderHtmlFromString(option)}
               />
-              {answer.value.includes(option) ? ( // if the option is selected
+              {userItem.answer.includes(option) ? ( // if the option is selected
                 item.solution.includes(option) ? ( // and it's correct
                   <CorrectIcon />
                 ) : (
@@ -104,7 +102,7 @@ export default function MultiSelect({
             </Box>
           ))}
         </FormGroup>
-        {!answer.isCorrect && (
+        {!userItem.isCorrect && (
           <>
             <Typography
               className={classes.correctAnswer}
@@ -145,7 +143,9 @@ export default function MultiSelect({
               control={
                 <Checkbox
                   name={option}
-                  checked={(answer && answer.value.includes(option)) || false}
+                  checked={
+                    (userItem && userItem.answer.includes(option)) || false
+                  }
                   onChange={() => handleCheck(option)}
                   color="primary"
                 />

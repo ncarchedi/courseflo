@@ -29,7 +29,8 @@ const getSubmissions = (userCourses) => {
   return (
     userCourses
       // ignore userCourses that haven't been submitted
-      .filter((sub) => sub.submitted)
+      // or don't have a userItems field (legacy issue)
+      .filter((sub) => sub.submitted && sub.userItems)
       .map((sub) => ({
         ...sub,
         email: sub.userEmail || "<None>",
@@ -124,7 +125,7 @@ export default function Analytics({
           </Typography>
           <Review
             items={selectedSubmission.course.items}
-            answers={selectedSubmission.answers}
+            userItems={selectedSubmission.userItems}
             hideFab
           />
         </Paper>

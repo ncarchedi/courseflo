@@ -11,7 +11,8 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import { getItemIcon } from "../components/Icons";
+import CheckCircleOutlineOutlinedIcon from "@material-ui/icons/CheckCircleOutlineOutlined";
+import RadioButtonUncheckedOutlinedIcon from "@material-ui/icons/RadioButtonUncheckedOutlined";
 import renderHtmlFromString from "../utils/renderHtmlFromString";
 
 const useStyles = makeStyles((theme) => ({
@@ -25,23 +26,41 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function JumpToItemDialog({
-  items,
-  itemNumber,
-  onChangeItemNumber,
   open,
   setOpen,
+  items,
+  userItems,
+  itemNumber,
+  onChangeItemNumber,
 }) {
   const classes = useStyles();
 
-  const handleSelectItem = (item) => {
-    const index = items.indexOf(item);
+  const handleSelectItem = (index) => {
+    handleClose();
     onChangeItemNumber(index);
-    setOpen(false);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
+
+  // wait until items have loaded
+  if (!items) return null;
+
+  // array of IDs for items that have been started
+  const itemsStarted = userItems.map((ui) => ui.itemId);
+
+  // array of IDs for items that have been completed
+  // (for unanswerable items, this means they're started)
+  // TODO: prevent this from running on every keystroke!
+  const itemsCompleted = userItems
+    .filter((ui) => {
+      const isAnswerable = !!ui.solution;
+      return isAnswerable
+        ? ui.answer && !!ui.answer.length
+        : itemsStarted.includes(ui.itemId);
+    })
+    .map((ui) => ui.itemId);
 
   return (
     <Dialog
@@ -52,7 +71,7 @@ export default function JumpToItemDialog({
       <DialogTitle id="jump-to-dialog-title">Jump to...</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Select an item to jump directly to it.
+          Select any item you've already seen to jump directly to it.
         </DialogContentText>
         <List dense>
           {items &&
@@ -61,9 +80,16 @@ export default function JumpToItemDialog({
                 className={`${index === itemNumber && classes.currentItem}`}
                 key={item.id}
                 button
-                onClick={() => handleSelectItem(item)}
+                onClick={() => handleSelectItem(index)}
+                disabled={!itemsStarted.includes(item.id)}
               >
-                <ListItemIcon>{getItemIcon(item.type)}</ListItemIcon>
+                <ListItemIcon>
+                  {itemsCompleted.includes(item.id) ? (
+                    <CheckCircleOutlineOutlinedIcon color="primary" />
+                  ) : (
+                    <RadioButtonUncheckedOutlinedIcon color="primary" />
+                  )}
+                </ListItemIcon>
                 <Tooltip
                   title={renderHtmlFromString(item.title || item.prompt)}
                 >

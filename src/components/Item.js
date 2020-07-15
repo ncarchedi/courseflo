@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import red from "@material-ui/core/colors/red";
 import green from "@material-ui/core/colors/green";
@@ -16,10 +16,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Item({ item, answer, onChangeAnswer, showSolution }) {
+export default function Item({
+  item,
+  userItem,
+  onItemLoad,
+  onChangeAnswer,
+  showSolution,
+}) {
   const classes = useStyles();
   const theme = useTheme();
 
+  // adds a new userItem when the item loads (except in review)
+  useEffect(() => {
+    onItemLoad && onItemLoad(item);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // wait until item is available
   if (!item) return null;
 
   // get metadata based on item type
@@ -34,15 +46,23 @@ export default function Item({ item, answer, onChangeAnswer, showSolution }) {
 
   let titleColor;
 
-  // logic for when solutions are shown
+  // is the item answerable?
+  const isAnswerable = "solution" in item;
+
   if (showSolution) {
-    if (answer && answer.isCorrect) {
-      titleColor = green[800];
-      icon = <CorrectItemIcon />;
-    } else if (answer && !answer.isCorrect) {
-      titleColor = red[800];
-      icon = <IncorrectItemIcon />;
+    if (isAnswerable) {
+      // if answerable
+      if (userItem.isCorrect) {
+        // if answerable and correct
+        titleColor = green[800];
+        icon = <CorrectItemIcon />;
+      } else {
+        // if answerable and incorrect
+        titleColor = red[800];
+        icon = <IncorrectItemIcon />;
+      }
     } else {
+      // if not answerable
       titleColor = theme.palette.text.secondary;
       icon = null;
     }
@@ -59,7 +79,7 @@ export default function Item({ item, answer, onChangeAnswer, showSolution }) {
         />
         <Component
           item={item}
-          answer={answer}
+          userItem={userItem}
           onChangeAnswer={onChangeAnswer}
           showSolution={showSolution}
         />

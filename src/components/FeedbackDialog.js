@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FeedbackDialog({ open, setOpen, sentFrom, answers }) {
+export default function FeedbackDialog({ open, setOpen, sentFrom, userItems }) {
   const classes = useStyles();
   const [user] = useContext(UserContext);
   const [email, setEmail] = useState(user ? user.email : "");
@@ -25,7 +25,7 @@ export default function FeedbackDialog({ open, setOpen, sentFrom, answers }) {
   const { courseId } = useParams();
 
   const handleSubmit = (e) => {
-    saveFeedbackToFirestore(sentFrom, courseId, email, feedback, answers);
+    saveFeedbackToFirestore(sentFrom, courseId, email, feedback, userItems);
     handleClose();
     e.preventDefault();
   };

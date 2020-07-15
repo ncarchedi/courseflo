@@ -15,8 +15,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ItemViewer({
   items,
-  answers,
+  userItems,
   onChangeAnswer,
+  onItemLoad,
   onSubmitCourse,
   itemNumber,
   onChangeItemNumber,
@@ -30,8 +31,14 @@ export default function ItemViewer({
   // if there are no items to show, show empty screen
   if (!items.length) return <NoItems />;
 
+  // get the current item, if there is one
   const item = items[itemNumber];
   if (!item) return null;
+
+  // get the current userItem, if there is one
+  // note: don't require it to exist since it's created
+  // once the item loads
+  const userItem = userItems[itemNumber];
 
   return (
     <>
@@ -39,7 +46,8 @@ export default function ItemViewer({
         <Item
           key={item.id}
           item={item}
-          answer={answers && answers.filter((a) => a.itemId === item.id)[0]}
+          userItem={userItem}
+          onItemLoad={onItemLoad}
           onChangeAnswer={onChangeAnswer}
         />
       </Box>
@@ -49,13 +57,17 @@ export default function ItemViewer({
         setJumpToDialogOpen={setJumpToDialogOpen}
         setOpenCompleteCourseDialog={setOpenCompleteCourseDialog}
         onLastItem={itemNumber === items.length - 1}
+        disableContinue={
+          item.required && userItem && userItem.answer.length === 0
+        }
       />
       <JumpToItemDialog
-        items={items}
-        itemNumber={itemNumber}
-        onChangeItemNumber={onChangeItemNumber}
         open={jumpToDialogOpen}
         setOpen={setJumpToDialogOpen}
+        items={items}
+        userItems={userItems}
+        itemNumber={itemNumber}
+        onChangeItemNumber={onChangeItemNumber}
       />
       <CompleteCourseDialog
         onSubmit={onSubmitCourse}

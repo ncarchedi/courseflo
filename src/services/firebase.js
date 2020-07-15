@@ -44,7 +44,7 @@ export const createUserCourseInFirestore = (
   courseId,
   userEmail,
   itemNumber,
-  answers,
+  userItems,
   course
 ) => {
   return db.collection("userCourses").add({
@@ -54,7 +54,7 @@ export const createUserCourseInFirestore = (
     userEmail: userEmail || null,
     course,
     itemNumber,
-    answers,
+    userItems,
     submitted: null,
     score: null,
   });
@@ -63,7 +63,7 @@ export const createUserCourseInFirestore = (
 export const updateUserCourseInFirestore = (
   userCourseId,
   itemNumber,
-  answers,
+  userItems,
   submitted
 ) => {
   return db
@@ -72,11 +72,11 @@ export const updateUserCourseInFirestore = (
     .update({
       updated: firebase.firestore.FieldValue.serverTimestamp(),
       itemNumber,
-      answers,
+      userItems,
       submitted: submitted
         ? firebase.firestore.FieldValue.serverTimestamp()
         : null,
-      score: submitted ? computeScoreFromAnswers(answers) : null,
+      score: submitted ? computeScoreFromAnswers(userItems) : null,
     });
 };
 
@@ -85,7 +85,7 @@ export const saveFeedbackToFirestore = (
   courseId,
   email,
   feedback,
-  answers
+  userItems
 ) => {
   return db.collection("feedback").add({
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -93,7 +93,7 @@ export const saveFeedbackToFirestore = (
     courseId: courseId || null,
     email,
     feedback,
-    answers: answers || null,
+    userItems: userItems || null,
   });
 };
 
