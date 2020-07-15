@@ -11,7 +11,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import { getItemIcon } from "../components/Icons";
+import CheckIcon from "@material-ui/icons/Check";
 import renderHtmlFromString from "../utils/renderHtmlFromString";
 
 const useStyles = makeStyles((theme) => ({
@@ -33,15 +33,17 @@ export default function JumpToItemDialog({
 }) {
   const classes = useStyles();
 
-  const handleSelectItem = (item) => {
-    const index = items.indexOf(item);
+  const handleSelectItem = (index) => {
+    handleClose();
     onChangeItemNumber(index);
-    setOpen(false);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
+
+  // wait until items have loaded
+  if (!items) return null;
 
   return (
     <Dialog
@@ -61,9 +63,11 @@ export default function JumpToItemDialog({
                 className={`${index === itemNumber && classes.currentItem}`}
                 key={item.id}
                 button
-                onClick={() => handleSelectItem(item)}
+                onClick={() => handleSelectItem(index)}
               >
-                <ListItemIcon>{getItemIcon(item.type)}</ListItemIcon>
+                <ListItemIcon>
+                  {index < itemNumber && <CheckIcon color="primary" />}
+                </ListItemIcon>
                 <Tooltip
                   title={renderHtmlFromString(item.title || item.prompt)}
                 >
