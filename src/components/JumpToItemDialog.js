@@ -17,8 +17,8 @@ import renderHtmlFromString from "../utils/renderHtmlFromString";
 
 const useStyles = makeStyles((theme) => ({
   currentItem: {
-    // backgroundColor: theme.palette.grey[300],
-    // borderRadius: theme.shape.borderRadius,
+    backgroundColor: theme.palette.grey[300],
+    borderRadius: theme.shape.borderRadius,
     "& span": {
       fontWeight: theme.typography.fontWeightBold,
     },
@@ -29,6 +29,7 @@ export default function JumpToItemDialog({
   open,
   setOpen,
   items,
+  userItems,
   itemNumber,
   onChangeItemNumber,
 }) {
@@ -45,6 +46,21 @@ export default function JumpToItemDialog({
 
   // wait until items have loaded
   if (!items) return null;
+
+  // array of IDs for items that have been started
+  const itemsStarted = userItems.map((ui) => ui.itemId);
+
+  // array of IDs for items that have been completed
+  // (for unanswerable items, this means started)
+  // TODO: prevent this from running on every keystroke!
+  const itemsCompleted = userItems
+    .filter((ui) => {
+      const isAnswerable = !!ui.solution;
+      return isAnswerable
+        ? ui.answer && !!ui.answer.length
+        : itemsStarted.includes(ui.itemId);
+    })
+    .map((ui) => ui.itemId);
 
   return (
     <Dialog
@@ -65,10 +81,10 @@ export default function JumpToItemDialog({
                 key={item.id}
                 button
                 onClick={() => handleSelectItem(index)}
-                disabled={index > itemNumber}
+                disabled={!itemsStarted.includes(item.id)}
               >
                 <ListItemIcon>
-                  {index < itemNumber ? (
+                  {itemsCompleted.includes(item.id) ? (
                     <CheckCircleOutlineOutlinedIcon color="primary" />
                   ) : (
                     <RadioButtonUncheckedOutlinedIcon color="primary" />

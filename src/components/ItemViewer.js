@@ -63,6 +63,7 @@ export default function ItemViewer({
         open={jumpToDialogOpen}
         setOpen={setJumpToDialogOpen}
         items={items}
+        userItems={userItems}
         itemNumber={itemNumber}
         onChangeItemNumber={onChangeItemNumber}
       />
