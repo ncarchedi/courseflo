@@ -92,7 +92,7 @@ export default function TextInput({
         </Box>
       )}
       <TextField
-        value={userItem.answer || ""}
+        value={(userItem && userItem.answer) || ""}
         onChange={handleChange}
         placeholder="Type your answer here..."
         fullWidth

@@ -31,8 +31,8 @@ export default function Item({
     onItemLoad && onItemLoad(item);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // wait until item and userItem are available
-  if (!item || !userItem) return null;
+  // wait until item is available
+  if (!item) return null;
 
   // get metadata based on item type
   let { Component, helperText, icon } = getItemMetadata(item);

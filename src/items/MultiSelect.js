@@ -143,7 +143,9 @@ export default function MultiSelect({
               control={
                 <Checkbox
                   name={option}
-                  checked={userItem.answer.includes(option) || false}
+                  checked={
+                    (userItem && userItem.answer.includes(option)) || false
+                  }
                   onChange={() => handleCheck(option)}
                   color="primary"
                 />

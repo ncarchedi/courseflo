@@ -113,7 +113,10 @@ export default function SingleSelect({
           <img src={item.image} alt={item.title} width="100%" />
         </Box>
       )}
-      <RadioGroup value={userItem.answer || false} onChange={handleChange}>
+      <RadioGroup
+        value={(userItem && userItem.answer) || false}
+        onChange={handleChange}
+      >
         {item.options.map((option) => (
           <Box key={option} marginBottom={1}>
             <FormControlLabel
