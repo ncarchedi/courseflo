@@ -6,8 +6,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import CancelIcon from "@material-ui/icons/Cancel";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
-import VideocamIcon from "@material-ui/icons/Videocam";
-import YouTubeIcon from "@material-ui/icons/YouTube";
+import OndemandVideoIcon from "@material-ui/icons/OndemandVideo";
 import DescriptionIcon from "@material-ui/icons/Description";
 import ImageIcon from "@material-ui/icons/Image";
 import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
@@ -41,10 +40,10 @@ export function getItemIcon(itemType) {
       icon = <MenuBookIcon color="disabled" />;
       break;
     case "Video":
-      icon = <VideocamIcon color="disabled" />;
+      icon = <OndemandVideoIcon color="disabled" />;
       break;
     case "YouTube":
-      icon = <YouTubeIcon color="disabled" />;
+      icon = <OndemandVideoIcon color="disabled" />;
       break;
     case "Document":
       icon = <DescriptionIcon color="disabled" />;
