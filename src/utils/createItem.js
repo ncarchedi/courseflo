@@ -34,7 +34,7 @@ export default function createItem(type) {
         type: type,
         title: "New document item",
         source:
-          "https://docs.google.com/document/d/e/2PACX-1vRzLHBsIM5UzqweutGV7QGse9uPm3vix7Rx5NwJgdR0qCExi7uEop9bFoK6_5PF8dmz0XywzZ59DifC/pub?embedded=true",
+          "https://docs.google.com/presentation/d/13-sUz03wYIes4xJgWBPefbn0k_AcWlj1dRTK0PTvSa8/preview",
       };
       break;
     case "Image":
@@ -50,7 +50,7 @@ export default function createItem(type) {
       item = {
         id: uuidv4(),
         type: type,
-        prompt: "New single select item",
+        prompt: "New single select question",
         hint: "",
         options: [""],
         solution: "",
@@ -60,17 +60,26 @@ export default function createItem(type) {
       item = {
         id: uuidv4(),
         type: type,
-        prompt: "New multiple select item",
+        prompt: "New multiple select question",
         hint: "",
         options: [""],
         solution: [],
       };
       break;
-    case "TextInput":
+    case "LongText":
       item = {
         id: uuidv4(),
         type: type,
-        prompt: "New text input item",
+        prompt: "New long text response",
+        hint: "",
+        solution: "",
+      };
+      break;
+    case "ShortText":
+      item = {
+        id: uuidv4(),
+        type: type,
+        prompt: "New short text response",
         hint: "",
         solution: "",
       };

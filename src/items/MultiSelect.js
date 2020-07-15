@@ -44,6 +44,8 @@ export default function MultiSelect({
   const classes = useStyles();
 
   const handleCheck = (option) => {
+    // prevents changing answer in editor preview
+    if (!onChangeAnswer) return null;
     // start with the current answer
     let newAnswer = userItem.answer;
     // if option is checked, uncheck it

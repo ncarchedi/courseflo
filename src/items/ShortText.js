@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TextInput({
+export default function ShortText({
   item,
   userItem,
   onChangeAnswer,
@@ -36,6 +36,8 @@ export default function TextInput({
   const classes = useStyles();
 
   const handleChange = (e) => {
+    // prevents changing answer in editor preview
+    if (!onChangeAnswer) return null;
     onChangeAnswer(item.id, e.target.value);
   };
 

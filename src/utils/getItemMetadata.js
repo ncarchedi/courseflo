@@ -6,7 +6,8 @@ import Document from "../items/Document";
 import Image from "../items/Image";
 import SingleSelect from "../items/SingleSelect";
 import MultiSelect from "../items/MultiSelect";
-import TextInput from "../items/TextInput";
+import LongText from "../items/LongText";
+import ShortText from "../items/ShortText";
 
 // editable items
 import EditableText from "../editableItems/EditableText";
@@ -16,7 +17,8 @@ import EditableDocument from "../editableItems/EditableDocument";
 import EditableImage from "../editableItems/EditableImage";
 import EditableSingleSelect from "../editableItems/EditableSingleSelect";
 import EditableMultiSelect from "../editableItems/EditableMultiSelect";
-import EditableTextInput from "../editableItems/EditableTextInput";
+import EditableLongText from "../editableItems/EditableLongText";
+import EditableShortText from "../editableItems/EditableShortText";
 
 import { getItemIcon } from "../components/Icons";
 
@@ -54,9 +56,14 @@ export default function getItemMetadata(item, editable) {
       helperText = "Check all that apply";
       Component = editable ? EditableMultiSelect : MultiSelect;
       break;
-    case "TextInput":
+    case "LongText":
       helperText = null;
-      Component = editable ? EditableTextInput : TextInput;
+      Component = editable ? EditableLongText : LongText;
+      break;
+    case "ShortText":
+    case "TextInput": // legacy support
+      helperText = null;
+      Component = editable ? EditableShortText : ShortText;
       break;
     default:
       helperText = null;

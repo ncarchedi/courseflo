@@ -37,7 +37,7 @@
     },
     {
       "id": "mexico",
-      "type": "TextInput",
+      "type": "ShortText",
       "prompt": "What's the native language of Mexico?",
       "solution": "Spanish"
     }
