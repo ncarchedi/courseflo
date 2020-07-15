@@ -15,8 +15,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ItemViewer({
   items,
-  answers,
+  userItems,
   onChangeAnswer,
+  onItemLoad,
   onSubmitCourse,
   itemNumber,
   onChangeItemNumber,
@@ -34,8 +35,8 @@ export default function ItemViewer({
   const item = items[itemNumber];
   if (!item) return null;
 
-  // get the answer if there is one
-  const answer = answers && answers.filter((a) => a.itemId === item.id)[0];
+  // get the current userItem, if there is one
+  const userItem = userItems[itemNumber];
 
   return (
     <>
@@ -43,7 +44,8 @@ export default function ItemViewer({
         <Item
           key={item.id}
           item={item}
-          answer={answer}
+          userItem={userItem}
+          onItemLoad={onItemLoad}
           onChangeAnswer={onChangeAnswer}
         />
       </Box>
@@ -53,7 +55,9 @@ export default function ItemViewer({
         setJumpToDialogOpen={setJumpToDialogOpen}
         setOpenCompleteCourseDialog={setOpenCompleteCourseDialog}
         onLastItem={itemNumber === items.length - 1}
-        disableContinue={item.required && answer.value.length === 0}
+        disableContinue={
+          item.required && userItem && userItem.answer.length === 0
+        }
       />
       <JumpToItemDialog
         open={jumpToDialogOpen}

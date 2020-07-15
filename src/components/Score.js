@@ -33,17 +33,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Score({ showScore, message, finalCta, answers }) {
+export default function Score({ showScore, message, finalCta, userItems }) {
   const classes = useStyles();
   const { courseId } = useParams();
 
   // define path back to course
   const coursePath = `/course/${courseId}`;
 
-  if (!answers) return <Redirect to={coursePath} />;
+  // if there are no recorded userItems, redirect to course
+  if (!userItems.length) return <Redirect to={coursePath} />;
 
   const { numCorrect, numTotal, percCorrect } = computeScoreFromAnswers(
-    answers
+    userItems
   );
 
   return (

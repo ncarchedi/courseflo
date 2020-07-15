@@ -124,7 +124,7 @@ export default function Analytics({
           </Typography>
           <Review
             items={selectedSubmission.course.items}
-            answers={selectedSubmission.answers}
+            userItems={selectedSubmission.userItems}
             hideFab
           />
         </Paper>

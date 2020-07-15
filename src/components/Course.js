@@ -10,7 +10,6 @@ import FeedbackDialog from "./FeedbackDialog";
 import EmailDialog from "./EmailDialog";
 import NotFound from "./NotFound";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
-import initializeAnswers from "../utils/initializeAnswers";
 import useQuery from "../hooks/useQuery";
 import {
   createUserCourseInFirestore,
@@ -36,7 +35,7 @@ export default function Course() {
   );
   const [course, setCourse] = useState(null);
   const [userEmail, setUserEmail] = useState(""); // to ID user
-  const [answers, setAnswers] = useState(null);
+  const [userItems, setUserItems] = useState([]);
   const [showFeedbackDialog, setShowFeedbackDialog] = useState(false);
   const [showEmailDialog, setShowEmailDialog] = useState(false);
   const [showCourse404, setShowCourse404] = useState(false);
@@ -60,7 +59,7 @@ export default function Course() {
             // set other progress-related state
             setUserEmail(uc.data().userEmail);
             setItemNumber(uc.data().itemNumber);
-            setAnswers(uc.data().answers);
+            setUserItems(uc.data().userItems);
           } else {
             setShowPage404(true);
           }
@@ -100,33 +99,36 @@ export default function Course() {
     }
   }, [loadingProgress, courseId, userEmail]);
 
-  // initialize the answers array if it doesn't
-  // already exists (e.g. from loading progress)
-  useEffect(() => {
-    // once the course has been loaded into state
-    if (course && !answers) initializeAnswers(course, setAnswers);
-  }, [course, answers]);
+  const handleChangeAnswer = (itemId, newAnswer) => {
+    // make a copy of userItems
+    const newUserItems = [...userItems];
 
-  const handleChangeAnswer = (itemId, value) => {
-    // if answers is undefined, do nothing
-    if (!answers) return null;
-
-    // make a copy of all answers
-    const updatedAnswers = [...answers];
-
-    // find the old answer
-    const index = answers.findIndex((a) => a.itemId === itemId);
-    const oldAnswer = answers[index];
+    // find the old userItem
+    const index = userItems.findIndex((a) => a.itemId === itemId);
+    const oldUserItem = userItems[index];
 
     // update the relevant answer
-    updatedAnswers[index] = {
-      ...oldAnswer,
-      value,
-      isCorrect: isAnswerCorrect(value, oldAnswer.solution),
+    newUserItems[index] = {
+      ...oldUserItem,
+      answer: newAnswer,
+      isCorrect: isAnswerCorrect(newAnswer, oldUserItem.solution),
     };
 
     // update state
-    setAnswers(updatedAnswers);
+    setUserItems(newUserItems);
+  };
+
+  const handleAddUserItem = (item) => {
+    const isAnswerable = "solution" in item;
+
+    const newUserItem = {
+      itemId: item.id,
+      solution: isAnswerable ? item.solution : null,
+      answer: isAnswerable ? (item.type === "MultiSelect" ? [] : "") : null,
+      isCorrect: isAnswerable ? false : null,
+    };
+
+    setUserItems([...userItems, newUserItem]);
   };
 
   const handleChangeItemNumber = (newItemNumber) => {
@@ -139,7 +141,7 @@ export default function Course() {
       updateUserCourseInFirestore(
         userCourseId,
         newItemNumber,
-        answers,
+        userItems,
         false // not submitted
       );
     } else {
@@ -148,7 +150,7 @@ export default function Course() {
         courseId,
         userEmail,
         newItemNumber,
-        answers,
+        userItems,
         course
       )
         .then((docRef) => {
@@ -180,7 +182,7 @@ export default function Course() {
     updateUserCourseInFirestore(
       userCourseId,
       newItemNumber,
-      answers,
+      userItems,
       true // submitted
     );
   };
@@ -213,7 +215,7 @@ export default function Course() {
           open={showFeedbackDialog}
           setOpen={setShowFeedbackDialog}
           sentFrom="course"
-          answers={answers}
+          userItems={userItems}
         />
         <EmailDialog
           open={showEmailDialog}
@@ -225,8 +227,9 @@ export default function Course() {
             <Route exact path={path}>
               <ItemViewer
                 items={course.items}
-                answers={answers}
+                userItems={userItems}
                 onChangeAnswer={handleChangeAnswer}
+                onItemLoad={handleAddUserItem}
                 onSubmitCourse={handleSubmitCourse}
                 itemNumber={itemNumber}
                 onChangeItemNumber={handleChangeItemNumber}
@@ -237,11 +240,11 @@ export default function Course() {
                 showScore={course.settings.showScore}
                 message={course.finalMessage}
                 finalCta={course.finalCta}
-                answers={answers}
+                userItems={userItems}
               />
             </Route>
             <Route exact path={`${path}/review`}>
-              <Review items={course.items} answers={answers} />
+              <Review items={course.items} userItems={userItems} />
             </Route>
             <Route path={`${path}/*`}>
               <NotFound type="page" />

@@ -25,14 +25,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Review({ items, answers, hideFab }) {
+export default function Review({ items, userItems, hideFab }) {
   const classes = useStyles();
   const { courseId } = useParams();
 
   // define path back to course
   const coursePath = `/course/${courseId}`;
 
-  if (!answers) return <Redirect to={coursePath} />;
+  // if there are no recorded userItems, redirect to course
+  if (!userItems.length) return <Redirect to={coursePath} />;
 
   return (
     <>
@@ -40,7 +41,7 @@ export default function Review({ items, answers, hideFab }) {
         <Box key={item.id} className={classes.item}>
           <Item
             item={item}
-            answer={answers.filter((a) => a.itemId === item.id)[0]}
+            userItem={userItems.filter((a) => a.itemId === item.id)[0]}
             showSolution
           />
         </Box>

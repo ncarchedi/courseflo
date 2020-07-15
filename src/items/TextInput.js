@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TextInput({
   item,
-  answer,
+  userItem,
   onChangeAnswer,
   showSolution,
 }) {
@@ -50,22 +50,26 @@ export default function TextInput({
         )}
         <Box
           className={`${classes.input} ${
-            answer.isCorrect ? classes.correctInput : classes.incorrectInput
+            userItem.isCorrect ? classes.correctInput : classes.incorrectInput
           }`}
           component="span"
           display="flex"
           alignItems="center"
         >
           <TextField
-            value={answer.value}
+            value={userItem.answer}
             onChange={handleChange}
             placeholder="Type your answer here..."
             fullWidth
             disabled
           />
-          {item.solution === answer.value ? <CorrectIcon /> : <IncorrectIcon />}
+          {item.solution === userItem.answer ? (
+            <CorrectIcon />
+          ) : (
+            <IncorrectIcon />
+          )}
         </Box>
-        {!answer.isCorrect && (
+        {!userItem.isCorrect && (
           <>
             <Typography
               className={classes.correctAnswer}
@@ -88,7 +92,7 @@ export default function TextInput({
         </Box>
       )}
       <TextField
-        value={answer ? answer.value : ""}
+        value={userItem.answer || ""}
         onChange={handleChange}
         placeholder="Type your answer here..."
         fullWidth
