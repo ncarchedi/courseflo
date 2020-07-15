@@ -1,27 +1,30 @@
 import React from "react";
 import "katex/dist/katex.min.css";
 import TeX from "@matejmazur/react-katex";
+import sanitizeHtml from "sanitize-html";
 
 export default function renderHtmlFromString(string) {
+  // if string is empty, just return it
   if (!string) return string;
 
-  // if string isn't a string, make it on
+  // if string isn't a string, make it one
   if (typeof string !== "string") string = string.toString();
 
-  // find the math
-  const index = string.search("\\$\\$");
-  if (index === -1) return string;
+  // sanitize and split the string into an array
+  // based on the math delimiter
+  const sanitizedArray = sanitizeHtml(string).split("$$");
 
-  // split the string into an array
-  const parsed = string.split("$$");
-
-  // parse the math and leave the rest
+  // loop over elements of the sanitized array and parse each
   let htmlArray = [];
-  for (var i = 0; i < parsed.length; i++) {
+  for (var i = 0; i < sanitizedArray.length; i++) {
+    // even numbered elements are html
+    if (i % 2 === 0)
+      htmlArray.push(
+        <span key={i} dangerouslySetInnerHTML={{ __html: sanitizedArray[i] }} />
+      );
     // odd numbered elements are math
-    if (i % 2 === 1) htmlArray.push(<TeX key={i} math={parsed[i]} />);
-    else htmlArray.push(<span key={i}>{parsed[i]}</span>);
+    else htmlArray.push(<TeX key={i} math={sanitizedArray[i]} />);
   }
 
-  return [...htmlArray];
+  return htmlArray;
 }
