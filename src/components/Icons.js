@@ -11,7 +11,8 @@ import DescriptionIcon from "@material-ui/icons/Description";
 import ImageIcon from "@material-ui/icons/Image";
 import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
-import KeyboardIcon from "@material-ui/icons/Keyboard";
+import SubjectIcon from "@material-ui/icons/Subject";
+import ShortTextIcon from "@material-ui/icons/ShortText";
 
 // icons for marking individual options/inputs
 export function CorrectIcon() {
@@ -57,9 +58,12 @@ export function getItemIcon(itemType) {
     case "MultiSelect":
       icon = <CheckBoxIcon color="disabled" />;
       break;
+    case "LongText":
+      icon = <SubjectIcon color="disabled" />;
+      break;
     case "ShortText":
     case "TextInput": // legacy support
-      icon = <KeyboardIcon color="disabled" />;
+      icon = <ShortTextIcon color="disabled" />;
       break;
     default:
       icon = null;
