@@ -55,7 +55,7 @@ export default function JumpToItemDialog({
       <DialogTitle id="jump-to-dialog-title">Jump to...</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Select an item to jump directly to it.
+          Select an item you've already completed to jump back to it.
         </DialogContentText>
         <List dense>
           {items &&
