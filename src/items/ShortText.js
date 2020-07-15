@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TextInput({
+export default function ShortText({
   item,
   userItem,
   onChangeAnswer,

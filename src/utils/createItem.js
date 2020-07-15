@@ -50,7 +50,7 @@ export default function createItem(type) {
       item = {
         id: uuidv4(),
         type: type,
-        prompt: "New single select item",
+        prompt: "New single select question",
         hint: "",
         options: [""],
         solution: "",
@@ -60,17 +60,17 @@ export default function createItem(type) {
       item = {
         id: uuidv4(),
         type: type,
-        prompt: "New multiple select item",
+        prompt: "New multiple select question",
         hint: "",
         options: [""],
         solution: [],
       };
       break;
-    case "TextInput":
+    case "ShortText":
       item = {
         id: uuidv4(),
         type: type,
-        prompt: "New text input item",
+        prompt: "New short text question",
         hint: "",
         solution: "",
       };

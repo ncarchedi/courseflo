@@ -62,7 +62,7 @@
     },
     {
       "id": "yIntercept",
-      "type": "TextInput",
+      "type": "ShortText",
       "prompt": "What's the $$y$$-intercept of the same line? Write your answer in the format $$(x, y)$$.",
       "image": "https://storage.googleapis.com/course-builder-test-bucket/linePlot.png",
       "hint": "Recall that a line intersects the $$y$$-axis when the value of $$x$$ is $$0$$, so your answer should look something like this: $$(0, y)$$.",
@@ -84,7 +84,7 @@
     },
     {
       "id": "xIntercept2",
-      "type": "TextInput",
+      "type": "ShortText",
       "prompt": "What's the $$x$$-intercept of $$y = \\frac{1}{2}x + 4$$? Write your answer in the format $$(x, y)$$.",
       "hint": "Recall that a line intersects the $$x$$-axis when the value of $$y$$ is $$0$$, so your answer should look something like this: $$(x, 0)$$.",
       "solution": "(-8, 0)"

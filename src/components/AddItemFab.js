@@ -47,9 +47,9 @@ const items = [
     icon: getItemIcon("MultiSelect"),
   },
   {
-    type: "TextInput",
-    name: "Text Input",
-    icon: getItemIcon("TextInput"),
+    type: "ShortText",
+    name: "Short Text Input",
+    icon: getItemIcon("ShortText"),
   },
 ];
 

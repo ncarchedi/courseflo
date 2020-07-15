@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import useDebounce from "../hooks/useDebounce";
 
-export default function EditableTextInput({ item, onFocus, onChangeItem }) {
+export default function EditableShortText({ item, onFocus, onChangeItem }) {
   const [values, setValues] = useState(item);
   const debouncedValues = useDebounce(values, 500);
 

@@ -57,7 +57,8 @@ export function getItemIcon(itemType) {
     case "MultiSelect":
       icon = <CheckBoxIcon color="disabled" />;
       break;
-    case "TextInput":
+    case "ShortText":
+    case "TextInput": // legacy support
       icon = <KeyboardIcon color="disabled" />;
       break;
     default:
