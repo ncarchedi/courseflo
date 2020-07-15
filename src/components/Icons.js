@@ -38,32 +38,32 @@ export function getItemIcon(itemType) {
 
   switch (itemType) {
     case "Text":
-      icon = <MenuBookIcon color="primary" />;
+      icon = <MenuBookIcon color="disabled" />;
       break;
     case "Video":
-      icon = <OndemandVideoIcon color="primary" />;
+      icon = <OndemandVideoIcon color="disabled" />;
       break;
     case "YouTube":
-      icon = <OndemandVideoIcon color="primary" />;
+      icon = <OndemandVideoIcon color="disabled" />;
       break;
     case "Document":
-      icon = <DescriptionIcon color="primary" />;
+      icon = <DescriptionIcon color="disabled" />;
       break;
     case "Image":
-      icon = <ImageIcon color="primary" />;
+      icon = <ImageIcon color="disabled" />;
       break;
     case "SingleSelect":
-      icon = <RadioButtonCheckedIcon color="primary" />;
+      icon = <RadioButtonCheckedIcon color="disabled" />;
       break;
     case "MultiSelect":
-      icon = <CheckBoxIcon color="primary" />;
+      icon = <CheckBoxIcon color="disabled" />;
       break;
     case "LongText":
-      icon = <SubjectIcon color="primary" />;
+      icon = <SubjectIcon color="disabled" />;
       break;
     case "ShortText":
     case "TextInput": // legacy support
-      icon = <ShortTextIcon color="primary" />;
+      icon = <ShortTextIcon color="disabled" />;
       break;
     default:
       icon = null;
