@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import EditableItemHeader from "./EditableItemHeader";
 import EditableItemFooter from "./EditableItemFooter";
 import getItemMetadata from "../utils/getItemMetadata";
+import useDebounce from "../hooks/useDebounce";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -27,8 +28,17 @@ export default function EditableItem({
   onClickDelete,
 }) {
   const classes = useStyles();
+  // should only update `itemValues` directly from the form
+  // global `item` state will be updated after debounce
+  const [itemValues, setItemValues] = useState(item);
+  const debouncedValues = useDebounce(itemValues, 500);
 
-  if (!item) return null;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => onChangeItem(debouncedValues), [debouncedValues]);
+
+  const handleChangeItemValue = (e) => {
+    setItemValues({ ...itemValues, [e.target.name]: e.target.value });
+  };
 
   // get metadata based on item type
   let { Component, icon } = getItemMetadata(item, true);
@@ -39,15 +49,20 @@ export default function EditableItem({
       elevation={2}
     >
       <EditableItemHeader
-        item={item}
+        item={itemValues}
         icon={icon}
         onFocus={onFocus}
-        onChangeItem={onChangeItem}
+        onChangeItemValue={handleChangeItemValue}
       />
-      <Component item={item} onFocus={onFocus} onChangeItem={onChangeItem} />
+      <Component
+        item={itemValues}
+        onFocus={onFocus}
+        onChangeItemValue={handleChangeItemValue}
+        setItemValuesDirectly={setItemValues}
+      />
       <EditableItemFooter
-        item={item}
-        onChangeItem={onChangeItem}
+        item={itemValues}
+        setItemValuesDirectly={setItemValues}
         onClickMove={onClickMove}
         onClickDelete={onClickDelete}
       />

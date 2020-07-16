@@ -1,25 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import TextField from "@material-ui/core/TextField";
-import useDebounce from "../hooks/useDebounce";
 
-export default function EditableShortText({ item, onFocus, onChangeItem }) {
-  const [values, setValues] = useState(item);
-  const debouncedValues = useDebounce(values, 500);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => onChangeItem(debouncedValues), [debouncedValues]);
-
-  const handleChange = (e) => {
-    setValues({ ...item, [e.target.name]: e.target.value });
-  };
-
+export default function EditableShortText({
+  item,
+  onFocus,
+  onChangeItemValue,
+}) {
   return (
-    <form onFocus={() => onFocus(values.id)}>
+    <form onFocus={() => onFocus(item.id)}>
       <TextField
         name="image"
         label="Image (optional)"
-        value={values.image}
-        onChange={handleChange}
+        value={item.image}
+        onChange={onChangeItemValue}
         margin="normal"
         multiline
         fullWidth
@@ -27,8 +20,8 @@ export default function EditableShortText({ item, onFocus, onChangeItem }) {
       <TextField
         name="solution"
         label="Solution"
-        value={values.solution}
-        onChange={handleChange}
+        value={item.solution}
+        onChange={onChangeItemValue}
         margin="normal"
         multiline
         fullWidth
@@ -36,8 +29,8 @@ export default function EditableShortText({ item, onFocus, onChangeItem }) {
       <TextField
         name="hint"
         label="Hint (optional)"
-        value={values.hint}
-        onChange={handleChange}
+        value={item.hint}
+        onChange={onChangeItemValue}
         margin="normal"
         multiline
         fullWidth
