@@ -16,14 +16,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EditableItemFooter({
   item,
-  onChangeItem,
+  setItemValuesDirectly,
   onClickMove,
   onClickDelete,
 }) {
   const classes = useStyles();
 
-  const handleToggleRequired = () => {
-    onChangeItem({
+  const handleChangeRequired = () => {
+    setItemValuesDirectly({
       ...item,
       required: !item.required,
     });
@@ -40,7 +40,7 @@ export default function EditableItemFooter({
             control={
               <Switch
                 checked={item.required || false}
-                onChange={handleToggleRequired}
+                onChange={handleChangeRequired}
                 color="primary"
               />
             }
