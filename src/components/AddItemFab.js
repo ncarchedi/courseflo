@@ -31,38 +31,38 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const items = [
-  { type: "Text", name: "Text", icon: <ItemIcon type={"Text"} /> },
+  { type: "Text", name: "Text", icon: <ItemIcon type="Text" /> },
   {
     type: "YouTube",
     name: "YouTube Video",
-    icon: <ItemIcon type={"YouTube"} />,
+    icon: <ItemIcon type="YouTube" />,
   },
   {
     type: "Video",
     name: "Video (Non-YouTube)",
-    icon: <ItemIcon type={"Video"} />,
+    icon: <ItemIcon type="Video" />,
   },
-  { type: "Document", name: "Document", icon: <ItemIcon type={"Document"} /> },
-  { type: "Image", name: "Image", icon: <ItemIcon type={"Image"} /> },
+  { type: "Document", name: "Document", icon: <ItemIcon type="Document" /> },
+  { type: "Image", name: "Image", icon: <ItemIcon type="Image" /> },
   {
     type: "SingleSelect",
     name: "Single Select",
-    icon: <ItemIcon type={"SingleSelect"} />,
+    icon: <ItemIcon type="SingleSelect" />,
   },
   {
     type: "MultiSelect",
     name: "Multiple Select",
-    icon: <ItemIcon type={"MultiSelect"} />,
+    icon: <ItemIcon type="MultiSelect" />,
   },
   {
     type: "ShortText",
     name: "Short Text Response",
-    icon: <ItemIcon type={"ShortText"} />,
+    icon: <ItemIcon type="ShortText" />,
   },
   {
     type: "LongText",
     name: "Long Text Response",
-    icon: <ItemIcon type={"LongText"} />,
+    icon: <ItemIcon type="LongText" />,
   },
 ];
 

@@ -22,7 +22,7 @@ export default function CompleteCourseDialog({ onSubmit, open, setOpen }) {
       aria-describedby="complete-course-dialog-description"
     >
       <DialogTitle id="complete-course-dialog-title">
-        {"Ready to submit?"}
+        Ready to submit?
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="complete-course-dialog-description">

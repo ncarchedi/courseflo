@@ -39,15 +39,13 @@ export default function Item({
   }
 
   return (
-    <>
-      <Paper className={classes.container} elevation={2}>
-        <Component
-          item={item}
-          userItem={userItem}
-          onChangeAnswer={onChangeAnswer}
-          showSolution={showSolution}
-        />
-      </Paper>
-    </>
+    <Paper className={classes.container} elevation={2}>
+      <Component
+        item={item}
+        userItem={userItem}
+        onChangeAnswer={onChangeAnswer}
+        showSolution={showSolution}
+      />
+    </Paper>
   );
 }
