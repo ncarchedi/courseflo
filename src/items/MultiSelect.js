@@ -7,8 +7,10 @@ import Typography from "@material-ui/core/Typography";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import { CorrectIcon, IncorrectIcon } from "../components/Icons";
+import { ItemIcon, CorrectIcon, IncorrectIcon } from "../components/Icons";
 import renderHtmlFromString from "../utils/renderHtmlFromString";
+import ItemHeader from "../components/ItemHeader";
+import ItemFooter from "../components/ItemFooter";
 
 const useStyles = makeStyles((theme) => ({
   imageContainer: {
@@ -60,6 +62,12 @@ export default function MultiSelect({
   if (showSolution)
     return (
       <>
+        <ItemHeader
+          title={item.prompt}
+          icon={<ItemIcon type={item.type} />}
+          helperText="Check all that apply"
+          required={item.required}
+        />
         {item.image && (
           <Box className={classes.imageContainer} margin="auto">
             <img src={item.image} alt={item.title} width="100%" />
@@ -133,6 +141,12 @@ export default function MultiSelect({
 
   return (
     <>
+      <ItemHeader
+        title={item.prompt}
+        icon={<ItemIcon type={item.type} />}
+        helperText="Check all that apply"
+        required={item.required}
+      />
       {item.image && (
         <Box className={classes.imageContainer} margin="auto">
           <img src={item.image} alt={item.title} width="100%" />
@@ -157,6 +171,7 @@ export default function MultiSelect({
           </Box>
         ))}
       </FormGroup>
+      <ItemFooter hint={item.hint} />
     </>
   );
 }

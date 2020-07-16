@@ -33,10 +33,10 @@ export function IncorrectItemIcon() {
 }
 
 // icons representing different item types
-export function getItemIcon(itemType) {
+export function ItemIcon({ type }) {
   let icon;
 
-  switch (itemType) {
+  switch (type) {
     case "Text":
       icon = <MenuBookIcon color="disabled" />;
       break;

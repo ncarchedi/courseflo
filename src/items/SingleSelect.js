@@ -7,8 +7,10 @@ import Typography from "@material-ui/core/Typography";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import Radio from "@material-ui/core/Radio";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { CorrectIcon, IncorrectIcon } from "../components/Icons";
+import { ItemIcon, CorrectIcon, IncorrectIcon } from "../components/Icons";
 import renderHtmlFromString from "../utils/renderHtmlFromString";
+import ItemHeader from "../components/ItemHeader";
+import ItemFooter from "../components/ItemFooter";
 
 const useStyles = makeStyles((theme) => ({
   imageContainer: {
@@ -51,6 +53,12 @@ export default function SingleSelect({
   if (showSolution)
     return (
       <>
+        <ItemHeader
+          title={item.prompt}
+          icon={<ItemIcon type={item.type} />}
+          helperText="Select only one"
+          required={item.required}
+        />
         {item.image && (
           <Box className={classes.imageContainer} margin="auto">
             <img src={item.image} alt={item.title} width="100%" />
@@ -109,6 +117,12 @@ export default function SingleSelect({
 
   return (
     <>
+      <ItemHeader
+        title={item.prompt}
+        icon={<ItemIcon type={item.type} />}
+        helperText="Select only one"
+        required={item.required}
+      />
       {item.image && (
         <Box className={classes.imageContainer} margin="auto">
           <img src={item.image} alt={item.title} width="100%" />
@@ -128,6 +142,7 @@ export default function SingleSelect({
           </Box>
         ))}
       </RadioGroup>
+      <ItemFooter hint={item.hint} />
     </>
   );
 }

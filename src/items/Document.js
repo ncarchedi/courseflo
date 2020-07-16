@@ -4,6 +4,8 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
+import { ItemIcon } from "../components/Icons";
+import ItemHeader from "../components/ItemHeader";
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -29,6 +31,7 @@ export default function Document({ item }) {
 
   return (
     <>
+      <ItemHeader title={item.title} icon={<ItemIcon type={item.type} />} />
       {onLargerScreen && (
         <Box className={classes.box}>
           <iframe

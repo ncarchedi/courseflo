@@ -13,7 +13,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import { getItemIcon } from "../components/Icons";
+import { ItemIcon } from "../components/Icons";
 import renderHtmlFromString from "../utils/renderHtmlFromString";
 
 const useStyles = makeStyles((theme) => ({
@@ -40,7 +40,7 @@ export default function ReorderItemsDialog({
 
   const SortableItem = SortableElement(({ item, itemIndex }) => (
     <ListItem className={classes.listItem}>
-      <ListItemIcon>{getItemIcon(item.type)}</ListItemIcon>
+      <ListItemIcon>{<ItemIcon type={item.type} />}</ListItemIcon>
       <Tooltip title={renderHtmlFromString(item.title || item.prompt)}>
         <ListItemText
           primary={renderHtmlFromString(item.title || item.prompt)}

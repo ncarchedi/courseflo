@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import SpeedDial from "@material-ui/lab/SpeedDial";
 import SpeedDialIcon from "@material-ui/lab/SpeedDialIcon";
 import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
-import { getItemIcon } from "./Icons";
+import { ItemIcon } from "./Icons";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -31,30 +31,38 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const items = [
-  { type: "Text", name: "Text", icon: getItemIcon("Text") },
-  { type: "YouTube", name: "YouTube Video", icon: getItemIcon("YouTube") },
-  { type: "Video", name: "Video (Non-YouTube)", icon: getItemIcon("YouTube") },
-  { type: "Document", name: "Document", icon: getItemIcon("Document") },
-  { type: "Image", name: "Image", icon: getItemIcon("Image") },
+  { type: "Text", name: "Text", icon: <ItemIcon type={"Text"} /> },
+  {
+    type: "YouTube",
+    name: "YouTube Video",
+    icon: <ItemIcon type={"YouTube"} />,
+  },
+  {
+    type: "Video",
+    name: "Video (Non-YouTube)",
+    icon: <ItemIcon type={"Video"} />,
+  },
+  { type: "Document", name: "Document", icon: <ItemIcon type={"Document"} /> },
+  { type: "Image", name: "Image", icon: <ItemIcon type={"Image"} /> },
   {
     type: "SingleSelect",
     name: "Single Select",
-    icon: getItemIcon("SingleSelect"),
+    icon: <ItemIcon type={"SingleSelect"} />,
   },
   {
     type: "MultiSelect",
     name: "Multiple Select",
-    icon: getItemIcon("MultiSelect"),
-  },
-  {
-    type: "LongText",
-    name: "Long Text Response",
-    icon: getItemIcon("LongText"),
+    icon: <ItemIcon type={"MultiSelect"} />,
   },
   {
     type: "ShortText",
     name: "Short Text Response",
-    icon: getItemIcon("ShortText"),
+    icon: <ItemIcon type={"ShortText"} />,
+  },
+  {
+    type: "LongText",
+    name: "Long Text Response",
+    icon: <ItemIcon type={"LongText"} />,
   },
 ];
 

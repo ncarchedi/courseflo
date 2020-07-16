@@ -1,6 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
+import { ItemIcon } from "../components/Icons";
+import ItemHeader from "../components/ItemHeader";
 
 const useStyles = makeStyles((theme) => ({
   box: {
@@ -22,14 +24,17 @@ export default function Video({ item }) {
   const classes = useStyles();
 
   return (
-    <Box className={classes.box}>
-      <iframe
-        title={item.title}
-        src={item.source}
-        frameBorder="0"
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-      ></iframe>
-    </Box>
+    <>
+      <ItemHeader title={item.title} icon={<ItemIcon type={item.type} />} />
+      <Box className={classes.box}>
+        <iframe
+          title={item.title}
+          src={item.source}
+          frameBorder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        ></iframe>
+      </Box>
+    </>
   );
 }

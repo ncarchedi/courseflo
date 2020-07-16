@@ -5,7 +5,9 @@ import green from "@material-ui/core/colors/green";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import { CorrectIcon, IncorrectIcon } from "../components/Icons";
+import { ItemIcon, CorrectIcon, IncorrectIcon } from "../components/Icons";
+import ItemHeader from "../components/ItemHeader";
+import ItemFooter from "../components/ItemFooter";
 
 const useStyles = makeStyles((theme) => ({
   imageContainer: {
@@ -44,6 +46,11 @@ export default function LongText({
   if (showSolution)
     return (
       <>
+        <ItemHeader
+          title={item.prompt}
+          icon={<ItemIcon type={item.type} />}
+          required={item.required}
+        />
         {item.image && (
           <Box className={classes.imageContainer} margin="auto">
             <img src={item.image} alt={item.title} width="100%" />
@@ -95,6 +102,11 @@ export default function LongText({
 
   return (
     <>
+      <ItemHeader
+        title={item.prompt}
+        icon={<ItemIcon type={item.type} />}
+        required={item.required}
+      />
       {item.image && (
         <Box className={classes.imageContainer} margin="auto">
           <img src={item.image} alt={item.title} width="100%" />
@@ -108,6 +120,7 @@ export default function LongText({
         fullWidth
         multiline
       />
+      <ItemFooter hint={item.hint} />
     </>
   );
 }

@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     marginBottom: theme.spacing(2),
   },
-  titleText: {
+  title: {
     fontSize: "1.15rem",
     flexGrow: 1,
   },
@@ -27,23 +27,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ItemHeader({ item, titleColor, helperText, icon }) {
+export default function ItemHeader({
+  title,
+  icon,
+  helperText,
+  required,
+  titleColor,
+}) {
   const classes = useStyles();
-
-  // render the title or prompt, depending on item type
-  const titleText = renderHtmlFromString(item.title ? item.title : item.prompt);
 
   return (
     <Box className={classes.container}>
       <Grid container spacing={1}>
         <Grid item xs={11}>
           <Typography
-            className={classes.titleText}
+            className={classes.title}
             style={{ color: titleColor }}
             variant="h6"
           >
-            {titleText}{" "}
-            {item.required && (
+            {renderHtmlFromString(title)}{" "}
+            {required && (
               <span className={classes.requiredText}>(Required)</span>
             )}
           </Typography>

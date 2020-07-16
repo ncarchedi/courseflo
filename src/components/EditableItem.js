@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import EditableItemHeader from "./EditableItemHeader";
 import EditableItemFooter from "./EditableItemFooter";
-import getItemMetadata from "../utils/getItemMetadata";
+import getItemComponent from "../utils/getItemComponent";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -30,8 +30,9 @@ export default function EditableItem({
 
   if (!item) return null;
 
-  // get metadata based on item type
-  let { Component, icon } = getItemMetadata(item, true);
+  // get component based on item type
+  const Component = getItemComponent(item.type, true);
+  const icon = null;
 
   return (
     <Paper

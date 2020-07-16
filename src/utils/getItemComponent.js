@@ -20,55 +20,41 @@ import EditableMultiSelect from "../editableItems/EditableMultiSelect";
 import EditableLongText from "../editableItems/EditableLongText";
 import EditableShortText from "../editableItems/EditableShortText";
 
-import { getItemIcon } from "../components/Icons";
-
-export default function getItemMetadata(item, editable) {
-  let helperText;
+export default function getItemComponent(type, editable) {
   let Component;
-  let icon = getItemIcon(item.type);
 
-  switch (item.type) {
+  switch (type) {
     case "Text":
-      helperText = null;
       Component = editable ? EditableText : Text;
       break;
     case "Video":
-      helperText = null;
       Component = editable ? EditableVideo : Video;
       break;
     case "YouTube":
-      helperText = null;
       Component = editable ? EditableYouTube : YouTube;
       break;
     case "Document":
-      helperText = null;
       Component = editable ? EditableDocument : Document;
       break;
     case "Image":
-      helperText = null;
       Component = editable ? EditableImage : Image;
       break;
     case "SingleSelect":
-      helperText = "Select only one";
       Component = editable ? EditableSingleSelect : SingleSelect;
       break;
     case "MultiSelect":
-      helperText = "Check all that apply";
       Component = editable ? EditableMultiSelect : MultiSelect;
       break;
     case "LongText":
-      helperText = null;
       Component = editable ? EditableLongText : LongText;
       break;
     case "ShortText":
     case "TextInput": // legacy support
-      helperText = null;
       Component = editable ? EditableShortText : ShortText;
       break;
     default:
-      helperText = null;
       Component = null;
   }
 
-  return { Component, helperText, icon };
+  return Component;
 }
