@@ -64,7 +64,6 @@ export default function Item({
     } else {
       // if not answerable
       titleColor = theme.palette.text.secondary;
-      icon = null;
     }
   }
 
