@@ -136,7 +136,7 @@ export default function SignIn() {
                   </Grid>
                   <Grid item>
                     <Link component={RouterLink} to="/" variant="body2">
-                      {"Don't have an account? Sign up"}
+                      Don't have an account? Sign up
                     </Link>
                   </Grid>
                 </Grid>

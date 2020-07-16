@@ -24,6 +24,7 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import UpdateIcon from "@material-ui/icons/Update";
 import DashboardHeader from "./DashboardHeader";
 import NotFound from "./NotFound";
+import DeleteCourseDialog from "./DeleteCourseDialog";
 import FeedbackDialog from "./FeedbackDialog";
 import Analytics from "./Analytics";
 // import Emoji from "./Emoji";
@@ -73,6 +74,7 @@ export default function Dashboard() {
   const subscriber = useContext(SubscriberContext);
   const [courses, setCourses] = useState();
   const [newCourseId, setNewCourseId] = useState();
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showFeedbackDialog, setShowFeedbackDialog] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [showAnalytics, setShowAnalytics] = useState(false);
@@ -137,11 +139,6 @@ export default function Dashboard() {
       );
   };
 
-  const handleDelete = (courseId) => {
-    setCourses(courses.filter((course) => course.id !== courseId));
-    deleteCourseInFirestore(courseId);
-  };
-
   const CourseCard = ({ id, title, updated }) => {
     return (
       <Card className={classes.card}>
@@ -194,7 +191,7 @@ export default function Dashboard() {
             </IconButton>
           </Tooltip>
           <Tooltip title="Delete">
-            <IconButton color="inherit" onClick={() => handleDelete(id)}>
+            <IconButton color="inherit" onClick={() => handleClickDelete(id)}>
               <DeleteOutlinedIcon />
             </IconButton>
           </Tooltip>
@@ -243,8 +240,28 @@ export default function Dashboard() {
     );
   };
 
+  const handleClickDelete = (courseId) => {
+    setSelectedCourseId(courseId);
+    setShowDeleteDialog(true);
+  };
+
+  const handleConfirmDelete = () => {
+    setShowDeleteDialog(false);
+    setCourses(courses.filter((course) => course.id !== selectedCourseId));
+    deleteCourseInFirestore(selectedCourseId);
+    setSelectedCourseId(); // reset selected course ID
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteDialog(false);
+    setSelectedCourseId(); // reset selected course ID
+  };
+
   // is the user an active subscriber?
   const isSubscribed = subscriber && subscriber.active;
+
+  // get the selected course
+  const selectedCourse = courses.filter((c) => c.id === selectedCourseId)[0];
 
   return (
     <>
@@ -283,6 +300,12 @@ export default function Dashboard() {
           </>
         )}
       </Container>
+      <DeleteCourseDialog
+        open={showDeleteDialog}
+        onCancel={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+        courseTitle={selectedCourse && selectedCourse.title}
+      />
       <FeedbackDialog
         open={showFeedbackDialog}
         setOpen={setShowFeedbackDialog}
