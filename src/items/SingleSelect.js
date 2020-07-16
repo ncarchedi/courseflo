@@ -7,7 +7,13 @@ import Typography from "@material-ui/core/Typography";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import Radio from "@material-ui/core/Radio";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { ItemIcon, CorrectIcon, IncorrectIcon } from "../components/Icons";
+import {
+  ItemIcon,
+  CorrectItemIcon,
+  IncorrectItemIcon,
+  CorrectIcon,
+  IncorrectIcon,
+} from "../components/Icons";
 import renderHtmlFromString from "../utils/renderHtmlFromString";
 import ItemHeader from "../components/ItemHeader";
 import ItemFooter from "../components/ItemFooter";
@@ -55,9 +61,12 @@ export default function SingleSelect({
       <>
         <ItemHeader
           title={item.prompt}
-          icon={<ItemIcon type={item.type} />}
+          icon={
+            userItem.isCorrect ? <CorrectItemIcon /> : <IncorrectItemIcon />
+          }
           helperText="Select only one"
           required={item.required}
+          titleColor={userItem.isCorrect ? green[800] : red[800]}
         />
         {item.image && (
           <Box className={classes.imageContainer} margin="auto">

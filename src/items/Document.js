@@ -24,14 +24,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Document({ item }) {
+export default function Document({ item, showSolution }) {
   const classes = useStyles();
   const theme = useTheme();
   const onLargerScreen = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
     <>
-      <ItemHeader title={item.title} icon={<ItemIcon type={item.type} />} />
+      <ItemHeader
+        title={item.title}
+        icon={<ItemIcon type={item.type} />}
+        titleColor={showSolution ? theme.palette.text.secondary : null}
+      />
       {onLargerScreen && (
         <Box className={classes.box}>
           <iframe

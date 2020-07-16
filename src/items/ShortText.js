@@ -5,7 +5,13 @@ import green from "@material-ui/core/colors/green";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import { ItemIcon, CorrectIcon, IncorrectIcon } from "../components/Icons";
+import {
+  ItemIcon,
+  CorrectItemIcon,
+  IncorrectItemIcon,
+  CorrectIcon,
+  IncorrectIcon,
+} from "../components/Icons";
 import ItemHeader from "../components/ItemHeader";
 import ItemFooter from "../components/ItemFooter";
 
@@ -48,8 +54,11 @@ export default function ShortText({
       <>
         <ItemHeader
           title={item.prompt}
-          icon={<ItemIcon type={item.type} />}
+          icon={
+            userItem.isCorrect ? <CorrectItemIcon /> : <IncorrectItemIcon />
+          }
           required={item.required}
+          titleColor={userItem.isCorrect ? green[800] : red[800]}
         />
         {item.image && (
           <Box className={classes.imageContainer} margin="auto">

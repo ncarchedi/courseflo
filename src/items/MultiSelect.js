@@ -7,7 +7,13 @@ import Typography from "@material-ui/core/Typography";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import { ItemIcon, CorrectIcon, IncorrectIcon } from "../components/Icons";
+import {
+  ItemIcon,
+  CorrectItemIcon,
+  IncorrectItemIcon,
+  CorrectIcon,
+  IncorrectIcon,
+} from "../components/Icons";
 import renderHtmlFromString from "../utils/renderHtmlFromString";
 import ItemHeader from "../components/ItemHeader";
 import ItemFooter from "../components/ItemFooter";
@@ -64,9 +70,12 @@ export default function MultiSelect({
       <>
         <ItemHeader
           title={item.prompt}
-          icon={<ItemIcon type={item.type} />}
+          icon={
+            userItem.isCorrect ? <CorrectItemIcon /> : <IncorrectItemIcon />
+          }
           helperText="Check all that apply"
           required={item.required}
+          titleColor={userItem.isCorrect ? green[800] : red[800]}
         />
         {item.image && (
           <Box className={classes.imageContainer} margin="auto">

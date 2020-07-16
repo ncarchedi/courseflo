@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import { ItemIcon } from "../components/Icons";
 import ItemHeader from "../components/ItemHeader";
@@ -20,12 +20,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function YouTube({ item }) {
+export default function YouTube({ item, showSolution }) {
   const classes = useStyles();
+  const theme = useTheme();
 
   return (
     <>
-      <ItemHeader title={item.title} icon={<ItemIcon type={item.type} />} />
+      <ItemHeader
+        title={item.title}
+        icon={<ItemIcon type={item.type} />}
+        titleColor={showSolution ? theme.palette.text.secondary : null}
+      />
       <Box className={classes.box}>
         <iframe
           title={item.title}
