@@ -61,7 +61,6 @@ export default function LongText({
             value={userItem.answer}
             onChange={handleChange}
             placeholder="Type your answer here..."
-            variant="outlined"
             fullWidth
             multiline
             disabled
@@ -81,13 +80,7 @@ export default function LongText({
             >
               Correct answer
             </Typography>
-            <TextField
-              value={item.solution}
-              variant="outlined"
-              fullWidth
-              multiline
-              disabled
-            />
+            <TextField value={item.solution} fullWidth multiline disabled />
           </>
         )}
       </>
@@ -104,7 +97,6 @@ export default function LongText({
         value={(userItem && userItem.answer) || ""}
         onChange={handleChange}
         placeholder="Type your answer here..."
-        variant="outlined"
         fullWidth
         multiline
       />

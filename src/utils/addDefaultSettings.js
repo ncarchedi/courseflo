@@ -3,7 +3,7 @@
 export default function addDefaultSettings(course) {
   // define default settings
   const defaultSettings = {
-    collectEmails: true,
+    collectEmails: false,
     showScore: true,
   };
 

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/styles";
 import Box from "@material-ui/core/Box";
 import Item from "./Item";
+import PoweredBy from "./PoweredBy";
 import NoItems from "./NoItems";
 import CourseNav from "./CourseNav";
 import JumpToItemDialog from "./JumpToItemDialog";
@@ -51,6 +52,7 @@ export default function ItemViewer({
           onChangeAnswer={onChangeAnswer}
         />
       </Box>
+      <PoweredBy />
       <CourseNav
         itemNumber={itemNumber}
         onChangeItemNumber={onChangeItemNumber}
