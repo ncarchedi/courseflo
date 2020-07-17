@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useParams } from "react-router-dom";
-import moment from "moment";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
@@ -92,6 +91,7 @@ export default function Editor() {
     }
   }, [courseId]);
 
+  // when the course changes, update it in local storage
   useEffect(() => {
     if (course) {
       // get local courses
@@ -102,10 +102,7 @@ export default function Editor() {
         "courses",
         JSON.stringify({
           ...localCourses,
-          [courseId]: {
-            ...course,
-            updated: moment().format(),
-          },
+          [courseId]: course,
         })
       );
     }

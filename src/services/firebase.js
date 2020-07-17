@@ -130,11 +130,15 @@ export const deleteCourseInFirestore = (courseId) => {
 };
 
 export const updateCourseInFirestore = (courseId, course) => {
+  // don't update the created field to avoid messing up
+  // timestamp formatting (due to local storage read/write)
+  const { created, ...courseSansCreated } = course;
+
   return db
     .collection("courses")
     .doc(courseId)
     .update({
-      ...course,
+      ...courseSansCreated,
       updated: firebase.firestore.FieldValue.serverTimestamp(),
     });
 };
@@ -176,10 +180,6 @@ export const sendProgressEmailToUser = (userEmail, courseTitle, targetUrl) => {
 
 // export const authenticateAnonymously = () => {
 //   return auth.signInAnonymously();
-// };
-
-// export const updateCourseItemsInFirestore = (courseId, items) => {
-//   return db.collection("courses").doc(courseId).update({ items });
 // };
 
 // export const getGroceryListItems = groceryListId => {
