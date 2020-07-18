@@ -13,9 +13,9 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: theme.breakpoints.values.md,
   },
   focused: {
-    borderLeft: "solid",
-    borderLeftWidth: theme.spacing(1),
-    borderLeftColor: theme.palette.primary.main,
+    border: "solid",
+    borderWidth: 2,
+    borderColor: theme.palette.primary.main,
   },
 }));
 
