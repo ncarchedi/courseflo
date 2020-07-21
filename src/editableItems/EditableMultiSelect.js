@@ -180,7 +180,7 @@ export default function EditableMultiSelect({
                 </Button>
               ) : (
                 <Button
-                  variant="contained"
+                  variant="outlined"
                   onClick={handleAddSolution}
                   // disable button if no options or only a single blank option
                   disabled={
