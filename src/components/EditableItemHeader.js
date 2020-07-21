@@ -4,6 +4,9 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    marginBottom: theme.spacing(1),
+  },
   title: {
     fontSize: "1.15rem",
     flexGrow: 1,
@@ -24,7 +27,7 @@ export default function EditableItemHeader({
   const theme = useTheme();
 
   return (
-    <Grid container spacing={1}>
+    <Grid className={classes.container} container spacing={1}>
       <Grid item xs={11}>
         <form onFocus={() => onFocus(item.id)}>
           <TextField
