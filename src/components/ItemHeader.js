@@ -33,6 +33,10 @@ export default function ItemHeader({ item, titleColor, helperText, icon }) {
   // render the title or prompt, depending on item type
   const titleText = renderHtmlFromString(item.title ? item.title : item.prompt);
 
+  // is the item graded?
+  const isGraded = item.solution && item.solution !== null;
+  console.log(isGraded);
+
   return (
     <Box className={classes.container}>
       <Grid container spacing={1}>
@@ -52,11 +56,11 @@ export default function ItemHeader({ item, titleColor, helperText, icon }) {
           {icon}
         </Grid>
       </Grid>
-      {helperText && (
-        <FormHelperText className={classes.helperText}>
-          ({helperText})
-        </FormHelperText>
-      )}
+      <FormHelperText className={classes.helperText}>
+        {isGraded ? "1 Point" : ""}
+        {isGraded && helperText ? " — " : ""}
+        {helperText ? helperText : ""}
+      </FormHelperText>
     </Box>
   );
 }

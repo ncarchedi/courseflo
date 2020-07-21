@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EditableItemFooter({
   item,
+  onFocus,
   setItemValuesDirectly,
   onClickMove,
   onClickDelete,
@@ -36,16 +37,18 @@ export default function EditableItemFooter({
     <Box className={classes.container}>
       <Box flexGrow={1}>
         {isAnswerable && (
-          <FormControlLabel
-            control={
-              <Switch
-                checked={item.required || false}
-                onChange={handleChangeRequired}
-                color="primary"
-              />
-            }
-            label="Required"
-          />
+          <form onFocus={() => onFocus(item.id)}>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={item.required || false}
+                  onChange={handleChangeRequired}
+                  color="primary"
+                />
+              }
+              label="Required"
+            />
+          </form>
         )}
       </Box>
       <Box mr={1}>

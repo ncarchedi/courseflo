@@ -62,6 +62,7 @@ export default function EditableItem({
       />
       <EditableItemFooter
         item={itemValues}
+        onFocus={onFocus}
         setItemValuesDirectly={setItemValues}
         onClickMove={onClickMove}
         onClickDelete={onClickDelete}
