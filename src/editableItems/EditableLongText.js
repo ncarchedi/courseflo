@@ -12,7 +12,8 @@ export default function EditableLongText({
   const [openSolutionForm, setOpenSolutionForm] = useState(false);
 
   const toggleSolution = () => {
-    handleRemoveSolution();
+    // remove solution when closing form
+    openSolutionForm && handleRemoveSolution();
     setOpenSolutionForm(!openSolutionForm);
   };
 
