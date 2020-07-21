@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import red from "@material-ui/core/colors/red";
 import green from "@material-ui/core/colors/green";
@@ -41,6 +41,22 @@ export default function SingleSelect({
   showSolution,
 }) {
   const classes = useStyles();
+
+  useEffect(() => {
+    const listener = (event) => {
+      if (event.code.includes("Digit")) {
+        event.preventDefault();
+        const num = event.code.replace("Digit", "");
+        if (num > 0 && num <= item.options.length)
+          onChangeAnswer(item.id, item.options[num - 1]);
+      }
+    };
+    document.addEventListener("keydown", listener);
+
+    return () => {
+      document.removeEventListener("keydown", listener);
+    };
+  });
 
   const handleChange = (e) => {
     // prevents changing answer in editor preview
