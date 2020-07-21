@@ -1,7 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
+import Tooltip from "@material-ui/core/Tooltip";
+import IconButton from "@material-ui/core/IconButton";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -11,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: theme.spacing(2),
     display: "flex",
+    alignItems: "center",
   },
 }));
 
@@ -51,23 +53,20 @@ export default function EditableItemFooter({
           </form>
         )}
       </Box>
-      <Box mr={1}>
-        <Button
-          variant="outlined"
-          onClick={onClickMove}
-          startIcon={<HeightIcon />}
+      <Tooltip title="Move">
+        <IconButton onClick={onClickMove} aria-label="move">
+          <HeightIcon />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Delete">
+        <IconButton
+          onClick={() => onClickDelete(item.id)}
+          edge="end"
+          aria-label="delete"
         >
-          Move
-        </Button>
-      </Box>
-      <Button
-        variant="outlined"
-        color="secondary"
-        onClick={() => onClickDelete(item.id)}
-        startIcon={<DeleteIcon />}
-      >
-        Delete
-      </Button>
+          <DeleteIcon />
+        </IconButton>
+      </Tooltip>
     </Box>
   );
 }
