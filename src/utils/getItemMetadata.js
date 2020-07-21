@@ -57,12 +57,12 @@ export default function getItemMetadata(item, editable) {
       Component = editable ? EditableMultiSelect : MultiSelect;
       break;
     case "LongText":
-      helperText = null;
+      helperText = "Type your answer";
       Component = editable ? EditableLongText : LongText;
       break;
     case "ShortText":
     case "TextInput": // legacy support
-      helperText = null;
+      helperText = "Type your answer";
       Component = editable ? EditableShortText : ShortText;
       break;
     default:

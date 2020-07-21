@@ -46,12 +46,9 @@ export default function Item({
 
   let titleColor;
 
-  // is the item answerable?
-  const isAnswerable = "solution" in item;
-
   if (showSolution) {
-    if (isAnswerable) {
-      // if answerable
+    if (item.solution) {
+      // if answerable and solution is provided
       if (userItem.isCorrect) {
         // if answerable and correct
         titleColor = green[800];
@@ -62,9 +59,8 @@ export default function Item({
         icon = <IncorrectItemIcon />;
       }
     } else {
-      // if not answerable
+      // if not answerable or solution is not provided
       titleColor = theme.palette.text.secondary;
-      icon = null;
     }
   }
 

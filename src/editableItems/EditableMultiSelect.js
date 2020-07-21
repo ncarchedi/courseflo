@@ -113,7 +113,7 @@ export default function EditableMultiSelect({
               <Button
                 variant="outlined"
                 onClick={handleSaveSolution}
-                disabled={item.solution && item.solution.length === 0}
+                disabled={!item.solution || item.solution.length === 0}
               >
                 Save solution
               </Button>

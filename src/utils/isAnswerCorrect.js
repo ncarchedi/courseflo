@@ -3,6 +3,9 @@ export default function isAnswerCorrect(answer, solution) {
   let ans = answer;
   let sol = solution;
 
+  // if the solution is null, return null
+  if (solution === null) return null;
+
   // if the answer is null, empty, etc.
   if (!ans) return false;
 

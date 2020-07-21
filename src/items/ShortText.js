@@ -41,7 +41,7 @@ export default function ShortText({
     onChangeAnswer(item.id, e.target.value);
   };
 
-  if (showSolution)
+  if (showSolution && item.solution !== null)
     return (
       <>
         {item.image && (
@@ -97,6 +97,7 @@ export default function ShortText({
         onChange={handleChange}
         placeholder="Your answer"
         fullWidth
+        disabled={showSolution && item.solution === null}
       />
     </>
   );

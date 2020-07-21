@@ -57,7 +57,7 @@ export default function MultiSelect({
     onChangeAnswer(item.id, newAnswer);
   };
 
-  if (showSolution)
+  if (showSolution && item.solution !== null)
     return (
       <>
         {item.image && (
@@ -150,6 +150,7 @@ export default function MultiSelect({
                   }
                   onChange={() => handleCheck(option)}
                   color="primary"
+                  disabled={showSolution && item.solution === null}
                 />
               }
               label={renderHtmlFromString(option)}

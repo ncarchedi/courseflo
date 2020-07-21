@@ -41,7 +41,7 @@ export default function LongText({
     onChangeAnswer(item.id, e.target.value);
   };
 
-  if (showSolution)
+  if (showSolution && item.solution !== null)
     return (
       <>
         {item.image && (
@@ -99,6 +99,7 @@ export default function LongText({
         placeholder="Your answer"
         fullWidth
         multiline
+        disabled={showSolution && item.solution === null}
       />
     </>
   );
