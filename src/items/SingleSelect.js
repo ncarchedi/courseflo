@@ -48,7 +48,7 @@ export default function SingleSelect({
     onChangeAnswer(item.id, e.target.value);
   };
 
-  if (showSolution)
+  if (showSolution && item.solution !== null)
     return (
       <>
         {item.image && (
@@ -124,6 +124,7 @@ export default function SingleSelect({
               value={option}
               label={renderHtmlFromString(option)}
               control={<Radio color="primary" />}
+              disabled={showSolution && item.solution === null}
             />
           </Box>
         ))}

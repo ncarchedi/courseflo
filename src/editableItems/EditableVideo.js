@@ -9,7 +9,7 @@ export default function EditableVideo({ item, onFocus, onChangeItemValue }) {
         label="Video URL"
         value={item.source}
         onChange={onChangeItemValue}
-        margin="normal"
+        margin="dense"
         fullWidth
       />
     </form>

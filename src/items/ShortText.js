@@ -41,7 +41,7 @@ export default function ShortText({
     onChangeAnswer(item.id, e.target.value);
   };
 
-  if (showSolution)
+  if (showSolution && item.solution !== null)
     return (
       <>
         {item.image && (
@@ -60,7 +60,7 @@ export default function ShortText({
           <TextField
             value={userItem.answer}
             onChange={handleChange}
-            placeholder="Type your answer here..."
+            placeholder="Your answer"
             fullWidth
             disabled
           />
@@ -95,8 +95,9 @@ export default function ShortText({
       <TextField
         value={(userItem && userItem.answer) || ""}
         onChange={handleChange}
-        placeholder="Type your answer here..."
+        placeholder="Your answer"
         fullWidth
+        disabled={showSolution && item.solution === null}
       />
     </>
   );

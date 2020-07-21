@@ -9,7 +9,7 @@ export default function EditableDocument({ item, onFocus, onChangeItemValue }) {
         label="Document URL"
         value={item.source}
         onChange={onChangeItemValue}
-        margin="normal"
+        margin="dense"
         fullWidth
       />
     </form>

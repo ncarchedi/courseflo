@@ -9,7 +9,7 @@ export default function EditableText({ item, onFocus, onChangeItemValue }) {
         label="Body"
         value={item.body}
         onChange={onChangeItemValue}
-        margin="normal"
+        margin="dense"
         multiline
         fullWidth
       />

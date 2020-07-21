@@ -10,7 +10,7 @@ export default function EditableYouTube({ item, onFocus, onChangeItemValue }) {
         value={item.videoId}
         onChange={onChangeItemValue}
         helperText="This is the series of letters and numbers at the end of the YouTube video URL (example: 1s58rW0_LN4)"
-        margin="normal"
+        margin="dense"
         fullWidth
       />
     </form>

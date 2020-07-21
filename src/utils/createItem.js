@@ -53,7 +53,7 @@ export default function createItem(type) {
         prompt: "New single select question",
         hint: "",
         options: [""],
-        solution: "",
+        solution: null,
       };
       break;
     case "MultiSelect":
@@ -63,7 +63,7 @@ export default function createItem(type) {
         prompt: "New multiple select question",
         hint: "",
         options: [""],
-        solution: [],
+        solution: null,
       };
       break;
     case "LongText":
@@ -72,7 +72,7 @@ export default function createItem(type) {
         type: type,
         prompt: "New long text response",
         hint: "",
-        solution: "",
+        solution: null,
       };
       break;
     case "ShortText":
@@ -81,7 +81,7 @@ export default function createItem(type) {
         type: type,
         prompt: "New short text response",
         hint: "",
-        solution: "",
+        solution: null,
       };
       break;
     default:

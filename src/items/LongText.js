@@ -41,7 +41,7 @@ export default function LongText({
     onChangeAnswer(item.id, e.target.value);
   };
 
-  if (showSolution)
+  if (showSolution && item.solution !== null)
     return (
       <>
         {item.image && (
@@ -60,7 +60,7 @@ export default function LongText({
           <TextField
             value={userItem.answer}
             onChange={handleChange}
-            placeholder="Type your answer here..."
+            placeholder="Your answer"
             fullWidth
             multiline
             disabled
@@ -96,9 +96,10 @@ export default function LongText({
       <TextField
         value={(userItem && userItem.answer) || ""}
         onChange={handleChange}
-        placeholder="Type your answer here..."
+        placeholder="Your answer"
         fullWidth
         multiline
+        disabled={showSolution && item.solution === null}
       />
     </>
   );
