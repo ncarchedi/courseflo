@@ -100,6 +100,7 @@ export default function LongText({
         fullWidth
         multiline
         disabled={showSolution && item.solution === null}
+        autoFocus
       />
     </>
   );
