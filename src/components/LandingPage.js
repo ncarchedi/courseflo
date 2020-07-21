@@ -133,7 +133,7 @@ export default function LandingPage() {
                 md={4}
               >
                 <Typography className={classes.supportingText}>
-                  Use a combination of videos, text, and images to teach new
+                  Embed videos, text, images and documents to teach new
                   material.
                 </Typography>
               </Grid>
