@@ -102,13 +102,17 @@ export default function LandingPage() {
                 md={4}
               >
                 <Typography className={classes.supportingText}>
-                  Use a combination of videos, text, and images to teach new
-                  material.
+                  Create courses and quizzes that render beautifully on any
+                  device.
                 </Typography>
               </Grid>
               <Grid item xs={12} md={8}>
-                <Paper className={classes.imageContainer} elevation={3}>
-                  <img src="video.png" alt="video example" width="100%" />
+                <Paper className={classes.imageContainer} elevation={0}>
+                  <img
+                    src="laptop-mobile-screenshots.png"
+                    alt="laptop and mobile screenshots"
+                    width="100%"
+                  />
                 </Paper>
               </Grid>
             </Grid>
@@ -119,11 +123,7 @@ export default function LandingPage() {
             <Grid className={classes.middleRow} container spacing={6}>
               <Grid item xs={12} md={8}>
                 <Paper className={classes.imageContainer} elevation={3}>
-                  <img
-                    src="multiSelect.png"
-                    alt="question example"
-                    width="100%"
-                  />
+                  <img src="video.png" alt="video example" width="100%" />
                 </Paper>
               </Grid>
               <Grid
@@ -133,8 +133,8 @@ export default function LandingPage() {
                 md={4}
               >
                 <Typography className={classes.supportingText}>
-                  Mix-and-match question types to reinforce learning and check
-                  comprehension.
+                  Use a combination of videos, text, and images to teach new
+                  material.
                 </Typography>
               </Grid>
             </Grid>
@@ -150,9 +150,25 @@ export default function LandingPage() {
                 md={4}
               >
                 <Typography className={classes.supportingText}>
-                  Provide feedback so students can learn from their mistakes.
+                  Mix-and-match question types to reinforce learning and check
+                  comprehension.
                 </Typography>
               </Grid>
+              <Grid item xs={12} md={8}>
+                <Paper className={classes.imageContainer} elevation={3}>
+                  <img
+                    src="multiSelect.png"
+                    alt="question example"
+                    width="100%"
+                  />
+                </Paper>
+              </Grid>
+            </Grid>
+
+            <Divider className={classes.divider} />
+
+            {/* fifth row */}
+            <Grid className={classes.middleRow} container spacing={6}>
               <Grid item xs={12} md={8}>
                 <Paper className={classes.imageContainer} elevation={3}>
                   <img
@@ -161,6 +177,16 @@ export default function LandingPage() {
                     width="100%"
                   />
                 </Paper>
+              </Grid>
+              <Grid
+                className={classes.supportingTextContainer}
+                item
+                xs={12}
+                md={4}
+              >
+                <Typography className={classes.supportingText}>
+                  Provide feedback so students can learn from their mistakes.
+                </Typography>
               </Grid>
             </Grid>
 
