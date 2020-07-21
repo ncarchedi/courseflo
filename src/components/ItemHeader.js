@@ -35,7 +35,6 @@ export default function ItemHeader({ item, titleColor, helperText, icon }) {
 
   // is the item graded?
   const isGraded = item.solution && item.solution !== null;
-  console.log(isGraded);
 
   return (
     <Box className={classes.container}>

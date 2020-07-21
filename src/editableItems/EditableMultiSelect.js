@@ -42,16 +42,17 @@ export default function EditableMultiSelect({
 
   const handleChangeSolution = (option) => {
     let newSolution = item.solution;
+    // if solution is null, set it to option
+    if (newSolution === null) newSolution = [option];
     // if option is checked, uncheck it
-    if (newSolution.includes(option))
+    else if (newSolution.includes(option))
       newSolution = newSolution.filter((o) => o !== option);
-    // otherwise, check it
+    // otherwise, if option is unchecked, check it
     else newSolution = [...newSolution, option];
     setItemValuesDirectly({ ...item, solution: newSolution });
   };
 
   const handleAddSolution = () => {
-    setItemValuesDirectly({ ...item, solution: [] });
     setOpenSolutionForm(true);
   };
 
@@ -98,7 +99,7 @@ export default function EditableMultiSelect({
                     control={
                       <Checkbox
                         name={o}
-                        checked={item.solution && item.solution.includes(o)}
+                        checked={!!item.solution && item.solution.includes(o)}
                         onChange={() => handleChangeSolution(o)}
                         color="primary"
                       />
