@@ -5,10 +5,13 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
-  poweredByBox: {
+  container: {
     marginTop: theme.spacing(3),
     display: "flex",
     justifyContent: "center",
+  },
+  content: {
+    display: "flex",
     alignItems: "center",
     textDecoration: "none",
     color: "inherit",
@@ -22,16 +25,22 @@ export default function PoweredBy() {
   const classes = useStyles();
 
   return (
-    <Box
-      className={classes.poweredByBox}
-      component={RouterLink}
-      to="/"
-      target="_blank"
-    >
-      <Box mr={0.5}>
-        <Typography variant="body2">Powered by</Typography>
+    <Box className={classes.container}>
+      <Box
+        className={classes.content}
+        component={RouterLink}
+        to="/"
+        target="_blank"
+      >
+        <Box mr={0.5}>
+          <Typography variant="body2">Powered by</Typography>
+        </Box>
+        <img
+          className={classes.logo}
+          src="../logo-bw.png"
+          alt="Courseflo logo"
+        />
       </Box>
-      <img className={classes.logo} src="../logo-bw.png" alt="Courseflo logo" />
     </Box>
   );
 }
