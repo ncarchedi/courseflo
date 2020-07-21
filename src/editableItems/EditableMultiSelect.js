@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
@@ -21,21 +21,6 @@ export default function EditableMultiSelect({
   setItemValuesDirectly,
 }) {
   const [openSolutionForm, setOpenSolutionForm] = useState(false);
-
-  // when options change, update solution as necessary
-  // (but only when a solution exists)
-  useEffect(() => {
-    if (item.solution) {
-      const newSolution = item.solution.filter((option) =>
-        item.options.includes(option)
-      );
-      console.log(newSolution);
-      setItemValuesDirectly({
-        ...item,
-        solution: newSolution,
-      });
-    }
-  }, [item.options]);
 
   const handleChangeOption = (index, value) => {
     const options = [...item.options];

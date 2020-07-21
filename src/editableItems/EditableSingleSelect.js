@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Box from "@material-ui/core/Box";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -21,10 +21,6 @@ export default function EditableSingleSelect({
   setItemValuesDirectly,
 }) {
   const [openSolutionForm, setOpenSolutionForm] = useState(false);
-
-  useEffect(() => {
-    if (!item.options.includes(item.solution)) handleRemoveSolution();
-  }, [item.options, item.solution]);
 
   const handleChangeOption = (index, value) => {
     const options = [...item.options];
