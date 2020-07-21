@@ -9,7 +9,7 @@ export default function EditableImage({ item, onFocus, onChangeItemValue }) {
         label="Public URL"
         value={item.source}
         onChange={onChangeItemValue}
-        margin="normal"
+        margin="dense"
         fullWidth
       />
     </form>

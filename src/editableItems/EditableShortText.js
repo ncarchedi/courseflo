@@ -27,7 +27,7 @@ export default function EditableShortText({
         label="Image (optional)"
         value={item.image}
         onChange={onChangeItemValue}
-        margin="normal"
+        margin="dense"
         multiline
         fullWidth
       />
@@ -36,7 +36,7 @@ export default function EditableShortText({
         label="Hint (optional)"
         value={item.hint}
         onChange={onChangeItemValue}
-        margin="normal"
+        margin="dense"
         multiline
         fullWidth
       />
@@ -46,7 +46,7 @@ export default function EditableShortText({
           label="Solution"
           value={item.solution || ""}
           onChange={onChangeItemValue}
-          margin="normal"
+          margin="dense"
           multiline
           fullWidth
         />

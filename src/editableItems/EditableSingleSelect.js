@@ -59,7 +59,7 @@ export default function EditableSingleSelect({
         label="Image (optional)"
         value={item.image}
         onChange={onChangeItemValue}
-        margin="normal"
+        margin="dense"
         multiline
         fullWidth
       />
@@ -68,7 +68,7 @@ export default function EditableSingleSelect({
         label="Hint (optional)"
         value={item.hint}
         onChange={onChangeItemValue}
-        margin="normal"
+        margin="dense"
         multiline
         fullWidth
       />

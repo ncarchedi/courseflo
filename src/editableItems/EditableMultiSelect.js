@@ -70,7 +70,7 @@ export default function EditableMultiSelect({
         label="Image (optional)"
         value={item.image}
         onChange={onChangeItemValue}
-        margin="normal"
+        margin="dense"
         multiline
         fullWidth
       />
@@ -79,7 +79,7 @@ export default function EditableMultiSelect({
         label="Hint (optional)"
         value={item.hint}
         onChange={onChangeItemValue}
-        margin="normal"
+        margin="dense"
         multiline
         fullWidth
       />
