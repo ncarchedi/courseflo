@@ -40,6 +40,24 @@ export default function EditableItem({
     setItemValues({ ...itemValues, [e.target.name]: e.target.value });
   };
 
+  const handleToggleRequired = () => {
+    setItemValues({
+      ...itemValues,
+      required: !item.required,
+    });
+  };
+
+  const handleToggleGraded = () => {
+    // define empty solution based on item type
+    // todo: centralize this logic somewhere?
+    const emptySolution = item.type === "MultiSelect" ? [] : "";
+
+    setItemValues({
+      ...itemValues,
+      solution: item.solution === null ? emptySolution : null,
+    });
+  };
+
   // get metadata based on item type
   let { Component, icon } = getItemMetadata(item, true);
 
@@ -63,7 +81,8 @@ export default function EditableItem({
       <EditableItemFooter
         item={itemValues}
         onFocus={onFocus}
-        setItemValuesDirectly={setItemValues}
+        onToggleRequired={handleToggleRequired}
+        onToggleGraded={handleToggleGraded}
         onClickMove={onClickMove}
         onClickDelete={onClickDelete}
       />

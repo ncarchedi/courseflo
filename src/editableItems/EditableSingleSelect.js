@@ -40,16 +40,12 @@ export default function EditableSingleSelect({
     setItemValuesDirectly({ ...item, options });
   };
 
-  const handleAddSolution = () => {
+  const handleEditSolution = () => {
     setOpenSolutionForm(true);
   };
 
   const handleSaveSolution = () => {
     setOpenSolutionForm(false);
-  };
-
-  const handleRemoveSolution = () => {
-    setItemValuesDirectly({ ...item, solution: null });
   };
 
   return (
@@ -143,20 +139,17 @@ export default function EditableSingleSelect({
               </Link>
             </Box>
             <Box mt={2}>
-              {item.solution ? (
-                <Button variant="outlined" onClick={handleRemoveSolution}>
-                  Remove solution
-                </Button>
-              ) : (
+              {item.solution !== null && (
                 <Button
                   variant="outlined"
-                  onClick={handleAddSolution}
+                  color="primary"
+                  onClick={handleEditSolution}
                   disabled={
                     item.options.length === 0 ||
                     (item.options.length === 1 && item.options[0] === "")
                   }
                 >
-                  Add solution
+                  Edit solution
                 </Button>
               )}
             </Box>

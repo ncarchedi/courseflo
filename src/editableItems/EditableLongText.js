@@ -1,26 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import TextField from "@material-ui/core/TextField";
-import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
 
-export default function EditableLongText({
-  item,
-  onFocus,
-  onChangeItemValue,
-  setItemValuesDirectly,
-}) {
-  const [openSolutionForm, setOpenSolutionForm] = useState(false);
-
-  const toggleSolution = () => {
-    // remove solution when closing form
-    openSolutionForm && handleRemoveSolution();
-    setOpenSolutionForm(!openSolutionForm);
-  };
-
-  const handleRemoveSolution = () => {
-    setItemValuesDirectly({ ...item, solution: null });
-  };
-
+export default function EditableLongText({ item, onFocus, onChangeItemValue }) {
   return (
     <form onFocus={() => onFocus(item.id)}>
       <TextField
@@ -41,7 +22,7 @@ export default function EditableLongText({
         multiline
         fullWidth
       />
-      {openSolutionForm && (
+      {item.solution !== null && (
         <TextField
           name="solution"
           label="Solution"
@@ -52,11 +33,6 @@ export default function EditableLongText({
           fullWidth
         />
       )}
-      <Box mt={2}>
-        <Button variant="outlined" onClick={toggleSolution}>
-          {openSolutionForm ? "Remove solution" : "Add solution"}
-        </Button>
-      </Box>
     </form>
   );
 }
