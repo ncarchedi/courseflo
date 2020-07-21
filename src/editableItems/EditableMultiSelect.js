@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
@@ -21,6 +21,21 @@ export default function EditableMultiSelect({
   setItemValuesDirectly,
 }) {
   const [openSolutionForm, setOpenSolutionForm] = useState(false);
+
+  // when options change, update solution as necessary
+  // (but only when a solution exists)
+  useEffect(() => {
+    if (item.solution) {
+      const newSolution = item.solution.filter((option) =>
+        item.options.includes(option)
+      );
+      console.log(newSolution);
+      setItemValuesDirectly({
+        ...item,
+        solution: newSolution,
+      });
+    }
+  }, [item.options]);
 
   const handleChangeOption = (index, value) => {
     const options = [...item.options];
@@ -50,6 +65,19 @@ export default function EditableMultiSelect({
     setItemValuesDirectly({ ...item, solution: newSolution });
   };
 
+  const handleAddSolution = () => {
+    setItemValuesDirectly({ ...item, solution: [] });
+    setOpenSolutionForm(true);
+  };
+
+  const handleSaveSolution = () => {
+    setOpenSolutionForm(false);
+  };
+
+  const handleRemoveSolution = () => {
+    setItemValuesDirectly({ ...item, solution: null });
+  };
+
   return (
     <form onFocus={() => onFocus(item.id)}>
       <TextField
@@ -61,20 +89,33 @@ export default function EditableMultiSelect({
         multiline
         fullWidth
       />
+      <TextField
+        name="hint"
+        label="Hint (optional)"
+        value={item.hint}
+        onChange={onChangeItemValue}
+        margin="normal"
+        multiline
+        fullWidth
+      />
       <>
         {openSolutionForm ? (
           <>
             <Box my={1}>
-              <Typography variant="button">Choose correct answers:</Typography>
+              <Typography variant="button">
+                Choose correct answer(s):
+              </Typography>
             </Box>
             <FormGroup>
               {item.options.map((option) => (
-                <Box key={option} marginBottom={1}>
+                <Box key={option}>
                   <FormControlLabel
                     control={
                       <Checkbox
                         name={option}
-                        checked={item.solution.includes(option)}
+                        checked={
+                          item.solution && item.solution.includes(option)
+                        }
                         onChange={() => handleChangeSolution(option)}
                         color="primary"
                       />
@@ -86,10 +127,11 @@ export default function EditableMultiSelect({
             </FormGroup>
             <Box mt={2}>
               <Button
-                variant="contained"
-                onClick={() => setOpenSolutionForm(false)}
+                variant="outlined"
+                onClick={handleSaveSolution}
+                disabled={item.solution && item.solution.length === 0}
               >
-                Done editing solution
+                Save solution
               </Button>
             </Box>
           </>
@@ -98,7 +140,7 @@ export default function EditableMultiSelect({
             {item.options.map((o, index) => (
               <Box key={"option" + index} display="flex" alignItems="center">
                 <Box marginRight={1} display="flex">
-                  {o && item.solution.includes(o) ? (
+                  {o && item.solution && item.solution.includes(o) ? (
                     <CheckBoxIcon color="disabled" />
                   ) : (
                     <CheckBoxOutlineBlankIcon color="disabled" />
@@ -132,30 +174,27 @@ export default function EditableMultiSelect({
               </Link>
             </Box>
             <Box mt={2}>
-              <Button
-                variant="contained"
-                onClick={() => setOpenSolutionForm(true)}
-                // disable button if no options or only a single blank option
-                disabled={
-                  item.options.length === 0 ||
-                  (item.options.length === 1 && item.options[0] === "")
-                }
-              >
-                Edit solution
-              </Button>
+              {item.solution && item.solution.length ? (
+                <Button variant="outlined" onClick={handleRemoveSolution}>
+                  Remove solution
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  onClick={handleAddSolution}
+                  // disable button if no options or only a single blank option
+                  disabled={
+                    item.options.length === 0 ||
+                    (item.options.length === 1 && item.options[0] === "")
+                  }
+                >
+                  Add solution
+                </Button>
+              )}
             </Box>
           </>
         )}
       </>
-      <TextField
-        name="hint"
-        label="Hint (optional)"
-        value={item.hint}
-        onChange={onChangeItemValue}
-        margin="normal"
-        multiline
-        fullWidth
-      />
     </form>
   );
 }

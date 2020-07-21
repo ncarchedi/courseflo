@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@material-ui/core/Box";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
@@ -22,6 +22,10 @@ export default function EditableSingleSelect({
 }) {
   const [openSolutionForm, setOpenSolutionForm] = useState(false);
 
+  useEffect(() => {
+    if (!item.options.includes(item.solution)) handleRemoveSolution();
+  }, [item.options, item.solution]);
+
   const handleChangeOption = (index, value) => {
     const options = [...item.options];
     options[index] = value;
@@ -40,8 +44,16 @@ export default function EditableSingleSelect({
     setItemValuesDirectly({ ...item, options });
   };
 
-  const handleChangeSolution = (e) => {
-    setItemValuesDirectly({ ...item, solution: e.target.value });
+  const handleAddSolution = () => {
+    setOpenSolutionForm(true);
+  };
+
+  const handleSaveSolution = () => {
+    setOpenSolutionForm(false);
+  };
+
+  const handleRemoveSolution = () => {
+    setItemValuesDirectly({ ...item, solution: null });
   };
 
   return (
@@ -55,15 +67,28 @@ export default function EditableSingleSelect({
         multiline
         fullWidth
       />
+      <TextField
+        name="hint"
+        label="Hint (optional)"
+        value={item.hint}
+        onChange={onChangeItemValue}
+        margin="normal"
+        multiline
+        fullWidth
+      />
       <>
         {openSolutionForm ? (
           <>
             <Box my={1}>
-              <Typography variant="button">Choose correct answers:</Typography>
+              <Typography variant="button">Choose correct answer:</Typography>
             </Box>
-            <RadioGroup value={item.solution} onChange={handleChangeSolution}>
+            <RadioGroup
+              name="solution"
+              value={item.solution}
+              onChange={onChangeItemValue}
+            >
               {item.options.map((option) => (
-                <Box key={option} marginBottom={1}>
+                <Box key={option}>
                   <FormControlLabel
                     value={option}
                     label={renderHtmlFromString(option)}
@@ -74,10 +99,11 @@ export default function EditableSingleSelect({
             </RadioGroup>
             <Box mt={2}>
               <Button
-                variant="contained"
-                onClick={() => setOpenSolutionForm(false)}
+                variant="outlined"
+                onClick={handleSaveSolution}
+                disabled={!item.solution}
               >
-                Done editing solution
+                Save solution
               </Button>
             </Box>
           </>
@@ -121,30 +147,26 @@ export default function EditableSingleSelect({
               </Link>
             </Box>
             <Box mt={2}>
-              <Button
-                variant="contained"
-                onClick={() => setOpenSolutionForm(true)}
-                // disable button if no options or only a single blank option
-                disabled={
-                  item.options.length === 0 ||
-                  (item.options.length === 1 && item.options[0] === "")
-                }
-              >
-                Edit solution
-              </Button>
+              {item.solution ? (
+                <Button variant="outlined" onClick={handleRemoveSolution}>
+                  Remove solution
+                </Button>
+              ) : (
+                <Button
+                  variant="outlined"
+                  onClick={handleAddSolution}
+                  disabled={
+                    item.options.length === 0 ||
+                    (item.options.length === 1 && item.options[0] === "")
+                  }
+                >
+                  Add solution
+                </Button>
+              )}
             </Box>
           </>
         )}
       </>
-      <TextField
-        name="hint"
-        label="Hint (optional)"
-        value={item.hint}
-        onChange={onChangeItemValue}
-        margin="normal"
-        multiline
-        fullWidth
-      />
     </form>
   );
 }
