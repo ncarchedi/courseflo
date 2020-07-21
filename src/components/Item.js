@@ -26,9 +26,11 @@ export default function Item({
   const classes = useStyles();
   const theme = useTheme();
 
-  // adds a new userItem when the item loads (except in review)
   useEffect(() => {
+    // adds a new userItem when the item loads (except in review)
     onItemLoad && onItemLoad(item);
+    // scrolls to the top of the screen (to counteract autoFocus)
+    window.scrollTo(0, 0);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // wait until item is available

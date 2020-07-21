@@ -98,6 +98,7 @@ export default function ShortText({
         placeholder="Your answer"
         fullWidth
         disabled={showSolution && item.solution === null}
+        autoFocus
       />
     </>
   );

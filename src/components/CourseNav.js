@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { makeStyles, useTheme } from "@material-ui/styles";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Box from "@material-ui/core/Box";
@@ -39,24 +39,50 @@ export default function CourseNav({
   const classes = useStyles();
   const theme = useTheme();
   const notOnMobile = useMediaQuery(theme.breakpoints.up("sm"));
-  // const continueRef = useRef(null);
+  const backRef = useRef(null);
+  const continueRef = useRef(null);
 
-  // useEffect(() => {
-  //   // if the ref exists, create keyboard shortcut
-  //   if (continueRef && continueRef.current) {
-  //     const listener = (event) => {
-  //       if (event.code === "Enter" || event.code === "NumpadEnter") {
-  //         event.preventDefault();
-  //         continueRef.current.click();
-  //       }
-  //     };
-  //     document.addEventListener("keydown", listener);
+  // keyboard shortcut: shift + enter to go back
+  useEffect(() => {
+    // if the ref exists, create keyboard shortcut
+    if (backRef && backRef.current) {
+      const listener = (event) => {
+        if (
+          event.shiftKey &&
+          (event.code === "Enter" || event.code === "NumpadEnter")
+        ) {
+          event.preventDefault();
+          backRef.current.click();
+        }
+      };
+      document.addEventListener("keydown", listener);
 
-  //     return () => {
-  //       document.removeEventListener("keydown", listener);
-  //     };
-  //   }
-  // });
+      return () => {
+        document.removeEventListener("keydown", listener);
+      };
+    }
+  });
+
+  // keyboard shortcut: enter (no shift) to continue
+  useEffect(() => {
+    // if the ref exists, create keyboard shortcut
+    if (continueRef && continueRef.current) {
+      const listener = (event) => {
+        if (
+          !event.shiftKey &&
+          (event.code === "Enter" || event.code === "NumpadEnter")
+        ) {
+          event.preventDefault();
+          continueRef.current.click();
+        }
+      };
+      document.addEventListener("keydown", listener);
+
+      return () => {
+        document.removeEventListener("keydown", listener);
+      };
+    }
+  });
 
   return (
     <Box className={classes.fabContainer}>
@@ -65,6 +91,7 @@ export default function CourseNav({
         {itemNumber > 0 && (
           <Zoom in>
             <Fab
+              ref={backRef}
               onClick={() => onChangeItemNumber(itemNumber - 1)}
               variant={notOnMobile ? "extended" : "round"}
               color="primary"
@@ -103,7 +130,7 @@ export default function CourseNav({
         <Zoom in>
           {onLastItem ? (
             <Fab
-              // ref={continueRef}
+              ref={continueRef}
               onClick={() => setOpenCompleteCourseDialog(true)}
               variant="extended"
               color="primary"
@@ -115,10 +142,9 @@ export default function CourseNav({
             </Fab>
           ) : (
             <Fab
-              // ref={continueRef}
+              ref={continueRef}
               onClick={() => onChangeItemNumber(itemNumber + 1)}
               variant={notOnMobile ? "extended" : "round"}
-              // force user to enter email before continuing
               color="primary"
               aria-label="continue"
               disabled={disableContinue}
