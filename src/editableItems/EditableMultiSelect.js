@@ -92,20 +92,18 @@ export default function EditableMultiSelect({
               </Typography>
             </Box>
             <FormGroup>
-              {item.options.map((option) => (
-                <Box key={option}>
+              {item.options.map((o, index) => (
+                <Box key={"option" + index}>
                   <FormControlLabel
                     control={
                       <Checkbox
-                        name={option}
-                        checked={
-                          item.solution && item.solution.includes(option)
-                        }
-                        onChange={() => handleChangeSolution(option)}
+                        name={o}
+                        checked={item.solution && item.solution.includes(o)}
+                        onChange={() => handleChangeSolution(o)}
                         color="primary"
                       />
                     }
-                    label={renderHtmlFromString(option)}
+                    label={renderHtmlFromString(o)}
                   />
                 </Box>
               ))}

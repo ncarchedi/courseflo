@@ -83,11 +83,11 @@ export default function EditableSingleSelect({
               value={item.solution}
               onChange={onChangeItemValue}
             >
-              {item.options.map((option) => (
-                <Box key={option}>
+              {item.options.map((o, index) => (
+                <Box key={"option" + index}>
                   <FormControlLabel
-                    value={option}
-                    label={renderHtmlFromString(option)}
+                    value={o}
+                    label={renderHtmlFromString(o)}
                     control={<Radio color="primary" />}
                   />
                 </Box>
