@@ -37,7 +37,7 @@ const getSubmissions = (userCourses) => {
         submitted: moment(sub.submitted.toDate()).format("YYYY-MM-DD hh:mm A"),
         numCorrect: sub.score.numCorrect,
         numQuestions: sub.score.numTotal,
-        percCorrect: sub.score.percCorrect,
+        percCorrect: sub.score.numTotal > 0 ? sub.score.percCorrect : "N/A",
       }))
   );
 };
@@ -66,7 +66,7 @@ export default function Analytics({
         { title: "Email", field: "email", type: "string" },
         { title: "Submitted", field: "submitted", type: "string" },
         { title: "# Correct", field: "numCorrect", type: "numeric" },
-        { title: "# Questions", field: "numQuestions", type: "numeric" },
+        { title: "# Graded", field: "numQuestions", type: "numeric" },
         { title: "Score (%)", field: "percCorrect", type: "numeric" },
       ],
       data: userCourses && getSubmissions(userCourses),
