@@ -31,20 +31,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const items = [
-  { type: "Text", name: "Text", icon: getItemIcon("Text") },
-  { type: "YouTube", name: "YouTube Video", icon: getItemIcon("YouTube") },
-  { type: "Video", name: "Video (Non-YouTube)", icon: getItemIcon("YouTube") },
-  { type: "Image", name: "Image", icon: getItemIcon("Image") },
-  { type: "Document", name: "Document", icon: getItemIcon("Document") },
   {
-    type: "SingleSelect",
-    name: "Single Select",
-    icon: getItemIcon("SingleSelect"),
-  },
-  {
-    type: "MultiSelect",
-    name: "Multiple Select",
-    icon: getItemIcon("MultiSelect"),
+    type: "LongText",
+    name: "Long Text Response",
+    icon: getItemIcon("LongText"),
   },
   {
     type: "ShortText",
@@ -52,10 +42,20 @@ const items = [
     icon: getItemIcon("ShortText"),
   },
   {
-    type: "LongText",
-    name: "Long Text Response",
-    icon: getItemIcon("LongText"),
+    type: "MultiSelect",
+    name: "Multiple Select",
+    icon: getItemIcon("MultiSelect"),
   },
+  {
+    type: "SingleSelect",
+    name: "Single Select",
+    icon: getItemIcon("SingleSelect"),
+  },
+  { type: "YouTube", name: "YouTube Video", icon: getItemIcon("YouTube") },
+  { type: "Video", name: "Video (Non-YouTube)", icon: getItemIcon("YouTube") },
+  { type: "Image", name: "Image", icon: getItemIcon("Image") },
+  { type: "Document", name: "Document", icon: getItemIcon("Document") },
+  { type: "Text", name: "Text", icon: getItemIcon("Text") },
 ];
 
 export default function AddItemFab({ onAddItem }) {
