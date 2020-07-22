@@ -21,7 +21,7 @@ export default function LandingPageHeader() {
 
   const showSignInButton =
     !userLoading && !user && location.pathname !== "/login";
-  // const showPricingButton = location.pathname !== "/pricing";
+  const showPricingButton = location.pathname === "/";
 
   return (
     <>
@@ -37,13 +37,13 @@ export default function LandingPageHeader() {
               />
             </Link>
           </Box>
-          {/* {showPricingButton && (
+          {showPricingButton && (
             <Box mr={showSignInButton ? 2 : 0}>
               <Button component={RouterLink} to="/pricing" color="inherit">
                 Pricing
               </Button>
             </Box>
-          )} */}
+          )}
           {showSignInButton && (
             <Button
               component={RouterLink}
