@@ -80,7 +80,7 @@ export default function Pricing() {
   //     ? "paid"
   //     : "free"
   //   : "none";
-  const status = "free";
+  const status = user ? "free" : "none";
 
   const tiers = [
     {
