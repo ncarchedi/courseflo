@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -11,8 +11,9 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Header from "./LandingPageHeader";
 import Footer from "./LandingPageFooter";
+import SubscribeDialog from "./SubscribeDialog";
 import UserContext from "../context/UserContext";
-import SubscriberContext from "../context/SubscriberContext";
+// import SubscriberContext from "../context/SubscriberContext";
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -49,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "baseline",
     marginBottom: theme.spacing(2),
   },
+  descriptionHeader: {
+    fontWeight: theme.typography.fontWeightMedium,
+  },
   footer: {
     borderTop: `1px solid ${theme.palette.divider}`,
     marginTop: theme.spacing(8),
@@ -63,39 +67,43 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Pricing() {
   const classes = useStyles();
+  const [openSubscribeDialog, setOpenSubscribeDialog] = useState(false);
   const [user, userLoading] = useContext(UserContext);
-  const subscriber = useContext(SubscriberContext);
+  // const subscriber = useContext(SubscriberContext);
 
   // return null until user is done loading
   if (userLoading) return null;
 
-  // figure out current user status, if any
-  const status = user
-    ? subscriber && subscriber.active
-      ? "paid"
-      : "free"
-    : "none";
+  // // figure out current user status, if any
+  // const userPlan = user
+  //   ? subscriber && subscriber.active
+  //     ? "professional"
+  //     : "free"
+  //   : "none";
+  const userPlan = user ? "free" : "none";
 
   const tiers = [
     {
       title: "Free",
       price: "0",
+      descriptionHeader: "Includes",
       description: [
-        "Create one course",
-        "25 items per course",
+        "Unlimited courses",
+        "Simple link sharing",
+        "Basic analytics",
         "Email support",
       ],
       button: (
         <>
-          {status === "free" ? (
+          {userPlan === "free" ? (
             <Button fullWidth variant="outlined" color="primary" disabled>
               You have this plan
             </Button>
           ) : (
             <>
-              {status === "paid" ? (
+              {userPlan === "professional" ? (
                 <Button
-                  onClick={() => alert("downgrade me!")}
+                  // onClick={() => alert("downgrade me!")}
                   fullWidth
                   variant="outlined"
                   color="primary"
@@ -119,23 +127,25 @@ export default function Pricing() {
       ),
     },
     {
-      title: "Pro",
+      title: "Professional",
       subheader: "Most popular",
-      price: "10",
+      price: "20",
+      descriptionHeader: "Everything in the Free plan plus",
       description: [
-        "Create unlimited courses",
-        "Unlimited items per course",
+        "Private courses",
+        "Shared editing access",
+        "Advanced analytics",
         "Priority email support",
       ],
       button: (
         <>
-          {status === "paid" ? (
+          {userPlan === "professional" ? (
             <Button fullWidth variant="outlined" color="primary" disabled>
               You have this plan
             </Button>
           ) : (
             <Button
-              onClick={() => alert("subscribe me!")}
+              onClick={() => setOpenSubscribeDialog(true)}
               fullWidth
               variant="contained"
               color="primary"
@@ -147,16 +157,18 @@ export default function Pricing() {
       ),
     },
     {
-      title: "Enterprise",
-      price: "30",
+      title: "Organization",
+      price: "50",
+      descriptionHeader: "All features included plus",
       description: [
-        "Create unlimited courses",
-        "Unlimited items per course",
+        "Bulk student management",
+        "Theme customization",
+        "Personalized onboarding",
         "Phone + email support",
       ],
       button: (
         <Button
-          href="mailto:hello@dayonelabs.io?subject=Enterprise plan inquiry"
+          href="mailto:hello@courseflo.com?subject=Organization plan inquiry"
           target="_blank"
           fullWidth
           variant="outlined"
@@ -198,12 +210,12 @@ export default function Pricing() {
       <Container maxWidth="md" component="main">
         <Grid container spacing={5} alignItems="flex-end">
           {tiers.map((tier) => (
-            // Enterprise card is full width at sm breakpoint
+            // Organization card is full width at sm breakpoint
             <Grid
               item
               key={tier.title}
               xs={12}
-              sm={tier.title === "Enterprise" ? 12 : 6}
+              sm={tier.title === "Organization" ? 12 : 6}
               md={4}
             >
               <Card>
@@ -223,6 +235,13 @@ export default function Pricing() {
                       /mo
                     </Typography>
                   </div>
+                  <Typography
+                    className={classes.descriptionHeader}
+                    variant="subtitle1"
+                    align="center"
+                  >
+                    {tier.descriptionHeader}
+                  </Typography>
                   <ul>
                     {tier.description.map((line) => (
                       <Typography
@@ -243,6 +262,13 @@ export default function Pricing() {
         </Grid>
       </Container>
 
+      <SubscribeDialog
+        open={openSubscribeDialog}
+        setOpen={setOpenSubscribeDialog}
+        userId={user && user.uid}
+        userEmail={user && user.email}
+        userPlan={userPlan}
+      />
       <Footer />
     </>
   );

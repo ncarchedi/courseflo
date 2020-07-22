@@ -127,7 +127,7 @@ export default function SignIn() {
                 <Grid container justify="center">
                   <Grid item xs>
                     <Link
-                      href="mailto:hello@dayonelabs.io?subject=Please reset my password!"
+                      href="mailto:hello@courseflo.com?subject=Please reset my password!"
                       target="_blank"
                       variant="body2"
                     >
