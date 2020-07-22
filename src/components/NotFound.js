@@ -24,7 +24,7 @@ export default function NotFound({ type }) {
       {type === "page" && (
         <Typography variant="body2" color="textSecondary">
           Please{" "}
-          <Link href="mailto:hello@dayonelabs.io" underline="always">
+          <Link href="mailto:hello@courseflo.com" underline="always">
             let us know
           </Link>{" "}
           if you think something is wrong.

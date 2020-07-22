@@ -168,7 +168,7 @@ export default function Pricing() {
       ],
       button: (
         <Button
-          href="mailto:hello@dayonelabs.io?subject=Organization plan inquiry"
+          href="mailto:hello@courseflo.com?subject=Organization plan inquiry"
           target="_blank"
           fullWidth
           variant="outlined"
