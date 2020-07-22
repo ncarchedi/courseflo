@@ -19,20 +19,14 @@ const useStyles = makeStyles((theme) => ({
 export default function EditableItemFooter({
   item,
   onFocus,
-  setItemValuesDirectly,
+  onToggleRequired,
+  onToggleGraded,
   onClickMove,
   onClickDelete,
 }) {
   const classes = useStyles();
 
-  const handleChangeRequired = () => {
-    setItemValuesDirectly({
-      ...item,
-      required: !item.required,
-    });
-  };
-
-  // is the item answerable (i.e. does it have a solution)?
+  // is the item answerable (i.e. can it have a solution)?
   const isAnswerable = "solution" in item;
 
   return (
@@ -44,11 +38,21 @@ export default function EditableItemFooter({
               control={
                 <Switch
                   checked={item.required || false}
-                  onChange={handleChangeRequired}
+                  onChange={onToggleRequired}
                   color="primary"
                 />
               }
               label="Required"
+            />
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={item.solution !== null}
+                  onChange={onToggleGraded}
+                  color="primary"
+                />
+              }
+              label="Graded"
             />
           </form>
         )}
