@@ -75,12 +75,12 @@ export default function Pricing() {
   if (userLoading) return null;
 
   // // figure out current user status, if any
-  // const status = user
+  // const userPlan = user
   //   ? subscriber && subscriber.active
-  //     ? "paid"
+  //     ? "professional"
   //     : "free"
   //   : "none";
-  const status = user ? "free" : "none";
+  const userPlan = user ? "free" : "none";
 
   const tiers = [
     {
@@ -95,13 +95,13 @@ export default function Pricing() {
       ],
       button: (
         <>
-          {status === "free" ? (
+          {userPlan === "free" ? (
             <Button fullWidth variant="outlined" color="primary" disabled>
               You have this plan
             </Button>
           ) : (
             <>
-              {status === "paid" ? (
+              {userPlan === "professional" ? (
                 <Button
                   // onClick={() => alert("downgrade me!")}
                   fullWidth
@@ -139,7 +139,7 @@ export default function Pricing() {
       ],
       button: (
         <>
-          {status === "paid" ? (
+          {userPlan === "professional" ? (
             <Button fullWidth variant="outlined" color="primary" disabled>
               You have this plan
             </Button>
@@ -157,7 +157,7 @@ export default function Pricing() {
       ),
     },
     {
-      title: "Business",
+      title: "Organization",
       price: "50",
       descriptionHeader: "All features included plus",
       description: [
@@ -168,7 +168,7 @@ export default function Pricing() {
       ],
       button: (
         <Button
-          href="mailto:hello@dayonelabs.io?subject=Business plan inquiry"
+          href="mailto:hello@dayonelabs.io?subject=Organization plan inquiry"
           target="_blank"
           fullWidth
           variant="outlined"
@@ -210,12 +210,12 @@ export default function Pricing() {
       <Container maxWidth="md" component="main">
         <Grid container spacing={5} alignItems="flex-end">
           {tiers.map((tier) => (
-            // Business card is full width at sm breakpoint
+            // Organization card is full width at sm breakpoint
             <Grid
               item
               key={tier.title}
               xs={12}
-              sm={tier.title === "Business" ? 12 : 6}
+              sm={tier.title === "Organization" ? 12 : 6}
               md={4}
             >
               <Card>
@@ -265,7 +265,9 @@ export default function Pricing() {
       <SubscribeDialog
         open={openSubscribeDialog}
         setOpen={setOpenSubscribeDialog}
+        userId={user && user.uid}
         userEmail={user && user.email}
+        userPlan={userPlan}
       />
       <Footer />
     </>

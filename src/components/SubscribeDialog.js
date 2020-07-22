@@ -7,8 +7,15 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Emoji from "./Emoji";
+import { addPaidLaunchSignupToFirebase } from "../services/firebase";
 
-export default function SubscribeDialog({ open, setOpen, userEmail }) {
+export default function SubscribeDialog({
+  open,
+  setOpen,
+  userId,
+  userEmail,
+  userPlan,
+}) {
   const [email, setEmail] = useState(userEmail || "");
 
   const handleClose = () => {
@@ -17,7 +24,7 @@ export default function SubscribeDialog({ open, setOpen, userEmail }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(email);
+    addPaidLaunchSignupToFirebase(userId, email, userPlan);
     handleClose();
   };
 

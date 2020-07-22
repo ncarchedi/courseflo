@@ -170,6 +170,15 @@ export const sendProgressEmailToUser = (userEmail, courseTitle, targetUrl) => {
   });
 };
 
+export const addPaidLaunchSignupToFirebase = (userId, userEmail, userPlan) => {
+  return db.collection("paidLaunchSignup").add({
+    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    userId,
+    userEmail,
+    userPlan,
+  });
+};
+
 // export const sendPasswordResetEmail = (email) => {
 //   return auth
 //     .sendPasswordResetEmail(email)
