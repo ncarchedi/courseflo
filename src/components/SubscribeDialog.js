@@ -51,7 +51,6 @@ export default function SubscribeDialog({
             onChange={(e) => setEmail(e.target.value)}
             autoFocus
             margin="dense"
-            id="email"
             label="Email Address"
             type="email"
             autoComplete="email"

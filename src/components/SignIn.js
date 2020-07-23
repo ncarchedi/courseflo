@@ -89,7 +89,6 @@ export default function SignIn() {
                   margin="normal"
                   required
                   fullWidth
-                  id="email"
                   label="Email Address"
                   name="email"
                   autoComplete="email"
@@ -105,7 +104,6 @@ export default function SignIn() {
                   name="password"
                   label="Password"
                   type="password"
-                  id="password"
                   autoComplete="current-password"
                 />
                 <Typography

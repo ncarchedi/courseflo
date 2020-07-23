@@ -6,6 +6,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Box from "@material-ui/core/Box";
 import Link from "@material-ui/core/Link";
 import Button from "@material-ui/core/Button";
+import Hidden from "@material-ui/core/Hidden";
 import UserContext from "../context/UserContext";
 
 const useStyles = makeStyles((theme) => ({
@@ -37,6 +38,17 @@ export default function LandingPageHeader() {
               />
             </Link>
           </Box>
+          <Hidden xsDown>
+            <Box mr={1}>
+              <Button
+                href="mailto:hello@courseflo.com"
+                target="_blank"
+                color="inherit"
+              >
+                Contact us
+              </Button>
+            </Box>
+          </Hidden>
           {showPricingButton && (
             <Box mr={showSignInButton ? 2 : 0}>
               <Button component={RouterLink} to="/pricing" color="inherit">
