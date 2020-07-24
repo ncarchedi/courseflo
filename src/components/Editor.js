@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef, useContext } from "react";
+import React, { useState, useEffect, useMemo, useContext } from "react";
 import { useParams, Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Editor() {
   const classes = useStyles();
-  const panelRef = useRef();
   let { courseId } = useParams();
   const [user, userLoading] = useContext(UserContext);
   const [show404, setShow404] = useState(false);
@@ -103,6 +102,12 @@ export default function Editor() {
     }
   }, [courseId, course]);
 
+  // smooth scroll currently selected item into view
+  useEffect(() => {
+    const itemId = document.getElementById(currentItemId);
+    itemId && itemId.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [currentItemId]);
+
   const handleChangeTitle = (title) => {
     setCourse({ ...course, title });
   };
@@ -112,13 +117,18 @@ export default function Editor() {
   };
 
   const handleAddItem = (type) => {
+    // copy existing items
     const items = [...course.items];
+    // create new item
     const newItem = createItem(type);
-    items.push(newItem);
+    // get index of currently selected item
+    const currentIndex = items.findIndex((item) => item.id === currentItemId);
+    // insert new item after current item
+    items.splice(currentIndex + 1, 0, newItem);
+    // update state with new item
     setCourse({ ...course, items });
-    // https://stackoverflow.com/questions/270612/scroll-to-bottom-of-div
-    if (panelRef.current)
-      panelRef.current.scrollTop = panelRef.current.scrollHeight;
+    // highlight the new item
+    setCurrentItemId(newItem.id);
   };
 
   const handleChangeItem = (changedItem) => {
@@ -201,15 +211,9 @@ export default function Editor() {
         <NoItems editing />
       ) : (
         <Grid className={classes.container} container>
-          <Grid
-            className={classes.leftPanel}
-            ref={panelRef}
-            item
-            xs={12}
-            md={6}
-          >
+          <Grid className={classes.leftPanel} item xs={12} md={6}>
             {course.items.map((item) => (
-              <Box key={item.id} marginBottom={3}>
+              <Box key={item.id} id={item.id} marginBottom={3}>
                 <EditableItem
                   item={item}
                   focused={item.id === currentItemId}
