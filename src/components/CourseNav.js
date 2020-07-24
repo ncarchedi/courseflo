@@ -61,7 +61,7 @@ export default function CourseNav({
         document.removeEventListener("keydown", listener);
       };
     }
-  });
+  }, []);
 
   // keyboard shortcut: enter (no shift) to continue
   useEffect(() => {
@@ -82,31 +82,30 @@ export default function CourseNav({
         document.removeEventListener("keydown", listener);
       };
     }
-  });
+  }, []);
 
   return (
     <Box className={classes.fabContainer}>
       {/* Go back button */}
       <Box minWidth={notOnMobile ? 150 : 0}>
-        {itemNumber > 0 && (
-          <Zoom in>
-            <Fab
-              ref={backRef}
-              onClick={() => onChangeItemNumber(itemNumber - 1)}
-              variant={notOnMobile ? "extended" : "round"}
-              color="primary"
-              aria-label="go back"
-            >
-              {notOnMobile ? (
-                <>
-                  <ArrowBackIcon className={classes.fabLeftIcon} /> Go back
-                </>
-              ) : (
-                <ArrowBackIcon />
-              )}
-            </Fab>
-          </Zoom>
-        )}
+        <Zoom in>
+          <Fab
+            ref={backRef}
+            onClick={() => onChangeItemNumber(itemNumber - 1)}
+            variant={notOnMobile ? "extended" : "round"}
+            color="primary"
+            aria-label="go back"
+            disabled={itemNumber === 0}
+          >
+            {notOnMobile ? (
+              <>
+                <ArrowBackIcon className={classes.fabLeftIcon} /> Go back
+              </>
+            ) : (
+              <ArrowBackIcon />
+            )}
+          </Fab>
+        </Zoom>
       </Box>
 
       {/* Jump to button */}

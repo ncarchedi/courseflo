@@ -44,19 +44,23 @@ export default function MultiSelect({
   const classes = useStyles();
 
   useEffect(() => {
-    const listener = (event) => {
-      if (event.code.includes("Digit")) {
-        event.preventDefault();
-        const num = event.code.replace("Digit", "");
-        if (num > 0 && num <= item.options.length)
-          handleCheck(item.options[num - 1]);
-      }
-    };
-    document.addEventListener("keydown", listener);
+    // don't apply keyboard shortcuts while editing
+    // (i.e. when onChangeAnswer isn't provided)
+    if (onChangeAnswer) {
+      const listener = (event) => {
+        if (event.code.includes("Digit")) {
+          event.preventDefault();
+          const num = event.code.replace("Digit", "");
+          if (num > 0 && num <= item.options.length)
+            handleCheck(item.options[num - 1]);
+        }
+      };
+      document.addEventListener("keydown", listener);
 
-    return () => {
-      document.removeEventListener("keydown", listener);
-    };
+      return () => {
+        document.removeEventListener("keydown", listener);
+      };
+    }
   });
 
   const handleCheck = (option) => {
