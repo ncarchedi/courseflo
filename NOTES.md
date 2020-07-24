@@ -6,11 +6,14 @@
 
 ---
 
-TODO FOR ORIENTATION:
+notes for call with scott:
 
-- required / graded
-- clickable links
-- check content / translation
-- collect emails
-- download JSON of course
-- whitespace in titles
+- status of translations
+- issue with sharing his account?
+- formatting solution for translations -> <hr/>
+- review my upcoming changes
+  - required / graded
+  - clickable links
+  - collect emails
+- feature update
+  - add item after current
