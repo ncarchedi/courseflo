@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useMemo, useContext } from "react";
+import { useParams, Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
@@ -21,6 +21,8 @@ import {
   getCourseFromFirestore,
   updateCourseInFirestore,
 } from "../services/firebase";
+import UserContext from "../context/UserContext";
+import useUnload from "../hooks/useUnload";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -46,8 +48,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Editor() {
   const classes = useStyles();
-  const panelRef = useRef();
   let { courseId } = useParams();
+  const [user, userLoading] = useContext(UserContext);
   const [show404, setShow404] = useState(false);
   const [course, setCourse] = useState();
   const [currentItemId, setCurrentItemId] = useState();
@@ -55,40 +57,32 @@ export default function Editor() {
   const [showFeedbackDialog, setShowFeedbackDialog] = useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = useState(false);
 
-  useEffect(() => {
-    let courseData;
+  // show confirmation dialog before user leaves the page
+  useUnload((e) => {
+    e.preventDefault();
+    e.returnValue = "";
+  });
 
-    // check local storage first
-    const localCourses = JSON.parse(localStorage.getItem("courses"));
-    if (localCourses && localCourses[courseId]) {
-      courseData = localCourses[courseId];
-      // if proper settings aren't set, set defaults
-      const courseDataWithSettings = addDefaultSettings(courseData);
-      // load into state
-      setCourse(courseDataWithSettings);
-      // update the browser tab title dynamically
-      document.title = courseData.title;
-    } else {
-      // if not in local storage, fetch from firestore
-      getCourseFromFirestore(courseId)
-        .then((course) => {
-          if (course.exists) {
-            // extract the course data
-            courseData = course.data();
-            // if proper settings aren't set, set defaults
-            const courseDataWithSettings = addDefaultSettings(courseData);
-            // load into state
-            setCourse(courseDataWithSettings);
-            // update the browser tab title dynamically
-            document.title = courseData.title;
-          } else {
-            setShow404(true);
-          }
-        })
-        .catch((error) =>
-          console.error("Error loading course from Firestore:", error)
-        );
-    }
+  // load course from firestore (ignore local storage for now)
+  useEffect(() => {
+    getCourseFromFirestore(courseId)
+      .then((course) => {
+        if (course.exists) {
+          // extract the course data
+          const courseData = course.data();
+          // if proper settings aren't set, set defaults
+          const courseDataWithSettings = addDefaultSettings(courseData);
+          // load into state
+          setCourse(courseDataWithSettings);
+          // update the browser tab title dynamically
+          document.title = courseData.title;
+        } else {
+          setShow404(true);
+        }
+      })
+      .catch((error) =>
+        console.error("Error loading course from Firestore:", error)
+      );
   }, [courseId]);
 
   // when the course changes, update it in local storage
@@ -108,6 +102,12 @@ export default function Editor() {
     }
   }, [courseId, course]);
 
+  // smooth scroll currently selected item into view
+  useEffect(() => {
+    const itemId = document.getElementById(currentItemId);
+    itemId && itemId.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [currentItemId]);
+
   const handleChangeTitle = (title) => {
     setCourse({ ...course, title });
   };
@@ -117,13 +117,18 @@ export default function Editor() {
   };
 
   const handleAddItem = (type) => {
+    // copy existing items
     const items = [...course.items];
+    // create new item
     const newItem = createItem(type);
-    items.push(newItem);
+    // get index of currently selected item
+    const currentIndex = items.findIndex((item) => item.id === currentItemId);
+    // insert new item after current item
+    items.splice(currentIndex + 1, 0, newItem);
+    // update state with new item
     setCourse({ ...course, items });
-    // https://stackoverflow.com/questions/270612/scroll-to-bottom-of-div
-    if (panelRef.current)
-      panelRef.current.scrollTop = panelRef.current.scrollHeight;
+    // highlight the new item
+    setCurrentItemId(newItem.id);
   };
 
   const handleChangeItem = (changedItem) => {
@@ -165,10 +170,21 @@ export default function Editor() {
     updateCourseInFirestore(courseId, updatedCourse);
   };
 
+  const handleCopyJSON = () => {
+    const courseJSON = JSON.stringify(course, null, 2);
+    navigator.clipboard.writeText(courseJSON);
+  };
+
   const currentItem = useMemo(
     () => course && course.items.filter((item) => item.id === currentItemId)[0],
     [currentItemId, course]
   );
+
+  // do nothing until user is done loading
+  if (userLoading) return null;
+
+  // if user is not logged in, redirect to landing page
+  if (!user) return <Redirect to="/" />;
 
   // if the course isn't found, show 404
   if (show404) return <NotFound type="course" />;
@@ -176,29 +192,28 @@ export default function Editor() {
   // show loading indicator before the course loads
   if (!course) return <LoadingScreen />;
 
+  // if the user is logged in, but not editing their own course, show 404
+  if (user.uid !== course.userId) return <NotFound type="page" />;
+
   return (
     <>
       <EditorHeader
+        userId={user.uid}
         courseTitle={course.title}
         onChangeTitle={handleChangeTitle}
         onPublish={handlePublish}
         onRestore={handleRestore}
         setShowFeedbackDialog={setShowFeedbackDialog}
         setShowSettingsDialog={setShowSettingsDialog}
+        onCopyJSON={handleCopyJSON}
       />
       {course.items.length === 0 ? (
         <NoItems editing />
       ) : (
         <Grid className={classes.container} container>
-          <Grid
-            className={classes.leftPanel}
-            ref={panelRef}
-            item
-            xs={12}
-            md={6}
-          >
+          <Grid className={classes.leftPanel} item xs={12} md={6}>
             {course.items.map((item) => (
-              <Box key={item.id} marginBottom={3}>
+              <Box key={item.id} id={item.id} marginBottom={3}>
                 <EditableItem
                   item={item}
                   focused={item.id === currentItemId}
