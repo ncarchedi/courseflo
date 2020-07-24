@@ -102,11 +102,11 @@ export default function Editor() {
     }
   }, [courseId, course]);
 
-  // smooth scroll currently selected item into view
-  useEffect(() => {
-    const itemId = document.getElementById(currentItemId);
-    itemId && itemId.scrollIntoView({ behavior: "smooth", block: "center" });
-  }, [currentItemId]);
+  // // smooth scroll currently selected item into view
+  // useEffect(() => {
+  //   const itemId = document.getElementById(currentItemId);
+  //   itemId && itemId.scrollIntoView({ behavior: "smooth", block: "center" });
+  // }, [currentItemId]);
 
   const handleChangeTitle = (title) => {
     setCourse({ ...course, title });
