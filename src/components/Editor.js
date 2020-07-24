@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useMemo, useRef, useContext } from "react";
+import { useParams, Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
@@ -21,6 +21,7 @@ import {
   getCourseFromFirestore,
   updateCourseInFirestore,
 } from "../services/firebase";
+import UserContext from "../context/UserContext";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -48,6 +49,7 @@ export default function Editor() {
   const classes = useStyles();
   const panelRef = useRef();
   let { courseId } = useParams();
+  const [user, userLoading] = useContext(UserContext);
   const [show404, setShow404] = useState(false);
   const [course, setCourse] = useState();
   const [currentItemId, setCurrentItemId] = useState();
@@ -165,10 +167,21 @@ export default function Editor() {
     updateCourseInFirestore(courseId, updatedCourse);
   };
 
+  const handleCopyJSON = () => {
+    const courseJSON = JSON.stringify(course, null, 2);
+    navigator.clipboard.writeText(courseJSON);
+  };
+
   const currentItem = useMemo(
     () => course && course.items.filter((item) => item.id === currentItemId)[0],
     [currentItemId, course]
   );
+
+  // do nothing until user is done loading
+  if (userLoading) return null;
+
+  // if user is not logged in, redirect to landing page
+  if (!user) return <Redirect to="/" />;
 
   // if the course isn't found, show 404
   if (show404) return <NotFound type="course" />;
@@ -176,15 +189,20 @@ export default function Editor() {
   // show loading indicator before the course loads
   if (!course) return <LoadingScreen />;
 
+  // if the user is logged in, but not editing their own course, show 404
+  if (user.uid !== course.userId) return <NotFound type="page" />;
+
   return (
     <>
       <EditorHeader
+        userId={user.uid}
         courseTitle={course.title}
         onChangeTitle={handleChangeTitle}
         onPublish={handlePublish}
         onRestore={handleRestore}
         setShowFeedbackDialog={setShowFeedbackDialog}
         setShowSettingsDialog={setShowSettingsDialog}
+        onCopyJSON={handleCopyJSON}
       />
       {course.items.length === 0 ? (
         <NoItems editing />

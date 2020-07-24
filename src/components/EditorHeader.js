@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { useParams, Redirect, Link as RouterLink } from "react-router-dom";
+import React, { useState } from "react";
+import { useParams, Link as RouterLink } from "react-router-dom";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -12,13 +12,13 @@ import IconButton from "@material-ui/core/IconButton";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import CodeOutlinedIcon from "@material-ui/icons/CodeOutlined";
 import SettingsOutlinedIcon from "@material-ui/icons/SettingsOutlined";
 import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 import ErrorOutlineOutlinedIcon from "@material-ui/icons/ErrorOutlineOutlined";
 import ShareOutlinedIcon from "@material-ui/icons/ShareOutlined";
 import CreateOutlinedIcon from "@material-ui/icons/CreateOutlined";
 import PublishButton from "./PublishButton";
-import UserContext from "../context/UserContext";
 
 const useStyles = makeStyles((theme) => ({
   titleContainer: {
@@ -31,29 +31,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Header({
+  userId,
   courseTitle,
   onChangeTitle,
   onPublish,
   onRestore,
   setShowFeedbackDialog,
   setShowSettingsDialog,
+  onCopyJSON,
 }) {
   const classes = useStyles();
   const theme = useTheme();
   let { courseId } = useParams();
-  const [user, userLoading] = useContext(UserContext);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [titleFormOpen, setTitleFormOpen] = useState(false);
   const [title, setTitle] = useState(courseTitle);
-
-  // do nothing until user is done loading
-  if (userLoading) return null;
-
-  // if user is not logged in, redirect to landing page
-  if (!user) return <Redirect to="/" />;
-
-  // todo: if the user is logged in, but not editing their own course, show 404
-  // if (user && user.uid !== userId) return <NotFound type="page" />;
 
   // create course URL
   const courseUrl = `${window.location.origin}/course/${courseId}`;
@@ -70,7 +62,7 @@ export default function Header({
 
   // https://stackoverflow.com/a/52033479/2338922
   // todo: confirm browser coverage is sufficient
-  const handleCopy = () => {
+  const handleCopyLink = () => {
     setSnackbarOpen(true);
     navigator.clipboard.writeText(courseUrl);
   };
@@ -82,7 +74,7 @@ export default function Header({
           <Box marginRight={1}>
             <IconButton
               component={RouterLink}
-              to={`/dashboard/${user.uid}`}
+              to={`/dashboard/${userId}`}
               edge="start"
             >
               <ArrowBackIcon />
@@ -121,6 +113,14 @@ export default function Header({
             <Box marginRight={1}>
               <PublishButton onPublish={onPublish} onRestore={onRestore} />
             </Box>
+            {/* show copy JSON button for me only */}
+            {userId === "eREaYzuMiJegynCCVVf32esGZsx2" && (
+              <Tooltip title="Copy JSON">
+                <IconButton color="inherit" onClick={onCopyJSON}>
+                  <CodeOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            )}
             <Tooltip title="Settings">
               <IconButton
                 color="inherit"
@@ -135,7 +135,7 @@ export default function Header({
               </IconButton>
             </Tooltip>
             <Tooltip title="Share Course">
-              <IconButton color="inherit" onClick={handleCopy}>
+              <IconButton color="inherit" onClick={handleCopyLink}>
                 <ShareOutlinedIcon />
               </IconButton>
             </Tooltip>
