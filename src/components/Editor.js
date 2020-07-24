@@ -22,6 +22,7 @@ import {
   updateCourseInFirestore,
 } from "../services/firebase";
 import UserContext from "../context/UserContext";
+import useUnload from "../hooks/useUnload";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -57,40 +58,32 @@ export default function Editor() {
   const [showFeedbackDialog, setShowFeedbackDialog] = useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = useState(false);
 
-  useEffect(() => {
-    let courseData;
+  // show confirmation dialog before user leaves the page
+  useUnload((e) => {
+    e.preventDefault();
+    e.returnValue = "";
+  });
 
-    // check local storage first
-    const localCourses = JSON.parse(localStorage.getItem("courses"));
-    if (localCourses && localCourses[courseId]) {
-      courseData = localCourses[courseId];
-      // if proper settings aren't set, set defaults
-      const courseDataWithSettings = addDefaultSettings(courseData);
-      // load into state
-      setCourse(courseDataWithSettings);
-      // update the browser tab title dynamically
-      document.title = courseData.title;
-    } else {
-      // if not in local storage, fetch from firestore
-      getCourseFromFirestore(courseId)
-        .then((course) => {
-          if (course.exists) {
-            // extract the course data
-            courseData = course.data();
-            // if proper settings aren't set, set defaults
-            const courseDataWithSettings = addDefaultSettings(courseData);
-            // load into state
-            setCourse(courseDataWithSettings);
-            // update the browser tab title dynamically
-            document.title = courseData.title;
-          } else {
-            setShow404(true);
-          }
-        })
-        .catch((error) =>
-          console.error("Error loading course from Firestore:", error)
-        );
-    }
+  // load course from firestore (ignore local storage for now)
+  useEffect(() => {
+    getCourseFromFirestore(courseId)
+      .then((course) => {
+        if (course.exists) {
+          // extract the course data
+          const courseData = course.data();
+          // if proper settings aren't set, set defaults
+          const courseDataWithSettings = addDefaultSettings(courseData);
+          // load into state
+          setCourse(courseDataWithSettings);
+          // update the browser tab title dynamically
+          document.title = courseData.title;
+        } else {
+          setShow404(true);
+        }
+      })
+      .catch((error) =>
+        console.error("Error loading course from Firestore:", error)
+      );
   }, [courseId]);
 
   // when the course changes, update it in local storage
