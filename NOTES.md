@@ -10,7 +10,7 @@ TODO FOR ORIENTATION:
 
 - required / graded
 - clickable links
-- check content
+- check content / translation
 - collect emails
 - download JSON of course
 - whitespace in titles

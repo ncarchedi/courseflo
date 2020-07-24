@@ -7,10 +7,6 @@ const useStyles = makeStyles((theme) => ({
   container: {
     marginBottom: theme.spacing(1),
   },
-  title: {
-    fontSize: "1.15rem",
-    flexGrow: 1,
-  },
   iconContainer: {
     textAlign: "right",
     paddingTop: theme.spacing(0.5),
