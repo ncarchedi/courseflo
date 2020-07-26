@@ -35,6 +35,7 @@ export default function EmailDialog({ open, setOpen, setUserEmail }) {
             variant="outlined"
             fullWidth
             required
+            autoFocus
           />
         </form>
       </DialogContent>

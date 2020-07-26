@@ -8,6 +8,7 @@ import Score from "./Score";
 import Review from "./Review";
 import FeedbackDialog from "./FeedbackDialog";
 import EmailDialog from "./EmailDialog";
+import CompleteCourseDialog from "./CompleteCourseDialog";
 import NotFound from "./NotFound";
 import isAnswerCorrect from "../utils/isAnswerCorrect";
 import useQuery from "../hooks/useQuery";
@@ -38,6 +39,9 @@ export default function Course() {
   const [userItems, setUserItems] = useState([]);
   const [showFeedbackDialog, setShowFeedbackDialog] = useState(false);
   const [showEmailDialog, setShowEmailDialog] = useState(false);
+  const [showCompleteCourseDialog, setShowCompleteCourseDialog] = useState(
+    false
+  );
   const [showCourse404, setShowCourse404] = useState(false);
   const [showPage404, setShowPage404] = useState(false);
   const [itemNumber, setItemNumber] = useState(0);
@@ -160,9 +164,10 @@ export default function Course() {
         course
       )
         .then((docRef) => {
-          // set user course in state
+          // set user course ID in state
           setUserCourseId(docRef.id);
           // send progress email to user if we have their email
+          // happens here because we need to wait for a user course ID to be generated
           const targetUrl = `${window.location.origin}${url}?continue=${docRef.id}`;
           userEmail &&
             sendProgressEmailToUser(
@@ -180,6 +185,9 @@ export default function Course() {
   };
 
   const handleSubmitCourse = () => {
+    // close the complete course dialog
+    setShowCompleteCourseDialog(false);
+
     // set item number directly to avoid triggering a duplicate
     // update to firestore (see handleChangeItemNumber)
     const newItemNumber = course.items.length;
@@ -228,6 +236,11 @@ export default function Course() {
           setOpen={setShowEmailDialog}
           setUserEmail={setUserEmail}
         />
+        <CompleteCourseDialog
+          onSubmit={handleSubmitCourse}
+          open={showCompleteCourseDialog}
+          setOpen={setShowCompleteCourseDialog}
+        />
         <Container className={classes.container}>
           <Switch>
             <Route exact path={path}>
@@ -236,9 +249,10 @@ export default function Course() {
                 userItems={userItems}
                 onChangeAnswer={handleChangeAnswer}
                 onItemLoad={handleAddUserItem}
-                onSubmitCourse={handleSubmitCourse}
                 itemNumber={itemNumber}
                 onChangeItemNumber={handleChangeItemNumber}
+                showCourseNav={!showEmailDialog && !showCompleteCourseDialog}
+                setShowCompleteCourseDialog={setShowCompleteCourseDialog}
               />
             </Route>
             <Route exact path={`${path}/score`}>

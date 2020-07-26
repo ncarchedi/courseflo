@@ -6,7 +6,6 @@ import PoweredBy from "./PoweredBy";
 import NoItems from "./NoItems";
 import CourseNav from "./CourseNav";
 import JumpToItemDialog from "./JumpToItemDialog";
-import CompleteCourseDialog from "./CompleteCourseDialog";
 
 const useStyles = makeStyles((theme) => ({
   item: {
@@ -19,15 +18,13 @@ export default function ItemViewer({
   userItems,
   onChangeAnswer,
   onItemLoad,
-  onSubmitCourse,
   itemNumber,
   onChangeItemNumber,
+  showCourseNav,
+  setShowCompleteCourseDialog,
 }) {
   const classes = useStyles();
   const [jumpToDialogOpen, setJumpToDialogOpen] = useState(false);
-  const [openCompleteCourseDialog, setOpenCompleteCourseDialog] = useState(
-    false
-  );
 
   // if there are no items to show, show empty screen
   if (!items.length) return <NoItems />;
@@ -53,16 +50,18 @@ export default function ItemViewer({
         />
       </Box>
       <PoweredBy />
-      <CourseNav
-        itemNumber={itemNumber}
-        onChangeItemNumber={onChangeItemNumber}
-        setJumpToDialogOpen={setJumpToDialogOpen}
-        setOpenCompleteCourseDialog={setOpenCompleteCourseDialog}
-        onLastItem={itemNumber === items.length - 1}
-        disableContinue={
-          item.required && userItem && userItem.answer.length === 0
-        }
-      />
+      {showCourseNav && (
+        <CourseNav
+          itemNumber={itemNumber}
+          onChangeItemNumber={onChangeItemNumber}
+          setJumpToDialogOpen={setJumpToDialogOpen}
+          setShowCompleteCourseDialog={setShowCompleteCourseDialog}
+          onLastItem={itemNumber === items.length - 1}
+          disableContinue={
+            item.required && userItem && userItem.answer.length === 0
+          }
+        />
+      )}
       <JumpToItemDialog
         open={jumpToDialogOpen}
         setOpen={setJumpToDialogOpen}
@@ -70,11 +69,6 @@ export default function ItemViewer({
         userItems={userItems}
         itemNumber={itemNumber}
         onChangeItemNumber={onChangeItemNumber}
-      />
-      <CompleteCourseDialog
-        onSubmit={onSubmitCourse}
-        open={openCompleteCourseDialog}
-        setOpen={setOpenCompleteCourseDialog}
       />
     </>
   );

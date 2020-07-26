@@ -32,7 +32,7 @@ export default function CourseNav({
   itemNumber,
   onChangeItemNumber,
   setJumpToDialogOpen,
-  setOpenCompleteCourseDialog,
+  setShowCompleteCourseDialog,
   onLastItem,
   disableContinue,
 }) {
@@ -130,7 +130,7 @@ export default function CourseNav({
           {onLastItem ? (
             <Fab
               ref={continueRef}
-              onClick={() => setOpenCompleteCourseDialog(true)}
+              onClick={() => setShowCompleteCourseDialog(true)}
               variant="extended"
               color="primary"
               aria-label="submit"
