@@ -23,6 +23,7 @@
     "material-table": "1.62.0",
     "moment": "^2.27.0",
     "react": "latest",
+    "react-csv": "^2.0.3",
     "react-dom": "latest",
     "react-dropzone": "^11.0.1",
     "react-firebase-hooks": "^2.2.0",

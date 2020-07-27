@@ -13,6 +13,9 @@ import Select from "@material-ui/core/Select";
 import SubmissionsTable from "./SubmissionsTable";
 import Review from "./Review";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import CloudDownloadOutlinedIcon from "@material-ui/icons/CloudDownloadOutlined";
+import { CSVLink } from "react-csv";
+import getAllSubmissionsCsvData from "../utils/getAllSubmissionsCsvData";
 import { getUserCoursesFromFirestore } from "../services/firebase";
 
 // https://material-ui-pickers.dev/getting-started/installation
@@ -22,6 +25,9 @@ import MomentUtils from "@date-io/moment";
 const useStyles = makeStyles((theme) => ({
   filtersContainer: {
     marginBottom: theme.spacing(2),
+  },
+  downloadButton: {
+    textDecoration: "none",
   },
   overviewContainer: {
     padding: theme.spacing(2, 3),
@@ -123,6 +129,14 @@ export default function Analytics({
     [submissions]
   );
 
+  // generate data for CSV of all submissions
+  const allSubmissionsCsvData = useMemo(() => {
+    const selectedCourseItems = courses.filter(
+      (course) => course.id === selectedCourseId
+    )[0].items;
+    return getAllSubmissionsCsvData(submissions, selectedCourseItems);
+  }, [submissions, courses, selectedCourseId]);
+
   const handleChangeCourse = (event) => {
     setSelectedSubmission(null);
     setSelectedCourseId(event.target.value);
@@ -138,13 +152,32 @@ export default function Analytics({
 
   return (
     <>
-      <Box>
-        <Button
-          onClick={() => setShowAnalytics(false)}
-          startIcon={<ArrowBackIcon />}
-        >
-          Back to my courses
-        </Button>
+      <Box display="flex">
+        <Box flexGrow={1}>
+          <Button
+            onClick={() => setShowAnalytics(false)}
+            startIcon={<ArrowBackIcon />}
+          >
+            Back to my courses
+          </Button>
+        </Box>
+        <Box>
+          {allSubmissionsCsvData && (
+            <CSVLink
+              className={classes.downloadButton}
+              data={allSubmissionsCsvData.data}
+              headers={allSubmissionsCsvData.headers}
+              filename="Submissions.csv"
+            >
+              <Button
+                variant="outlined"
+                startIcon={<CloudDownloadOutlinedIcon />}
+              >
+                Download submissions
+              </Button>
+            </CSVLink>
+          )}
+        </Box>
       </Box>
       <Box mt={1} mb={2}>
         <Typography variant="h5" component="h2" color="inherit">
@@ -202,7 +235,7 @@ export default function Analytics({
             Overview
           </Typography>
           <Grid container spacing={2}>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <Box display="flex" alignItems="baseline">
                 <Typography
                   className={classes.overviewStat}
@@ -216,7 +249,7 @@ export default function Analytics({
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <Box display="flex" alignItems="baseline">
                 <Typography
                   className={classes.overviewStat}
