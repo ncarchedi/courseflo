@@ -15,10 +15,13 @@ import Review from "./Review";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import { getUserCoursesFromFirestore } from "../services/firebase";
 
+// https://material-ui-pickers.dev/getting-started/installation
+import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
+import MomentUtils from "@date-io/moment";
+
 const useStyles = makeStyles((theme) => ({
-  formControl: {
+  filtersContainer: {
     marginBottom: theme.spacing(2),
-    minWidth: "200px",
   },
   overviewContainer: {
     padding: theme.spacing(2, 3),
@@ -34,23 +37,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const getSubmissions = (userCourses) => {
-  return (
-    userCourses
-      // ignore userCourses that haven't been submitted
-      // or don't have a userItems field (legacy issue)
-      .filter((sub) => sub.submitted && sub.userItems)
-      .map((sub) => ({
-        ...sub,
-        email: sub.userEmail || "<None>",
-        submitted: moment(sub.submitted.toDate()).format("YYYY-MM-DD hh:mm A"),
-        numCorrect: sub.score.numCorrect,
-        numQuestions: sub.score.numTotal,
-        percCorrect: sub.score.numTotal > 0 ? sub.score.percCorrect : "N/A",
-      }))
-  );
-};
-
 export default function Analytics({
   courses,
   initialCourseId,
@@ -60,19 +46,44 @@ export default function Analytics({
   const [selectedCourseId, setSelectedCourseId] = useState(initialCourseId);
   const [selectedSubmission, setSelectedSubmission] = useState();
   const [userCourses, setUserCourses] = useState();
+  const [startDate, setStartDate] = useState(moment().subtract(30, "days"));
+  const [endDate, setEndDate] = useState(moment());
 
   useEffect(() => {
-    const setUserCoursesAsync = async () => {
-      setUserCourses(await getUserCoursesFromFirestore(selectedCourseId));
-    };
-
-    selectedCourseId && setUserCoursesAsync();
-  }, [selectedCourseId]);
+    selectedCourseId &&
+      getUserCoursesFromFirestore(selectedCourseId)
+        .then((allUserCourses) => {
+          const cleanUserCourses = allUserCourses
+            // ignore userCourses that don't have a userItems field (legacy issue)
+            .filter((uc) => uc.userItems)
+            // format created and submitted dates properly
+            .map((uc) => ({
+              ...uc,
+              created: moment(uc.created.toDate()),
+              submitted: uc.submitted ? moment(uc.submitted.toDate()) : null,
+            }))
+            // filter by start and end dates (inclusive)
+            .filter(
+              (uc) =>
+                uc.created.isSameOrAfter(startDate.startOf("day")) &&
+                uc.created.isSameOrBefore(endDate.endOf("day"))
+            );
+          setUserCourses(cleanUserCourses);
+        })
+        .catch((error) =>
+          console.error("Error loading user courses from Firestore:", error)
+        );
+  }, [selectedCourseId, startDate, endDate]);
 
   // get all relevant submissions
   const submissions = useMemo(
-    () => userCourses && getSubmissions(userCourses),
-    [userCourses]
+    () =>
+      userCourses &&
+      // submitted before the specified end date
+      userCourses.filter(
+        (uc) => uc.submitted && uc.submitted.isSameOrBefore(endDate)
+      ),
+    [userCourses, endDate]
   );
 
   // construct data for overview pane
@@ -80,20 +91,46 @@ export default function Analytics({
   const numSubmissions = submissions && submissions.length;
 
   // construct data for submissions table
-  const tableData = {
-    columns: [
-      { title: "Email", field: "email", type: "string" },
-      { title: "Submitted", field: "submitted", type: "string" },
-      { title: "# Correct", field: "numCorrect", type: "numeric" },
-      { title: "# Graded", field: "numQuestions", type: "numeric" },
-      { title: "Score (%)", field: "percCorrect", type: "numeric" },
-    ],
-    data: submissions,
-  };
+  const tableData = useMemo(
+    () =>
+      submissions && {
+        columns: [
+          { title: "Email", field: "email", type: "string" },
+          { title: "Started", field: "started", type: "string" },
+          {
+            title: "Submitted",
+            field: "submitted",
+            type: "string",
+            defaultSort: "desc",
+          },
+          { title: "# Correct", field: "numCorrect", type: "numeric" },
+          { title: "# Graded", field: "numQuestions", type: "numeric" },
+          { title: "Score (%)", field: "percCorrect", type: "numeric" },
+        ],
+        data: submissions.map((sub) => ({
+          ...sub,
+          email: sub.userEmail || "<None>",
+          started: sub.created.format("YYYY-MM-DD hh:mm A"),
+          submitted: sub.submitted.format("YYYY-MM-DD hh:mm A"),
+          numCorrect: sub.score.numCorrect,
+          numQuestions: sub.score.numTotal,
+          percCorrect: sub.score.numTotal > 0 ? sub.score.percCorrect : "N/A",
+        })),
+      },
+    [submissions]
+  );
 
   const handleChangeCourse = (event) => {
     setSelectedSubmission(null);
     setSelectedCourseId(event.target.value);
+  };
+
+  const handleChangeStartDate = (date) => {
+    setStartDate(date);
+  };
+
+  const handleChangeEndDate = (date) => {
+    setEndDate(date);
   };
 
   return (
@@ -112,22 +149,48 @@ export default function Analytics({
         </Typography>
       </Box>
 
-      {/* courses dropdown */}
-      <FormControl className={classes.formControl} variant="outlined">
-        <InputLabel id="course-select-label">Course</InputLabel>
-        <Select
-          labelId="course-select-label"
-          value={selectedCourseId || ""}
-          onChange={handleChangeCourse}
-          label="Course"
-        >
-          {courses.map((course) => (
-            <MenuItem key={course.id} value={course.id}>
-              {course.title}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      {/* top-level filters */}
+      <MuiPickersUtilsProvider utils={MomentUtils}>
+        <Grid className={classes.filtersContainer} container spacing={2}>
+          <Grid item xs={12} sm={6} md={4}>
+            <FormControl variant="outlined" fullWidth>
+              <InputLabel id="course-select-label">Course</InputLabel>
+              <Select
+                labelId="course-select-label"
+                value={selectedCourseId || ""}
+                onChange={handleChangeCourse}
+                label="Course"
+              >
+                {courses.map((course) => (
+                  <MenuItem key={course.id} value={course.id}>
+                    {course.title}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <DatePicker
+              label="Start date"
+              value={startDate}
+              onChange={handleChangeStartDate}
+              inputVariant="outlined"
+              format="YYYY-MM-DD"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <DatePicker
+              label="End date"
+              value={endDate}
+              onChange={handleChangeEndDate}
+              inputVariant="outlined"
+              format="YYYY-MM-DD"
+              fullWidth
+            />
+          </Grid>
+        </Grid>
+      </MuiPickersUtilsProvider>
 
       {/* overview */}
       {userCourses && (
