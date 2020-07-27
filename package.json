@@ -9,10 +9,12 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@date-io/moment": "1.x",
     "@matejmazur/react-katex": "^3.0.2",
     "@material-ui/core": "latest",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.55",
+    "@material-ui/pickers": "^3.2.10",
     "@material-ui/styles": "^4.10.0",
     "array-move": "^2.2.2",
     "clsx": "latest",

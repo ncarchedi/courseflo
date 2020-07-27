@@ -51,6 +51,61 @@ const useStyles = makeStyles((theme) => ({
   // },
 }));
 
+// CreateCard is only used in Dashboard component
+const CreateCard = ({
+  userId,
+  setNewCourseId,
+  // showPaywall
+}) => {
+  const classes = useStyles();
+  // const [paywallVisible, setPaywallVisible] = useState(false);
+
+  const handleCreateCourse = () => {
+    const newCourse = createCourse(userId);
+    saveCourseToFirestore(newCourse)
+      .then((docRef) => setNewCourseId(docRef.id))
+      .catch((error) =>
+        console.error("Error saving course to Firestore:", error)
+      );
+  };
+
+  return (
+    // <>
+    //   {showPaywall && paywallVisible ? (
+    //     <Card
+    //       className={`${classes.card} ${classes.paywall}`}
+    //       onMouseLeave={() => setPaywallVisible(false)}
+    //     >
+    //       <CardContent>
+    //         <Typography variant="h5">
+    //           <Link component={RouterLink} to="/pricing">
+    //             Upgrade now
+    //           </Link>{" "}
+    //           to create more courses{" "}
+    //           <Emoji symbol="📈" label="chart increasing" />
+    //         </Typography>
+    //       </CardContent>
+    //     </Card>
+    //   ) : (
+    <Card
+      className={classes.card}
+      // onMouseOver={() => setPaywallVisible(true)}
+    >
+      <CardActionArea
+        className={classes.cardActionArea}
+        onClick={() => handleCreateCourse()}
+      >
+        <Typography variant="h5">New Course</Typography>
+        <Box marginTop={1}>
+          <AddCircleOutlineIcon fontSize="large" color="primary" />
+        </Box>
+      </CardActionArea>
+    </Card>
+    //   )}
+    // </>
+  );
+};
+
 export default function Dashboard() {
   const classes = useStyles();
   const { userId } = useParams();
@@ -212,58 +267,3 @@ export default function Dashboard() {
     </>
   );
 }
-
-// CreateCard is only used in Dashboard component
-const CreateCard = ({
-  userId,
-  setNewCourseId,
-  // showPaywall
-}) => {
-  const classes = useStyles();
-  // const [paywallVisible, setPaywallVisible] = useState(false);
-
-  const handleCreateCourse = () => {
-    const newCourse = createCourse(userId);
-    saveCourseToFirestore(newCourse)
-      .then((docRef) => setNewCourseId(docRef.id))
-      .catch((error) =>
-        console.error("Error saving course to Firestore:", error)
-      );
-  };
-
-  return (
-    // <>
-    //   {showPaywall && paywallVisible ? (
-    //     <Card
-    //       className={`${classes.card} ${classes.paywall}`}
-    //       onMouseLeave={() => setPaywallVisible(false)}
-    //     >
-    //       <CardContent>
-    //         <Typography variant="h5">
-    //           <Link component={RouterLink} to="/pricing">
-    //             Upgrade now
-    //           </Link>{" "}
-    //           to create more courses{" "}
-    //           <Emoji symbol="📈" label="chart increasing" />
-    //         </Typography>
-    //       </CardContent>
-    //     </Card>
-    //   ) : (
-    <Card
-      className={classes.card}
-      // onMouseOver={() => setPaywallVisible(true)}
-    >
-      <CardActionArea
-        className={classes.cardActionArea}
-        onClick={() => handleCreateCourse()}
-      >
-        <Typography variant="h5">New Course</Typography>
-        <Box marginTop={1}>
-          <AddCircleOutlineIcon fontSize="large" color="primary" />
-        </Box>
-      </CardActionArea>
-    </Card>
-    //   )}
-    // </>
-  );
-};
