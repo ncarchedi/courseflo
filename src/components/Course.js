@@ -134,7 +134,7 @@ export default function Course() {
       itemId: item.id,
       solution: isAnswerable ? item.solution : null,
       answer: isAnswerable ? (item.type === "MultiSelect" ? [] : "") : null,
-      isCorrect: isAnswerable ? false : null,
+      isCorrect: isAnswerable && item.solution !== null ? false : null,
     };
 
     // add it to state
