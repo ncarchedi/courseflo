@@ -1,6 +1,7 @@
 import * as firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
+import "firebase/analytics";
 import computeScoreFromAnswers from "../utils/computeScoreFromAnswers";
 
 // initialize firebase
@@ -18,6 +19,7 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 const auth = firebase.auth();
+firebase.analytics();
 
 export const createNewUser = (email, password, setError) => {
   return auth.createUserWithEmailAndPassword(email, password).catch((error) => {
