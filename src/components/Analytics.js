@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import moment from "moment";
+import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -17,6 +18,14 @@ import { getUserCoursesFromFirestore } from "../services/firebase";
 const useStyles = makeStyles((theme) => ({
   formControl: {
     marginBottom: theme.spacing(2),
+    minWidth: "200px",
+  },
+  overviewContainer: {
+    padding: theme.spacing(2, 3),
+    marginBottom: theme.spacing(2),
+  },
+  overviewStat: {
+    marginRight: theme.spacing(1),
   },
   reviewContainer: {
     marginTop: theme.spacing(2),
@@ -60,19 +69,27 @@ export default function Analytics({
     selectedCourseId && setUserCoursesAsync();
   }, [selectedCourseId]);
 
-  const tableData = useMemo(
-    () => ({
-      columns: [
-        { title: "Email", field: "email", type: "string" },
-        { title: "Submitted", field: "submitted", type: "string" },
-        { title: "# Correct", field: "numCorrect", type: "numeric" },
-        { title: "# Graded", field: "numQuestions", type: "numeric" },
-        { title: "Score (%)", field: "percCorrect", type: "numeric" },
-      ],
-      data: userCourses && getSubmissions(userCourses),
-    }),
+  // get all relevant submissions
+  const submissions = useMemo(
+    () => userCourses && getSubmissions(userCourses),
     [userCourses]
   );
+
+  // construct data for overview pane
+  const numStarts = userCourses && userCourses.length;
+  const numSubmissions = submissions && submissions.length;
+
+  // construct data for submissions table
+  const tableData = {
+    columns: [
+      { title: "Email", field: "email", type: "string" },
+      { title: "Submitted", field: "submitted", type: "string" },
+      { title: "# Correct", field: "numCorrect", type: "numeric" },
+      { title: "# Graded", field: "numQuestions", type: "numeric" },
+      { title: "Score (%)", field: "percCorrect", type: "numeric" },
+    ],
+    data: submissions,
+  };
 
   const handleChangeCourse = (event) => {
     setSelectedSubmission(null);
@@ -90,15 +107,17 @@ export default function Analytics({
         </Button>
       </Box>
       <Box mt={1} mb={2}>
-        <Typography variant="h5" color="inherit">
+        <Typography variant="h5" component="h2" color="inherit">
           Analytics
         </Typography>
       </Box>
+
+      {/* courses dropdown */}
       <FormControl className={classes.formControl} variant="outlined">
         <InputLabel id="course-select-label">Course</InputLabel>
         <Select
           labelId="course-select-label"
-          value={selectedCourseId}
+          value={selectedCourseId || ""}
           onChange={handleChangeCourse}
           label="Course"
         >
@@ -109,15 +128,58 @@ export default function Analytics({
           ))}
         </Select>
       </FormControl>
+
+      {/* overview */}
+      {userCourses && (
+        <Paper className={classes.overviewContainer}>
+          <Typography variant="h6" component="h3" gutterBottom>
+            Overview
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Box display="flex" alignItems="baseline">
+                <Typography
+                  className={classes.overviewStat}
+                  variant="h2"
+                  component="h4"
+                >
+                  {numStarts}
+                </Typography>
+                <Typography variant="h4" color="textSecondary">
+                  starts
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={6}>
+              <Box display="flex" alignItems="baseline">
+                <Typography
+                  className={classes.overviewStat}
+                  variant="h2"
+                  component="h4"
+                >
+                  {numSubmissions}
+                </Typography>
+                <Typography variant="h4" color="textSecondary">
+                  submissions
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </Paper>
+      )}
+
+      {/* submissions table */}
       <SubmissionsTable
         tableData={tableData}
         selectedSubmission={selectedSubmission}
         setSelectedSubmission={setSelectedSubmission}
       />
+
+      {/* submission details */}
       {selectedSubmission && (
         <Paper className={classes.reviewContainer} variant="outlined">
-          <Typography variant="h6">
-            {`Detailed Review (${
+          <Typography variant="h6" component="h3">
+            {`Submission Details (${
               selectedSubmission.userEmail
                 ? selectedSubmission.userEmail
                 : selectedSubmission.submitted
