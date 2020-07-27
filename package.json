@@ -16,7 +16,7 @@
     "@material-ui/styles": "^4.10.0",
     "array-move": "^2.2.2",
     "clsx": "latest",
-    "firebase": "^7.15.0",
+    "firebase": "^7.17.1",
     "katex": "^0.11.1",
     "material-table": "1.62.0",
     "moment": "^2.27.0",
