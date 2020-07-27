@@ -235,7 +235,7 @@ export default function Analytics({
             Overview
           </Typography>
           <Grid container spacing={2}>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <Box display="flex" alignItems="baseline">
                 <Typography
                   className={classes.overviewStat}
@@ -249,7 +249,7 @@ export default function Analytics({
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <Box display="flex" alignItems="baseline">
                 <Typography
                   className={classes.overviewStat}
