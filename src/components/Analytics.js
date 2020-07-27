@@ -46,7 +46,9 @@ export default function Analytics({
   const [selectedCourseId, setSelectedCourseId] = useState(initialCourseId);
   const [selectedSubmission, setSelectedSubmission] = useState();
   const [userCourses, setUserCourses] = useState();
-  const [startDate, setStartDate] = useState(moment().subtract(30, "days"));
+
+  // show 4 weeks of data by default
+  const [startDate, setStartDate] = useState(moment().subtract(28, "days"));
   const [endDate, setEndDate] = useState(moment());
 
   useEffect(() => {
@@ -96,15 +98,16 @@ export default function Analytics({
       submissions && {
         columns: [
           { title: "Email", field: "email", type: "string" },
-          { title: "Started", field: "started", type: "string" },
+          { title: "Started", field: "started", type: "string", width: 175 },
           {
             title: "Submitted",
             field: "submitted",
             type: "string",
             defaultSort: "desc",
+            width: 175,
           },
-          { title: "# Correct", field: "numCorrect", type: "numeric" },
-          { title: "# Graded", field: "numQuestions", type: "numeric" },
+          { title: "Correct", field: "numCorrect", type: "numeric" },
+          { title: "Graded", field: "numQuestions", type: "numeric" },
           { title: "Score (%)", field: "percCorrect", type: "numeric" },
         ],
         data: submissions.map((sub) => ({
