@@ -119,8 +119,8 @@ export default function Analytics({
         data: submissions.map((sub) => ({
           ...sub,
           email: sub.userEmail || "<None>",
-          started: sub.created.format("YYYY-MM-DD hh:mm A"),
-          submitted: sub.submitted.format("YYYY-MM-DD hh:mm A"),
+          started: sub.created.format("YYYY-MM-DD HH:mm"),
+          submitted: sub.submitted.format("YYYY-MM-DD HH:mm"),
           numCorrect: sub.score.numCorrect,
           numQuestions: sub.score.numTotal,
           percCorrect: sub.score.numTotal > 0 ? sub.score.percCorrect : "N/A",
