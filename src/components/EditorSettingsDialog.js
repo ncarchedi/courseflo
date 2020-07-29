@@ -48,7 +48,8 @@ export default function EditorSettingsDialog({
       <DialogTitle>Settings</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Any changes will take effect immediately after clicking 'Done'.
+          Changes to settings will take effect the next time you publish your
+          course.
         </DialogContentText>
         <Box>
           <FormControlLabel

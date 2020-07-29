@@ -103,13 +103,18 @@ export const saveFeedbackToFirestore = (
   });
 };
 
-export const getCourseFromFirestore = (courseId) => {
+export const getPublishedCourseFromFirestore = (courseId) => {
   return db.collection("courses").doc(courseId).get();
 };
 
+export const getDraftCourseFromFirestore = (courseId) => {
+  return db.collection("draftCourses").doc(courseId).get();
+};
+
+// get all draft courses belonging to author
 export const getAuthorCoursesFromFirestore = async (userId) => {
   const result = await db
-    .collection("courses")
+    .collection("draftCourses")
     .where("userId", "==", userId)
     .orderBy("updated", "desc")
     .get();
@@ -120,31 +125,53 @@ export const getAuthorCoursesFromFirestore = async (userId) => {
   }));
 };
 
-export const saveCourseToFirestore = (course) => {
-  return db.collection("courses").add({
+export const addNewDraftCourseInFirestore = (course) => {
+  return db.collection("draftCourses").add({
     ...course,
     created: firebase.firestore.FieldValue.serverTimestamp(),
     updated: firebase.firestore.FieldValue.serverTimestamp(),
   });
 };
 
-// soft delete course
+// soft delete draft and published courses
 export const deleteCourseInFirestore = (courseId) => {
-  return db.collection("courses").doc(courseId).update({
+  // get a new batch write
+  const batch = db.batch();
+
+  // update the draft course
+  const draftRef = db.collection("draftCourses").doc(courseId);
+  batch.update(draftRef, {
     deleted: firebase.firestore.FieldValue.serverTimestamp(),
   });
+
+  // update the published course
+  const publishedRef = db.collection("courses").doc(courseId);
+  batch.update(publishedRef, {
+    deleted: firebase.firestore.FieldValue.serverTimestamp(),
+  });
+
+  // commit the batch
+  return batch.commit();
 };
 
-export const updateCourseInFirestore = (courseId, course) => {
-  // don't update the created field to avoid messing up
-  // timestamp formatting (due to local storage read/write)
-  const { created, ...courseSansCreated } = course;
-
+// update (or create, if necessary) published course
+export const updatePublishedCourseInFirestore = (courseId, course) => {
   return db
     .collection("courses")
     .doc(courseId)
+    .set({
+      ...course,
+      updated: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+};
+
+// updates existing draft course
+export const updateDraftCourseInFirestore = (courseId, course) => {
+  return db
+    .collection("draftCourses")
+    .doc(courseId)
     .update({
-      ...courseSansCreated,
+      ...course,
       updated: firebase.firestore.FieldValue.serverTimestamp(),
     });
 };

@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header({
+export default function EditorHeader({
   userId,
   courseTitle,
   onChangeTitle,
@@ -39,6 +39,7 @@ export default function Header({
   setShowFeedbackDialog,
   setShowSettingsDialog,
   onCopyJSON,
+  changesSaved,
 }) {
   const classes = useStyles();
   const theme = useTheme();
@@ -110,6 +111,11 @@ export default function Header({
             </form>
           </Box>
           <Box display="flex" alignItems="center">
+            <Box marginRight={2}>
+              <Typography color="textSecondary">
+                {changesSaved ? "Changes saved" : "Saving..."}
+              </Typography>
+            </Box>
             <Box marginRight={1}>
               <PublishButton onPublish={onPublish} onRestore={onRestore} />
             </Box>

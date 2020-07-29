@@ -18,11 +18,12 @@ import LoadingScreen from "./LoadingScreen";
 import createItem from "../utils/createItem";
 import addDefaultSettings from "../utils/addDefaultSettings";
 import {
-  getCourseFromFirestore,
-  updateCourseInFirestore,
+  getDraftCourseFromFirestore,
+  getPublishedCourseFromFirestore,
+  updatePublishedCourseInFirestore,
+  updateDraftCourseInFirestore,
 } from "../services/firebase";
 import UserContext from "../context/UserContext";
-import useUnload from "../hooks/useUnload";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -56,42 +57,56 @@ export default function Editor() {
   const [openReorderDialog, setOpenReorderDialog] = useState(false);
   const [showFeedbackDialog, setShowFeedbackDialog] = useState(false);
   const [showSettingsDialog, setShowSettingsDialog] = useState(false);
+  const [changesSaved, setChangesSaved] = useState(true);
 
-  // show confirmation dialog before user leaves the page
-  useUnload((e) => {
-    e.preventDefault();
-    e.returnValue = "";
-  });
+  // course loading sequence
+  const loadCourse = (course) => {
+    // extract the course data
+    const courseData = course.data();
+    // if proper settings aren't set, set defaults
+    const courseDataWithSettings = addDefaultSettings(courseData);
+    // load into state
+    setCourse(courseDataWithSettings);
+    // update the browser tab title dynamically
+    document.title = courseData.title;
+  };
 
-  // load course from firestore (ignore local storage for now)
+  // load course from firestore
   useEffect(() => {
-    getCourseFromFirestore(courseId)
-      .then((course) => {
-        if (course.exists) {
-          // extract the course data
-          const courseData = course.data();
-          // if proper settings aren't set, set defaults
-          const courseDataWithSettings = addDefaultSettings(courseData);
-          // load into state
-          setCourse(courseDataWithSettings);
-          // update the browser tab title dynamically
-          document.title = courseData.title;
-        } else {
-          setShow404(true);
-        }
-      })
-      .catch((error) =>
-        console.error("Error loading course from Firestore:", error)
-      );
+    // check for draft course first
+    getDraftCourseFromFirestore(courseId).then((draftCourse) => {
+      if (draftCourse.exists) {
+        loadCourse(draftCourse);
+      } else {
+        // if draft doesn't exist, check for published course
+        // for backwards compatibility (before drafts existed)
+        getPublishedCourseFromFirestore(courseId)
+          .then((publishedCourse) => {
+            if (publishedCourse.exists) {
+              loadCourse(publishedCourse);
+            } else {
+              // if neither draft nor published exist, show 404
+              setShow404(true);
+            }
+          })
+          .catch((error) =>
+            console.error("Error loading course from Firestore:", error)
+          );
+      }
+    });
   }, [courseId]);
 
-  // when the course changes, update it in local storage
+  // when the course changes, update the draft in firestore
+  // and local storage (as last resort content backup)
   useEffect(() => {
     if (course) {
-      // get local courses
-      const localCourses = JSON.parse(localStorage.getItem("courses"));
+      // update the draft course in firestore
+      updateDraftCourseInFirestore(courseId, course).catch((error) =>
+        console.error("Error updating draft course in Firestore:", error)
+      );
 
       // update the current course in local storage
+      const localCourses = JSON.parse(localStorage.getItem("courses"));
       localStorage.setItem(
         "courses",
         JSON.stringify({
@@ -99,6 +114,9 @@ export default function Editor() {
           [courseId]: course,
         })
       );
+
+      // indicate changes have been saved
+      setChangesSaved(true);
     }
   }, [courseId, course]);
 
@@ -151,23 +169,32 @@ export default function Editor() {
   };
 
   const handlePublish = () => {
-    updateCourseInFirestore(courseId, course);
+    updatePublishedCourseInFirestore(courseId, course);
   };
 
   const handleRestore = () => {
-    // get local courses
-    const localCourses = JSON.parse(localStorage.getItem("courses"));
-    // remove course from local storage
-    delete localCourses[courseId];
-    localStorage.setItem("courses", JSON.stringify(localCourses));
-    // reload the page
-    window.location.reload();
+    // get last published version
+    getPublishedCourseFromFirestore(courseId)
+      .then((publishedCourse) => {
+        if (publishedCourse.exists) {
+          // extract course data
+          const publishedCourseData = publishedCourse.data();
+          // update draft to match published
+          updateDraftCourseInFirestore(courseId, publishedCourseData);
+        }
+      })
+      .catch((error) =>
+        console.error("Error restoring published course from Firestore:", error)
+      )
+      .finally(() => {
+        // reload the page to load updated draft
+        window.location.reload();
+      });
   };
 
   const handleSaveSettings = (settings) => {
     const updatedCourse = { ...course, settings };
     setCourse(updatedCourse);
-    updateCourseInFirestore(courseId, updatedCourse);
   };
 
   const handleCopyJSON = () => {
@@ -206,6 +233,7 @@ export default function Editor() {
         setShowFeedbackDialog={setShowFeedbackDialog}
         setShowSettingsDialog={setShowSettingsDialog}
         onCopyJSON={handleCopyJSON}
+        changesSaved={changesSaved}
       />
       {course.items.length === 0 ? (
         <NoItems editing />
@@ -221,6 +249,7 @@ export default function Editor() {
                   onChangeItem={handleChangeItem}
                   onClickMove={() => setOpenReorderDialog(true)}
                   onClickDelete={handleDeleteItem}
+                  setChangesSaved={setChangesSaved}
                 />
               </Box>
             ))}

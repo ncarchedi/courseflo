@@ -14,7 +14,6 @@ const SignIn = lazy(() => import("./SignIn"));
 const Dashboard = lazy(() => import("./Dashboard"));
 const Course = lazy(() => import("./Course"));
 const Editor = lazy(() => import("./Editor"));
-const Upload = lazy(() => import("./Upload"));
 const NotFound = lazy(() => import("./NotFound"));
 
 export default function App() {
@@ -41,7 +40,6 @@ export default function App() {
               <Route path="/dashboard/:userId" component={Dashboard} />
               <Route exact path="/course/:courseId/edit" component={Editor} />
               <Route path="/course/:courseId" component={Course} />
-              <Route exact path="/upload" component={Upload} />
               <Route exact path="/404" children={<NotFound type="page" />} />
               <Route path="*" children={<NotFound type="page" />} />
             </Switch>

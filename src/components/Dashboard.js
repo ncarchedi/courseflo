@@ -25,7 +25,7 @@ import createCourse from "../utils/createCourse";
 import duplicateCourse from "../utils/duplicateCourse";
 import {
   getAuthorCoursesFromFirestore,
-  saveCourseToFirestore,
+  addNewDraftCourseInFirestore,
   deleteCourseInFirestore,
 } from "../services/firebase";
 
@@ -62,10 +62,10 @@ const CreateCard = ({
 
   const handleCreateCourse = () => {
     const newCourse = createCourse(userId);
-    saveCourseToFirestore(newCourse)
+    addNewDraftCourseInFirestore(newCourse)
       .then((docRef) => setNewCourseId(docRef.id))
       .catch((error) =>
-        console.error("Error saving course to Firestore:", error)
+        console.error("Error adding new course to Firestore:", error)
       );
   };
 
@@ -162,10 +162,10 @@ export default function Dashboard() {
       (course) => course.id === courseId
     )[0];
     const newCourse = duplicateCourse(originalCourse);
-    saveCourseToFirestore(newCourse)
+    addNewDraftCourseInFirestore(newCourse)
       .then((docRef) => setNewCourseId(docRef.id))
       .catch((error) =>
-        console.error("Error saving course to Firestore:", error)
+        console.error("Error duplicating course in Firestore:", error)
       );
   };
 
