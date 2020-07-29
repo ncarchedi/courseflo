@@ -103,13 +103,17 @@ export const saveFeedbackToFirestore = (
   });
 };
 
-export const getCourseFromFirestore = (courseId) => {
+export const getPublishedCourseFromFirestore = (courseId) => {
   return db.collection("courses").doc(courseId).get();
+};
+
+export const getDraftCourseFromFirestore = (courseId) => {
+  return db.collection("draftCourses").doc(courseId).get();
 };
 
 export const getAuthorCoursesFromFirestore = async (userId) => {
   const result = await db
-    .collection("courses")
+    .collection("courses") // published courses
     .where("userId", "==", userId)
     .orderBy("updated", "desc")
     .get();
@@ -120,7 +124,7 @@ export const getAuthorCoursesFromFirestore = async (userId) => {
   }));
 };
 
-export const saveCourseToFirestore = (course) => {
+export const addNewPublishedCourseToFirestore = (course) => {
   return db.collection("courses").add({
     ...course,
     created: firebase.firestore.FieldValue.serverTimestamp(),
@@ -128,23 +132,30 @@ export const saveCourseToFirestore = (course) => {
   });
 };
 
-// soft delete course
+// soft delete published course
 export const deleteCourseInFirestore = (courseId) => {
   return db.collection("courses").doc(courseId).update({
     deleted: firebase.firestore.FieldValue.serverTimestamp(),
   });
 };
 
-export const updateCourseInFirestore = (courseId, course) => {
-  // don't update the created field to avoid messing up
-  // timestamp formatting (due to local storage read/write)
-  const { created, ...courseSansCreated } = course;
-
+export const updatePublishedCourseInFirestore = (courseId, course) => {
   return db
     .collection("courses")
     .doc(courseId)
     .update({
-      ...courseSansCreated,
+      ...course,
+      updated: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+};
+
+// updates (or creates if necessary) draft course document
+export const updateDraftCourseInFirestore = (courseId, course) => {
+  return db
+    .collection("draftCourses")
+    .doc(courseId)
+    .set({
+      ...course,
       updated: firebase.firestore.FieldValue.serverTimestamp(),
     });
 };

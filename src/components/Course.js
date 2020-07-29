@@ -15,7 +15,7 @@ import useQuery from "../hooks/useQuery";
 import {
   createUserCourseInFirestore,
   updateUserCourseInFirestore,
-  getCourseFromFirestore,
+  getPublishedCourseFromFirestore,
   getUserCourseFromFirestore,
   sendProgressEmailToUser,
 } from "../services/firebase";
@@ -78,7 +78,7 @@ export default function Course() {
   // load course content
   useEffect(() => {
     if (!loadingProgress) {
-      getCourseFromFirestore(courseId)
+      getPublishedCourseFromFirestore(courseId)
         .then((course) => {
           if (course.exists) {
             // extract the course data

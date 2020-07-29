@@ -26,15 +26,21 @@ export default function EditableItem({
   onChangeItem,
   onClickMove,
   onClickDelete,
+  setChangesSaved,
 }) {
   const classes = useStyles();
   // should only update `itemValues` directly from the form
   // global `item` state will be updated after debounce
   const [itemValues, setItemValues] = useState(item);
-  const debouncedValues = useDebounce(itemValues, 500);
+  const debouncedValues = useDebounce(itemValues, 1000);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => onChangeItem(debouncedValues), [debouncedValues]);
+
+  // as soon as item and itemValues diverge, indicate unsaved changes
+  useEffect(() => {
+    if (item !== itemValues) setChangesSaved(false);
+  }, [item, itemValues, setChangesSaved]);
 
   const handleChangeItemValue = (e) => {
     setItemValues({ ...itemValues, [e.target.name]: e.target.value });

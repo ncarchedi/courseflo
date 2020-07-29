@@ -13,7 +13,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { useDropzone } from "react-dropzone";
-import { saveCourseToFirestore } from "../services/firebase";
+import { addNewPublishedCourseToFirestore } from "../services/firebase";
 import Emoji from "./Emoji";
 
 const useStyles = makeStyles((theme) => ({
@@ -58,7 +58,7 @@ export default function Upload() {
 
   useEffect(() => {
     if (newCourse) {
-      saveCourseToFirestore(newCourse)
+      addNewPublishedCourseToFirestore(newCourse)
         .then((docRef) => setCourseId(docRef.id))
         .catch((error) =>
           console.error("Error uploading course to Firestore:", error)
