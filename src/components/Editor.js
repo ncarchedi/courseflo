@@ -79,6 +79,7 @@ export default function Editor() {
         loadCourse(draftCourse);
       } else {
         // if draft doesn't exist, check for published course
+        // for backwards compatibility (before drafts existed)
         getPublishedCourseFromFirestore(courseId)
           .then((publishedCourse) => {
             if (publishedCourse.exists) {

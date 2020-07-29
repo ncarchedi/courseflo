@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header({
+export default function EditorHeader({
   userId,
   courseTitle,
   onChangeTitle,
