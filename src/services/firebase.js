@@ -174,12 +174,13 @@ export const updatePublishedCourseInFirestore = (courseId, course) => {
     });
 };
 
-// updates existing draft course
+// update (or create, if necessary) draft course
+// creation is necessary for backwards compatibility (before drafts existed)
 export const updateDraftCourseInFirestore = (courseId, course) => {
   return db
     .collection("draftCourses")
     .doc(courseId)
-    .update({
+    .set({
       ...course,
       updated: firebase.firestore.FieldValue.serverTimestamp(),
     });
