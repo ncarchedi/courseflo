@@ -111,10 +111,11 @@ export const getDraftCourseFromFirestore = (courseId) => {
   return db.collection("draftCourses").doc(courseId).get();
 };
 
-// get all draft courses belonging to author
+// get all published courses belonging to author
+// (all courses are published on creation right now)
 export const getAuthorCoursesFromFirestore = async (userId) => {
   const result = await db
-    .collection("draftCourses")
+    .collection("courses")
     .where("userId", "==", userId)
     .orderBy("updated", "desc")
     .get();

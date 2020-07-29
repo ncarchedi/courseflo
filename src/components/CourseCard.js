@@ -60,7 +60,7 @@ export default function CourseCard({
             {title}
           </Typography>
           <Box display="flex" justifyContent="center" alignItems="center">
-            <Tooltip title="Last update">
+            <Tooltip title="Last published">
               <UpdateIcon className={classes.updateIcon} />
             </Tooltip>
             <Typography variant="body2" color="textSecondary" component="p">
