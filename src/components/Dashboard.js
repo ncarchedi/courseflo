@@ -123,13 +123,13 @@ export default function Dashboard() {
     // update the browser tab title
     document.title = "Courseflo - Dashboard";
 
-    const setUserCourses = async () => {
-      const userCourses = await getAuthorCoursesFromFirestore(user.uid);
+    const setAuthorCourses = async () => {
+      const authorCourses = await getAuthorCoursesFromFirestore(user.uid);
       // don't show soft deleted courses in dashboard
-      setCourses(userCourses.filter((course) => !course.deleted));
+      setCourses(authorCourses.filter((course) => !course.deleted));
     };
 
-    user && setUserCourses();
+    user && setAuthorCourses();
   }, [user]);
 
   // do nothing until user and courses are done loading

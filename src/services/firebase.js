@@ -135,23 +135,32 @@ export const addNewDraftCourseInFirestore = (course) => {
 
 // soft delete draft and published courses
 export const deleteCourseInFirestore = (courseId) => {
-  // get a new batch write
-  const batch = db.batch();
-
   // update the draft course
-  const draftRef = db.collection("draftCourses").doc(courseId);
-  batch.update(draftRef, {
-    deleted: firebase.firestore.FieldValue.serverTimestamp(),
-  });
+  db.collection("draftCourses")
+    .doc(courseId)
+    .update({
+      deleted: firebase.firestore.FieldValue.serverTimestamp(),
+    })
+    .catch((error) =>
+      console.error("Error deleting draft course in Firestore:", error)
+    );
 
-  // update the published course
-  const publishedRef = db.collection("courses").doc(courseId);
-  batch.update(publishedRef, {
-    deleted: firebase.firestore.FieldValue.serverTimestamp(),
-  });
+  // update the published course (if it exists)
+  const docRef = db.collection("courses").doc(courseId);
+  docRef
+    .get()
+    .then((course) => {
+      if (course.exists) {
+        docRef.update({
+          deleted: firebase.firestore.FieldValue.serverTimestamp(),
+        });
+      }
+    })
+    .catch((error) =>
+      console.error("Error deleting published course in Firestore:", error)
+    );
 
-  // commit the batch
-  return batch.commit();
+  return null;
 };
 
 // update (or create, if necessary) published course
