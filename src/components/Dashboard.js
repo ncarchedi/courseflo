@@ -65,7 +65,7 @@ const CreateCard = ({
     addNewDraftCourseInFirestore(newCourse)
       .then((docRef) => setNewCourseId(docRef.id))
       .catch((error) =>
-        console.error("Error saving course to Firestore:", error)
+        console.error("Error adding new course to Firestore:", error)
       );
   };
 

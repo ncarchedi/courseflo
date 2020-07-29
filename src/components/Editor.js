@@ -101,8 +101,9 @@ export default function Editor() {
   useEffect(() => {
     if (course) {
       // update the draft course in firestore
-      updateDraftCourseInFirestore(courseId, course);
-      // todo: handle failed update (e.g. offline)
+      updateDraftCourseInFirestore(courseId, course).catch((error) =>
+        console.error("Error updating draft course in Firestore:", error)
+      );
 
       // update the current course in local storage
       const localCourses = JSON.parse(localStorage.getItem("courses"));
@@ -183,7 +184,7 @@ export default function Editor() {
         }
       })
       .catch((error) =>
-        console.error("Error restoring course from Firestore:", error)
+        console.error("Error restoring published course from Firestore:", error)
       )
       .finally(() => {
         // reload the page to load updated draft
@@ -194,7 +195,6 @@ export default function Editor() {
   const handleSaveSettings = (settings) => {
     const updatedCourse = { ...course, settings };
     setCourse(updatedCourse);
-    updatePublishedCourseInFirestore(courseId, updatedCourse);
   };
 
   const handleCopyJSON = () => {
