@@ -11,6 +11,11 @@ import { CorrectIcon, IncorrectIcon } from "../components/Icons";
 import renderHtmlFromString from "../utils/renderHtmlFromString";
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    "& p": {
+      margin: 0,
+    },
+  },
   imageContainer: {
     maxWidth: theme.breakpoints.values.sm - 50,
   },
@@ -70,7 +75,7 @@ export default function SingleSelect({
 
   if (showSolution && item.solution !== null)
     return (
-      <>
+      <Box className={classes.container}>
         {item.image && (
           <Box className={classes.imageContainer} margin="auto">
             <img src={item.image} alt={item.title} width="100%" />
@@ -124,11 +129,11 @@ export default function SingleSelect({
             </Box>
           </>
         )}
-      </>
+      </Box>
     );
 
   return (
-    <>
+    <Box className={classes.container}>
       {item.image && (
         <Box className={classes.imageContainer} margin="auto">
           <img src={item.image} alt={item.title} width="100%" />
@@ -149,6 +154,6 @@ export default function SingleSelect({
           </Box>
         ))}
       </RadioGroup>
-    </>
+    </Box>
   );
 }

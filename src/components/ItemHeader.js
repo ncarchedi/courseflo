@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
   titleText: {
     fontSize: "1.15rem",
     flexGrow: 1,
+    "& p": {
+      margin: 0,
+    },
   },
   requiredText: {
     color: theme.palette.text.secondary,

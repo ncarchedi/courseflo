@@ -1,7 +1,11 @@
 import React from "react";
+import unified from "unified";
+import markdown from "remark-parse";
+import math from "remark-math";
+import remark2rehype from "remark-rehype";
+import katex from "rehype-katex";
+import rehype2react from "rehype-react";
 import "katex/dist/katex.min.css";
-import TeX from "@matejmazur/react-katex";
-import sanitizeHtml from "sanitize-html";
 
 export default function renderHtmlFromString(string) {
   // if string is empty, just return it
@@ -10,21 +14,15 @@ export default function renderHtmlFromString(string) {
   // if string isn't a string, make it one
   if (typeof string !== "string") string = string.toString();
 
-  // sanitize and split the string into an array
-  // based on the math delimiter
-  const sanitizedArray = sanitizeHtml(string).split("$$");
-
-  // loop over elements of the sanitized array and parse each
-  let htmlArray = [];
-  for (var i = 0; i < sanitizedArray.length; i++) {
-    // even numbered elements are html
-    if (i % 2 === 0)
-      htmlArray.push(
-        <span key={i} dangerouslySetInnerHTML={{ __html: sanitizedArray[i] }} />
-      );
-    // odd numbered elements are math
-    else htmlArray.push(<TeX key={i} math={sanitizedArray[i]} />);
-  }
-
-  return htmlArray;
+  // render the markdown with katex
+  return unified()
+    .use(markdown)
+    .use(math)
+    .use(remark2rehype)
+    .use(katex)
+    .use(rehype2react, {
+      createElement: React.createElement,
+      Fragment: React.Fragment,
+    })
+    .processSync(string).result;
 }

@@ -17,7 +17,6 @@
     "@material-ui/pickers": "^3.2.10",
     "@material-ui/styles": "^4.10.0",
     "array-move": "^2.2.2",
-    "clsx": "latest",
     "firebase": "^7.17.1",
     "katex": "^0.11.1",
     "material-table": "1.62.0",
@@ -25,12 +24,16 @@
     "react": "latest",
     "react-csv": "^2.0.3",
     "react-dom": "latest",
-    "react-dropzone": "^11.0.1",
     "react-firebase-hooks": "^2.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "latest",
     "react-sortable-hoc": "^1.11.0",
-    "sanitize-html": "^1.27.1"
+    "rehype-katex": "^3.1.0",
+    "rehype-react": "^6.1.0",
+    "remark-math": "^2.0.1",
+    "remark-parse": "^8.0.3",
+    "remark-rehype": "^7.0.0",
+    "unified": "^9.1.0"
   },
   "browserslist": {
     "production": [
