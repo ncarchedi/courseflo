@@ -1,6 +1,7 @@
 import React from "react";
 import unified from "unified";
 import markdown from "remark-parse";
+import externalLinks from "remark-external-links";
 import math from "remark-math";
 import remark2rehype from "remark-rehype";
 import katex from "rehype-katex";
@@ -17,6 +18,7 @@ export default function renderHtmlFromString(string) {
   // render the markdown with katex
   return unified()
     .use(markdown)
+    .use(externalLinks, { target: "_blank" })
     .use(math)
     .use(remark2rehype)
     .use(katex)
