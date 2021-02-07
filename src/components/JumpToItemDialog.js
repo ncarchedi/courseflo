@@ -16,6 +16,11 @@ import RadioButtonUncheckedOutlinedIcon from "@material-ui/icons/RadioButtonUnch
 import renderHtmlFromString from "../utils/renderHtmlFromString";
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    "& p": {
+      margin: 0,
+    },
+  },
   currentItem: {
     backgroundColor: theme.palette.grey[300],
     borderRadius: theme.shape.borderRadius,
@@ -64,6 +69,7 @@ export default function JumpToItemDialog({
 
   return (
     <Dialog
+      className={classes.container}
       open={open}
       onClose={handleClose}
       aria-labelledby="jump-to-dialog-title"
