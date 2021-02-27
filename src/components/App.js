@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import * as firebase from "firebase/app";
 import { useAuthState } from "react-firebase-hooks/auth";
 import LoadingScreen from "./LoadingScreen";
@@ -35,6 +35,7 @@ export default function App() {
           <Suspense fallback={<LoadingScreen />}>
             <Switch>
               <Route exact path="/" component={LandingPage} />
+              <Redirect to="/" />
               {/* <Route exact path="/pricing" component={Pricing} />
               <Route exact path="/login" component={SignIn} />
               <Route path="/dashboard/:userId" component={Dashboard} />
