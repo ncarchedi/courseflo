@@ -9,12 +9,12 @@ import { getUserSubscription } from "../services/firebase";
 
 // lazy load components
 const LandingPage = lazy(() => import("./LandingPage"));
-const Pricing = lazy(() => import("./Pricing"));
-const SignIn = lazy(() => import("./SignIn"));
-const Dashboard = lazy(() => import("./Dashboard"));
-const Course = lazy(() => import("./Course"));
-const Editor = lazy(() => import("./Editor"));
-const NotFound = lazy(() => import("./NotFound"));
+// const Pricing = lazy(() => import("./Pricing"));
+// const SignIn = lazy(() => import("./SignIn"));
+// const Dashboard = lazy(() => import("./Dashboard"));
+// const Course = lazy(() => import("./Course"));
+// const Editor = lazy(() => import("./Editor"));
+// const NotFound = lazy(() => import("./NotFound"));
 
 export default function App() {
   const [user, userLoading, userError] = useAuthState(firebase.auth());
@@ -35,13 +35,13 @@ export default function App() {
           <Suspense fallback={<LoadingScreen />}>
             <Switch>
               <Route exact path="/" component={LandingPage} />
-              <Route exact path="/pricing" component={Pricing} />
+              {/* <Route exact path="/pricing" component={Pricing} />
               <Route exact path="/login" component={SignIn} />
               <Route path="/dashboard/:userId" component={Dashboard} />
               <Route exact path="/course/:courseId/edit" component={Editor} />
               <Route path="/course/:courseId" component={Course} />
               <Route exact path="/404" children={<NotFound type="page" />} />
-              <Route path="*" children={<NotFound type="page" />} />
+              <Route path="*" children={<NotFound type="page" />} /> */}
             </Switch>
           </Suspense>
         </Router>

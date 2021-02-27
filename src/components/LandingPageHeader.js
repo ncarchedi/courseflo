@@ -49,7 +49,7 @@ export default function LandingPageHeader() {
               </Button>
             </Box>
           </Hidden>
-          {showPricingButton && (
+          {/* {showPricingButton && (
             <Box mr={showSignInButton ? 2 : 0}>
               <Button component={RouterLink} to="/pricing" color="inherit">
                 Pricing
@@ -65,7 +65,7 @@ export default function LandingPageHeader() {
             >
               Sign in
             </Button>
-          )}
+          )} */}
         </Toolbar>
       </AppBar>
       {/* second toolbar due to: https://material-ui.com/components/app-bar/#fixed-placement */}

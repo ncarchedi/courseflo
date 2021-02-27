@@ -193,7 +193,7 @@ export default function LandingPage() {
             <Divider className={classes.divider} />
 
             {/* final row */}
-            <Grid className={classes.finalRow} container>
+            {/* <Grid className={classes.finalRow} container>
               <Grid item xs={12}>
                 <Typography className={classes.supportingText} gutterBottom>
                   Ready to get started for free?
@@ -207,7 +207,7 @@ export default function LandingPage() {
                   Sign up now
                 </Button>
               </Grid>
-            </Grid>
+            </Grid> */}
 
             {/* footer */}
             <LandingPageFooter />
