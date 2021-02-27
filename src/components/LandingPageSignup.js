@@ -69,8 +69,11 @@ export default function LandingPageSignup() {
 
   return (
     <Grid item xs={12} md={6}>
-      <Typography className={classes.formHeader}>
+      {/* <Typography className={classes.formHeader}>
         Sign up now to create your first course or quiz for free.
+      </Typography> */}
+      <Typography className={classes.formHeader}>
+        Sorry, we're no longer accepting new signups <span role='img' aria-label='crying emoji'>😢</span>
       </Typography>
       <form className={classes.form} onSubmit={handleSubmit} noValidate>
         <Grid container spacing={2}>
@@ -85,6 +88,7 @@ export default function LandingPageSignup() {
               variant="outlined"
               required
               fullWidth
+              disabled
             />
           </Grid>
           <Grid item xs={12}>
@@ -98,6 +102,7 @@ export default function LandingPageSignup() {
               variant="outlined"
               required
               fullWidth
+              disabled
             />
           </Grid>
         </Grid>
@@ -115,10 +120,11 @@ export default function LandingPageSignup() {
           variant="contained"
           color="primary"
           endIcon={<ArrowForwardIcon />}
+          disabled
         >
           Get started in seconds
         </Button>
-        <Grid container justify="center">
+        {/* <Grid container justify="center">
           <Grid item>
             <Link
               component={RouterLink}
@@ -129,7 +135,7 @@ export default function LandingPageSignup() {
               See an example course
             </Link>
           </Grid>
-        </Grid>
+        </Grid> */}
       </form>
     </Grid>
   );
