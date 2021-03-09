@@ -1,16 +1,16 @@
-import React, { useContext } from "react";
-import { Redirect } from "react-router-dom";
+import React from "react";
+// import { Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
+// import Button from "@material-ui/core/Button";
 import LandingPageHeader from "./LandingPageHeader";
 import LandingPageFooter from "./LandingPageFooter";
 import LandingPageSignup from "./LandingPageSignup";
-import UserContext from "../context/UserContext";
+// import UserContext from "../context/UserContext";
 
 const useStyles = makeStyles((theme) => ({
   firstRow: {
@@ -65,17 +65,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LandingPage() {
   const classes = useStyles();
-  const [user, userLoading] = useContext(UserContext);
+  // const [user, userLoading] = useContext(UserContext);
 
-  // return null if auth is still loading
-  if (userLoading) return null;
+  // // return null if auth is still loading
+  // if (userLoading) return null;
 
   return (
     <>
-      {user ? (
+      {/* {user ? (
         <Redirect to={`/dashboard/${user.uid}`} />
       ) : (
-        <>
+        <> */}
           {/* header */}
           <LandingPageHeader />
 
@@ -212,8 +212,8 @@ export default function LandingPage() {
             {/* footer */}
             <LandingPageFooter />
           </Container>
-        </>
-      )}
+        {/* </>
+      )} */}
     </>
   );
 }

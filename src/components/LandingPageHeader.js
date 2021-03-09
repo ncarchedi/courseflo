@@ -1,13 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link as RouterLink, useLocation } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Box from "@material-ui/core/Box";
 import Link from "@material-ui/core/Link";
 import Button from "@material-ui/core/Button";
 import Hidden from "@material-ui/core/Hidden";
-import UserContext from "../context/UserContext";
+// import UserContext from "../context/UserContext";
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -17,12 +17,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LandingPageHeader() {
   const classes = useStyles();
-  const [user, userLoading] = useContext(UserContext);
-  const location = useLocation();
+  // const [user, userLoading] = useContext(UserContext);
+  // const location = useLocation();
 
-  const showSignInButton =
-    !userLoading && !user && location.pathname !== "/login";
-  const showPricingButton = location.pathname === "/";
+  // const showSignInButton =
+  //   !userLoading && !user && location.pathname !== "/login";
+  // const showPricingButton = location.pathname === "/";
 
   return (
     <>
